@@ -10,7 +10,13 @@ class Table{
 
 }
 
+
+
+// tax comp
+// Narrative    Indent     Rate     Band    IndentAmount    Amount
+
 class Row{
+
   String narrativeText;
   int narrativeIndent;
 

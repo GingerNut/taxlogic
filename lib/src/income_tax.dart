@@ -1,15 +1,26 @@
 import 'dart:math';
-import 'table.dart';
 
 class IncomeTaxPosition{
+
+  static const num PersonalAllowanceDefault = 11500;
+  static const num BasicRateBand = 33500.0;
+  static const num PersonalAllowanceTaper = 100000;
+  static const num AdditionalRateLimit = 150000;
+
+  static const num BasicRate = 0.20;
+  static const num HigherRate = 0.4;
+  static const num AdditionalRate = 0.45;
+
 
   int year;
   bool Scotland = false;
 
-  num totalIncome;
   num personalAllowance;
-  num basicRateUsed;
-  num higherRateUsed;
+  num totalIncome;
+  num taxableIncome;
+  num basicRateUsed = 0;
+  num higherRateUsed = 0;
+  num additionalRateUsed = 0;
   num earnings;
   num dividends;
   num interest;
@@ -19,53 +30,70 @@ class IncomeTaxPosition{
 
   IncomeTaxPosition(this.year, this.totalIncome){
 
-    if(totalIncome > PersonalAllowanceLimit){
+    if(totalIncome > PersonalAllowanceTaper){
 
-      personalAllowance = PersonalAllowanceDefault - (totalIncome - PersonalAllowanceLimit)/2;
+      personalAllowance = PersonalAllowanceDefault - (totalIncome - PersonalAllowanceTaper)/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
 
-    } else personalAllowance = PersonalAllowanceDefault;
+    } else personalAllowance = min(PersonalAllowanceDefault, totalIncome);
 
-    if(totalIncome > personalAllowance){
+    taxableIncome = totalIncome - personalAllowance;
 
-      basicRateUsed = min(BasicRateBand, totalIncome - personalAllowance);
+    if(totalIncome <= PersonalAllowanceDefault){
 
-      if(totalIncome > personalAllowance + BasicRateBand) {
-        higherRateUsed = min(AdditionalRateLimit - personalAllowance - BasicRateBand, totalIncome - personalAllowance - basicRateUsed);
-      }
+      personalAllowance = totalIncome;
 
-      tax = basicRateUsed * 0.20;
-      tax += higherRateUsed * 0.40;
-      if(totalIncome > AdditionalRateLimit) tax += (totalIncome - AdditionalRateLimit) * 0.45;
+    } else if(taxableIncome < BasicRateBand){
 
-      print ("Personal Allowance " + personalAllowance.toString());
-      print ("Basic Rate used " + basicRateUsed.toString());
-      print ("Higher rate used " + higherRateUsed.toString());
+      basicRateUsed = taxableIncome;
+
+    } else if(taxableIncome < AdditionalRateLimit){
+
+      basicRateUsed = BasicRateBand;
+      higherRateUsed = taxableIncome - basicRateUsed;
+
+    } else {
+
+      basicRateUsed = BasicRateBand;
+      higherRateUsed = AdditionalRateLimit - BasicRateBand;
+      additionalRateUsed = taxableIncome - AdditionalRateLimit;
 
     }
+
+    tax = 0.0;
+    tax += basicRateUsed * BasicRate;
+    tax += higherRateUsed * HigherRate;
+    tax += additionalRateUsed * AdditionalRate;
 
     }
 
     List<List<String>> narrativeTaxCalc(){
 
+    //narrative.add(['','','','','','',]);
+
     List<List<String>> narrative = new List<List<String>>();
 
+    narrative.add(['Total income','','','','',totalIncome.toString(),]);
 
-    if(totalIncome == 0){
+    if(totalIncome > 0){
+      narrative.add(['Personal Allowance','','','','',personalAllowance.toString(),]);
+      narrative.add(['Net taxable','','','','',taxableIncome.toString(),]);
+      narrative.add(['','','','','','',]);
+    }
 
-      narrative.add(["Nothing to pay"]);
+    if(taxableIncome > 0){
+      narrative.add(['Tax payable','','','','','',]);
+      narrative.add(['Basic Rate','','',basicRateUsed.toString(),'at ${BasicRate*100}%',(basicRateUsed*BasicRate).toString()]);
 
-    } else if(totalIncome < personalAllowance){
+      if(higherRateUsed > 0){
+        narrative.add(['Higher Rate','','',higherRateUsed.toString(),'at ${HigherRate*100}%',(higherRateUsed*HigherRate).toString()]);
+     }
 
-      narrative.add(["Income", "", totalIncome.toString()]);
-      narrative.add(["Less: Personal Allowance", "", totalIncome.toString()]);
-      narrative.add(["Taxable Income", "", "0"]);
+      if(additionalRateUsed > 0){
+        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${AdditionalRate*100}%%',(additionalRateUsed*AdditionalRate).toString()]);
+      }
 
-    } else if (totalIncome < BasicRateBand){
-
-    } else if (totalIncome < AdditionalRateLimit){
-
-    } else {
+      narrative.add(['Total payable','','','','',tax.toString(),]);
 
     }
 
@@ -75,10 +103,8 @@ class IncomeTaxPosition{
 
 
 
-  static const num PersonalAllowanceDefault = 11500.0;
-  static const num BasicRateBand = 33500.0;
-  static const num AdditionalRateLimit = 150000.0;
-  static const num PersonalAllowanceLimit = 100000.0;
+
+
 
 
 }
