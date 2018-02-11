@@ -1,25 +1,19 @@
 import 'dart:math';
-import 'data/tax_data.dart';
+import 'data/income_tax/income_tax_data.dart';
 
 class IncomeTaxPosition{
 
-  num PersonalAllowanceDefault;
-  num BasicRateBand;
-  num PersonalAllowanceTaper ;
-  num AdditionalRateLimit;
-
-  num BasicRate;
-  num HigherRate;
-  num AdditionalRate;
-
+  IncomeTaxData taxData;
 
   int year;
-  bool Scotland = false;
+  bool scotland = false;
 
   num personalAllowance;
   num totalIncome;
   num taxableIncome;
+  num startRateUsed = 0;
   num basicRateUsed = 0;
+  num intermediateRateUsed = 0;
   num higherRateUsed = 0;
   num additionalRateUsed = 0;
   num earnings;
@@ -30,57 +24,59 @@ class IncomeTaxPosition{
   num tax = 0.0;
 
 
-  setTaxData(){
+  IncomeTaxPosition(this.year, this.totalIncome, this.scotland){
 
-    PersonalAllowanceDefault = TaxData.PersonalAllowanceDefault2018;
-    BasicRateBand = TaxData.BasicRateBand2018;
-    PersonalAllowanceTaper  = TaxData.PersonalAllowanceTaper2018;
-    AdditionalRateLimit = TaxData.AdditionalRateLimit2018;
+    taxData = IncomeTaxData.get(year, scotland);
 
-    BasicRate = TaxData.BasicRate2018;
-    HigherRate = TaxData.HigherRate2018;
-    AdditionalRate = TaxData.AdditionalRate2018;
+    if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
 
-   }
-
-  IncomeTaxPosition(this.year, this.totalIncome){
-
-    setTaxData();
-
-    if(totalIncome > PersonalAllowanceTaper){
-
-      personalAllowance = PersonalAllowanceDefault - (totalIncome - PersonalAllowanceTaper)/2;
+      personalAllowance = taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
 
-    } else personalAllowance = min(PersonalAllowanceDefault, totalIncome);
+    } else personalAllowance = min(taxData.PersonalAllowanceDefault, totalIncome);
 
     taxableIncome = totalIncome - personalAllowance;
 
-    if(totalIncome <= PersonalAllowanceDefault){
+    if(totalIncome <= taxData.PersonalAllowanceDefault){
 
       personalAllowance = totalIncome;
 
-    } else if(taxableIncome < BasicRateBand){
+    } else if(taxableIncome < taxData.BasicRateBand) {
 
-      basicRateUsed = taxableIncome;
+      if(scotland){
+        startRateUsed = min(taxableIncome, taxData.StarterRateBand);
+      }
 
-    } else if(taxableIncome < AdditionalRateLimit){
+      basicRateUsed = taxableIncome - startRateUsed;
 
-      basicRateUsed = BasicRateBand;
-      higherRateUsed = taxableIncome - basicRateUsed;
+   } else if(taxableIncome < taxData.AdditionalRateLimit){
+
+      if(scotland){
+        intermediateRateUsed = min(taxableIncome - taxData.BasicRateBand, taxData.IntermediateRateBand);
+      }
+
+      basicRateUsed = taxData.BasicRateBand;
+      higherRateUsed = taxableIncome - basicRateUsed - intermediateRateUsed;;
 
     } else {
 
-      basicRateUsed = BasicRateBand;
-      higherRateUsed = AdditionalRateLimit - BasicRateBand;
-      additionalRateUsed = taxableIncome - AdditionalRateLimit;
+      if(scotland){
+        startRateUsed = taxData.StarterRateBand;
+        intermediateRateUsed = taxData.IntermediateRateBand;
+      }
+
+      basicRateUsed = taxData.BasicRateBand;
+      higherRateUsed = taxData.AdditionalRateLimit - basicRateUsed - intermediateRateUsed - startRateUsed;
+      additionalRateUsed = taxableIncome - taxData.AdditionalRateLimit;
 
     }
 
     tax = 0.0;
-    tax += basicRateUsed * BasicRate;
-    tax += higherRateUsed * HigherRate;
-    tax += additionalRateUsed * AdditionalRate;
+    tax += startRateUsed * taxData.StarterRate;
+    tax += basicRateUsed * taxData.BasicRate;
+    tax += intermediateRateUsed * taxData.IntermediateRate;
+    tax += higherRateUsed * taxData.HigherRate;
+    tax += additionalRateUsed * taxData.AdditionalRate;
 
     }
 
@@ -100,14 +96,23 @@ class IncomeTaxPosition{
 
     if(taxableIncome > 0){
       narrative.add(['Tax payable','','','','','',]);
-      narrative.add(['Basic Rate','','',basicRateUsed.toString(),'at ${BasicRate*100}%',(basicRateUsed*BasicRate).toString()]);
+
+      if(startRateUsed > 0){
+        narrative.add(['Starter Rate','','',startRateUsed.toString(),'at ${taxData.StarterRate*100}%',(startRateUsed*taxData.StarterRate).toString()]);
+      }
+
+      narrative.add(['Basic Rate','','',basicRateUsed.toString(),'at ${taxData.BasicRate*100}%',(basicRateUsed*taxData.BasicRate).toString()]);
+
+      if(intermediateRateUsed > 0){
+        narrative.add(['Intermediate Rate','','',intermediateRateUsed.toString(),'at ${taxData.IntermediateRate*100}%',(intermediateRateUsed*taxData.IntermediateRate).toString()]);
+      }
 
       if(higherRateUsed > 0){
-        narrative.add(['Higher Rate','','',higherRateUsed.toString(),'at ${HigherRate*100}%',(higherRateUsed*HigherRate).toString()]);
+        narrative.add(['Higher Rate','','',higherRateUsed.toString(),'at ${taxData.HigherRate*100}%',(higherRateUsed*taxData.HigherRate).toString()]);
      }
 
       if(additionalRateUsed > 0){
-        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${AdditionalRate*100}%%',(additionalRateUsed*AdditionalRate).toString()]);
+        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${taxData.AdditionalRate*100}%%',(additionalRateUsed*taxData.AdditionalRate).toString()]);
       }
 
       narrative.add(['Total payable','','','','',tax.toString(),]);
