@@ -1,15 +1,16 @@
 import 'dart:math';
+import 'data/tax_data.dart';
 
 class IncomeTaxPosition{
 
-  static const num PersonalAllowanceDefault = 11500;
-  static const num BasicRateBand = 33500.0;
-  static const num PersonalAllowanceTaper = 100000;
-  static const num AdditionalRateLimit = 150000;
+  num PersonalAllowanceDefault;
+  num BasicRateBand;
+  num PersonalAllowanceTaper ;
+  num AdditionalRateLimit;
 
-  static const num BasicRate = 0.20;
-  static const num HigherRate = 0.4;
-  static const num AdditionalRate = 0.45;
+  num BasicRate;
+  num HigherRate;
+  num AdditionalRate;
 
 
   int year;
@@ -28,7 +29,23 @@ class IncomeTaxPosition{
   num pension;
   num tax = 0.0;
 
+
+  setTaxData(){
+
+    PersonalAllowanceDefault = TaxData.PersonalAllowanceDefault2018;
+    BasicRateBand = TaxData.BasicRateBand2018;
+    PersonalAllowanceTaper  = TaxData.PersonalAllowanceTaper2018;
+    AdditionalRateLimit = TaxData.AdditionalRateLimit2018;
+
+    BasicRate = TaxData.BasicRate2018;
+    HigherRate = TaxData.HigherRate2018;
+    AdditionalRate = TaxData.AdditionalRate2018;
+
+   }
+
   IncomeTaxPosition(this.year, this.totalIncome){
+
+    setTaxData();
 
     if(totalIncome > PersonalAllowanceTaper){
 
