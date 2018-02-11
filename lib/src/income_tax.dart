@@ -46,19 +46,20 @@ class IncomeTaxPosition{
 
     }
 
-    Table narrativeTaxCalc(){
+    List<List<String>> narrativeTaxCalc(){
 
-    Table table = new Table();
+    List<List<String>> narrative = new List<List<String>>();
+
 
     if(totalIncome == 0){
 
-      table.add(new Row("Income", 0, 0,0));
+      narrative.add(["Nothing to pay"]);
 
-    } else if(totalIncome > personalAllowance){
+    } else if(totalIncome < personalAllowance){
 
-      table.add(new Row("Income", 0, totalIncome,0));
-      table.add(new Row("Less: Personal Allowance", 0, totalIncome,0));
-      table.add(new Row("Taxable Income", 0, 0,0));
+      narrative.add(["Income", "", totalIncome.toString()]);
+      narrative.add(["Less: Personal Allowance", "", totalIncome.toString()]);
+      narrative.add(["Taxable Income", "", "0"]);
 
     } else if (totalIncome < BasicRateBand){
 
@@ -68,7 +69,7 @@ class IncomeTaxPosition{
 
     }
 
-    return table;
+    return narrative;
    }
 
 
