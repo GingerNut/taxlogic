@@ -28,7 +28,9 @@ class IncomeTaxPosition{
 
     taxData = IncomeTaxData.get(year, scotland);
 
-    if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
+
+
+   if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
 
       personalAllowance = taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
@@ -37,33 +39,49 @@ class IncomeTaxPosition{
 
     taxableIncome = totalIncome - personalAllowance;
 
-    if(totalIncome <= taxData.PersonalAllowanceDefault){
+    if(scotland){
+
+      if(totalIncome <=taxData.PersonalAllowanceDefault){
+        personalAllowance = totalIncome;
+      } else if(taxableIncome < taxData.StarterRateBand){
+
+        startRateUsed = taxableIncome;
+      } else if (taxableIncome< taxData.StarterRateBand + taxData.BasicRateBand){
+        startRateUsed = taxData.StarterRateBand;
+        basicRateUsed = taxableIncome - startRateUsed;
+
+      } else if(taxableIncome < taxData.StarterRateBand + taxData.BasicRateBand + taxData.IntermediateRateBand){
+        startRateUsed = taxData.StarterRateBand;
+        basicRateUsed = taxData.BasicRateBand;
+        intermediateRateUsed = taxableIncome - startRateUsed - basicRateUsed;
+      } else if (taxableIncome < taxData.AdditionalRateLimit){
+        startRateUsed = taxData.StarterRateBand;
+        basicRateUsed = taxData.BasicRateBand;
+        intermediateRateUsed = taxData.IntermediateRateBand;
+        higherRateUsed = taxableIncome - startRateUsed - basicRateUsed - intermediateRateUsed;
+      } else {
+        startRateUsed = taxData.StarterRateBand;
+        basicRateUsed = taxData.BasicRateBand;
+        intermediateRateUsed = taxData.IntermediateRateBand;
+        higherRateUsed = taxData.AdditionalRateLimit - startRateUsed - basicRateUsed - intermediateRateUsed;
+        additionalRateUsed = taxableIncome - taxData.AdditionalRateLimit;
+      }
+
+
+    } else if (totalIncome <= taxData.PersonalAllowanceDefault){
 
       personalAllowance = totalIncome;
 
     } else if(taxableIncome < taxData.BasicRateBand) {
 
-      if(scotland){
-        startRateUsed = min(taxableIncome, taxData.StarterRateBand);
-      }
-
       basicRateUsed = taxableIncome - startRateUsed;
 
    } else if(taxableIncome < taxData.AdditionalRateLimit){
-
-      if(scotland){
-        intermediateRateUsed = min(taxableIncome - taxData.BasicRateBand, taxData.IntermediateRateBand);
-      }
 
       basicRateUsed = taxData.BasicRateBand;
       higherRateUsed = taxableIncome - basicRateUsed - intermediateRateUsed;;
 
     } else {
-
-      if(scotland){
-        startRateUsed = taxData.StarterRateBand;
-        intermediateRateUsed = taxData.IntermediateRateBand;
-      }
 
       basicRateUsed = taxData.BasicRateBand;
       higherRateUsed = taxData.AdditionalRateLimit - basicRateUsed - intermediateRateUsed - startRateUsed;

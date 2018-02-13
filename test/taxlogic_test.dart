@@ -1,12 +1,28 @@
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
+
+num fix(num input){
+
+  return num.parse(input.toStringAsFixed(2));
+
+}
+
+
 void main() {
-  group('A group of tests', () {
+
+  incomeTaxEngland();
+  incomeTaxScotland();
+
+}
+
+void incomeTaxEngland(){
+  group('Income tax England', ()
+  {
     IncomeTaxPosition taxPosition;
 
     setUp(() {
-        // put time consuming stuff that only needs to be done once here
+      // put time consuming stuff that only needs to be done once here
     });
 
     test('First Test', () {
@@ -16,7 +32,7 @@ void main() {
 
     test('20,000 2017 england', () {
       taxPosition = new IncomeTaxPosition(2017, 20000, false);
-      expect(taxPosition.tax, 1800);
+      expect(fix(taxPosition.tax), 1800);
     });
 
     test('45,000 2017 england', () {
@@ -53,6 +69,18 @@ void main() {
       taxPosition = new IncomeTaxPosition(2018, 200000, false);
       expect(taxPosition.tax, 75800);
     });
+  });
+
+}
+
+void incomeTaxScotland() {
+  group('Income tax England', () {
+    IncomeTaxPosition taxPosition;
+
+    setUp(() {
+      // put time consuming stuff that only needs to be done once here
+    });
+
 
     test('20,000 2019 scotland', () {
       taxPosition = new IncomeTaxPosition(2019, 20000, true);
@@ -61,12 +89,12 @@ void main() {
 
     test('45,000 2019 scotland', () {
       taxPosition = new IncomeTaxPosition(2019, 45000, true);
-      expect(taxPosition.tax, 7134);
+      expect(fix(taxPosition.tax), 7134);
     });
 
     test('90,000 2019 scotland', () {
       taxPosition = new IncomeTaxPosition(2019, 90000, true);
-      expect(taxPosition.tax, 25584);
+      expect(fix(taxPosition.tax), 25584);
     });
 
     test('200,000 2019 scotland', () {
@@ -75,3 +103,7 @@ void main() {
     });
   });
 }
+
+
+
+
