@@ -45,6 +45,7 @@ class NationalInsurancePosition{
         earningsBetweenPTandUEL = earnings - nicData.C1PrimaryThreshold;
       } else {
         earningsBetweenPTandUEL = nicData.C1UpperEarningsLimit - nicData.C1PrimaryThreshold;
+        earningsAboveUEL = earnings - nicData.C1UpperEarningsLimit;
       }
 
       if(earnings > nicData.C1SecondaryThreshold) {
@@ -56,13 +57,11 @@ class NationalInsurancePosition{
 
 
       nicClass1p = 0;
-      nicClass1p += earningsBetweenPTandUEL * nicData.C4RateToUpperLimit;
+      nicClass1p += earningsBetweenPTandUEL * nicData.C1RateToUEL;
       nicClass1p += earningsAboveUEL * nicData.C1RateAboveUEL;
 
       nicClass1s = 0;
       nicClass1s += earningsAboveSecondaryThreshold * nicData.C1RateSecondary;
-
-      print(nicData.C1SecondaryThreshold.toString() + "secondary " + earningsAboveSecondaryThreshold.toString() + " at " + nicData.C1RateSecondary.toString());
 
 
     }
@@ -78,8 +77,8 @@ class NationalInsurancePosition{
       if(trade > nicData.C4LowerProfitLimit) tradeAboveLowerLimit = trade - nicData.C4LowerProfitLimit;
     } else {
 
-      tradeAboveLowerLimit = nicData.C4UpperProfitLimit = nicData.C4LowerProfitLimit;
-      tradeAboveUpperLimit = trade = nicData.C4UpperProfitLimit;
+      tradeAboveLowerLimit = nicData.C4UpperProfitLimit - nicData.C4LowerProfitLimit;
+      tradeAboveUpperLimit = trade - nicData.C4UpperProfitLimit;
     }
 
       nicClass4 = 0;
