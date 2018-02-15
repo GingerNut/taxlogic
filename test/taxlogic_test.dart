@@ -75,7 +75,7 @@ void incomeTaxEngland(){
 }
 
 void incomeTaxScotland() {
-  group('Income tax England', () {
+  group('Income tax Scotland', () {
     IncomeTaxPosition taxPosition;
 
     setUp(() {
