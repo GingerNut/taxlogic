@@ -1,47 +1,13 @@
 import 'dart:math';
 import 'data/income_tax/income_tax_data.dart';
+import 'tax_position.dart';
+import 'person.dart';
 
 class IncomeTaxPosition{
 
+  final Person person;
   IncomeTaxData taxData;
-
-  int _year;
-  bool scotland = false;
-
-  int get year => _year;
-
-  void set year(int setYear){
-    this._year = setYear;
-    taxData = IncomeTaxData.get(_year, scotland);
-  }
-
-  num _earnings = 0;
-  
-  void set earnings(num input){
-    _earnings = input;
-    calculate();
-  }
-  
-  num get earnings => _earnings;
-
-  num _trade = 0;
-
-  void set trade(num input){
-    _trade = input;
-    calculate();
-  }
-
-  num get trade => _trade;
-
-  num _dividend = 0;
-
-  void set dividend(num input){
-    _dividend = input;
-    calculate();
-  }
-
-  num get dividend => _dividend;
-
+  TaxPosition taxPosition;
 
   num personalAllowance;
   num totalIncome = 0;
@@ -52,20 +18,15 @@ class IncomeTaxPosition{
   num higherRateUsed = 0;
   num additionalRateUsed = 0;
 
-
-  num interest = 0;
-
-  num pension = 0;
   num tax = 0.0;
 
 
-  IncomeTaxPosition(int year, this.totalIncome, bool scotland){
-    this.year = year;
-    this.scotland = scotland;
+  IncomeTaxPosition(this.person, this.taxPosition){
+   taxData = IncomeTaxData.get(taxPosition.year, person.scotland);
   }
 
   void calculate(){
-    totalIncome = earnings + trade;
+    totalIncome = taxPosition.earnings + taxPosition.trade;
 
     if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
 
@@ -76,7 +37,7 @@ class IncomeTaxPosition{
 
     taxableIncome = totalIncome - personalAllowance;
 
-    if(scotland){
+    if(person.scotland){
 
       if(totalIncome <=taxData.PersonalAllowanceDefault){
         personalAllowance = totalIncome;
@@ -139,13 +100,11 @@ class IncomeTaxPosition{
 
 
 
-    List<List<String>> narrativeTaxCalc(){
+    List<List<String>> narrativeTaxCalc(List<List<String>> narrative){
 
     print("at narrative tax calc");
 
     //narrative.add(['','','','','','',]);
-
-    List<List<String>> narrative = new List<List<String>>();
 
     narrative.add(['Total income','','','','',totalIncome.toString(),]);
 
