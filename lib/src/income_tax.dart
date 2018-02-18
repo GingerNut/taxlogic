@@ -5,32 +5,69 @@ class IncomeTaxPosition{
 
   IncomeTaxData taxData;
 
-  int year;
+  int _year;
   bool scotland = false;
 
+  int get year => _year;
+
+  void set year(int setYear){
+    this._year = setYear;
+    taxData = IncomeTaxData.get(_year, scotland);
+  }
+
+  num _earnings = 0;
+  
+  void set earnings(num input){
+    _earnings = input;
+    calculate();
+  }
+  
+  num get earnings => _earnings;
+
+  num _trade = 0;
+
+  void set trade(num input){
+    _trade = input;
+    calculate();
+  }
+
+  num get trade => _trade;
+
+  num _dividend = 0;
+
+  void set dividend(num input){
+    _dividend = input;
+    calculate();
+  }
+
+  num get dividend => _dividend;
+
+
   num personalAllowance;
-  num totalIncome;
-  num taxableIncome;
+  num totalIncome = 0;
+  num taxableIncome = 0;
   num startRateUsed = 0;
   num basicRateUsed = 0;
   num intermediateRateUsed = 0;
   num higherRateUsed = 0;
   num additionalRateUsed = 0;
-  num earnings;
-  num dividends;
-  num interest;
-  num trade;
-  num pension;
+
+
+  num interest = 0;
+
+  num pension = 0;
   num tax = 0.0;
 
 
-  IncomeTaxPosition(this.year, this.totalIncome, this.scotland){
+  IncomeTaxPosition(int year, this.totalIncome, bool scotland){
+    this.year = year;
+    this.scotland = scotland;
+  }
 
-    taxData = IncomeTaxData.get(year, scotland);
+  void calculate(){
+    totalIncome = earnings + trade;
 
-
-
-   if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
+    if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
 
       personalAllowance = taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
@@ -76,7 +113,7 @@ class IncomeTaxPosition{
 
       basicRateUsed = taxableIncome - startRateUsed;
 
-   } else if(taxableIncome < taxData.AdditionalRateLimit){
+    } else if(taxableIncome < taxData.AdditionalRateLimit){
 
       basicRateUsed = taxData.BasicRateBand;
       higherRateUsed = taxableIncome - basicRateUsed - intermediateRateUsed;;
@@ -96,9 +133,15 @@ class IncomeTaxPosition{
     tax += higherRateUsed * taxData.HigherRate;
     tax += additionalRateUsed * taxData.AdditionalRate;
 
-    }
+
+  }
+
+
+
 
     List<List<String>> narrativeTaxCalc(){
+
+    print("at narrative tax calc");
 
     //narrative.add(['','','','','','',]);
 
