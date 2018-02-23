@@ -16,6 +16,7 @@ class TaxPosition{
   TaxPosition(this.person, this.year){
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
+
   }
 
 

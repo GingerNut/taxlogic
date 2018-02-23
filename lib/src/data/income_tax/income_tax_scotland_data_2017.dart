@@ -15,5 +15,8 @@ class IncomeTaxDataScotland2017 extends IncomeTaxData{
   num HigherRate = 0.4;
   num AdditionalRate = 0.45;
 
-
+  num DividendNilBand = 5000;
+  num DividendBasicRate = 0.075;
+  num DividendHigherRate = 0.325;
+  num DividendAdditionalRate = 0.381;
 }

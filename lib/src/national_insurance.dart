@@ -26,6 +26,19 @@ class NationalInsurancePosition{
   }
 
   void calculate(){
+
+    earningsBetweenPTandUEL = 0;
+    earningsAboveUEL= 0;
+    earningsAboveSecondaryThreshold=0;
+    tradeAboveLowerLimit=0;
+    tradeAboveUpperLimit=0;
+
+    nicClass1p = 0.0;
+    nicClass1s = 0.0;
+    nicClass2 = 0.0;
+    nicClass3 = 0.0;
+    nicClass4 = 0.0;
+
       if(taxPosition.earnings > 0) Class1();
 
       if(taxPosition.trade > 0) Class4();

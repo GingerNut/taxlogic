@@ -15,5 +15,10 @@ class IncomeTaxData2016 extends IncomeTaxData{
   num HigherRate = 0.4;
   num AdditionalRate = 0.45;
 
+  num DividendNilBand = 0;
+  num TaxCredit = 0.10;
+  num DividendBasicRate = 0.225;
+  num DividendHigherRate = 0.325;
+  num DividendAdditionalRate = 0.375;
 
 }
