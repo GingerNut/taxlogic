@@ -11,8 +11,11 @@ class IncomeTaxPosition{
 
   num personalAllowance;
   num personalAllowanceUsed = 0;
+  num taxableSavingsIncome = 0;
   num totalIncome = 0;
   num taxableIncome = 0;
+  num savingsRateUsed = 0;
+  num savingsAllowanceUsed = 0;
   num startRateUsed = 0;
   num basicRateUsed = 0;
   num intermediateRateUsed = 0;
@@ -24,6 +27,9 @@ class IncomeTaxPosition{
   num higherRateDividend = 0;
   num additionalRateDividend = 0;
 
+  num savingsAllowance;
+  num savingsNilRateBand;
+
   num tax = 0.0;
 
 
@@ -34,9 +40,25 @@ class IncomeTaxPosition{
   void calculate(){
 
 
-    totalIncome = taxPosition.earnings + taxPosition.trade + taxPosition.dividend;
+    totalIncome = taxPosition.earnings + taxPosition.trade + taxPosition.dividend + taxPosition.savings;
 
     num dividend = taxPosition.dividend;
+    
+
+    // savings
+    savingsAllowance = totalIncome > taxData.PersonalAllowanceDefault + taxData.BasicRateBand ? taxData.SavingsAllowanceHigherRate : taxData.SavingsAllowanceBasicRate;
+    savingsNilRateBand = taxData.SavingsStartingNilBand;
+      if(totalIncome - taxPosition.savings > taxData.PersonalAllowanceDefault){
+        savingsNilRateBand = max(0,taxData.SavingsStartingNilBand - max(0,totalIncome - taxPosition.savings-taxData.PersonalAllowanceDefault));
+        if(savingsNilRateBand <0) savingsNilRateBand = 0;
+      }
+
+
+    taxableSavingsIncome = max(0, taxPosition.savings - savingsAllowance - savingsNilRateBand);
+     totalIncome = totalIncome - taxPosition.savings + taxableSavingsIncome;
+
+
+
     num nonDividendIncome = totalIncome - dividend;
 
     if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
@@ -97,7 +119,7 @@ class IncomeTaxPosition{
       additionalRateUsed = taxableIncome - taxData.AdditionalRateLimit;
 
     }
-    
+
     
     
     // dividend tax
@@ -167,15 +189,7 @@ class IncomeTaxPosition{
     }
 
 
-    print("Dividind $dividend");
 
-    print("Basic rate used $basicRateUsed");
-    print("divid nil rate $dividendNilRate");
-    print("Divi basic rate $basicRateDividend");
-    print("hgher rate divi $higherRateDividend");
-    print("Add rate divid $additionalRateDividend");
-
-    
 
     tax = 0.0;
     tax += startRateUsed * taxData.StarterRate;

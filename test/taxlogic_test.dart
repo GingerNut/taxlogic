@@ -16,6 +16,7 @@ void main() {
   incomeTaxEngland2017();
   incomeTaxEngland2018();
   incomeTaxEnglandDividend2018();
+  incomeTaxEnglandSavings2018();
   incomeTaxScotland2019();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
@@ -203,6 +204,113 @@ void incomeTaxEnglandDividend2018(){
     });
 
     test('200,000 2018 no other income', () {
+      taxPosition.dividend = 200000;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 59050);
+    });
+
+
+  });
+
+}
+
+void incomeTaxEnglandSavings2018(){
+
+  Person person;
+  TaxPosition taxPosition;
+  IncomeTaxPosition incomeTaxPosition;
+
+  group('Income tax savings 2018', ()
+  {
+
+    setUp(() {
+      person = new Person();
+      person.scotland = false;
+      person.setTaxPositions();
+      taxPosition = person.getYear(2018);
+      incomeTaxPosition = taxPosition.incomeTax;
+    });
+
+
+    test('4,000 2018 savings', () {
+      taxPosition.dividend = 0;
+      taxPosition.earnings = 0;
+      taxPosition.savings = 4000;
+      incomeTaxPosition.calculate();
+      expect(fix(incomeTaxPosition.tax), 0);
+    });
+
+    test('40,000 2018 savings', () {
+      taxPosition.earnings = 6000;
+      taxPosition.savings = 4000;
+      taxPosition.dividend = 5000;
+
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 0);
+    });
+
+    test('10,000 2018 savings', () {
+      taxPosition.earnings = 10000;
+      taxPosition.savings = 5000;
+      taxPosition.dividend = 20000;
+
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 1625);
+    });
+
+    test('60,000 2018 savings', () {
+      taxPosition.earnings = 10000;
+      taxPosition.savings = 2000;
+      taxPosition.dividend = 60000;
+
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 10750);
+    });
+
+    test('20,000 2018 savings', () {
+      taxPosition.earnings = 10000;
+      taxPosition.savings = 6000;
+      taxPosition.dividend = 4000;
+
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 200);
+    });
+
+    test('80,000 2018 savings', () {
+      taxPosition.dividend = 80000;
+      taxPosition.earnings = 30000;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 27825);
+    });
+
+    test('100,000 2018 savings', () {
+      taxPosition.dividend = 100000;
+      taxPosition.earnings = 30000;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 36875);
+    });
+
+    test('50,000 2018 savings', () {
+      taxPosition.dividend = 50000;
+      taxPosition.earnings = 150000;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 70445);
+    });
+
+    test('60,000 2018 savings', () {
+      taxPosition.dividend = 60000;
+      taxPosition.earnings = 0;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 7012.50);
+    });
+
+    test('100,000 2018 savings', () {
+      taxPosition.dividend = 100000;
+      taxPosition.incomeTax.calculate();
+      expect(fix(taxPosition.incomeTax.tax), 20012.50);
+    });
+
+    test('200,000 2018 savings', () {
       taxPosition.dividend = 200000;
       taxPosition.incomeTax.calculate();
       expect(fix(taxPosition.incomeTax.tax), 59050);

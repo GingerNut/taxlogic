@@ -9,6 +9,7 @@ class TaxPosition{
   num earnings = 0;
   num trade = 0;
   num dividend = 0;
+  num savings = 0;
 
   IncomeTaxPosition incomeTax;
   NationalInsurancePosition nicPosition;
