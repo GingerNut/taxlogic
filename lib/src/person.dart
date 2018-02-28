@@ -2,14 +2,23 @@ import 'tax_position.dart';
 
 class Person{
 
-  final String code;
+  static const String jsonTagCode = "code";
+  static const String jsonTagScotland = "scotland";
+  static const String jsonTagFirstName = "first_name";
+  static const String jsonTagSurname = "surname";
+  static const String jsonTagAddress = "address";
+
+  String code;
   bool scotland = false;
+  String firstName;
+  String surname;
+  String address;
 
   TaxPosition taxPosition2017;
   TaxPosition taxPosition2018;
   TaxPosition taxPosition2019;
 
-  Person(this.code);
+  Person();
 
   void setTaxPositions(){
     taxPosition2017 = new TaxPosition(this, 2017);
@@ -34,21 +43,26 @@ class Person{
 
   static Person fromMap(Map map){
 
-    Person person = new Person(map['code']);
-    person.scotland = map['scotland'] == 'yes';
+    Person person = new Person();
+    person.code = map[jsonTagCode];
+    person.scotland = map[jsonTagScotland] == 'true';
+    person.firstName = map[jsonTagFirstName];
+    person.firstName = map[jsonTagSurname];
+    person.firstName = map[jsonTagAddress];
 
     return person;
   }
 
   static Map toMap(Person person){
 
-    Map map = new Map();
-    map['code'] = person.code;
-    map['scotland'] = person.scotland ? 'yes' : 'no';
+     Map jsonMap = {
+       jsonTagCode: person.code,
+      jsonTagFirstName: person.firstName,
+       jsonTagSurname: person.surname,
+       jsonTagAddress: person.address
+    };
 
-
-    return map;
-
+    return jsonMap;
   }
 
 }

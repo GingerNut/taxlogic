@@ -7,7 +7,6 @@ num fix(num input){
   return num.parse(input.toStringAsFixed(2));
 
 }
-String code = 'test';
 
 void main() {
 
@@ -34,7 +33,7 @@ void incomeTaxEngland2017(){
 
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2017);
@@ -81,7 +80,7 @@ void incomeTaxEngland2018(){
   {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2018);
@@ -128,7 +127,7 @@ void incomeTaxEnglandDividend2018(){
   {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2018);
@@ -226,7 +225,7 @@ void incomeTaxEnglandSavings2018(){
   {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2018);
@@ -333,7 +332,7 @@ void incomeTaxScotland2019(){
   {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = true;
       person.setTaxPositions();
       taxPosition = person.getYear(2019);
@@ -379,7 +378,7 @@ void nationalInsuranceEarnings() {
   group('National insurance earnings', () {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2018);
@@ -450,7 +449,7 @@ void nationalInsuranceTrade() {
   group('National insurance trade', () {
 
     setUp(() {
-      person = new Person(code);
+      person = new Person();
       person.scotland = false;
       person.setTaxPositions();
       taxPosition = person.getYear(2018);
