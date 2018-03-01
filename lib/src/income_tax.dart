@@ -149,7 +149,7 @@ class IncomeTaxPosition{
 
     }
 
-       
+
     // dividend tax
 
     num diviPersonalAllowance = personalAllowance - personalAllowanceUsed;
@@ -206,6 +206,7 @@ class IncomeTaxPosition{
       additionalRateDividend -= extraNilRate;
     }
 
+    taxableIncome = totalIncome - personalAllowance;
 
     tax = 0.0;
     tax += startRateUsed * taxData.StarterRate;
