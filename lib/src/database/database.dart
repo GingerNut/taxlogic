@@ -19,6 +19,6 @@ import '../tax_position.dart';
 
   TaxPosition loadPosition(Person person, int year);
 
-   getClients();
+   refreshClients();
 
 }

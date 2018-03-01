@@ -14,6 +14,7 @@ class IncomeTaxPosition{
   num taxableSavingsIncome = 0;
   num totalIncome = 0;
   num taxableIncome = 0;
+  num taxableNonDividenIncome = 0;
   num savingsRateUsed = 0;
   num savingsAllowanceUsed = 0;
   num startRateUsed = 0;
@@ -37,8 +38,31 @@ class IncomeTaxPosition{
    taxData = IncomeTaxData.get(taxPosition.year, person.scotland);
   }
 
+  reset(){
+    personalAllowanceUsed = 0;
+    taxableSavingsIncome = 0;
+    totalIncome = 0;
+    taxableIncome = 0;
+    taxableNonDividenIncome = 0;
+    savingsRateUsed = 0;
+    savingsAllowanceUsed = 0;
+    startRateUsed = 0;
+    basicRateUsed = 0;
+    intermediateRateUsed = 0;
+    higherRateUsed = 0;
+    additionalRateUsed = 0;
+
+    dividendNilRate = 0;
+    basicRateDividend = 0;
+    higherRateDividend = 0;
+    additionalRateDividend = 0;
+
+  }
+
+
   void calculate(){
 
+    reset();
 
     totalIncome = taxPosition.earnings + taxPosition.trade + taxPosition.dividend + taxPosition.savings;
 
@@ -61,41 +85,43 @@ class IncomeTaxPosition{
 
     num nonDividendIncome = totalIncome - dividend;
 
+    // calculate personal allowance
+
     if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
 
       personalAllowance = taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
 
-    } else personalAllowance = min(taxData.PersonalAllowanceDefault, nonDividendIncome);
+    } else personalAllowance = min(taxData.PersonalAllowanceDefault, totalIncome);
 
-    taxableIncome = nonDividendIncome - personalAllowance;
+    taxableNonDividenIncome = max(0, nonDividendIncome - personalAllowance);
 
     if(person.scotland){
 
       if(nonDividendIncome <=taxData.PersonalAllowanceDefault){
         personalAllowanceUsed = nonDividendIncome;
-      } else if(taxableIncome < taxData.StarterRateBand){
+      } else if(taxableNonDividenIncome < taxData.StarterRateBand){
 
-        startRateUsed = taxableIncome;
-      } else if (taxableIncome< taxData.StarterRateBand + taxData.BasicRateBand){
+        startRateUsed = taxableNonDividenIncome;
+      } else if (taxableNonDividenIncome< taxData.StarterRateBand + taxData.BasicRateBand){
         startRateUsed = taxData.StarterRateBand;
-        basicRateUsed = taxableIncome - startRateUsed;
+        basicRateUsed = taxableNonDividenIncome - startRateUsed;
 
-      } else if(taxableIncome < taxData.StarterRateBand + taxData.BasicRateBand + taxData.IntermediateRateBand){
+      } else if(taxableNonDividenIncome < taxData.StarterRateBand + taxData.BasicRateBand + taxData.IntermediateRateBand){
         startRateUsed = taxData.StarterRateBand;
         basicRateUsed = taxData.BasicRateBand;
-        intermediateRateUsed = taxableIncome - startRateUsed - basicRateUsed;
-      } else if (taxableIncome < taxData.AdditionalRateLimit){
+        intermediateRateUsed = taxableNonDividenIncome - startRateUsed - basicRateUsed;
+      } else if (taxableNonDividenIncome < taxData.AdditionalRateLimit){
         startRateUsed = taxData.StarterRateBand;
         basicRateUsed = taxData.BasicRateBand;
         intermediateRateUsed = taxData.IntermediateRateBand;
-        higherRateUsed = taxableIncome - startRateUsed - basicRateUsed - intermediateRateUsed;
+        higherRateUsed = taxableNonDividenIncome - startRateUsed - basicRateUsed - intermediateRateUsed;
       } else {
         startRateUsed = taxData.StarterRateBand;
         basicRateUsed = taxData.BasicRateBand;
         intermediateRateUsed = taxData.IntermediateRateBand;
         higherRateUsed = taxData.AdditionalRateLimit - startRateUsed - basicRateUsed - intermediateRateUsed;
-        additionalRateUsed = taxableIncome - taxData.AdditionalRateLimit;
+        additionalRateUsed = taxableNonDividenIncome - taxData.AdditionalRateLimit;
       }
 
 
@@ -103,49 +129,41 @@ class IncomeTaxPosition{
 
       personalAllowanceUsed = nonDividendIncome;
 
-    } else if(taxableIncome < taxData.BasicRateBand) {
+    } else if(taxableNonDividenIncome < taxData.BasicRateBand) {
 
-      basicRateUsed = taxableIncome - startRateUsed;
+      personalAllowanceUsed = personalAllowance;
 
-    } else if(taxableIncome < taxData.AdditionalRateLimit){
+      basicRateUsed = taxableNonDividenIncome - startRateUsed;
 
+    } else if(taxableNonDividenIncome < taxData.AdditionalRateLimit){
+
+      personalAllowanceUsed = personalAllowance;
       basicRateUsed = taxData.BasicRateBand;
-      higherRateUsed = taxableIncome - basicRateUsed - intermediateRateUsed;;
+      higherRateUsed = taxableNonDividenIncome - basicRateUsed - intermediateRateUsed;;
 
     } else {
-
+      personalAllowanceUsed = personalAllowance;
       basicRateUsed = taxData.BasicRateBand;
       higherRateUsed = taxData.AdditionalRateLimit - basicRateUsed - intermediateRateUsed - startRateUsed;
-      additionalRateUsed = taxableIncome - taxData.AdditionalRateLimit;
+      additionalRateUsed = taxableNonDividenIncome - taxData.AdditionalRateLimit;
 
     }
 
-    
-    
+       
     // dividend tax
 
-   num dividendRemaining = dividend;
+    num diviPersonalAllowance = personalAllowance - personalAllowanceUsed;
 
-
-    num diviPersonalAllowance = taxData.PersonalAllowanceDefault;
-
-    if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
-      diviPersonalAllowance = max(0, taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2);
-    }
-
+    num dividendRemaining = dividend - diviPersonalAllowance;
 
     num diviBasicRateLeft = taxData.BasicRateBand + taxData.StarterRateBand + taxData.IntermediateRateBand - basicRateUsed;
     num diviHigherRateLeft = taxData.AdditionalRateLimit - taxData.StarterRateBand - taxData.BasicRateBand - taxData.IntermediateRateBand - higherRateUsed;
 
 
-    if(nonDividendIncome > diviPersonalAllowance){
-      diviPersonalAllowance = 0;
-
-    } else {
-      dividendRemaining -= (diviPersonalAllowance - nonDividendIncome);
-    }
-
-    if(dividendRemaining > diviBasicRateLeft){
+    if(dividendRemaining < diviBasicRateLeft){
+      basicRateDividend = dividendRemaining;
+      dividendRemaining = 0;
+    } else if (dividendRemaining > diviBasicRateLeft){
         basicRateDividend = diviBasicRateLeft;
         dividendRemaining -= diviBasicRateLeft;
     } else {
@@ -189,8 +207,6 @@ class IncomeTaxPosition{
     }
 
 
-
-
     tax = 0.0;
     tax += startRateUsed * taxData.StarterRate;
     tax += basicRateUsed * taxData.BasicRate;
@@ -215,7 +231,7 @@ class IncomeTaxPosition{
     narrative.add(['Total income','','','','',totalIncome.toString(),]);
 
     if(totalIncome > 0){
-      narrative.add(['Personal Allowance','','','','',personalAllowanceUsed.toString(),]);
+      narrative.add(['Personal Allowance','','','','',personalAllowance.toString(),]);
       narrative.add(['Net taxable','','','','',taxableIncome.toString(),]);
       narrative.add(['','','','','','',]);
     }

@@ -14,6 +14,10 @@ class Person{
   String surname;
   String address;
 
+
+
+
+
   TaxPosition taxPosition2017;
   TaxPosition taxPosition2018;
   TaxPosition taxPosition2019;
@@ -47,8 +51,8 @@ class Person{
     person.code = map[jsonTagCode];
     person.scotland = map[jsonTagScotland] == 'true';
     person.firstName = map[jsonTagFirstName];
-    person.firstName = map[jsonTagSurname];
-    person.firstName = map[jsonTagAddress];
+    person.surname = map[jsonTagSurname];
+    person.address = map[jsonTagAddress];
 
     return person;
   }

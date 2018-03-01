@@ -142,6 +142,20 @@ void incomeTaxEnglandDividend2018(){
       expect(fix(incomeTaxPosition.tax), 0);
     });
 
+    test('1,000 2018 20000 income', () {
+      taxPosition.dividend = 1000;
+      taxPosition.earnings = 20000;
+      incomeTaxPosition.calculate();
+      expect(fix(incomeTaxPosition.tax), 1700);
+    });
+
+    test('6,000 2018 20000 income', () {
+      taxPosition.dividend = 6000;
+      taxPosition.earnings = 20000;
+      incomeTaxPosition.calculate();
+      expect(fix(incomeTaxPosition.tax), 1775);
+    });
+
     test('40,000 2018 no other income', () {
       taxPosition.dividend = 40000;
       taxPosition.earnings = 0;
