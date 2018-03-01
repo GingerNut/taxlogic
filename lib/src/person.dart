@@ -14,17 +14,17 @@ class Person{
   String surname;
   String address;
 
-
-
-
-
+  TaxPosition taxPosition2016;
   TaxPosition taxPosition2017;
   TaxPosition taxPosition2018;
   TaxPosition taxPosition2019;
 
+  TaxPosition currentTaxYear;
+
   Person();
 
   void setTaxPositions(){
+    taxPosition2016 = new TaxPosition(this, 2016);
     taxPosition2017 = new TaxPosition(this, 2017);
     taxPosition2018 = new TaxPosition(this, 2018);
     taxPosition2019 = new TaxPosition(this, 2019);
@@ -34,6 +34,8 @@ class Person{
   TaxPosition getYear(int year){
 
     switch(year){
+      case 2016: return taxPosition2016;
+
       case 2017: return taxPosition2017;
 
       case 2018: return taxPosition2018;
@@ -45,28 +47,34 @@ class Person{
 
   }
 
-  static Person fromMap(Map map){
-
-    Person person = new Person();
-    person.code = map[jsonTagCode];
-    person.scotland = map[jsonTagScotland] == 'true';
-    person.firstName = map[jsonTagFirstName];
-    person.surname = map[jsonTagSurname];
-    person.address = map[jsonTagAddress];
-
-    return person;
+  setCurrentTaxYear(int year) {
+    currentTaxYear = getYear(year);
   }
 
-  static Map toMap(Person person){
+    static Person fromMap(Map map){
 
-     Map jsonMap = {
-       jsonTagCode: person.code,
-      jsonTagFirstName: person.firstName,
-       jsonTagSurname: person.surname,
-       jsonTagAddress: person.address
-    };
+      Person person = new Person();
+      person.code = map[jsonTagCode];
+      person.scotland = map[jsonTagScotland] == 'true';
+      person.firstName = map[jsonTagFirstName];
+      person.surname = map[jsonTagSurname];
+      person.address = map[jsonTagAddress];
 
-    return jsonMap;
+      return person;
+    }
+
+    Map toMap(){
+
+      Map jsonMap = {
+        jsonTagCode: code,
+        jsonTagFirstName: firstName,
+        jsonTagSurname: surname,
+        jsonTagAddress: address
+      };
+
+
+
+      return jsonMap;
+    }
   }
 
-}
