@@ -9,4 +9,4 @@ export 'src/tax_position.dart';
 export 'src/database/database.dart';
 export 'src/period.dart';
 export 'src/date.dart';
-export 'src/assets/capital_assets.dart';
+export 'src/assets/chargeable_assets.dart';
