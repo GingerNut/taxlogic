@@ -10,8 +10,7 @@ num fix(num input){
 
 void main() {
 
-
-
+  periods();
   incomeTaxEngland2017();
   incomeTaxEngland2018();
   incomeTaxEnglandDividend2018();
@@ -19,6 +18,68 @@ void main() {
   incomeTaxScotland2019();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
+  capitalGains();
+}
+
+void periods(){
+
+  group('Dates and periods ', (){
+
+    test('period 11/12/18 to 12/12/18', () {
+
+      Date start = new Date(11,12,18);
+      Date end = new Date(12,12,18);
+
+      Period period = new Period (start,end);
+
+      expect(period.duration, 1);
+    });
+
+    test('period 13/06/12 to 25/02/13', () {
+
+      Date start = new Date(13,6,12);
+      Date end = new Date(25,2,13);
+
+      Period period = new Period (start,end);
+
+      expect(period.duration, 257);
+    });
+
+    test('period 17/02/16 to 23/03/18', () {
+
+      Date start = new Date(17,2,16);
+      Date end = new Date(23,3,18);
+
+      Period period = new Period (start,end);
+
+      expect(period.duration, 765);
+    });
+
+    test('period 01/01/17 to 31/10/18', () {
+
+      Date start = new Date(1,1,17);
+      Date end = new Date(31,10,18);
+
+      Period period = new Period (start,end);
+
+      expect(period.duration, 668);
+    });
+
+    test('period 01/01/1956 to 01/01/12', () {
+
+      Date start = new Date(1,1,56);
+      Date end = new Date(1,1,12);
+
+      Period period = new Period (start,end);
+
+      expect(period.duration, 20454);
+    });
+
+
+
+  });
+
+
 }
 
 void incomeTaxEngland2017(){
@@ -495,6 +556,24 @@ void nationalInsuranceTrade() {
       taxPosition.trade = 90000;
       nicPosition.calculate();
       expect(fix(nicPosition.nicClass4), 4215.24);
+
+    });
+
+
+  });
+}
+
+void capitalGains() {
+
+  group('Capital gains', () {
+
+
+    test('gain proceeds 10000 cost 5000', () {
+
+      ChargeableAsset asset = new ChargeableAsset();
+      asset.cost = 5000;
+
+      expect(asset.calculateGain(10000), 5000);
 
     });
 
