@@ -664,7 +664,155 @@ void capitalGains() {
       asset.saleDate = new Date(5,4,18);
       person.assets.add(asset);
 
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
       expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 5000);
+    });
+
+    test('One asset with gain of 13000', () {
+
+
+      // gain 0f 13000
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.cost = 2000;
+      asset01.proceeds = 15000;
+      asset01.saleDate = new Date(5,4,18);
+      person.assets.add(asset01);
+
+
+      // loss of 4000
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.cost = 5000;
+      asset02.proceeds = 1000;
+      asset02.saleDate = new Date(5,4,18);
+      person.assets.add(asset02);
+
+
+      // outside the tax year
+      ChargeableAsset asset03 = new ChargeableAsset();
+      asset03.cost = 5000;
+      asset03.proceeds = 10000;
+      asset03.saleDate = new Date(6,4,18);
+      person.assets.add(asset03);
+
+     person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 13000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 4000);
+
+    });
+
+    test('Mixed gains and losses 1', () {
+
+    person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 500;
+
+      // gain 0f 13000
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.cost = 2000;
+      asset01.proceeds = 15000;
+      asset01.saleDate = new Date(5,4,18);
+      person.assets.add(asset01);
+
+
+      // loss of 4000
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.cost = 5000;
+      asset02.proceeds = 1000;
+      asset02.saleDate = new Date(5,4,18);
+      person.assets.add(asset02);
+
+
+      // outside the tax year
+      ChargeableAsset asset03 = new ChargeableAsset();
+      asset03.cost = 5000;
+      asset03.proceeds = 10000;
+      asset03.saleDate = new Date(6,4,18);
+      person.assets.add(asset03);
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 13000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 4000);
+    expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 11300);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 2800);
+    });
+
+    test('Mixed gains and losses 2', () {
+
+      person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 500;
+
+      // gain 0f 15500
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.cost = 2000;
+      asset01.proceeds = 17500;
+      asset01.saleDate = new Date(5,4,18);
+      person.assets.add(asset01);
+
+
+      // loss of 4000
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.cost = 5000;
+      asset02.proceeds = 1000;
+      asset02.saleDate = new Date(5,4,18);
+      person.assets.add(asset02);
+
+
+      // outside the tax year
+      ChargeableAsset asset03 = new ChargeableAsset();
+      asset03.cost = 5000;
+      asset03.proceeds = 10000;
+      asset03.saleDate = new Date(6,4,18);
+      person.assets.add(asset03);
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 15500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 4000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 11300);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 300);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 0);
+    });
+
+    test('Residential Property', () {
+
+      // gain 0f 15500
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.cost = 2000;
+      asset01.proceeds = 17500;
+      asset01.saleDate = new Date(5,4,18);
+      asset01.residentialProperty = true;
+      person.assets.add(asset01);
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 15500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 15500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 4200);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
+    });
+
+    test('Residential Property', () {
+
+      // gain 0f 15500
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.cost = 2000;
+      asset01.proceeds = 17500;
+      asset01.saleDate = new Date(5,4,18);
+      asset01.residentialProperty = true;
+      person.assets.add(asset01);
+      person.taxPosition2018.earnings = 20000;
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 15500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 15500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 4200);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 25000);
     });
 
 

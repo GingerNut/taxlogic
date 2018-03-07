@@ -222,6 +222,20 @@ class IncomeTaxPosition{
 
   }
 
+  num getBasicRateAvailable(){
+
+    calculate();
+
+    num basicRate = taxData.BasicRateBand + taxData.StarterRateBand + taxData.IntermediateRateBand;
+
+    if(taxableIncome > basicRate){
+      return 0;
+    } else {
+      return basicRate - taxableIncome;
+    }
+
+
+  }
 
 
 

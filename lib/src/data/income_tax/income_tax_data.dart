@@ -32,6 +32,7 @@ abstract class IncomeTaxData{
   num SavingsAllowanceBasicRate;
   num SavingsAllowanceHigherRate;
 
+
   static IncomeTaxData get(int year, bool scotland){
 
     IncomeTaxData taxData;
