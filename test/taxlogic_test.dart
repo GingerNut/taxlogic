@@ -10,6 +10,7 @@ num fix(num input){
 
 void main() {
 
+  dates();
   periods();
   incomeTaxEngland2017();
   incomeTaxEngland2018();
@@ -21,9 +22,79 @@ void main() {
   capitalGains();
 }
 
+void dates(){
+
+  group('Dates ', (){
+
+    test('Compare dates 11/3/18 before 12/3/18', () {
+
+      Date first = new Date(11,3,18);
+      Date second = new Date(12,3,18);
+
+
+      expect(first < second, true);
+    });
+
+    test('Compare dates 15/3/18 after 12/3/18', () {
+
+      Date first = new Date(15,3,18);
+      Date second = new Date(12,3,18);
+
+
+      expect(first > second, true);
+    });
+
+    test('Difference between dates 15/3/18 after 12/3/18', () {
+
+      Date first = new Date(15,3,18);
+      Date second = new Date(12,3,18);
+
+
+      expect(first - second, 3);
+    });
+
+    test('Add days to date15/3/18', () {
+
+      Date first = new Date(15,3,18);
+
+      Date result = new Date(18,3,18);
+
+      expect(result - first, 3);
+    });
+
+    test('Tax year to 2018 ', () {
+
+      TaxYear taxYear = new TaxYear(2018);
+
+      expect(taxYear.days, 365);
+      expect(taxYear.start.day, 6);
+      expect(taxYear.start.month, 4);
+      expect(taxYear.start.year, 2017);
+      expect(taxYear.end.day, 5);
+      expect(taxYear.end.month, 4);
+      expect(taxYear.end.year, 2018);
+    });
+
+    test('Tax year inlcuded dates ', () {
+
+      TaxYear taxYear = new TaxYear(2018);
+
+      expect(taxYear.includes(new Date(5,4,18)), true);
+      expect(taxYear.includes(new Date(6,4,17)), true);
+      expect(taxYear.includes(new Date(5,4,17)), false);
+      expect(taxYear.includes(new Date(1,1,18)), true);
+      expect(taxYear.includes(new Date(1,1,19)), false);
+
+    });
+
+  });
+
+
+}
+
 void periods(){
 
-  group('Dates and periods ', (){
+  group('Periods ', (){
 
     test('period 11/12/18 to 12/12/18', () {
 
@@ -565,16 +636,35 @@ void nationalInsuranceTrade() {
 
 void capitalGains() {
 
-  group('Capital gains', () {
+  group('Capital gains 2018', () {
+
+    Person person;
+
+    setUp(()  {
+     person = new Person();
+     person.taxPosition2018 = new TaxPosition(person, 2018);
+    });
 
 
     test('gain proceeds 10000 cost 5000', () {
 
       ChargeableAsset asset = new ChargeableAsset();
       asset.cost = 5000;
+      asset.proceeds = 10000;
 
-      expect(asset.calculateGain(10000), 5000);
+      expect(asset.calculateGain(), 5000);
 
+    });
+
+    test('One asset with gain of 5000', () {
+
+      ChargeableAsset asset = new ChargeableAsset();
+      asset.cost = 5000;
+      asset.proceeds = 10000;
+      asset.saleDate = new Date(5,4,18);
+      person.assets.add(asset);
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 5000);
     });
 
 

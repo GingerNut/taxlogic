@@ -1,6 +1,9 @@
 import 'income_tax.dart';
 import 'national_insurance.dart';
 import 'person.dart';
+import 'tax_year.dart';
+import 'assets/chargeable_assets.dart';
+import 'capital_gains.dart';
 
 class TaxPosition{
   static const String jsonTagCode = "code";
@@ -11,19 +14,39 @@ class TaxPosition{
   static const String jsonTagSavings = "savings";
 
   Person person;
+  TaxPosition previousTaxPosition;
+  TaxYear taxYear;
   int year;
 
+  List<ChargeableAsset> disposals = new List();
   num earnings = 0;
   num trade = 0;
   num dividend = 0;
   num savings = 0;
+  num capitalGains = 0;
 
   IncomeTaxPosition incomeTax;
   NationalInsurancePosition nicPosition;
+  CapitalGainsTaxPosition capitalGainsTaxPosition;
 
   TaxPosition(this.person, this.year){
+    taxYear = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
+    capitalGainsTaxPosition = new CapitalGainsTaxPosition(person, this);
+
+  }
+
+  refreshDisposals() {
+    disposals.clear();
+    person.assets.forEach((asset) {
+        if(asset.saleDate != null){
+          if(taxYear.includes(asset.saleDate)){
+            disposals.add(asset);
+          }
+        }
+    });
+
   }
 
   static TaxPosition fromMap(Map map, person){

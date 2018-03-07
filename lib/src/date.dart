@@ -17,5 +17,30 @@ class Date{
 
   }
 
+  Date.fromDateTime(this.dateTime){
+    day = dateTime.day;
+    month = dateTime.month;
+    year = dateTime.year;
+  }
+
+
+  int operator -(Date other) => dateTime.difference(other.dateTime).inDays;
+
+  Date operator +(num days)=> new Date.fromDateTime(dateTime.add(new Duration(days: days)));
+
+
+   bool operator < (Date other){
+
+     num difference = dateTime.difference(other.dateTime).inDays;
+
+     return difference < 0;
+  }
+
+  bool operator > (Date other){
+
+    num difference = dateTime.difference(other.dateTime).inDays;
+
+    return difference > 0;
+  }
 
 }

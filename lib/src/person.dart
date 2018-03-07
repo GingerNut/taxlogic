@@ -1,4 +1,5 @@
 import 'tax_position.dart';
+import 'assets/chargeable_assets.dart';
 
 class Person{
 
@@ -13,6 +14,8 @@ class Person{
   String firstName;
   String surname;
   String address;
+
+  List<ChargeableAsset> assets = new List();
 
   TaxPosition taxPosition2016;
   TaxPosition taxPosition2017;

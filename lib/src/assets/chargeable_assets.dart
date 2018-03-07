@@ -8,6 +8,11 @@ class ChargeableAsset{
   String description;
   num cost;
   Date purchaseDate;
+  Date saleDate;
+  num proceeds;
+  bool entrepreneurRelief = false;
+  bool rolloverReliefAsset = false;
+  bool residentialProperty = false;
 
   num get totalImprovements{
     num totalImprovements = 0;
@@ -22,9 +27,20 @@ class ChargeableAsset{
   List<Improvement> improvements = new List();
   List<Period> mainResidencePeriods = new List();
 
-  num calculateGain (num proceeds)=> proceeds - cost - totalImprovements;
+  num calculateGain ()=> proceeds - cost - totalImprovements;
 
 
+  addResidencePeriod(Date from, Date to){
+    residentialProperty = true;
+
+    mainResidencePeriods.add(new Period(from,to));
+
+  }
+
+  setAllMainResidence(){
+    addResidencePeriod(purchaseDate, saleDate);
+
+  }
 
 }
 
