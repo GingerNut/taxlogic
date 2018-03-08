@@ -17,7 +17,14 @@ class CapitalGainsTaxPosition{
   num capitalGainsTax = 0;
   num taxableGains = 0;
   num basicRateAmount = 0;
+  num taxBasicRateRes = 0;
+  num taxBasicRateNonRes = 0;
+  num taxBasicRateEnt = 0;
+  num taxHigherRateRes = 0;
+  num taxHigherRateNonRes = 0;
+  num taxHigherRateEnt = 0;
 
+  num tax = 0;
 
   CapitalGainsTaxPosition(this.person, this.taxPosition){
 
@@ -58,8 +65,7 @@ class CapitalGainsTaxPosition{
 
     netGains = totalGains - capitalLosses;
     taxableGains = 0;
-
-    num capitalLossRemaining = capitalLosses;
+    capitalLossesCarriedForward = capitalLossesBroughtForward;
 
     num currentCapitalLossUsed = 0;
     num broughtForwardLossUsed = 0;
@@ -67,25 +73,20 @@ class CapitalGainsTaxPosition{
 
     currentCapitalLossUsed = min(capitalLosses, totalGains);
 
-    capitalLossRemaining -= currentCapitalLossUsed;
-
     if(netGains > 0){
-
 
       if(capitalLossesBroughtForward > 0 && netGains > annualExemption){
 
         broughtForwardLossUsed = min(capitalLossesBroughtForward, netGains - annualExemption);
 
         netGains -= broughtForwardLossUsed;
-        capitalLossesBroughtForward -= broughtForwardLossUsed;
-        
+        capitalLossesCarriedForward -= broughtForwardLossUsed;
+
       }
       
-      capitalLossesCarriedForward = capitalLossesBroughtForward;
-
+      //capitalLossesCarriedForward = capitalLossesBroughtForward - broughtForwardLossUsed;
 
       totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
-
 
     } else {
       capitalLossesCarriedForward -= netGains;
@@ -104,7 +105,7 @@ class CapitalGainsTaxPosition{
 
     // first find basic rate amount
 
-    basicRateAmount = taxPosition.incomeTax.getBasicRateAvailable();
+
 
   // allocate taxable gains in best way for taxpayer
 
@@ -149,7 +150,67 @@ class CapitalGainsTaxPosition{
       else priority = null;
     }
 
+    // allocate gains to rates of tax
+    basicRateAmount = taxPosition.incomeTax.getBasicRateAvailable();
 
+    num basicRateToAllocate = basicRateAmount;
+
+    if(residential.length > 0) priority = residential;
+    else if (nonResidential.length > 0) priority = nonResidential;
+    else priority = entrepreneur;
+
+    while(basicRateToAllocate > 0 && priority != null){
+
+      priority.forEach((asset){
+        if(basicRateToAllocate < asset.taxableGain - asset.lossAllocated){
+          asset.basicRateAllocated = basicRateToAllocate;
+          basicRateToAllocate = 0;
+        } else {
+          asset.basicRateAllocated = asset.taxableGain - asset.lossAllocated;
+          basicRateToAllocate -= asset.basicRateAllocated;
+        }
+
+      });
+
+      if(priority == residential) priority = nonResidential;
+      else if(priority == nonResidential) priority = entrepreneur;
+      else priority = null;
+    }
+    
+    // calculate tax
+
+    taxPosition.disposals.forEach((asset){
+      
+      if(asset.residentialProperty){
+        taxBasicRateRes += asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
+          taxHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        }
+        
+      } else if (asset.entrepreneurRelief){
+        
+        taxBasicRateEnt += asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
+          taxHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        }
+
+      } else {
+
+        taxBasicRateNonRes += asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
+          taxHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        }
+      }
+      });
+
+    tax = 0;
+
+    tax += taxBasicRateRes * taxData.CapitalGainsBasicRateRes;
+    tax += taxBasicRateNonRes * taxData.CapitalGainsBasicRateNonRes;
+    tax +=  taxBasicRateEnt * taxData.CapitalGainsEntrepreneur;
+    tax +=  taxHigherRateRes * taxData.CapitalGainsHigherRateRes;
+    tax +=  taxHigherRateNonRes * taxData.CapitalGainsHigherRateNonRes;
+    tax +=  taxHigherRateEnt * taxData.CapitalGainsEntrepreneur;
 
   }
 

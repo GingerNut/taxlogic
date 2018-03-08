@@ -13,6 +13,7 @@ class ChargeableAsset{
   num _taxableGain;
   num _totalImprovements;
   num lossAllocated = 0;
+  num basicRateAllocated = 0;
   bool entrepreneurRelief = false;
   bool rolloverReliefAsset = false;
   bool residentialProperty = false;

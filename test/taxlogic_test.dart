@@ -818,7 +818,7 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 25000);
     });
 
-    test('Loss allocation', () {
+    test('Loss allocation 1', () {
 
       // gain 0f 10000 res
       ChargeableAsset asset01 = new ChargeableAsset();
@@ -831,23 +831,23 @@ void capitalGains() {
       person.taxPosition2018.earnings = 20000;
 
       // gain 0f 11000 non res
-      ChargeableAsset asset03 = new ChargeableAsset();
-      asset03.proceeds = 11000;
-      asset03.cost = 0;
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.proceeds = 11000;
+      asset02.cost = 0;
 
-      asset03.saleDate = new Date(5,4,18);
-      asset03.residentialProperty = false;
-      person.assets.add(asset03);
+      asset02.saleDate = new Date(5,4,18);
+      asset02.residentialProperty = false;
+      person.assets.add(asset02);
       person.taxPosition2018.earnings = 20000;
 
       // loss pf 15000
-      ChargeableAsset asset02 = new ChargeableAsset();
-      asset02.proceeds = 0;
-      asset02.cost = 15000;
+      ChargeableAsset asset20 = new ChargeableAsset();
+      asset20.proceeds = 0;
+      asset20.cost = 15000;
 
-      asset02.saleDate = new Date(5,4,18);
-      asset02.residentialProperty = true;
-      person.assets.add(asset02);
+      asset20.saleDate = new Date(5,4,18);
+      asset20.residentialProperty = true;
+      person.assets.add(asset20);
       person.taxPosition2018.earnings = 20000;
 
 
@@ -860,8 +860,139 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 25000);
       expect(asset01.lossAllocated, 10000);
-      expect(asset03.lossAllocated, 5000);
+      expect(asset02.lossAllocated, 5000);
     });
+
+    test('Loss allocation 2', () {
+
+      person.taxPosition2018.earnings = 15000;
+      person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 15000;
+      
+      // gain 0f 4000 res
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.proceeds = 4000;
+      asset01.cost = 0;
+      asset01.saleDate = new Date(5,4,18);
+      asset01.residentialProperty = true;
+      person.assets.add(asset01);
+      
+
+      // gain 0f 5000  res
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.proceeds = 5000;
+      asset02.cost = 0;
+
+      asset02.saleDate = new Date(5,4,18);
+      asset02.residentialProperty = true;
+      person.assets.add(asset02);
+
+      // gain 0f 6000 non res
+      ChargeableAsset asset03 = new ChargeableAsset();
+      asset03.proceeds = 6000;
+      asset03.cost = 0;
+
+      asset03.saleDate = new Date(5,4,18);
+      asset03.residentialProperty = false;
+      person.assets.add(asset03);
+
+      // gain 0f 8000 ent
+      ChargeableAsset asset04 = new ChargeableAsset();
+      asset04.proceeds = 8000;
+      asset04.cost = 0;
+
+      asset04.saleDate = new Date(5,4,18);
+      asset04.residentialProperty = false;
+      asset04.entrepreneurRelief = true;
+
+      person.assets.add(asset04);
+
+      // gain 0f 12000 ent
+      ChargeableAsset asset05 = new ChargeableAsset();
+      asset05.proceeds = 12000;
+      asset05.cost = 0;
+
+      asset05.saleDate = new Date(5,4,18);
+      asset05.residentialProperty = false;
+      asset04.entrepreneurRelief = true;
+      person.assets.add(asset05);
+
+
+      // loss pf 8000
+      ChargeableAsset asset20 = new ChargeableAsset();
+      asset20.proceeds = 0;
+      asset20.cost = 8000;
+
+      asset20.saleDate = new Date(5,4,18);
+      asset20.residentialProperty = true;
+      person.assets.add(asset20);
+
+      // loss pf 4000
+      ChargeableAsset asset21 = new ChargeableAsset();
+      asset21.proceeds = 0;
+      asset21.cost = 4000;
+
+      asset21.saleDate = new Date(5,4,18);
+      asset21.residentialProperty = true;
+      person.assets.add(asset21);
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 35000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 12000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 11300);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 3300);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 30000);
+      expect(asset04.lossAllocated + asset05.lossAllocated, 8700);
+
+    });
+
+    test('Basic Rate allocatoin 1', () {
+
+      person.taxPosition2018.earnings = 0;
+      person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 2300;
+
+      // gain 0f 20000 res
+      ChargeableAsset asset01 = new ChargeableAsset();
+      asset01.proceeds = 20000;
+      asset01.cost = 0;
+      asset01.saleDate = new Date(5,4,18);
+      asset01.residentialProperty = true;
+      person.assets.add(asset01);
+
+
+      // gain 0f 50000 non res
+      ChargeableAsset asset02 = new ChargeableAsset();
+      asset02.proceeds = 50000;
+      asset02.cost = 0;
+
+      asset02.saleDate = new Date(5,4,18);
+      asset02.residentialProperty = false;
+      person.assets.add(asset02);
+
+      // gain 0f 8000 ent
+      ChargeableAsset asset03 = new ChargeableAsset();
+      asset03.proceeds = 8000;
+      asset03.saleDate = new Date(5,4,18);
+      asset03.entrepreneurRelief = true;
+      asset03.cost = 0;
+      person.assets.add(asset03);
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 78000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 75700);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 64400);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 33500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 12406);
+
+    });
+
+
 
 
   });
