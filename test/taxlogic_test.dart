@@ -819,16 +819,16 @@ void capitalGains() {
     });
 
     test('Loss allocation 1', () {
-
+      person.taxPosition2018.earnings = 20000;
       // gain 0f 10000 res
       ChargeableAsset asset01 = new ChargeableAsset();
       asset01.proceeds = 10000;
+      asset01.residentialProperty = true;
       asset01.cost = 0;
 
       asset01.saleDate = new Date(5,4,18);
-      asset01.residentialProperty = true;
       person.assets.add(asset01);
-      person.taxPosition2018.earnings = 20000;
+
 
       // gain 0f 11000 non res
       ChargeableAsset asset02 = new ChargeableAsset();
@@ -861,6 +861,7 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 25000);
       expect(asset01.lossAllocated, 10000);
       expect(asset02.lossAllocated, 5000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 600);
     });
 
     test('Loss allocation 2', () {
@@ -945,6 +946,7 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 3300);
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 30000);
       expect(asset04.lossAllocated + asset05.lossAllocated, 8700);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 1130);
 
     });
 
