@@ -2,6 +2,7 @@ import 'tax_position.dart';
 import 'person.dart';
 import 'data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
+import 'assets/chargeable_assets.dart';
 
 class CapitalGainsTaxPosition{
   Person person;
@@ -44,12 +45,10 @@ class CapitalGainsTaxPosition{
 
     taxPosition.disposals.forEach((asset){
 
-      num gain = asset.calculateGain();
-
-      if(gain > 0){
-        totalGains += gain;
+      if(asset.taxableGain > 0){
+        totalGains += asset.taxableGain;
       } else{
-        capitalLosses -= gain;
+        capitalLosses -= asset.taxableGain;
 
       }
 
@@ -57,42 +56,47 @@ class CapitalGainsTaxPosition{
 
     // loss relief
 
-    netGains = totalGains;
+    netGains = totalGains - capitalLosses;
     taxableGains = 0;
 
     num capitalLossRemaining = capitalLosses;
 
-    if(totalGains > annualExemption){
+    num currentCapitalLossUsed = 0;
+    num broughtForwardLossUsed = 0;
+    num totalLossUsed = 0;
 
-      if(capitalLosses > 0){
-        num capitalLossUsed = min(capitalLosses, netGains - annualExemption);
+    currentCapitalLossUsed = min(capitalLosses, totalGains);
 
-        netGains -= capitalLossUsed;
-        capitalLossRemaining -= capitalLossUsed;
+    capitalLossRemaining -= currentCapitalLossUsed;
 
-      }
-      
-      if(capitalLossesBroughtForward > 0){
+    if(netGains > 0){
 
-        num capitalLossUsed = min(capitalLossesBroughtForward, netGains - annualExemption);
 
-        netGains -= capitalLossUsed;
-        capitalLossesBroughtForward -= capitalLossUsed;
+      if(capitalLossesBroughtForward > 0 && netGains > annualExemption){
+
+        broughtForwardLossUsed = min(capitalLossesBroughtForward, netGains - annualExemption);
+
+        netGains -= broughtForwardLossUsed;
+        capitalLossesBroughtForward -= broughtForwardLossUsed;
         
       }
       
-      capitalLossesCarriedForward = capitalLossesBroughtForward + capitalLossRemaining;
+      capitalLossesCarriedForward = capitalLossesBroughtForward;
 
+
+      totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
 
 
     } else {
-      
-      annualExemption = totalGains;
-    
-    }
+      capitalLossesCarriedForward -= netGains;
+
+     }
+
+     if(netGains < annualExemption){
+      annualExemption = netGains;
+     }
 
     taxableGains = netGains - annualExemption;
-
 
     // calculate tax
     
@@ -103,6 +107,47 @@ class CapitalGainsTaxPosition{
     basicRateAmount = taxPosition.incomeTax.getBasicRateAvailable();
 
   // allocate taxable gains in best way for taxpayer
+
+    num lossesToAllocate = totalLossUsed;
+
+    //sort disposals into loss priority - residential first, non residential next then entrepreneur
+
+    List<ChargeableAsset> residential = new List();
+    List<ChargeableAsset> nonResidential = new List();
+    List<ChargeableAsset> entrepreneur = new List();
+
+    taxPosition.disposals.forEach((asset){
+      if(asset.taxableGain > 0){
+        if(asset.residentialProperty) residential.add(asset);
+        else if (asset.entrepreneurRelief) entrepreneur.add(asset);
+        else nonResidential.add(asset);
+      }
+
+    });
+
+    List<ChargeableAsset> priority;
+
+    if(residential.length > 0) priority = residential;
+    else if (nonResidential.length > 0) priority = nonResidential;
+    else priority = entrepreneur;
+
+    while(lossesToAllocate > 0 && priority != null){
+
+      priority.forEach((asset){
+        if(lossesToAllocate < asset.taxableGain){
+          asset.lossAllocated = lossesToAllocate;
+          lossesToAllocate = 0;
+        } else {
+          asset.lossAllocated = asset.taxableGain;
+          lossesToAllocate -= asset.lossAllocated;
+        }
+
+      });
+
+      if(priority == residential) priority = nonResidential;
+      else if(priority == nonResidential) priority = entrepreneur;
+      else priority = null;
+    }
 
 
 
