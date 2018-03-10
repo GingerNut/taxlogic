@@ -146,7 +146,87 @@ void periods(){
       expect(period.duration, 20454);
     });
 
+    test('period 02/01/18 to 01/01/19 i nmonths', () {
 
+      Date start = new Date(2,1,18);
+      Date end = new Date(1,1,19);
+
+      Period period = new Period (start,end);
+
+      expect(period.completeMonths(), 11);
+    });
+
+    test('period 02/01/19 to 01/01/18 i nmonths', () {
+
+      Date start = new Date(2,1,19);
+      Date end = new Date(1,1,18);
+
+      Period period = new Period (start,end);
+
+      expect(period.completeMonths(), 12);
+    });
+
+    test('period 25/06/17 to 23/12/17 ni nmonths', () {
+
+      Date start = new Date(25,06,17);
+      Date end = new Date(23,12,17);
+
+      Period period = new Period (start,end);
+
+      expect(period.completeMonths(), 5);
+    });
+
+    test('period 25/06/17 to 23/12/18 ni nmonths', () {
+
+      Date start = new Date(25,06,17);
+      Date end = new Date(23,12,18);
+
+      Period period = new Period (start,end);
+
+      expect(period.completeMonths(), 17);
+    });
+
+    test('overlap ', () {
+
+      Date startOne = new Date(1,1,17);
+      Date endOne = new Date(30,6,17);
+
+      Date startTwo = new Date(1,1,18);
+      Date endTwo = new Date(30,6,18);
+
+      Period one = new Period (startOne, endOne);
+      Period two = new Period (startTwo, endTwo);
+
+      expect(Period.overlap(one, two), 0);
+    });
+
+    test('overlap ', () {
+
+      Date startOne = new Date(1,1,17);
+      Date endOne = new Date(30,6,17);
+
+      Date startTwo = new Date(1,1,17);
+      Date endTwo = new Date(30,6,17);
+
+      Period one = new Period (startOne, endOne);
+      Period two = new Period (startTwo, endTwo);
+
+      expect(Period.overlap(one, two), one.days);
+    });
+
+    test('overlap ', () {
+
+      Date startOne = new Date(1,1,17);
+      Date endOne = new Date(30,6,17);
+
+      Date startTwo = new Date(1,6,17);
+      Date endTwo = new Date(30,6,18);
+
+      Period one = new Period (startOne, endOne);
+      Period two = new Period (startTwo, endTwo);
+
+      expect(Period.overlap(one, two), 30);
+    });
 
   });
 
@@ -779,11 +859,10 @@ void capitalGains() {
     test('Residential Property', () {
 
       // gain 0f 15500
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ResidentialProperty asset01 = new ResidentialProperty();
       asset01.cost = 2000;
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
-      asset01.residentialProperty = true;
       person.assets.add(asset01);
 
 
@@ -799,11 +878,10 @@ void capitalGains() {
     test('Residential Property', () {
 
       // gain 0f 15500
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ResidentialProperty asset01 = new ResidentialProperty();
       asset01.cost = 2000;
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
-      asset01.residentialProperty = true;
       person.assets.add(asset01);
       person.taxPosition2018.earnings = 20000;
 
@@ -821,9 +899,8 @@ void capitalGains() {
     test('Loss allocation 1', () {
       person.taxPosition2018.earnings = 20000;
       // gain 0f 10000 res
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 10000;
-      asset01.residentialProperty = true;
       asset01.cost = 0;
 
       asset01.saleDate = new Date(5,4,18);
@@ -836,17 +913,15 @@ void capitalGains() {
       asset02.cost = 0;
 
       asset02.saleDate = new Date(5,4,18);
-      asset02.residentialProperty = false;
       person.assets.add(asset02);
       person.taxPosition2018.earnings = 20000;
 
       // loss pf 15000
-      ChargeableAsset asset20 = new ChargeableAsset();
+      ResidentialProperty asset20 = new ResidentialProperty();
       asset20.proceeds = 0;
       asset20.cost = 15000;
 
       asset20.saleDate = new Date(5,4,18);
-      asset20.residentialProperty = true;
       person.assets.add(asset20);
       person.taxPosition2018.earnings = 20000;
 
@@ -861,7 +936,7 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 25000);
       expect(asset01.lossAllocated, 10000);
       expect(asset02.lossAllocated, 5000);
-      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 600);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 0);
     });
 
     test('Loss allocation 2', () {
@@ -870,21 +945,19 @@ void capitalGains() {
       person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 15000;
       
       // gain 0f 4000 res
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 4000;
       asset01.cost = 0;
       asset01.saleDate = new Date(5,4,18);
-      asset01.residentialProperty = true;
       person.assets.add(asset01);
       
 
       // gain 0f 5000  res
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ResidentialProperty asset02 = new ResidentialProperty();
       asset02.proceeds = 5000;
       asset02.cost = 0;
 
       asset02.saleDate = new Date(5,4,18);
-      asset02.residentialProperty = true;
       person.assets.add(asset02);
 
       // gain 0f 6000 non res
@@ -893,7 +966,6 @@ void capitalGains() {
       asset03.cost = 0;
 
       asset03.saleDate = new Date(5,4,18);
-      asset03.residentialProperty = false;
       person.assets.add(asset03);
 
       // gain 0f 8000 ent
@@ -902,7 +974,6 @@ void capitalGains() {
       asset04.cost = 0;
 
       asset04.saleDate = new Date(5,4,18);
-      asset04.residentialProperty = false;
       asset04.entrepreneurRelief = true;
 
       person.assets.add(asset04);
@@ -913,27 +984,24 @@ void capitalGains() {
       asset05.cost = 0;
 
       asset05.saleDate = new Date(5,4,18);
-      asset05.residentialProperty = false;
       asset04.entrepreneurRelief = true;
       person.assets.add(asset05);
 
 
       // loss pf 8000
-      ChargeableAsset asset20 = new ChargeableAsset();
+      ResidentialProperty asset20 = new ResidentialProperty();
       asset20.proceeds = 0;
       asset20.cost = 8000;
 
       asset20.saleDate = new Date(5,4,18);
-      asset20.residentialProperty = true;
       person.assets.add(asset20);
 
       // loss pf 4000
-      ChargeableAsset asset21 = new ChargeableAsset();
+      ResidentialProperty asset21 = new ResidentialProperty();
       asset21.proceeds = 0;
       asset21.cost = 4000;
 
       asset21.saleDate = new Date(5,4,18);
-      asset21.residentialProperty = true;
       person.assets.add(asset21);
 
 
@@ -946,7 +1014,7 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 3300);
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 30000);
       expect(asset04.lossAllocated + asset05.lossAllocated, 8700);
-      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 1130);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 0);
 
     });
 
@@ -956,11 +1024,10 @@ void capitalGains() {
       person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 2300;
 
       // gain 0f 20000 res
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 20000;
       asset01.cost = 0;
       asset01.saleDate = new Date(5,4,18);
-      asset01.residentialProperty = true;
       person.assets.add(asset01);
 
 
@@ -970,7 +1037,6 @@ void capitalGains() {
       asset02.cost = 0;
 
       asset02.saleDate = new Date(5,4,18);
-      asset02.residentialProperty = false;
       person.assets.add(asset02);
 
       // gain 0f 8000 ent
@@ -990,7 +1056,72 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 64400);
       expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
       expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 33500);
-      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 12406);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 9242);
+
+    });
+
+    test('Main residence relief - no losses allowed', () {
+
+
+      // loss on main residence
+      ResidentialProperty asset01 = new ResidentialProperty();
+      asset01.proceeds = 0;
+      asset01.cost = 20000;
+      asset01.addResidencePeriod(new Period(new Date(31,1,17), new Date(5,4,18)));
+      asset01.purchaseDate = new Date(1,1,17);
+      asset01.saleDate = new Date(5,4,18);
+      person.assets.add(asset01);
+
+      ResidentialProperty asset02 = new ResidentialProperty();
+      asset02.proceeds = 20000;
+      asset02.cost = 0;
+      asset01.purchaseDate = new Date(1,1,17);
+      asset02.saleDate = new Date(5,4,18);
+      person.assets.add(asset02);
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 20000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 20000);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 8700);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 33500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 1566);
+
+    });
+
+    test('Main residence relief - last 18 months', () {
+
+
+      // loss on main residence
+      ResidentialProperty asset01 = new ResidentialProperty();
+      asset01.proceeds = 30000;
+      asset01.cost = 0;
+      asset01.purchaseDate = new Date(13,1,15);
+      asset01.saleDate = new Date(5,4,18);
+      asset01.addResidencePeriod(new Period(new Date(13,1,15), new Date(5,4,18)));
+      person.assets.add(asset01);
+
+      ResidentialProperty asset02 = new ResidentialProperty();
+      asset02.proceeds = 20000;
+      asset02.cost = 0;
+      asset02.purchaseDate = new Date(1,7,16);
+      asset02.saleDate = new Date(31,12,17);
+      asset02.addResidencePeriod(new Period(new Date(1,1,18), new Date(5,4,18)));
+      person.assets.add(asset02);
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLosses, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.netGains, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.taxableGains, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.capitalLossesCarriedForward, 0);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.basicRateAmount, 33500);
+      expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 0);
 
     });
 

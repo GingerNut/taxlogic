@@ -1,8 +1,8 @@
-import 'tax_position.dart';
-import 'person.dart';
-import 'data/capital_gains_tax/capital_gains_tax_data.dart';
+import '../tax_position.dart';
+import '../person.dart';
+import '../data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
-import 'assets/chargeable_assets.dart';
+import '../assets/chargeable_assets.dart';
 
 class CapitalGainsTaxPosition{
   Person person;
@@ -149,6 +149,34 @@ class CapitalGainsTaxPosition{
       else if(priority == nonResidential) priority = entrepreneur;
       else priority = null;
     }
+    
+    // allocate annual exemption
+
+    num annualExemptionToAllocate = annualExemption;
+
+    if(residential.length > 0) priority = residential;
+    else if (nonResidential.length > 0) priority = nonResidential;
+    else priority = entrepreneur;
+
+    while(annualExemptionToAllocate > 0 && priority != null){
+
+      priority.forEach((asset){
+        if(annualExemptionToAllocate < asset.taxableGain - asset.lossAllocated){
+          asset.annualExemptionAllocated = annualExemptionToAllocate;
+          annualExemptionToAllocate = 0;
+        } else {
+          asset.annualExemptionAllocated = asset.taxableGain - asset.lossAllocated;
+          annualExemptionToAllocate -= asset.annualExemptionAllocated;
+        }
+
+      });
+
+      if(priority == residential) priority = nonResidential;
+      else if(priority == nonResidential) priority = entrepreneur;
+      else priority = null;
+    }
+    
+    
 
     // allocate gains to rates of tax
     basicRateAmount = taxPosition.incomeTax.getBasicRateAvailable();
@@ -162,11 +190,11 @@ class CapitalGainsTaxPosition{
     while(basicRateToAllocate > 0 && priority != null){
 
       priority.forEach((asset){
-        if(basicRateToAllocate < asset.taxableGain - asset.lossAllocated){
+        if(basicRateToAllocate < asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated){
           asset.basicRateAllocated = basicRateToAllocate;
           basicRateToAllocate = 0;
         } else {
-          asset.basicRateAllocated = asset.taxableGain - asset.lossAllocated;
+          asset.basicRateAllocated = asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated;
           basicRateToAllocate -= asset.basicRateAllocated;
         }
 
@@ -183,22 +211,22 @@ class CapitalGainsTaxPosition{
       
       if(asset.residentialProperty){
         taxBasicRateRes += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
-          taxHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
+          taxHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
         
       } else if (asset.entrepreneurRelief){
         
         taxBasicRateEnt += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
-          taxHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
+          taxHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
 
       } else {
 
         taxBasicRateNonRes += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated > asset.basicRateAllocated){
-          taxHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated;
+        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
+          taxHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
       }
       });

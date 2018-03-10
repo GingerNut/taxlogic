@@ -1,7 +1,7 @@
 import 'dart:math';
-import 'data/income_tax/income_tax_data.dart';
-import 'tax_position.dart';
-import 'person.dart';
+import '../data/income_tax/income_tax_data.dart';
+import '../tax_position.dart';
+import '../person.dart';
 
 class IncomeTaxPosition{
 

@@ -1,9 +1,9 @@
-import 'income_tax.dart';
-import 'national_insurance.dart';
+import 'taxation/income_tax.dart';
+import 'taxation/national_insurance.dart';
 import 'person.dart';
 import 'tax_year.dart';
 import 'assets/chargeable_assets.dart';
-import 'capital_gains.dart';
+import 'taxation/capital_gains.dart';
 
 class TaxPosition{
   static const String jsonTagCode = "code";

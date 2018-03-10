@@ -1,6 +1,6 @@
-import 'data/national_insurance/national_insurance_data.dart';
-import 'person.dart';
-import 'tax_position.dart';
+import '../data/national_insurance/national_insurance_data.dart';
+import '../person.dart';
+import '../tax_position.dart';
 
 class NationalInsurancePosition{
 

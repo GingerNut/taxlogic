@@ -14,14 +14,13 @@ class ChargeableAsset{
   num _totalImprovements;
   num lossAllocated = 0;
   num basicRateAllocated = 0;
+  num annualExemptionAllocated = 0;
   bool entrepreneurRelief = false;
   bool rolloverReliefAsset = false;
   bool residentialProperty = false;
   bool exempt = false;
 
   List<Improvement> _improvements = new List();
-  List<Period> _mainResidencePeriods = new List();
-
 
   num get totalImprovements{
 
@@ -40,27 +39,22 @@ class ChargeableAsset{
 
     if(_taxableGain != null) return _taxableGain;
 
-    _taxableGain = proceeds - cost - totalImprovements;
+    num gain = proceeds - cost - totalImprovements;
+
+    gain = adjustGain(gain);
+
+    _taxableGain = gain;
 
     return _taxableGain;
   }
 
 
 
+  num adjustGain(num gain){
 
-  addResidencePeriod(Date from, Date to){
-    residentialProperty = true;
-
-    _mainResidencePeriods.add(new Period(from,to));
-
-    refreshGain();
-
+    return gain;
   }
 
-  setAllMainResidence(){
-    addResidencePeriod(purchaseDate, saleDate);
-    refreshGain();
-  }
 
   addImprovement(Improvement improvement){
     _improvements.add(improvement);
@@ -71,6 +65,7 @@ class ChargeableAsset{
   void refreshGain(){
     _taxableGain = null;
   }
+
 
 }
 
