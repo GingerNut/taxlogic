@@ -87,6 +87,15 @@ void dates(){
 
     });
 
+    test('leap year ', () {
+      expect(Date.isleap(2019), false);
+      expect(Date.isleap(2017), false);
+      expect(Date.isleap(2018), false);
+      expect(Date.isleap(2016), true);
+      expect(Date.isleap(2004), true);
+      expect(Date.isleap(2020), true);
+    });
+
   });
 
 
@@ -227,6 +236,43 @@ void periods(){
 
       expect(Period.overlap(one, two), 30);
     });
+
+    test('months to date ', () {
+
+      Date end = new Date(31,12,18);
+      int months = 12;
+
+      Period period = Period.monthsTo(end, months);
+
+      expect(period.start.day, 1);
+      expect(period.start.month, 1);
+      expect(period.start.year, 2018);
+    });
+
+    test('months to date ', () {
+
+      Date end = new Date(31,12,18);
+      int months = 18;
+
+      Period period = Period.monthsTo(end, months);
+
+      expect(period.start.day, 1);
+      expect(period.start.month, 7);
+      expect(period.start.year, 2017);
+    });
+
+    test('months to date ', () {
+
+      Date end = new Date(15,1,18);
+      int months = 2;
+
+      Period period = Period.monthsTo(end, months);
+
+      expect(period.start.day, 16);
+      expect(period.start.month, 11);
+      expect(period.start.year, 2017);
+    });
+
 
   });
 
@@ -1124,6 +1170,28 @@ void capitalGains() {
       expect(person.taxPosition2018.capitalGainsTaxPosition.tax, 0);
 
     });
+
+    test('Main residence relief - periods', () {
+
+
+      // loss on main residence
+      ResidentialProperty asset01 = new ResidentialProperty();
+      asset01.proceeds = 100000;
+      asset01.cost = 0;
+      asset01.purchaseDate = new Date(13,1,15);
+      asset01.saleDate = new Date(5,4,18);
+      asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
+      person.assets.add(asset01);
+
+
+
+      person.taxPosition2018.capitalGainsTaxPosition.calculate();
+
+      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 0);
+
+
+    });
+
 
 
 

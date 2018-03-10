@@ -49,19 +49,62 @@ class Period{
 
   }
 
+  static Period monthsTo(Date date, int months){
+
+    Date start = date.subtractMonths(months) + 1;
+
+    return new Period(start, date);
+  }
+
 
   static int overlap(Period one, Period two){
 
-    Date first = one.start < two.start ? one.start : two.start;
-
-    Date second = one.end > two.end ? one.end : two.end;
-
-    Period overall = new Period(first, second);
+      Period overall = combinePeriods(one, two);
 
     if(overall.days < one.days + two.days) return one.days + two.days - overall.days;
 
     else return 0;
   }
+
+  static Period combinePeriods(Period one, Period two){
+    Date first = one.start < two.start ? one.start : two.start;
+
+    Date second = one.end > two.end ? one.end : two.end;
+
+    return new Period(first, second);
+
+  }
+
+  static List<Period> overlappingPeriods(List<Period> periods){
+    bool overlap = false;
+    List<Period> overlapping = new List();
+
+    for(int i = 0; i < periods.length; i ++){
+      Period period = periods[i];
+
+      for(int j = 0 ; j < periods.length ; j++){
+        if(i == j) continue;
+        Period compare = periods[j];
+
+        if(Period.overlap(period, compare)>0) {
+          overlap = true;
+          break;
+        }
+
+      }
+
+      if(overlap) overlapping.add(period);
+
+    }
+    return overlapping;
+
+  }
+
+  static List<Period> consolidatePeriods(List<Period> periods){
+
+
+  }
+
 
 
 }
