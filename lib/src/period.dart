@@ -102,6 +102,60 @@ class Period{
 
   static List<Period> consolidatePeriods(List<Period> periods){
 
+    if(periods != null) periods = sortPeriods(periods);
+    else return null;
+
+    List<Period> consolidated = new List();
+
+    while (periods.length > 1){
+
+      Period one = periods[0];
+
+      Period two = periods[1];
+
+      if(Period.overlap(one, two) > 0){
+        periods.remove(one);
+        periods.remove(two);
+        periods.add(Period.combinePeriods(one, two));
+      } else {
+        periods.remove(one);
+        consolidated.add(one);
+      }
+
+
+    }
+
+
+    return consolidated;
+
+  }
+
+  static List<Period> sortPeriods(List<Period> periods){
+
+    if(periods.length ==0) return null;
+    if(periods.length == 1) return periods;
+
+    List<Period> sorted = new List();
+
+    while(periods.length > 0){
+
+      Period firstPeriod = periods[0];
+      Date first = firstPeriod.start;
+
+      for(int i = 1 ; i < periods.length ; i ++){
+
+        if(periods[i].start < first){
+          firstPeriod = periods[i];
+          first = firstPeriod.start;
+        }
+      }
+
+      sorted.add(firstPeriod);
+      periods.remove(firstPeriod);
+
+    }
+
+   return sorted;
 
   }
 

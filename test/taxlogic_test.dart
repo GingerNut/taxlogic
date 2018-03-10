@@ -273,6 +273,25 @@ void periods(){
       expect(period.start.year, 2017);
     });
 
+    test('sort periods ', () {
+
+      Period one = new Period(new Date(1,1,15), new Date(1,3,17));
+      Period two = new Period(new Date(1,1,14), new Date(1,3,14));
+      Period three = new Period(new Date(1,1,18), new Date(1,3,18));
+
+      List<Period> periods = new List();
+      periods.add(one);
+      periods.add(two);
+      periods.add(three);
+
+      List<Period> sorted = Period.sortPeriods(periods);
+
+      expect(sorted[0].start.year, 2014);
+      expect(sorted[1].start.year, 2015);
+      expect(sorted[2].start.year, 2018);
+    });
+
+
 
   });
 
@@ -1180,7 +1199,7 @@ void capitalGains() {
       asset01.cost = 0;
       asset01.purchaseDate = new Date(13,1,15);
       asset01.saleDate = new Date(5,4,18);
-      asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
+      //asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
       person.assets.add(asset01);
 
 
