@@ -1,6 +1,7 @@
 import '../data/national_insurance/national_insurance_data.dart';
 import '../person.dart';
 import '../tax_position.dart';
+import '../utilities.dart';
 
 class NationalInsurancePosition{
 
@@ -46,6 +47,13 @@ class NationalInsurancePosition{
       Class2();
 
       // interraction
+
+
+    nicClass1p = Utilities.roundTax(nicClass1p);
+    nicClass1s = Utilities.roundTax(nicClass1s);
+    nicClass2 = Utilities.roundTax(nicClass2);
+    nicClass3 = Utilities.roundTax(nicClass3);
+    nicClass4 = Utilities.roundTax(nicClass4);
 
     }
 

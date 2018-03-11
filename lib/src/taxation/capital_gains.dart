@@ -3,6 +3,7 @@ import '../person.dart';
 import '../data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
 import '../assets/chargeable_assets.dart';
+import '../utilities.dart';
 
 class CapitalGainsTaxPosition{
   Person person;
@@ -240,6 +241,7 @@ class CapitalGainsTaxPosition{
     tax +=  taxHigherRateNonRes * taxData.CapitalGainsHigherRateNonRes;
     tax +=  taxHigherRateEnt * taxData.CapitalGainsEntrepreneur;
 
+    tax = Utilities.roundTax(tax);
   }
 
 
