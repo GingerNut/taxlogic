@@ -1,7 +1,7 @@
 
 import '../period.dart';
 import '../date.dart';
-
+import '../utilities.dart';
 
 class ChargeableAsset{
   String name;
@@ -43,11 +43,12 @@ class ChargeableAsset{
 
     gain = adjustGain(gain);
 
+    gain  = Utilities.roundIncome(gain);
+
     _taxableGain = gain;
 
     return _taxableGain;
   }
-
 
 
   num adjustGain(num gain){

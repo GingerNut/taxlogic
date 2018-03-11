@@ -59,14 +59,11 @@ class ResidentialProperty extends ChargeableAsset{
       if(occupation.days == ownership.days) return 0;
     }
 
-
     // consolidate main residence periods to find length compared to ownership
 
      _mainResidencePeriods.add(Period.monthsTo(saleDate, 18));
 
     List<Period> _nonOverlappingPeriods = Period.consolidatePeriods(_mainResidencePeriods);
-
-    print(_nonOverlappingPeriods);
 
       int daysInResidence = 0;
 
@@ -74,14 +71,9 @@ class ResidentialProperty extends ChargeableAsset{
         daysInResidence += period.days;
       });
 
-      num exempGain = gain * daysInResidence / ownership.days;
+      num exemptGain = gain * daysInResidence / ownership.days;
 
-
-      print (daysInResidence);
-      print (ownership.days);
-
-
-      return gain - exempGain;
+      return gain - exemptGain;
   }
 
 

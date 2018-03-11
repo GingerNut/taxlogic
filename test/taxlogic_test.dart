@@ -291,6 +291,36 @@ void periods(){
       expect(sorted[2].start.year, 2018);
     });
 
+    test('consolidate periods ', () {
+
+      Period one = new Period(new Date(1,1,15), new Date(1,3,17));
+      Period two = new Period(new Date(1,4,18), new Date(1,5,18));
+      Period three = new Period(new Date(1,1,18), new Date(30,4,18));
+      Period four = new Period(new Date(1,1,14), new Date(1,3,15));
+
+      List<Period> periods = new List();
+      periods.add(one);
+      periods.add(two);
+      periods.add(three);
+      periods.add(four);
+
+     List<Period> consolidated = Period.consolidatePeriods(periods);
+
+      expect(consolidated[0].start.year, 2014);
+      expect(consolidated[0].start.month, 1);
+      expect(consolidated[0].start.day, 1);
+      expect(consolidated[0].end.year, 2017);
+      expect(consolidated[0].end.month, 3);
+      expect(consolidated[0].end.day, 1);
+      expect(consolidated[1].start.year, 2018);
+      expect(consolidated[1].start.month, 1);
+      expect(consolidated[1].start.day, 1);
+      expect(consolidated[1].end.year, 2018);
+      expect(consolidated[1].end.month, 5);
+      expect(consolidated[1].end.day, 1);
+
+    });
+
 
 
   });
@@ -1127,7 +1157,6 @@ void capitalGains() {
 
     test('Main residence relief - no losses allowed', () {
 
-
       // loss on main residence
       ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 0;
@@ -1159,8 +1188,6 @@ void capitalGains() {
 
     test('Main residence relief - last 18 months', () {
 
-
-      // loss on main residence
       ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 30000;
       asset01.cost = 0;
@@ -1192,22 +1219,17 @@ void capitalGains() {
 
     test('Main residence relief - periods', () {
 
-
-      // loss on main residence
       ResidentialProperty asset01 = new ResidentialProperty();
       asset01.proceeds = 100000;
       asset01.cost = 0;
       asset01.purchaseDate = new Date(13,1,15);
       asset01.saleDate = new Date(5,4,18);
-      //asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
+      asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
       person.assets.add(asset01);
-
-
 
       person.taxPosition2018.capitalGainsTaxPosition.calculate();
 
-      expect(person.taxPosition2018.capitalGainsTaxPosition.totalGains, 0);
-
+      expect(asset01.taxableGain, 30985);
 
     });
 

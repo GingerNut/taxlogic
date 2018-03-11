@@ -1,14 +1,23 @@
-
+import 'dart:math';
 
 class Utilities{
 
 
   static num roundIncome(num n){
-     return num.parse(n.toStringAsFixed(0));
+    int decimals = 0;
+    int fac = pow(10, decimals);
+
+    n = (n * fac).round() / fac;
+
+     return n;
   }
 
   static num roundTax(num n){
-    return num.parse(n.toStringAsFixed(2));
+    int decimals = 2;
+    int fac = pow(10, decimals);
+
+    n = (n * fac).round() / fac;
+    return n;
   }
 
   static bool isNumeric(String s) {

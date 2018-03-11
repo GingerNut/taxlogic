@@ -116,15 +116,15 @@ class Period{
       if(Period.overlap(one, two) > 0){
         periods.remove(one);
         periods.remove(two);
-        periods.add(Period.combinePeriods(one, two));
+        consolidated.add(Period.combinePeriods(one, two));
+
       } else {
         periods.remove(one);
         consolidated.add(one);
+
       }
 
-
     }
-
 
     return consolidated;
 
@@ -159,6 +159,17 @@ class Period{
 
   }
 
+  void printPeriod(){
+    print('period start ${start.day} ${start.month} ${start.year} and end ${end.day} ${end.month} ${end.year}');
+
+  }
+
+  static void printList(List<Period> periods){
+    periods.forEach((period){
+      period.printPeriod();
+    });
+
+  }
 
 
 }
