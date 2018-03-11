@@ -1,6 +1,6 @@
 import 'taxation/income_tax.dart';
 import 'taxation/national_insurance.dart';
-import 'person.dart';
+import 'package:taxlogic/src/entities/person.dart';
 import 'tax_year.dart';
 import 'assets/chargeable_assets.dart';
 import 'taxation/capital_gains.dart';

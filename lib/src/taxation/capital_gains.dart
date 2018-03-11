@@ -1,5 +1,5 @@
 import '../tax_position.dart';
-import '../person.dart';
+import 'package:taxlogic/src/entities/person.dart';
 import '../data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
 import '../assets/chargeable_assets.dart';

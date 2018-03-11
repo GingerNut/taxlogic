@@ -1,5 +1,5 @@
-import 'tax_position.dart';
-import 'assets/chargeable_assets.dart';
+import '../tax_position.dart';
+import '../assets/chargeable_assets.dart';
 
 class Person{
 

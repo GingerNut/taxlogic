@@ -1,14 +1,10 @@
-import 'chargeable_assets.dart';
 import '../period.dart';
-import '../date.dart';
+import 'property.dart';
 
-class ResidentialProperty extends ChargeableAsset{
+class ResidentialProperty extends Property{
 
   List<Period> _mainResidencePeriods = new List();
-  List<Period> _rentalPeriods = new List();
   num residenceRelief;
-
-
 
   ResidentialProperty(){
     residentialProperty = true;
@@ -71,9 +67,9 @@ class ResidentialProperty extends ChargeableAsset{
         daysInResidence += period.days;
       });
 
-      num exemptGain = gain * daysInResidence / ownership.days;
+      residenceRelief = gain * daysInResidence / ownership.days;
 
-      return gain - exemptGain;
+      return gain - residenceRelief;
   }
 
 

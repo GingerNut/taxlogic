@@ -1,4 +1,4 @@
-import '../person.dart';
+import 'package:taxlogic/src/entities/person.dart';
 import '../tax_position.dart';
 
 

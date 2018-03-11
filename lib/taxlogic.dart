@@ -4,7 +4,7 @@ library taxlogic;
 export 'src/taxation/income_tax.dart';
 export 'src/taxation/national_insurance.dart';
 export 'src/utilities.dart';
-export 'src/person.dart';
+export 'package:taxlogic/src/entities/person.dart';
 export 'src/tax_position.dart';
 export 'src/database/database.dart';
 export 'src/period.dart';
