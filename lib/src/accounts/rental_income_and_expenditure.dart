@@ -1,6 +1,7 @@
 
 
-import 'income_and_expenditure.dart';
+import 'income_and_expenditure.dart';]
+import '../period.dart';
 
 
 class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
@@ -12,7 +13,7 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
 
   bool individualPropertyBusiness;
 
-  IncomeAndExpenditureProperty(this.period);
+  IncomeAndExpenditureProperty(Period period) : super(period);
 
   num taxCredit(int year){
     num taxCredit = 0;
