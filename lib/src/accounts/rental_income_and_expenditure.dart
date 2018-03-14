@@ -77,7 +77,6 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
     return _taxCredit;
  }
 
-
   @override
   num adjustProfit(num profit){
 

@@ -100,6 +100,11 @@ class Date{
 
   }
 
+  get taxYear{
+     int taxYear = year;
+     if(day > 5 && month > 3) taxYear +=1;
+     return taxYear;
+  }
 
 }
 

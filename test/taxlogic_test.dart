@@ -93,6 +93,14 @@ void dates(){
       expect(Date.isleap(2020), true);
     });
 
+    test('tax year ', () {
+      expect(new Date(5,4,19).taxYear, 2019);
+      expect(new Date(6,4,19).taxYear, 2020);
+      expect(new Date(30,6,17).taxYear, 2018);
+      expect(new Date(1,1,17).taxYear, 2017);
+      expect(new Date(31,12,20).taxYear, 2021);
+    });
+
   });
 
 
