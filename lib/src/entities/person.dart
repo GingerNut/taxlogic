@@ -1,7 +1,8 @@
 import '../tax_position.dart';
 import '../assets/chargeable_assets.dart';
+import 'entity.dart';
 
-class Person{
+class Person extends Entity{
 
   static const String jsonTagCode = "code";
   static const String jsonTagScotland = "scotland";
@@ -24,7 +25,10 @@ class Person{
 
   TaxPosition currentTaxYear;
 
-  Person();
+  Person(){
+    type = Class.individual;
+
+  }
 
   void setTaxPositions(){
     taxPosition2016 = new TaxPosition(this, 2016);

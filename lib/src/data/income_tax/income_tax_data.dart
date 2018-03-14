@@ -35,7 +35,7 @@ abstract class IncomeTaxData{
 
   static IncomeTaxData get(int year, bool scotland){
 
-    IncomeTaxData taxData;
+    IncomeTaxData taxData = null;
 
     switch(year){
       case 2016:

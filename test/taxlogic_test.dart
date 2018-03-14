@@ -1240,13 +1240,16 @@ void capitalGains() {
 void incomeAndExpenditure(){
 
   IncomeAndExpenditure incomeAndExpenditure;
+  IncomeAndExpenditureProperty propertyAccount;
 
   setUp(() {
+    Person person = new Person();
     Date start = new Date (6,4,17);
     Date end = new Date(5,4,18);
 
     Period period = new Period(start, end);
     incomeAndExpenditure = new IncomeAndExpenditure(period);
+    propertyAccount = new IncomeAndExpenditureProperty(period, person);
   });
 
   group('Income and Expenditure', (){
@@ -1254,6 +1257,198 @@ void incomeAndExpenditure(){
     test('Simple income and Expenditure', () {
 
       expect(incomeAndExpenditure.profit, 0);
+    });
+
+    test('Wrong end date', () {
+
+      Period wrongPeriod = new Period(new Date(6,4,17), new Date(4,4,18));
+      IncomeAndExpenditure wrongIncomeAndExpenditure = new IncomeAndExpenditure(wrongPeriod);
+
+      expect(wrongIncomeAndExpenditure.profit, 0);
+    });
+
+    test('Simple income and Expenditure', () {
+
+      Date date = new Date(5,4,18);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      incomeAndExpenditure.add(rent1);
+      incomeAndExpenditure.add(rent2);
+      incomeAndExpenditure.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+
+      incomeAndExpenditure.add(repairs);
+
+
+      expect(incomeAndExpenditure.profit, 2500);
+    });
+
+    test('More complex income and Expenditure', () {
+
+      Date date = new Date(5,4,18);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      incomeAndExpenditure.add(rent1);
+      incomeAndExpenditure.add(rent2);
+      incomeAndExpenditure.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+
+      incomeAndExpenditure.add(repairs);
+
+
+      expect(incomeAndExpenditure.profit, 2500);
+    });
+
+    test('Same but with residential property', () {
+
+      Date date = new Date(5,4,18);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+
+      propertyAccount.add(repairs);
+
+
+      expect(propertyAccount.profit, 2500);
+    });
+
+    test('Residential property with interest deduction', () {
+
+      Date date = new Date(5,4,18);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      propertyAccount.add(repairs);
+      propertyAccount.add(interest);
+
+      expect(propertyAccount.profit, 1750);
+      expect(propertyAccount.taxCredit, 50);
+    });
+
+    test('Residential property with interest deduction 2019', () {
+
+      Date date = new Date(5,4,19);
+      propertyAccount.period.start = new Date(6,4,18);
+      propertyAccount.period.end = new Date(5,4,19);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      propertyAccount.add(repairs);
+      propertyAccount.add(interest);
+
+      expect(propertyAccount.profit, 2000);
+      expect(propertyAccount.taxCredit, 100);
+    });
+
+    test('Residential property with interest deduction 2020', () {
+
+      Date date = new Date(5,4,19);
+      propertyAccount.period.start = new Date(6,4,19);
+      propertyAccount.period.end = new Date(5,4,20);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      propertyAccount.add(repairs);
+      propertyAccount.add(interest);
+
+      expect(propertyAccount.profit, 2250);
+      expect(propertyAccount.taxCredit, 150);
+    });
+
+    test('Residential property with interest deduction 2021', () {
+
+      Date date = new Date(5,4,19);
+      propertyAccount.period.start = new Date(6,4,20);
+      propertyAccount.period.end = new Date(5,4,21);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      propertyAccount.add(repairs);
+      propertyAccount.add(interest);
+
+      expect(propertyAccount.profit, 2500);
+      expect(propertyAccount.taxCredit, 200);
+    });
+
+    test('Residential property with interest deduction 2021 company', () {
+      Company company = new Company();
+      Date start = new Date (6,4,17);
+      Date end = new Date(5,4,18);
+
+      Period period = new Period(start, end);
+      IncomeAndExpenditureProperty coPropertyAccount = new IncomeAndExpenditureProperty(period, company);
+
+      Date date = new Date(5,4,19);
+      coPropertyAccount.period.start = new Date(6,4,20);
+      coPropertyAccount.period.end = new Date(5,4,21);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      coPropertyAccount.add(rent1);
+      coPropertyAccount.add(rent2);
+      coPropertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      coPropertyAccount.add(repairs);
+      coPropertyAccount.add(interest);
+
+      expect(coPropertyAccount.profit, 1500);
+      expect(coPropertyAccount.taxCredit, 0);
     });
 
   });

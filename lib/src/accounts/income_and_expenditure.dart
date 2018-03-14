@@ -10,7 +10,11 @@ class IncomeAndExpenditure{
   List<Income> income = new List();
   List<Expenditure> expenditure = new List();
 
-  IncomeAndExpenditure(this.period);
+  IncomeAndExpenditure(this.period){
+
+    if(period.end.month != 4 && period.end.day != 5)throw new StateError('only 5 April allowed in period');
+
+  }
 
 
   num get profit{
@@ -26,22 +30,48 @@ class IncomeAndExpenditure{
       _profit -= expense.amount;
     });
 
+    _profit = adjustProfit(_profit);
+
     return _profit;
+  }
+
+  num adjustProfit(num profit) => profit;
+
+
+  add(Entry entry){
+
+    if(entry is Expenditure) expenditure.add(entry);
+    else if(entry is Income) income.add(entry);
+
   }
 }
 
-class Income{
+class Entry{
   String name;
   Date date;
   num amount = 0;
+
+  Entry( this.date, this.name, this.amount,);
+}
+
+class Income extends Entry{
+
+  Income(Date date, String name, num amount) : super(date, name, amount);
 
 }
 
 
-class Expenditure{
-  String name;
-  Date date;
+class Expenditure extends Entry{
   bool finance = false;
-  num amount = 0;
 
+  Expenditure(Date date, String name, num amount) : super(date, name, amount);
+
+}
+
+class Interest extends Expenditure{
+
+  Interest(Date date, String name, num amount) : super(date, name, amount){
+    finance = true;
+
+  }
 }

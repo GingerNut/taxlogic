@@ -1,8 +1,9 @@
 
 
-import 'income_and_expenditure.dart';]
+import 'income_and_expenditure.dart';
 import '../period.dart';
-
+import '../data/income_tax/income_tax_data.dart';
+import '../entities/entity.dart';
 
 class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
 
@@ -11,49 +12,78 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
   static const finance2020 = 0.75;
   static const finance2021 = 1;
 
-  bool individualPropertyBusiness;
+  Entity entity;
+  num _interestRestriction;
+  num _taxCredit;
 
-  IncomeAndExpenditureProperty(Period period) : super(period);
+  IncomeAndExpenditureProperty(Period period, this.entity) : super(period);
 
-  num taxCredit(int year){
-    num taxCredit = 0;
+  get interestRestriction{
 
-    if(individualPropertyBusiness){
-        num financeAdjustment;
+    if(_interestRestriction != null) return _interestRestriction;
 
+    _interestRestriction = 0;
 
-        expenditure.forEach((expense){
+    if(entity.type == Class.individual){
 
-          if(expense.finance) {
+      expenditure.forEach((expense){
 
+        if(expense.finance){
+          _interestRestriction += expense.amount * financeAdjustment;
 
-          switch(period.end.year){
-            case 2018: financeAdjustment = finance2018;
-            break;
+        }
 
-            case 2019: financeAdjustment = finance2019;
-            break;
-
-            case 2020: financeAdjustment = finance2020;
-            break;
-
-            case 2021: financeAdjustment = finance2021;
-            break;
-
-            default: financeAdjustment = 1.0;
-            break;
-          }
-
-
-            financeAdjustment += expense.amount * financeAdjustment;
-          }
-        });
-
-        return financeAdjustment;
+      });
 
     }
 
-    return taxCredit;
+    return _interestRestriction;
+  }
+
+  get financeAdjustment{
+
+    if(entity.type != Class.individual) return 0;
+
+    switch(period.end.year){
+      case 2018: return finance2018;
+
+      case 2019: return finance2019;
+
+      case 2020: return finance2020;
+
+      case 2021: return finance2021;
+
+      default: return 1.0;
+
+    }
+  }
+
+ get taxCredit{
+    if(_taxCredit != null) return _taxCredit;
+
+    if(interestRestriction != 0){
+
+      IncomeTaxData taxData = IncomeTaxData.get(period.end.year, false);
+
+      num basicRate = 0.2;
+
+      if(taxData != null) {
+        basicRate = taxData.BasicRate;
+      }
+
+      _taxCredit = interestRestriction * basicRate;
+    } else _taxCredit = 0;
+
+    return _taxCredit;
+ }
+
+
+  @override
+  num adjustProfit(num profit){
+
+   profit = profit + interestRestriction;
+
+    return profit;
   }
 
 }
