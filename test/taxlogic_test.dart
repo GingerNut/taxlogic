@@ -15,7 +15,8 @@ void main() {
   incomeTaxScotland2019();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
-  capitalGains();
+  incomeAndExpenditure();
+
 }
 
 void dates(){
@@ -1236,6 +1237,28 @@ void capitalGains() {
   });
 }
 
+void incomeAndExpenditure(){
 
+  IncomeAndExpenditure incomeAndExpenditure;
+
+  setUp(() {
+    Date start = new Date (6,4,17);
+    Date end = new Date(5,4,18);
+
+    Period period = new Period(start, end);
+    incomeAndExpenditure = new IncomeAndExpenditure(period);
+  });
+
+  group('Income and Expenditure', (){
+
+    test('Simple income and Expenditure', () {
+
+      expect(incomeAndExpenditure.profit, 0);
+    });
+
+  });
+
+
+}
 
 
