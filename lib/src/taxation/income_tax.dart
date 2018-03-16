@@ -214,7 +214,7 @@ class IncomeTaxPosition{
     tax += basicRateUsed * TaxData.BasicRate(taxPosition.year, person.scotland);
     tax += intermediateRateUsed * TaxData.IntermediateRate(taxPosition.year, person.scotland);
     tax += higherRateUsed * TaxData.HigherRate(taxPosition.year, person.scotland);
-    tax += additionalRateUsed * TaxData.additionalRate(taxPosition.year, person.scotland);
+    tax += additionalRateUsed * TaxData.AdditionalRate(taxPosition.year, person.scotland);
 
     tax += basicRateDividend * TaxData.dividendBasicRate(taxPosition.year, person.scotland);
     tax += higherRateDividend * TaxData.dividendHigherRate(taxPosition.year, person.scotland);
@@ -271,7 +271,7 @@ class IncomeTaxPosition{
      }
 
       if(additionalRateUsed > 0){
-        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${TaxData.additionalRate(taxPosition.year, person.scotland)*100}%%',(additionalRateUsed*TaxData.additionalRate(taxPosition.year, person.scotland)).toString()]);
+        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${TaxData.AdditionalRate(taxPosition.year, person.scotland)*100}%%',(additionalRateUsed*TaxData.AdditionalRate(taxPosition.year, person.scotland)).toString()]);
       }
 
       if(dividendNilRate > 0){

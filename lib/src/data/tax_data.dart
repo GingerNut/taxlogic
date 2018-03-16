@@ -17,7 +17,7 @@ class TaxData{
   static num BasicRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).BasicRate;
   static num IntermediateRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).IntermediateRate;
   static num HigherRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).HigherRate;
-  static num additionalRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).AdditionalRate;
+  static num AdditionalRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).AdditionalRate;
 
   static num dividendNilBand(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendNilBand;
   static num dividendBasicRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendBasicRate;
