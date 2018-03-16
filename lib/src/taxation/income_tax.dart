@@ -1,13 +1,13 @@
 import 'dart:math';
-import '../data/income_tax/income_tax_data.dart';
 import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import 'package:taxlogic/src/entities/person.dart';
 import '../utilities.dart';
+import '../data/tax_data.dart';
 
 class IncomeTaxPosition{
 
   final Person person;
-  IncomeTaxData taxData;
+
   PersonalTaxPosition taxPosition;
 
   num personalAllowance;
@@ -35,9 +35,7 @@ class IncomeTaxPosition{
   num tax = 0.0;
 
 
-  IncomeTaxPosition(this.person, this.taxPosition){
-   taxData = IncomeTaxData.get(taxPosition.year, person.scotland);
-  }
+  IncomeTaxPosition(this.person, this.taxPosition);
 
   reset(){
     personalAllowanceUsed = 0;
@@ -70,11 +68,13 @@ class IncomeTaxPosition{
     num dividend = taxPosition.dividend;
     
 
+  
+
     // savings
-    savingsAllowance = totalIncome > taxData.PersonalAllowanceDefault + taxData.BasicRateBand ? taxData.SavingsAllowanceHigherRate : taxData.SavingsAllowanceBasicRate;
-    savingsNilRateBand = taxData.SavingsStartingNilBand;
-      if(totalIncome - taxPosition.savings > taxData.PersonalAllowanceDefault){
-        savingsNilRateBand = max(0,taxData.SavingsStartingNilBand - max(0,totalIncome - taxPosition.savings-taxData.PersonalAllowanceDefault));
+    savingsAllowance = totalIncome > TaxData.personalAllowanceDefault(taxPosition.year, person.scotland) + TaxData.basicRateBand(taxPosition.year, person.scotland) ? TaxData.savingsAllowanceHigherRate(taxPosition.year, person.scotland) : TaxData.savingsAllowanceBasicRate(taxPosition.year, person.scotland);
+    savingsNilRateBand = TaxData.savingsStartingNilBand(taxPosition.year, person.scotland);
+      if(totalIncome - taxPosition.savings > TaxData.personalAllowanceDefault(taxPosition.year, person.scotland)){
+        savingsNilRateBand = max(0,TaxData.savingsStartingNilBand(taxPosition.year, person.scotland) - max(0,totalIncome - taxPosition.savings-TaxData.personalAllowanceDefault(taxPosition.year, person.scotland)));
         if(savingsNilRateBand <0) savingsNilRateBand = 0;
       }
 
@@ -88,65 +88,65 @@ class IncomeTaxPosition{
 
     // calculate personal allowance
 
-    if(totalIncome > taxData.PersonalAllowanceTaperThreshold){
+    if(totalIncome > TaxData.personalAllowanceTaperThreshold(taxPosition.year, person.scotland)){
 
-      personalAllowance = taxData.PersonalAllowanceDefault - (totalIncome - taxData.PersonalAllowanceTaperThreshold)/2;
+      personalAllowance = TaxData.personalAllowanceDefault(taxPosition.year, person.scotland) - (totalIncome - TaxData.personalAllowanceTaperThreshold(taxPosition.year, person.scotland))/2;
       if (personalAllowance < 0) personalAllowance = 0.0;
 
-    } else personalAllowance = min(taxData.PersonalAllowanceDefault, totalIncome);
+    } else personalAllowance = min(TaxData.personalAllowanceDefault(taxPosition.year, person.scotland), totalIncome);
 
     taxableNonDividenIncome = max(0, nonDividendIncome - personalAllowance);
 
     if(person.scotland){
 
-      if(nonDividendIncome <=taxData.PersonalAllowanceDefault){
+      if(nonDividendIncome <=TaxData.personalAllowanceDefault(taxPosition.year, person.scotland)){
         personalAllowanceUsed = nonDividendIncome;
-      } else if(taxableNonDividenIncome < taxData.StarterRateBand){
+      } else if(taxableNonDividenIncome < TaxData.starterRateBand(taxPosition.year, person.scotland)){
 
         startRateUsed = taxableNonDividenIncome;
-      } else if (taxableNonDividenIncome< taxData.StarterRateBand + taxData.BasicRateBand){
-        startRateUsed = taxData.StarterRateBand;
+      } else if (taxableNonDividenIncome< TaxData.starterRateBand(taxPosition.year, person.scotland) + TaxData.basicRateBand(taxPosition.year, person.scotland)){
+        startRateUsed = TaxData.starterRateBand(taxPosition.year, person.scotland);
         basicRateUsed = taxableNonDividenIncome - startRateUsed;
 
-      } else if(taxableNonDividenIncome < taxData.StarterRateBand + taxData.BasicRateBand + taxData.IntermediateRateBand){
-        startRateUsed = taxData.StarterRateBand;
-        basicRateUsed = taxData.BasicRateBand;
+      } else if(taxableNonDividenIncome < TaxData.starterRateBand(taxPosition.year, person.scotland) + TaxData.basicRateBand(taxPosition.year, person.scotland) + TaxData.intermediateRateBand(taxPosition.year, person.scotland)){
+        startRateUsed = TaxData.starterRateBand(taxPosition.year, person.scotland);
+        basicRateUsed = TaxData.basicRateBand(taxPosition.year, person.scotland);
         intermediateRateUsed = taxableNonDividenIncome - startRateUsed - basicRateUsed;
-      } else if (taxableNonDividenIncome < taxData.AdditionalRateLimit){
-        startRateUsed = taxData.StarterRateBand;
-        basicRateUsed = taxData.BasicRateBand;
-        intermediateRateUsed = taxData.IntermediateRateBand;
+      } else if (taxableNonDividenIncome < TaxData.additionalRateLimit(taxPosition.year, person.scotland)){
+        startRateUsed = TaxData.starterRateBand(taxPosition.year, person.scotland);
+        basicRateUsed = TaxData.basicRateBand(taxPosition.year, person.scotland);
+        intermediateRateUsed = TaxData.intermediateRateBand(taxPosition.year, person.scotland);
         higherRateUsed = taxableNonDividenIncome - startRateUsed - basicRateUsed - intermediateRateUsed;
       } else {
-        startRateUsed = taxData.StarterRateBand;
-        basicRateUsed = taxData.BasicRateBand;
-        intermediateRateUsed = taxData.IntermediateRateBand;
-        higherRateUsed = taxData.AdditionalRateLimit - startRateUsed - basicRateUsed - intermediateRateUsed;
-        additionalRateUsed = taxableNonDividenIncome - taxData.AdditionalRateLimit;
+        startRateUsed = TaxData.starterRateBand(taxPosition.year, person.scotland);
+        basicRateUsed = TaxData.basicRateBand(taxPosition.year, person.scotland);
+        intermediateRateUsed = TaxData.intermediateRateBand(taxPosition.year, person.scotland);
+        higherRateUsed = TaxData.additionalRateLimit(taxPosition.year, person.scotland) - startRateUsed - basicRateUsed - intermediateRateUsed;
+        additionalRateUsed = taxableNonDividenIncome - TaxData.additionalRateLimit(taxPosition.year, person.scotland);
       }
 
 
-    } else if (nonDividendIncome <= taxData.PersonalAllowanceDefault){
+    } else if (nonDividendIncome <= TaxData.personalAllowanceDefault(taxPosition.year, person.scotland)){
 
       personalAllowanceUsed = nonDividendIncome;
 
-    } else if(taxableNonDividenIncome < taxData.BasicRateBand) {
+    } else if(taxableNonDividenIncome < TaxData.basicRateBand(taxPosition.year, person.scotland)) {
 
       personalAllowanceUsed = personalAllowance;
 
       basicRateUsed = taxableNonDividenIncome - startRateUsed;
 
-    } else if(taxableNonDividenIncome < taxData.AdditionalRateLimit){
+    } else if(taxableNonDividenIncome < TaxData.additionalRateLimit(taxPosition.year, person.scotland)){
 
       personalAllowanceUsed = personalAllowance;
-      basicRateUsed = taxData.BasicRateBand;
+      basicRateUsed = TaxData.basicRateBand(taxPosition.year, person.scotland);
       higherRateUsed = taxableNonDividenIncome - basicRateUsed - intermediateRateUsed;;
 
     } else {
       personalAllowanceUsed = personalAllowance;
-      basicRateUsed = taxData.BasicRateBand;
-      higherRateUsed = taxData.AdditionalRateLimit - basicRateUsed - intermediateRateUsed - startRateUsed;
-      additionalRateUsed = taxableNonDividenIncome - taxData.AdditionalRateLimit;
+      basicRateUsed = TaxData.basicRateBand(taxPosition.year, person.scotland);
+      higherRateUsed = TaxData.additionalRateLimit(taxPosition.year, person.scotland) - basicRateUsed - intermediateRateUsed - startRateUsed;
+      additionalRateUsed = taxableNonDividenIncome - TaxData.additionalRateLimit(taxPosition.year, person.scotland);
 
     }
 
@@ -157,8 +157,8 @@ class IncomeTaxPosition{
 
     num dividendRemaining = dividend - diviPersonalAllowance;
 
-    num diviBasicRateLeft = taxData.BasicRateBand + taxData.StarterRateBand + taxData.IntermediateRateBand - basicRateUsed;
-    num diviHigherRateLeft = taxData.AdditionalRateLimit - taxData.StarterRateBand - taxData.BasicRateBand - taxData.IntermediateRateBand - higherRateUsed;
+    num diviBasicRateLeft = TaxData.basicRateBand(taxPosition.year, person.scotland) + TaxData.starterRateBand(taxPosition.year, person.scotland) + TaxData.intermediateRateBand(taxPosition.year, person.scotland) - basicRateUsed;
+    num diviHigherRateLeft = TaxData.additionalRateLimit(taxPosition.year, person.scotland) - TaxData.starterRateBand(taxPosition.year, person.scotland) - TaxData.basicRateBand(taxPosition.year, person.scotland) - TaxData.intermediateRateBand(taxPosition.year, person.scotland) - higherRateUsed;
 
 
     if(dividendRemaining < diviBasicRateLeft){
@@ -187,7 +187,7 @@ class IncomeTaxPosition{
     // the dividend nil rate band
 
 
-   num dividendNilRateBandRemaining = min(taxData.DividendNilBand, dividend);
+   num dividendNilRateBandRemaining = min(TaxData.dividendNilBand(taxPosition.year, person.scotland), dividend);
 
 
     dividendNilRate = min(dividendNilRateBandRemaining, basicRateDividend);
@@ -210,15 +210,15 @@ class IncomeTaxPosition{
     taxableIncome = totalIncome - personalAllowance;
 
     tax = 0.0;
-    tax += startRateUsed * taxData.StarterRate;
-    tax += basicRateUsed * taxData.BasicRate;
-    tax += intermediateRateUsed * taxData.IntermediateRate;
-    tax += higherRateUsed * taxData.HigherRate;
-    tax += additionalRateUsed * taxData.AdditionalRate;
+    tax += startRateUsed * TaxData.starterRate(taxPosition.year, person.scotland);
+    tax += basicRateUsed * TaxData.basicRate(taxPosition.year, person.scotland);
+    tax += intermediateRateUsed * TaxData.intermediateRate(taxPosition.year, person.scotland);
+    tax += higherRateUsed * TaxData.higherRate(taxPosition.year, person.scotland);
+    tax += additionalRateUsed * TaxData.additionalRate(taxPosition.year, person.scotland);
 
-    tax += basicRateDividend * taxData.DividendBasicRate;
-    tax += higherRateDividend * taxData.DividendHigherRate;
-    tax += additionalRateDividend * taxData.DividendAdditionalRate;
+    tax += basicRateDividend * TaxData.dividendBasicRate(taxPosition.year, person.scotland);
+    tax += higherRateDividend * TaxData.dividendHigherRate(taxPosition.year, person.scotland);
+    tax += additionalRateDividend * TaxData.dividendAdditionalRate(taxPosition.year, person.scotland);
 
     tax = Utilities.roundTax(tax);
 
@@ -228,7 +228,7 @@ class IncomeTaxPosition{
 
     calculate();
 
-    num basicRate = taxData.BasicRateBand + taxData.StarterRateBand + taxData.IntermediateRateBand;
+    num basicRate = TaxData.basicRateBand(taxPosition.year, person.scotland) + TaxData.starterRateBand(taxPosition.year, person.scotland) + TaxData.intermediateRateBand(taxPosition.year, person.scotland);
 
     if(taxableIncome > basicRate){
       return 0;
@@ -257,21 +257,21 @@ class IncomeTaxPosition{
       narrative.add(['Tax payable','','','','','',]);
 
       if(startRateUsed > 0){
-        narrative.add(['Starter Rate','','',startRateUsed.toString(),'at ${taxData.StarterRate*100}%',(startRateUsed*taxData.StarterRate).toString()]);
+        narrative.add(['Starter Rate','','',startRateUsed.toString(),'at ${TaxData.starterRate(taxPosition.year, person.scotland)*100}%',(startRateUsed*TaxData.starterRate(taxPosition.year, person.scotland)).toString()]);
       }
 
-      narrative.add(['Basic Rate','','',basicRateUsed.toString(),'at ${taxData.BasicRate*100}%',(basicRateUsed*taxData.BasicRate).toString()]);
+      narrative.add(['Basic Rate','','',basicRateUsed.toString(),'at ${TaxData.basicRate(taxPosition.year, person.scotland)*100}%',(basicRateUsed*TaxData.basicRate(taxPosition.year, person.scotland)).toString()]);
 
       if(intermediateRateUsed > 0){
-        narrative.add(['Intermediate Rate','','',intermediateRateUsed.toString(),'at ${taxData.IntermediateRate*100}%',(intermediateRateUsed*taxData.IntermediateRate).toString()]);
+        narrative.add(['Intermediate Rate','','',intermediateRateUsed.toString(),'at ${TaxData.intermediateRate(taxPosition.year, person.scotland)*100}%',(intermediateRateUsed*TaxData.intermediateRate(taxPosition.year, person.scotland)).toString()]);
       }
 
       if(higherRateUsed > 0){
-        narrative.add(['Higher Rate','','',higherRateUsed.toString(),'at ${taxData.HigherRate*100}%',(higherRateUsed*taxData.HigherRate).toString()]);
+        narrative.add(['Higher Rate','','',higherRateUsed.toString(),'at ${TaxData.higherRate(taxPosition.year, person.scotland)*100}%',(higherRateUsed*TaxData.higherRate(taxPosition.year, person.scotland)).toString()]);
      }
 
       if(additionalRateUsed > 0){
-        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${taxData.AdditionalRate*100}%%',(additionalRateUsed*taxData.AdditionalRate).toString()]);
+        narrative.add(['Additional Rate','','',additionalRateUsed.toString(),'at ${TaxData.additionalRate(taxPosition.year, person.scotland)*100}%%',(additionalRateUsed*TaxData.additionalRate(taxPosition.year, person.scotland)).toString()]);
       }
 
       if(dividendNilRate > 0){
@@ -279,15 +279,15 @@ class IncomeTaxPosition{
       }
 
       if(basicRateDividend > 0){
-        narrative.add(['Basic Rate Dividend','','',basicRateDividend.toString(),'at ${taxData.DividendBasicRate*100}%%',(basicRateDividend*taxData.DividendBasicRate).toString()]);
+        narrative.add(['Basic Rate Dividend','','',basicRateDividend.toString(),'at ${TaxData.dividendBasicRate(taxPosition.year, person.scotland)*100}%%',(basicRateDividend*TaxData.dividendBasicRate(taxPosition.year, person.scotland)).toString()]);
       }
 
       if(higherRateDividend > 0){
-        narrative.add(['Higher Rate Dividend','','',higherRateDividend.toString(),'at ${taxData.DividendHigherRate*100}%%',(higherRateDividend*taxData.DividendHigherRate).toString()]);
+        narrative.add(['Higher Rate Dividend','','',higherRateDividend.toString(),'at ${TaxData.dividendHigherRate(taxPosition.year, person.scotland)*100}%%',(higherRateDividend*TaxData.dividendHigherRate(taxPosition.year, person.scotland)).toString()]);
       }
 
       if(additionalRateDividend > 0){
-        narrative.add(['Additional Rate Dividend','','',additionalRateDividend.toString(),'at ${taxData.DividendAdditionalRate*100}%%',(additionalRateDividend*taxData.DividendAdditionalRate).toString()]);
+        narrative.add(['Additional Rate Dividend','','',additionalRateDividend.toString(),'at ${TaxData.dividendAdditionalRate(taxPosition.year, person.scotland)*100}%%',(additionalRateDividend*TaxData.dividendAdditionalRate(taxPosition.year, person.scotland)).toString()]);
       }
 
 

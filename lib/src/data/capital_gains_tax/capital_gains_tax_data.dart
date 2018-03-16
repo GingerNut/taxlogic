@@ -6,8 +6,6 @@ import 'capital_gains_tax_data_2019.dart';
 
 abstract class CapitalGainsTaxData{
 
-
-
   num CapitalGainsAnnualExempt;
   num CapitalGainsAnnualExemptTrustees;
   num CapitalGainsBasicRateRes;

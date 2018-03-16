@@ -106,5 +106,11 @@ class Date{
      return taxYear;
   }
 
+  get financialYear{
+    int taxYear = year;
+    if(month > 3) taxYear +=1;
+    return taxYear;
+  }
+
 }
 

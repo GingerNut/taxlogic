@@ -1,16 +1,14 @@
 import 'package:taxlogic/src/entities/entity.dart';
-import '../data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
 import '../assets/chargeable_assets.dart';
 import '../utilities.dart';
 import '../tax_position/tax_position.dart';
 import 'capital_gains.dart';
+import '../data/tax_data.dart';
 
 class CapitalGainsTaxPosition extends CapitalGains{
 
-
-  CapitalGainsTaxData taxData;
-
+  TaxPosition taxPosition;
 
   num taxBasicRateRes = 0;
   num taxBasicRateNonRes = 0;
@@ -21,10 +19,8 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
 
 
-  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition):super(person, taxPosition){
+  CapitalGainsTaxPosition(Entity person, this.taxPosition):super(person, taxPosition){
 
-    taxData = CapitalGainsTaxData.get(taxPosition.period.end.year);
-    
 
     if(taxPosition.previousTaxPosition != null){
       capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
@@ -38,7 +34,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     taxPosition.refreshDisposals();
 
-    annualExemption = taxData.CapitalGainsAnnualExempt;
+    annualExemption = TaxData.capitalGainsAnnualExempt(taxPosition.period.end.year);
     netGains = 0;
     capitalGainsTax = 0;
 
@@ -228,12 +224,12 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     tax = 0;
 
-    tax += taxBasicRateRes * taxData.CapitalGainsBasicRateRes;
-    tax += taxBasicRateNonRes * taxData.CapitalGainsBasicRateNonRes;
-    tax +=  taxBasicRateEnt * taxData.CapitalGainsEntrepreneur;
-    tax +=  taxHigherRateRes * taxData.CapitalGainsHigherRateRes;
-    tax +=  taxHigherRateNonRes * taxData.CapitalGainsHigherRateNonRes;
-    tax +=  taxHigherRateEnt * taxData.CapitalGainsEntrepreneur;
+    tax += taxBasicRateRes * TaxData.capitalGainsBasicRateRes(taxPosition.period.end.year);
+    tax += taxBasicRateNonRes * TaxData.capitalGainsBasicRateNonRes(taxPosition.period.end.year);
+    tax +=  taxBasicRateEnt * TaxData.capitalGainsEntrepreneur(taxPosition.period.end.year);
+    tax +=  taxHigherRateRes * TaxData.capitalGainsHigherRateRes(taxPosition.period.end.year);
+    tax +=  taxHigherRateNonRes * TaxData.capitalGainsHigherRateNonRes(taxPosition.period.end.year);
+    tax +=  taxHigherRateEnt * TaxData.capitalGainsEntrepreneur(taxPosition.period.end.year);
 
     tax = Utilities.roundTax(tax);
   }

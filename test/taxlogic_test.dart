@@ -101,6 +101,14 @@ void dates(){
       expect(new Date(31,12,20).taxYear, 2021);
     });
 
+    test('financial year ', () {
+      expect(new Date(31,3,19).financialYear, 2019);
+      expect(new Date(1,4,19).financialYear, 2020);
+      expect(new Date(30,6,17).financialYear, 2018);
+      expect(new Date(1,1,17).financialYear, 2017);
+      expect(new Date(31,12,20).financialYear, 2021);
+    });
+
   });
 
 
