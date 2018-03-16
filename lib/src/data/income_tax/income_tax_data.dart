@@ -8,7 +8,7 @@ import 'income_tax_scotland_data_2017.dart';
 import 'income_tax_scotland_data_2018.dart';
 import 'income_tax_scotland_data_2019.dart';
 
-abstract class IncomeTaxData extends TaxData{
+abstract class IncomeTaxData{
 
   num PersonalAllowanceDefault;
   num StarterRateBand;

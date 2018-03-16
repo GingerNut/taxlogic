@@ -8,8 +8,6 @@ import '../data/tax_data.dart';
 
 class CapitalGainsTaxPosition extends CapitalGains{
 
-  TaxPosition taxPosition;
-
   num taxBasicRateRes = 0;
   num taxBasicRateNonRes = 0;
   num taxBasicRateEnt = 0;
@@ -17,10 +15,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-
-
-  CapitalGainsTaxPosition(Entity person, this.taxPosition):super(person, taxPosition){
-
+  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition):super(person, taxPosition){
 
     if(taxPosition.previousTaxPosition != null){
       capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
@@ -28,7 +23,6 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     taxPosition.refreshDisposals();
   }
-
 
   void calculate(){
 
