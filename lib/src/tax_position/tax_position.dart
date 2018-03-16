@@ -8,7 +8,7 @@ import '../taxation/capital_gains.dart';
 
 abstract class TaxPosition{
   Entity entity;
-  Period taxYear;
+  Period period;
   TaxPosition previousTaxPosition;
   TaxData taxData;
   CapitalGains capitalGainsTaxPosition;
@@ -22,7 +22,7 @@ abstract class TaxPosition{
     disposals.clear();
     entity.assets.forEach((asset) {
       if(asset.saleDate != null){
-        if(taxYear.includes(asset.saleDate)){
+        if(period.includes(asset.saleDate)){
           disposals.add(asset);
         }
       }

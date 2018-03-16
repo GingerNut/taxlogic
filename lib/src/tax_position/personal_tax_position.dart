@@ -31,7 +31,7 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
   PersonalTaxPosition(Entity person, this.year) : super (person){
-    taxYear = new TaxYear(year);
+    period = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
     capitalGainsTaxPosition = new CapitalGainsTaxPosition(person, this);

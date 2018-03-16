@@ -23,7 +23,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
   CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition):super(person, taxPosition){
 
-    taxData = CapitalGainsTaxData.get(taxPosition.taxYear.end.year);
+    taxData = CapitalGainsTaxData.get(taxPosition.period.end.year);
     
 
     if(taxPosition.previousTaxPosition != null){
