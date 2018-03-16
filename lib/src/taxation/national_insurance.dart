@@ -1,12 +1,12 @@
 import '../data/national_insurance/national_insurance_data.dart';
 import 'package:taxlogic/src/entities/person.dart';
-import '../tax_position.dart';
+import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import '../utilities.dart';
 
 class NationalInsurancePosition{
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   NationalInsuranceData nicData;
 
   num earningsBetweenPTandUEL = 0;

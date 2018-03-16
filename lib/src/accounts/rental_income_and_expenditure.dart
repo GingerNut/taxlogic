@@ -30,13 +30,9 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
 
         if(expense.finance){
           _interestRestriction += expense.amount * financeAdjustment;
-
         }
-
       });
-
     }
-
     return _interestRestriction;
   }
 

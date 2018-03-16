@@ -1,5 +1,5 @@
 import 'package:taxlogic/src/entities/person.dart';
-import '../tax_position.dart';
+import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 
 
 
@@ -15,9 +15,9 @@ import '../tax_position.dart';
 
   Person load (String code);
 
-  savePosition(TaxPosition position);
+  savePosition(PersonalTaxPosition position);
 
-  TaxPosition loadPosition(Person person, int year);
+  PersonalTaxPosition loadPosition(Person person, int year);
 
    refreshClients();
 

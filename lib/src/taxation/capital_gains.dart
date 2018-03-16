@@ -1,23 +1,17 @@
-import '../tax_position.dart';
-import 'package:taxlogic/src/entities/person.dart';
+import 'package:taxlogic/src/entities/entity.dart';
 import '../data/capital_gains_tax/capital_gains_tax_data.dart';
 import 'dart:math';
 import '../assets/chargeable_assets.dart';
 import '../utilities.dart';
+import '../tax_position/tax_position.dart';
+import 'capital_gains_base.dart';
 
-class CapitalGainsTaxPosition{
-  Person person;
-  TaxPosition taxPosition;
+class CapitalGainsTaxPosition extends CapitalGainsBase{
+
+
   CapitalGainsTaxData taxData;
-  num annualExemption;
-  num totalGains;
-  num capitalLosses;
-  num capitalLossesBroughtForward = 0;
-  num capitalLossesCarriedForward = 0;
-  num netGains = 0;
-  num capitalGainsTax = 0;
-  num taxableGains = 0;
-  num basicRateAmount = 0;
+
+
   num taxBasicRateRes = 0;
   num taxBasicRateNonRes = 0;
   num taxBasicRateEnt = 0;
@@ -25,11 +19,11 @@ class CapitalGainsTaxPosition{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-  num tax = 0;
 
-  CapitalGainsTaxPosition(this.person, this.taxPosition){
 
-    taxData = CapitalGainsTaxData.get(taxPosition.year);
+  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition):super(person, taxPosition){
+
+    taxData = CapitalGainsTaxData.get(taxPosition.taxYear.end.year);
     
 
     if(taxPosition.previousTaxPosition != null){
@@ -180,7 +174,7 @@ class CapitalGainsTaxPosition{
     
 
     // allocate gains to rates of tax
-    basicRateAmount = taxPosition.incomeTax.getBasicRateAvailable();
+    basicRateAmount = taxPosition.basicRateAvailable;
 
     num basicRateToAllocate = basicRateAmount;
 

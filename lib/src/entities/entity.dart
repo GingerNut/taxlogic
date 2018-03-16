@@ -1,4 +1,4 @@
-
+import '../assets/chargeable_assets.dart';
 
 enum Class{
       individual,
@@ -9,7 +9,9 @@ enum Class{
 }
 
 class Entity{
+  String code;
   Class type;
+  List<ChargeableAsset> assets = new List();
 
 
 }

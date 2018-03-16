@@ -336,7 +336,7 @@ void periods(){
 void incomeTaxEngland2017(){
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax England 2017', ()
@@ -385,7 +385,7 @@ void incomeTaxEngland2017(){
 void incomeTaxEngland2018(){
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax England 2018', ()
@@ -432,7 +432,7 @@ void incomeTaxEngland2018(){
 void incomeTaxEnglandDividend2018(){
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax dividned 2018', ()
@@ -544,7 +544,7 @@ void incomeTaxEnglandDividend2018(){
 void incomeTaxEnglandSavings2018(){
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax savings 2018', ()
@@ -651,7 +651,7 @@ void incomeTaxEnglandSavings2018(){
 void incomeTaxScotland2019(){
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax Scotland 2019', ()
@@ -698,7 +698,7 @@ void incomeTaxScotland2019(){
 void nationalInsuranceEarnings() {
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   NationalInsurancePosition nicPosition;
 
   group('National insurance earnings', () {
@@ -769,7 +769,7 @@ void nationalInsuranceEarnings() {
 void nationalInsuranceTrade() {
 
   Person person;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
   NationalInsurancePosition nicPosition;
 
   group('National insurance trade', () {
@@ -822,7 +822,7 @@ void capitalGains() {
 
     setUp(()  {
      person = new Person();
-     person.taxPosition2018 = new TaxPosition(person, 2018);
+     person.taxPosition2018 = new PersonalTaxPosition(person, 2018);
     });
 
 

@@ -1,4 +1,4 @@
-import '../tax_position.dart';
+import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import '../assets/chargeable_assets.dart';
 import 'entity.dart';
 
@@ -10,20 +10,20 @@ class Person extends Entity{
   static const String jsonTagSurname = "surname";
   static const String jsonTagAddress = "address";
 
-  String code;
+
   bool scotland = false;
   String firstName;
   String surname;
   String address;
 
-  List<ChargeableAsset> assets = new List();
 
-  TaxPosition taxPosition2016;
-  TaxPosition taxPosition2017;
-  TaxPosition taxPosition2018;
-  TaxPosition taxPosition2019;
 
-  TaxPosition currentTaxYear;
+  PersonalTaxPosition taxPosition2016;
+  PersonalTaxPosition taxPosition2017;
+  PersonalTaxPosition taxPosition2018;
+  PersonalTaxPosition taxPosition2019;
+
+  PersonalTaxPosition currentTaxYear;
 
   Person(){
     type = Class.individual;
@@ -31,14 +31,14 @@ class Person extends Entity{
   }
 
   void setTaxPositions(){
-    taxPosition2016 = new TaxPosition(this, 2016);
-    taxPosition2017 = new TaxPosition(this, 2017);
-    taxPosition2018 = new TaxPosition(this, 2018);
-    taxPosition2019 = new TaxPosition(this, 2019);
+    taxPosition2016 = new PersonalTaxPosition(this, 2016);
+    taxPosition2017 = new PersonalTaxPosition(this, 2017);
+    taxPosition2018 = new PersonalTaxPosition(this, 2018);
+    taxPosition2019 = new PersonalTaxPosition(this, 2019);
   }
 
 
-  TaxPosition getYear(int year){
+  PersonalTaxPosition getYear(int year){
 
     switch(year){
       case 2016: return taxPosition2016;

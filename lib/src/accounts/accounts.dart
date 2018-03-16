@@ -1,7 +1,5 @@
 import '../date.dart';
 
-
-
 class Accounts{
 
   List<Account> accounts = new List();
@@ -18,7 +16,6 @@ class Accounts{
 
 
 }
-
 
 class Account{
 

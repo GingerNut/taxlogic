@@ -1,6 +1,6 @@
 import 'dart:math';
 import '../data/income_tax/income_tax_data.dart';
-import '../tax_position.dart';
+import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import 'package:taxlogic/src/entities/person.dart';
 import '../utilities.dart';
 
@@ -8,7 +8,7 @@ class IncomeTaxPosition{
 
   final Person person;
   IncomeTaxData taxData;
-  TaxPosition taxPosition;
+  PersonalTaxPosition taxPosition;
 
   num personalAllowance;
   num personalAllowanceUsed = 0;

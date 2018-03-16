@@ -1,11 +1,8 @@
-import 'taxation/income_tax.dart';
-import 'taxation/national_insurance.dart';
-import 'package:taxlogic/src/entities/person.dart';
-import 'tax_year.dart';
-import 'assets/chargeable_assets.dart';
-import 'taxation/capital_gains.dart';
 
-class TaxPosition{
+import '../../taxlogic.dart';
+
+
+class PersonalTaxPosition extends TaxPosition{
   static const String jsonTagCode = "code";
   static const String jsonTagYear = "year";
   static const String jsonTagEarnings = "earnings";
@@ -13,12 +10,12 @@ class TaxPosition{
   static const String jsonTagDividend = "dividend";
   static const String jsonTagSavings = "savings";
 
-  Person person;
-  TaxPosition previousTaxPosition;
-  TaxYear taxYear;
+
+
+
   int year;
 
-  List<ChargeableAsset> disposals = new List();
+
   num earnings = 0;
   num trade = 0;
   num dividend = 0;
@@ -27,9 +24,13 @@ class TaxPosition{
 
   IncomeTaxPosition incomeTax;
   NationalInsurancePosition nicPosition;
-  CapitalGainsTaxPosition capitalGainsTaxPosition;
 
-  TaxPosition(this.person, this.year){
+
+  num get basicRateAvailable{
+    return incomeTax.getBasicRateAvailable();
+  }
+
+  PersonalTaxPosition(Entity person, this.year) : super (person){
     taxYear = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
@@ -37,21 +38,10 @@ class TaxPosition{
 
   }
 
-  refreshDisposals() {
-    disposals.clear();
-    person.assets.forEach((asset) {
-        if(asset.saleDate != null){
-          if(taxYear.includes(asset.saleDate)){
-            disposals.add(asset);
-          }
-        }
-    });
 
-  }
+  static PersonalTaxPosition fromMap(Map map, person){
 
-  static TaxPosition fromMap(Map map, person){
-
-    TaxPosition position = new TaxPosition(person, int.parse(map['year']));
+    PersonalTaxPosition position = new PersonalTaxPosition(person, int.parse(map['year']));
 
     position.earnings = int.parse(map[jsonTagEarnings]);
     position.trade = int.parse(map[jsonTagTrade]);
