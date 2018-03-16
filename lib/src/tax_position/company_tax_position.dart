@@ -6,7 +6,6 @@ class CompanyTaxPosition extends TaxPosition{
   CompanyTaxPosition(Entity person) : super(person);
 
 
-  // TODO: implement basicRateAvailable
   @override
   num get basicRateAvailable => 0;
 }

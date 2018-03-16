@@ -5,7 +5,6 @@ enum Class{
       company,
       partnership,
       trust,
-
 }
 
 class Entity{

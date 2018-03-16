@@ -2,8 +2,8 @@
 library taxlogic;
 
 export 'src/taxation/income_tax.dart';
+export 'src/taxation/personal_capital_gains.dart';
 export 'src/taxation/capital_gains.dart';
-export 'src/taxation/capital_gains_base.dart';
 export 'src/taxation/national_insurance.dart';
 export 'src/utilities.dart';
 export 'src/tax_position/tax_position.dart';

@@ -53,7 +53,7 @@ class PersonalTaxPosition extends TaxPosition{
 
   Map toMap(){
     Map jsonMap = {
-      jsonTagCode: person.code,
+      jsonTagCode: entity.code,
       jsonTagYear: year.toString(),
       jsonTagEarnings: earnings.toString(),
       jsonTagTrade: trade.toString(),
