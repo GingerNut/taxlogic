@@ -19,10 +19,10 @@ class TaxData{
   static num HigherRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).HigherRate;
   static num AdditionalRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).AdditionalRate;
 
-  static num dividendNilBand(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendNilBand;
-  static num dividendBasicRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendBasicRate;
-  static num dividendHigherRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendHigherRate;
-  static num dividendAdditionalRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendAdditionalRate;
+  static num DividendNilBand(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendNilBand;
+  static num DividendBasicRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendBasicRate;
+  static num DividendHigherRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendHigherRate;
+  static num DividendAdditionalRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).DividendAdditionalRate;
 
   static num savingsStartingNilBand(int year, bool scotland) => IncomeTaxData.get(year, scotland).SavingsStartingNilBand;
   static num savingsAllowanceBasicRate(int year, bool scotland) => IncomeTaxData.get(year, scotland).SavingsAllowanceBasicRate;
@@ -30,41 +30,41 @@ class TaxData{
 
   //cgt
 
-  static num capitalGainsAnnualExempt(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExempt;
-  static num capitalGainsAnnualExemptTrustees(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExemptTrustees;
-  static num capitalGainsBasicRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateRes;
-  static num capitalGainsBasicRateNonRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateNonRes;
-  static num capitalGainsHigherRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsHigherRateRes;
-  static num capitalGainsHigherRateNonRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsHigherRateNonRes;
-  static num capitalGainsEntrepreneur(int year) => CapitalGainsTaxData.get(year).CapitalGainsEntrepreneur;
+  static num CapitalGainsAnnualExempt(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExempt;
+  static num CapitalGainsAnnualExemptTrustees(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExemptTrustees;
+  static num CapitalGainsBasicRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateRes;
+  static num CapitalGainsBasicRateNonRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateNonRes;
+  static num CapitalGainsHigherRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsHigherRateRes;
+  static num CapitalGainsHigherRateNonRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsHigherRateNonRes;
+  static num CapitalGainsEntrepreneur(int year) => CapitalGainsTaxData.get(year).CapitalGainsEntrepreneur;
 
 // nic
 
-  static num c1LowerEarningsLimit(int year) => NationalInsuranceData.get(year).C1LowerEarningsLimit;
-  static num c1PrimaryThreshold(int year) => NationalInsuranceData.get(year).C1PrimaryThreshold;
-  static num c1SecondaryThreshold(int year) => NationalInsuranceData.get(year).C1SecondaryThreshold;
-  static num c1UpperAccrualPoint(int year) => NationalInsuranceData.get(year).C1UpperAccrualPoint;
-  static num c1UpperEarningsLimit(int year) => NationalInsuranceData.get(year).C1UpperEarningsLimit;
-  static num c1UpperSecondaryThreshold(int year) => NationalInsuranceData.get(year).C1UpperSecondaryThreshold;
-  static num c1ApprenticeUpperSecondaryThreshold(int year) => NationalInsuranceData.get(year).C1ApprenticeUpperSecondaryThreshold;
+  static num C1LowerEarningsLimit(int year) => NationalInsuranceData.get(year).C1LowerEarningsLimit;
+  static num C1PrimaryThreshold(int year) => NationalInsuranceData.get(year).C1PrimaryThreshold;
+  static num C1SecondaryThreshold(int year) => NationalInsuranceData.get(year).C1SecondaryThreshold;
+  static num C1UpperAccrualPoint(int year) => NationalInsuranceData.get(year).C1UpperAccrualPoint;
+  static num C1UpperEarningsLimit(int year) => NationalInsuranceData.get(year).C1UpperEarningsLimit;
+  static num C1UpperSecondaryThreshold(int year) => NationalInsuranceData.get(year).C1UpperSecondaryThreshold;
+  static num C1ApprenticeUpperSecondaryThreshold(int year) => NationalInsuranceData.get(year).C1ApprenticeUpperSecondaryThreshold;
 
-  static num c1RateToUEL(int year) => NationalInsuranceData.get(year).C1RateToUEL;
-  static num c1RateAboveUEL(int year) => NationalInsuranceData.get(year).C1RateAboveUEL;
-  static num c1RateContractedOut(int year) => NationalInsuranceData.get(year).C1RateContractedOut;
-  static num c1MarriedWomensRate(int year) => NationalInsuranceData.get(year).C1MarriedWomensRate;
-  static num c1RateSecondary(int year) => NationalInsuranceData.get(year).C1RateSecondary;
-  static num c1RateSecondaryContractedOut(int year) => NationalInsuranceData.get(year).C1RateSecondaryContractedOut;
+  static num C1RateToUEL(int year) => NationalInsuranceData.get(year).C1RateToUEL;
+  static num C1RateAboveUEL(int year) => NationalInsuranceData.get(year).C1RateAboveUEL;
+  static num C1RateContractedOut(int year) => NationalInsuranceData.get(year).C1RateContractedOut;
+  static num C1MarriedWomensRate(int year) => NationalInsuranceData.get(year).C1MarriedWomensRate;
+  static num C1RateSecondary(int year) => NationalInsuranceData.get(year).C1RateSecondary;
+  static num C1RateSecondaryContractedOut(int year) => NationalInsuranceData.get(year).C1RateSecondaryContractedOut;
 
   //class 2
-  static num c2SmallProfitsThreshold(int year) => NationalInsuranceData.get(year).C2SmallProfitsThreshold;
-  static num c2Cl2RatePerWeek(int year) => NationalInsuranceData.get(year).C2Cl2RatePerWeek;
+  static num C2SmallProfitsThreshold(int year) => NationalInsuranceData.get(year).C2SmallProfitsThreshold;
+  static num C2Cl2RatePerWeek(int year) => NationalInsuranceData.get(year).C2Cl2RatePerWeek;
 
   // class 4
 
-  static num c4LowerProfitLimit(int year) => NationalInsuranceData.get(year).C4LowerProfitLimit;
-  static num c4UpperProfitLimit(int year) => NationalInsuranceData.get(year).C4UpperProfitLimit;
-  static num c4RateToUpperLimit(int year) => NationalInsuranceData.get(year).C4RateToUpperLimit;
-  static num c4RateAboveUpperLimit(int year) => NationalInsuranceData.get(year).C4RateAboveUpperLimit;
+  static num C4LowerProfitLimit(int year) => NationalInsuranceData.get(year).C4LowerProfitLimit;
+  static num C4UpperProfitLimit(int year) => NationalInsuranceData.get(year).C4UpperProfitLimit;
+  static num C4RateToUpperLimit(int year) => NationalInsuranceData.get(year).C4RateToUpperLimit;
+  static num C4RateAboveUpperLimit(int year) => NationalInsuranceData.get(year).C4RateAboveUpperLimit;
 
 
 

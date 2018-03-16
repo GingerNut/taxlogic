@@ -58,17 +58,17 @@ class NationalInsurancePosition{
 
     Class1(){
 
-    if(taxPosition.earnings < TaxData.c1PrimaryThreshold(taxPosition.period.end.year)){
+    if(taxPosition.earnings < TaxData.C1PrimaryThreshold(taxPosition.period.end.year)){
 
-    } else if(taxPosition.earnings < TaxData.c1UpperEarningsLimit(taxPosition.period.end.year)){
-        earningsBetweenPTandUEL = taxPosition.earnings - TaxData.c1PrimaryThreshold(taxPosition.period.end.year);
+    } else if(taxPosition.earnings < TaxData.C1UpperEarningsLimit(taxPosition.period.end.year)){
+        earningsBetweenPTandUEL = taxPosition.earnings - TaxData.C1PrimaryThreshold(taxPosition.period.end.year);
       } else {
-        earningsBetweenPTandUEL = TaxData.c1UpperEarningsLimit(taxPosition.period.end.year) - TaxData.c1PrimaryThreshold(taxPosition.period.end.year);
-        earningsAboveUEL = taxPosition.earnings - TaxData.c1UpperEarningsLimit(taxPosition.period.end.year);
+        earningsBetweenPTandUEL = TaxData.C1UpperEarningsLimit(taxPosition.period.end.year) - TaxData.C1PrimaryThreshold(taxPosition.period.end.year);
+        earningsAboveUEL = taxPosition.earnings - TaxData.C1UpperEarningsLimit(taxPosition.period.end.year);
       }
 
-      if(taxPosition.earnings > TaxData.c1SecondaryThreshold(taxPosition.period.end.year)) {
-          earningsAboveSecondaryThreshold = taxPosition.earnings - TaxData.c1SecondaryThreshold(taxPosition.period.end.year);
+      if(taxPosition.earnings > TaxData.C1SecondaryThreshold(taxPosition.period.end.year)) {
+          earningsAboveSecondaryThreshold = taxPosition.earnings - TaxData.C1SecondaryThreshold(taxPosition.period.end.year);
 
       }
 
@@ -76,11 +76,11 @@ class NationalInsurancePosition{
 
 
       nicClass1p = 0;
-      nicClass1p += earningsBetweenPTandUEL * TaxData.c1RateToUEL(taxPosition.period.end.year);
-      nicClass1p += earningsAboveUEL * TaxData.c1RateAboveUEL(taxPosition.period.end.year);
+      nicClass1p += earningsBetweenPTandUEL * TaxData.C1RateToUEL(taxPosition.period.end.year);
+      nicClass1p += earningsAboveUEL * TaxData.C1RateAboveUEL(taxPosition.period.end.year);
 
       nicClass1s = 0;
-      nicClass1s += earningsAboveSecondaryThreshold * TaxData.c1RateSecondary(taxPosition.period.end.year);
+      nicClass1s += earningsAboveSecondaryThreshold * TaxData.C1RateSecondary(taxPosition.period.end.year);
 
 
     }
@@ -91,18 +91,18 @@ class NationalInsurancePosition{
 
     Class4(){
 
-    if(taxPosition.trade < TaxData.c4UpperProfitLimit(taxPosition.period.end.year)){
+    if(taxPosition.trade < TaxData.C4UpperProfitLimit(taxPosition.period.end.year)){
 
-      if(taxPosition.trade > TaxData.c4LowerProfitLimit(taxPosition.period.end.year)) tradeAboveLowerLimit = taxPosition.trade - TaxData.c4LowerProfitLimit(taxPosition.period.end.year);
+      if(taxPosition.trade > TaxData.C4LowerProfitLimit(taxPosition.period.end.year)) tradeAboveLowerLimit = taxPosition.trade - TaxData.C4LowerProfitLimit(taxPosition.period.end.year);
     } else {
 
-      tradeAboveLowerLimit = TaxData.c4UpperProfitLimit(taxPosition.period.end.year) - TaxData.c4LowerProfitLimit(taxPosition.period.end.year);
-      tradeAboveUpperLimit = taxPosition.trade - TaxData.c4UpperProfitLimit(taxPosition.period.end.year);
+      tradeAboveLowerLimit = TaxData.C4UpperProfitLimit(taxPosition.period.end.year) - TaxData.C4LowerProfitLimit(taxPosition.period.end.year);
+      tradeAboveUpperLimit = taxPosition.trade - TaxData.C4UpperProfitLimit(taxPosition.period.end.year);
     }
 
       nicClass4 = 0;
-      nicClass4 += tradeAboveLowerLimit * TaxData.c4RateToUpperLimit(taxPosition.period.end.year);
-      nicClass4 += tradeAboveUpperLimit * TaxData.c4RateAboveUpperLimit(taxPosition.period.end.year);
+      nicClass4 += tradeAboveLowerLimit * TaxData.C4RateToUpperLimit(taxPosition.period.end.year);
+      nicClass4 += tradeAboveUpperLimit * TaxData.C4RateAboveUpperLimit(taxPosition.period.end.year);
     }
 
     List<List<String>> narrativeNICCalc(List<List<String>> narrative){
@@ -113,7 +113,7 @@ class NationalInsurancePosition{
       narrative.add(['Primary Class 1 NIC', '', '', '', '', '',]);
 
 
-      if (taxPosition.earnings > TaxData.c1PrimaryThreshold(taxPosition.period.end.year)) {
+      if (taxPosition.earnings > TaxData.C1PrimaryThreshold(taxPosition.period.end.year)) {
         narrative.add([
           'Earnings above primary threshold',
           '',
@@ -124,7 +124,7 @@ class NationalInsurancePosition{
         ]);
       }
 
-      if (taxPosition.earnings > TaxData.c1UpperEarningsLimit(taxPosition.period.end.year)) {
+      if (taxPosition.earnings > TaxData.C1UpperEarningsLimit(taxPosition.period.end.year)) {
         narrative.add([
           'Earnings above Upper Earnings Limit',
           '',

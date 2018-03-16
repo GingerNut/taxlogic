@@ -28,7 +28,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     taxPosition.refreshDisposals();
 
-    annualExemption = TaxData.capitalGainsAnnualExempt(taxPosition.period.end.year);
+    annualExemption = TaxData.CapitalGainsAnnualExempt(taxPosition.period.end.year);
     netGains = 0;
     capitalGainsTax = 0;
 
@@ -218,12 +218,12 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     tax = 0;
 
-    tax += taxBasicRateRes * TaxData.capitalGainsBasicRateRes(taxPosition.period.end.year);
-    tax += taxBasicRateNonRes * TaxData.capitalGainsBasicRateNonRes(taxPosition.period.end.year);
-    tax +=  taxBasicRateEnt * TaxData.capitalGainsEntrepreneur(taxPosition.period.end.year);
-    tax +=  taxHigherRateRes * TaxData.capitalGainsHigherRateRes(taxPosition.period.end.year);
-    tax +=  taxHigherRateNonRes * TaxData.capitalGainsHigherRateNonRes(taxPosition.period.end.year);
-    tax +=  taxHigherRateEnt * TaxData.capitalGainsEntrepreneur(taxPosition.period.end.year);
+    tax += taxBasicRateRes * TaxData.CapitalGainsBasicRateRes(taxPosition.period.end.year);
+    tax += taxBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(taxPosition.period.end.year);
+    tax +=  taxBasicRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
+    tax +=  taxHigherRateRes * TaxData.CapitalGainsHigherRateRes(taxPosition.period.end.year);
+    tax +=  taxHigherRateNonRes * TaxData.CapitalGainsHigherRateNonRes(taxPosition.period.end.year);
+    tax +=  taxHigherRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
 
     tax = Utilities.roundTax(tax);
   }
