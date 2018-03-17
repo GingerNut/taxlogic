@@ -1,12 +1,13 @@
 import '../period.dart';
 import 'property.dart';
+import '../entities/entity.dart';
 
 class ResidentialProperty extends Property{
 
   List<Period> _mainResidencePeriods = new List();
   num residenceRelief;
 
-  ResidentialProperty(){
+  ResidentialProperty(Entity entity) : super(entity){
     residentialProperty = true;
   }
 

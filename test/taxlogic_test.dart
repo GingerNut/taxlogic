@@ -374,6 +374,7 @@ void taxdata(){
       expect(TaxData.AnnualInvestmentAllowance(new Date (1,4,12), company), 25000);
 
 
+
     });
 
 
@@ -1008,7 +1009,7 @@ void capitalGains() {
     test('Residential Property', () {
 
       // gain 0f 15500
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.cost = 2000;
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
@@ -1027,7 +1028,7 @@ void capitalGains() {
     test('Residential Property', () {
 
       // gain 0f 15500
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.cost = 2000;
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
@@ -1048,7 +1049,7 @@ void capitalGains() {
     test('Loss allocation 1', () {
       person.taxPosition2018.earnings = 20000;
       // gain 0f 10000 res
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 10000;
       asset01.cost = 0;
 
@@ -1057,7 +1058,7 @@ void capitalGains() {
 
 
       // gain 0f 11000 non res
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ChargeableAsset asset02 = new Investment(person);
       asset02.proceeds = 11000;
       asset02.cost = 0;
 
@@ -1066,7 +1067,7 @@ void capitalGains() {
       person.taxPosition2018.earnings = 20000;
 
       // loss pf 15000
-      ResidentialProperty asset20 = new ResidentialProperty();
+      ResidentialProperty asset20 = new ResidentialProperty(person);
       asset20.proceeds = 0;
       asset20.cost = 15000;
 
@@ -1094,7 +1095,7 @@ void capitalGains() {
       person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 15000;
       
       // gain 0f 4000 res
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 4000;
       asset01.cost = 0;
       asset01.saleDate = new Date(5,4,18);
@@ -1102,7 +1103,7 @@ void capitalGains() {
       
 
       // gain 0f 5000  res
-      ResidentialProperty asset02 = new ResidentialProperty();
+      ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.proceeds = 5000;
       asset02.cost = 0;
 
@@ -1110,7 +1111,7 @@ void capitalGains() {
       person.assets.add(asset02);
 
       // gain 0f 6000 non res
-      ChargeableAsset asset03 = new ChargeableAsset();
+      ChargeableAsset asset03 = new Investment(person);
       asset03.proceeds = 6000;
       asset03.cost = 0;
 
@@ -1118,7 +1119,7 @@ void capitalGains() {
       person.assets.add(asset03);
 
       // gain 0f 8000 ent
-      ChargeableAsset asset04 = new ChargeableAsset();
+      ChargeableAsset asset04 = new Investment(person);
       asset04.proceeds = 8000;
       asset04.cost = 0;
 
@@ -1128,7 +1129,7 @@ void capitalGains() {
       person.assets.add(asset04);
 
       // gain 0f 12000 ent
-      ChargeableAsset asset05 = new ChargeableAsset();
+      ChargeableAsset asset05 = new Investment(person);
       asset05.proceeds = 12000;
       asset05.cost = 0;
 
@@ -1138,7 +1139,7 @@ void capitalGains() {
 
 
       // loss pf 8000
-      ResidentialProperty asset20 = new ResidentialProperty();
+      ResidentialProperty asset20 = new ResidentialProperty(person);
       asset20.proceeds = 0;
       asset20.cost = 8000;
 
@@ -1146,7 +1147,7 @@ void capitalGains() {
       person.assets.add(asset20);
 
       // loss pf 4000
-      ResidentialProperty asset21 = new ResidentialProperty();
+      ResidentialProperty asset21 = new ResidentialProperty(person);
       asset21.proceeds = 0;
       asset21.cost = 4000;
 
@@ -1173,7 +1174,7 @@ void capitalGains() {
       person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 2300;
 
       // gain 0f 20000 res
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 20000;
       asset01.cost = 0;
       asset01.saleDate = new Date(5,4,18);
@@ -1212,7 +1213,7 @@ void capitalGains() {
     test('Main residence relief - no losses allowed', () {
 
       // loss on main residence
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 0;
       asset01.cost = 20000;
       asset01.addResidencePeriod(new Period(new Date(31,1,17), new Date(5,4,18)));
@@ -1220,7 +1221,7 @@ void capitalGains() {
       asset01.saleDate = new Date(5,4,18);
       person.assets.add(asset01);
 
-      ResidentialProperty asset02 = new ResidentialProperty();
+      ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.proceeds = 20000;
       asset02.cost = 0;
       asset01.purchaseDate = new Date(1,1,17);
@@ -1242,7 +1243,7 @@ void capitalGains() {
 
     test('Main residence relief - last 18 months', () {
 
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 30000;
       asset01.cost = 0;
       asset01.purchaseDate = new Date(13,1,15);
@@ -1250,7 +1251,7 @@ void capitalGains() {
       asset01.addResidencePeriod(new Period(new Date(13,1,15), new Date(5,4,18)));
       person.assets.add(asset01);
 
-      ResidentialProperty asset02 = new ResidentialProperty();
+      ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.proceeds = 20000;
       asset02.cost = 0;
       asset02.purchaseDate = new Date(1,7,16);
@@ -1273,7 +1274,7 @@ void capitalGains() {
 
     test('Main residence relief - periods', () {
 
-      ResidentialProperty asset01 = new ResidentialProperty();
+      ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 100000;
       asset01.cost = 0;
       asset01.purchaseDate = new Date(13,1,15);
