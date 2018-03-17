@@ -18,7 +18,7 @@ abstract class TaxPosition{
   List<ChargeableAsset> disposals = new List();
 
 
-  TaxPosition(this.entity);
+  TaxPosition(this.entity, this.period);
 
   refreshDisposals() {
     disposals.clear();

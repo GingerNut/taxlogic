@@ -15,7 +15,7 @@ void main() {
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
   incomeAndExpenditure();
-
+  corporationTax();
 }
 
 void dates(){
@@ -1299,14 +1299,15 @@ void incomeAndExpenditure(){
 
   IncomeAndExpenditure incomeAndExpenditure;
   IncomeAndExpenditureProperty propertyAccount;
+  Person person = new Person();
 
   setUp(() {
-    Person person = new Person();
+
     Date start = new Date (6,4,17);
     Date end = new Date(5,4,18);
 
     Period period = new Period(start, end);
-    incomeAndExpenditure = new IncomeAndExpenditure(period);
+    incomeAndExpenditure = new IncomeAndExpenditure(period, person);
     propertyAccount = new IncomeAndExpenditureProperty(period, person);
   });
 
@@ -1320,7 +1321,7 @@ void incomeAndExpenditure(){
     test('Wrong end date', () {
 
       Period wrongPeriod = new Period(new Date(6,4,17), new Date(4,4,18));
-      IncomeAndExpenditure wrongIncomeAndExpenditure = new IncomeAndExpenditure(wrongPeriod);
+      IncomeAndExpenditure wrongIncomeAndExpenditure = new IncomeAndExpenditure(wrongPeriod, person);
 
       expect(wrongIncomeAndExpenditure.profit, 0);
     });
@@ -1514,4 +1515,33 @@ void incomeAndExpenditure(){
 
 }
 
+void corporationTax(){
 
+ Company company;
+
+  setUp(() {
+    company = new Company();
+
+  });
+
+  group('Corporation Tax ', (){
+
+    test('Accounting period', () {
+
+      Date first = new Date(1,4,18);
+      Date second = new Date(31,3,19);
+      Period period = new Period(first, second);
+      CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
+      CorporationTax corpTax = new CorporationTax(company, taxPosition);
+
+      taxPosition.income = 10000;
+      corpTax.calculate();
+
+      expect(corpTax.tax, 1900);
+    });
+
+
+  });
+
+
+}

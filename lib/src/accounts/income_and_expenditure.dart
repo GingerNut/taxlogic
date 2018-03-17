@@ -1,16 +1,23 @@
 import '../date.dart';
 import '../period.dart';
-
-
+import '../accounts/capital_allowances.dart';
+import '../accounts/plant_and_machinery.dart';
+import '../entities/entity.dart';
 
 class IncomeAndExpenditure{
   final Period period;
+  final Entity entity;
+  IncomeAndExpenditure previousPeriod;
+
   num _profit;
 
   List<Income> income = new List();
   List<Expenditure> expenditure = new List();
+  List<PlantAndMachinery> plant = new List();
 
-  IncomeAndExpenditure(this.period){
+  num mainPool = 0;
+
+  IncomeAndExpenditure(this.period, this.entity){
 
     if(period.end.month != 4 && period.end.day != 5)throw new StateError('only 5 April allowed in period');
 

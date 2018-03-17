@@ -12,11 +12,10 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
   static const finance2020 = 0.75;
   static const finance2021 = 1;
 
-  Entity entity;
   num _interestRestriction;
   num _taxCredit;
 
-  IncomeAndExpenditureProperty(Period period, this.entity) : super(period);
+  IncomeAndExpenditureProperty(Period period, Entity entity) : super(period, entity);
 
   get interestRestriction{
 

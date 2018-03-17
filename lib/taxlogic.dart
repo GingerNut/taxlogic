@@ -10,6 +10,8 @@ export 'src/tax_position/tax_position.dart';
 export 'package:taxlogic/src/entities/person.dart';
 export 'package:taxlogic/src/entities/entity.dart';
 export 'package:taxlogic/src/tax_position/personal_tax_position.dart';
+export 'src/tax_position/company_tax_position.dart';
+export 'src/taxation/corporation_tax.dart';
 export 'src/assets/investment.dart';
 export 'src/database/database.dart';
 export 'src/period.dart';

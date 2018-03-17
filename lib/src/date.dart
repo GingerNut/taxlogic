@@ -112,5 +112,16 @@ class Date{
     return taxYear;
   }
 
+  Date next(int nextDay, int nextMonth){
+     int nextYear = year;
+
+     if(nextMonth < month && nextDay < day){
+       year += 1;
+     }
+
+     return new Date(nextDay, nextMonth, nextYear);
+
+  }
+
 }
 

@@ -1,5 +1,6 @@
 
 import '../../taxlogic.dart';
+import '../tax_year.dart';
 
 
 class PersonalTaxPosition extends TaxPosition{
@@ -24,7 +25,7 @@ class PersonalTaxPosition extends TaxPosition{
     return incomeTax.getBasicRateAvailable();
   }
 
-  PersonalTaxPosition(Entity person, int year) : super (person){
+  PersonalTaxPosition(Entity person, int year) : super (person, new TaxYear(year)){
     period = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
