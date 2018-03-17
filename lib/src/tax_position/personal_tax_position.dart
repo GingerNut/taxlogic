@@ -10,12 +10,6 @@ class PersonalTaxPosition extends TaxPosition{
   static const String jsonTagDividend = "dividend";
   static const String jsonTagSavings = "savings";
 
-
-
-
-  int year;
-
-
   num earnings = 0;
   num trade = 0;
   num dividend = 0;
@@ -30,7 +24,7 @@ class PersonalTaxPosition extends TaxPosition{
     return incomeTax.getBasicRateAvailable();
   }
 
-  PersonalTaxPosition(Entity person, this.year) : super (person){
+  PersonalTaxPosition(Entity person, int year) : super (person){
     period = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
@@ -54,7 +48,7 @@ class PersonalTaxPosition extends TaxPosition{
   Map toMap(){
     Map jsonMap = {
       jsonTagCode: entity.code,
-      jsonTagYear: year.toString(),
+      jsonTagYear: period.end.year.toString(),
       jsonTagEarnings: earnings.toString(),
       jsonTagTrade: trade.toString(),
       jsonTagDividend: dividend.toString(),

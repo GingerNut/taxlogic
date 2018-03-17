@@ -1,7 +1,10 @@
 import 'income_tax/income_tax_data.dart';
 import 'capital_gains_tax/capital_gains_tax_data.dart';
 import 'national_insurance/national_insurance_data.dart';
-
+import 'company_tax/company_tax_data.dart';
+import '../date.dart';
+import '../entities/entity.dart';
+import 'capital_allowances/capital_allowances.dart';
 
 class TaxData{
 
@@ -66,6 +69,10 @@ class TaxData{
   static num C4RateToUpperLimit(int year) => NationalInsuranceData.get(year).C4RateToUpperLimit;
   static num C4RateAboveUpperLimit(int year) => NationalInsuranceData.get(year).C4RateAboveUpperLimit;
 
+  //coproariton tax
 
+  static num CompanyMainRate(Date date) => CompanyTaxData.get(date).CompanyMainRate;
+
+  static num AnnualInvestmentAllowance(Date date, Entity entity) => CapitalAllowances.getAIA(date, entity);
 
 }

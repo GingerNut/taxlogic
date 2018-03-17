@@ -6,6 +6,7 @@ void main() {
 
   dates();
   periods();
+  taxdata();
   incomeTaxEngland2017();
   incomeTaxEngland2018();
   incomeTaxEnglandDividend2018();
@@ -332,6 +333,48 @@ void periods(){
 
     });
 
+
+
+  });
+
+
+}
+
+void taxdata(){
+
+  group('Data ', (){
+
+    Person individual;
+    Company company;
+
+    setUp(() {
+      individual = new Person();
+      company = new Company();
+
+    });
+
+    test('Corporation tax main rate', () {
+
+      expect(TaxData.CompanyMainRate(new Date (31,3,16)), 0.20);
+      expect(TaxData.CompanyMainRate(new Date (1,4,17)), 0.19);
+      expect(TaxData.CompanyMainRate(new Date (1,4,18)), 0.19);
+      expect(TaxData.CompanyMainRate(new Date (1,4,19)), 0.19);
+      expect(TaxData.CompanyMainRate(new Date (31,3,20)), 0.19);
+      expect(TaxData.CompanyMainRate(new Date (1,4,20)), 0.17);
+    });
+
+    test('Annual investment allowance', () {
+
+      expect(TaxData.AnnualInvestmentAllowance(new Date (1,1,2016), individual), 200000);
+      expect(TaxData.AnnualInvestmentAllowance(new Date (6,4,10), individual), 100000);
+      expect(TaxData.AnnualInvestmentAllowance(new Date (6,4,12), individual), 25000);
+
+      expect(TaxData.AnnualInvestmentAllowance(new Date (1,1,2016), company), 200000);
+      expect(TaxData.AnnualInvestmentAllowance(new Date (1,4,10), company), 100000);
+      expect(TaxData.AnnualInvestmentAllowance(new Date (1,4,12), company), 25000);
+
+
+    });
 
 
   });

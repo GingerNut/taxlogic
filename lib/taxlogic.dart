@@ -20,3 +20,4 @@ export 'src/tax_year.dart';
 export 'src/accounts/income_and_expenditure.dart';
 export 'src/accounts/rental_income_and_expenditure.dart';
 export 'src/entities/company.dart';
+export 'src/data/tax_data.dart';
