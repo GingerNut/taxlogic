@@ -1620,8 +1620,8 @@ void corporationTax(){
 
     test('Accounting period', () {
 
-      Date first = new Date(1,4,18);
-      Date second = new Date(31,3,19);
+      Date first = new Date(1,10,19);
+      Date second = new Date(30,9,20);
       Period period = new Period(first, second);
       CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
       CorporationTax corpTax = new CorporationTax(company, taxPosition);
@@ -1629,7 +1629,7 @@ void corporationTax(){
       taxPosition.income = 10000;
       corpTax.calculate();
 
-      expect(corpTax.tax, 1900);
+      expect(corpTax.tax, 1795.07);
     });
 
 
