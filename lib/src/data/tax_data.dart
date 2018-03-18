@@ -73,7 +73,8 @@ class TaxData{
 
   //coproariton tax
 
-  static num CompanyMainRate(Date date) => CompanyTaxData.get(date).CompanyMainRate;
+  static num CompanyMainRate(Date date) => CompanyTaxData.getMainRate(date);
+  static List<RatePeriod> CompanyRatePeriods(Period period) => CompanyTaxData.getRatePeriods(period);
 
   static num AnnualInvestmentAllowance(Date date, Entity entity) => CapitalAllowances.getAIA(date, entity);
   static List<RatePeriod> AnnualInvestmentAllowancePeriods(Period period, Entity entity) => CapitalAllowances.getAIAPeriods(period, entity);
