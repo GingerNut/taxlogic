@@ -425,7 +425,6 @@ void rateChange(){
       expect(ratePeriods[2].period.end.month, 12);
       expect(ratePeriods[2].period.end.year, 2017);
 
-
     });
 
   });

@@ -1,6 +1,7 @@
 import '../../date.dart';
 import '../../entities/entity.dart';
 import '../../rate_history.dart';
+import '../../period.dart';
 
 class CapitalAllowances{
   static RateHistory individual_AIA = new RateHistory([
@@ -31,6 +32,20 @@ class CapitalAllowances{
       return individual_AIA.rateAt(date);
 
     }
+
+  }
+
+  static List<RatePeriod> getAIAPeriods(Period period, Entity entity){
+    if(entity.type == Class.company){
+
+      return company_AIA.getRatePeriods(period);
+
+    } else {
+
+      return individual_AIA.getRatePeriods(period);
+
+    }
+
 
   }
 

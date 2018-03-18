@@ -5,6 +5,8 @@ import 'company_tax/company_tax_data.dart';
 import '../date.dart';
 import '../entities/entity.dart';
 import 'capital_allowances/capital_allowances.dart';
+import '../rate_history.dart';
+import '../period.dart';
 
 class TaxData{
 
@@ -74,5 +76,6 @@ class TaxData{
   static num CompanyMainRate(Date date) => CompanyTaxData.get(date).CompanyMainRate;
 
   static num AnnualInvestmentAllowance(Date date, Entity entity) => CapitalAllowances.getAIA(date, entity);
+  static List<RatePeriod> AnnualInvestmentAllowancePeriods(Period period, Entity entity) => CapitalAllowances.getAIAPeriods(period, entity);
 
 }
