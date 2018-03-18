@@ -1,18 +1,38 @@
 import '../../date.dart';
 import '../../entities/entity.dart';
+import '../../rate_history.dart';
 
 class CapitalAllowances{
+  static RateHistory individual_AIA = new RateHistory([
+    new RateChange(new Date(6,4,08),50000),
+    new RateChange(new Date(6,4,10),100000),
+    new RateChange(new Date(6,4,12),25000),
+    new RateChange(new Date(1,1,13),250000),
+    new RateChange(new Date(6,4,14),500000),
+    new RateChange(new Date(1,1,16),200000),
+  ]);
+
+  static RateHistory company_AIA = new RateHistory([
+    new RateChange(new Date(1,4,08),50000),
+    new RateChange(new Date(1,4,10),100000),
+    new RateChange(new Date(1,4,12),25000),
+    new RateChange(new Date(1,1,13),250000),
+    new RateChange(new Date(1,4,14),500000),
+    new RateChange(new Date(1,1,16),200000),
+  ]);
 
   static num getAIA(Date date, Entity entity){
+    if(entity.type == Class.company){
 
-    int day = entity.type == Class.company ? 1 : 6 ;
+      return company_AIA.rateAt(date);
 
-    if(date < new Date (day ,4, 2010)) return 50000;
-    else if (date < new Date(day , 4 , 2012)) return 100000;
-    else if (date < new Date(1 , 1 , 2013)) return 25000;
-    else if (date < new Date(day , 4 , 2014)) return 250000;
-    else if (date < new Date(1 , 1 , 2015)) return 500000;
-    else return 200000;
+    } else {
+
+      return individual_AIA.rateAt(date);
+
+    }
+
   }
+
 
 }
