@@ -24,7 +24,57 @@ class RateHistory{
     return rate;
   }
 
+  Date lastChange(Date date){
 
+    Date lastDate = history[0].date;
+
+    int i = 1;
+
+    while(i < history.length && history[i].date < date){
+
+        lastDate = history[i].date;
+
+      i++;
+    }
+    return lastDate;
+
+
+  }
+
+  Date nextChange(Date date){
+
+    int i = 0;
+
+    while(i < history.length && history[i].date < date) {
+      i++;
+    }
+
+    if(i < history.length) return history[i].date;
+
+    return null;
+  }
+
+
+  List<RatePeriod> getRatePeriods(Period period){
+    List<RatePeriod> periods = new List();
+
+    Date lastDate = period.start;
+    num lastRate = rateAt(lastDate);
+
+    Date nextDate = nextChange(lastDate);
+
+    while(nextDate != null && !(nextDate>period.end) ){
+      RatePeriod ratePeriod = new RatePeriod(new Period(lastDate, nextDate), lastRate);
+      periods.add(ratePeriod);
+
+      lastDate = nextDate;
+      lastRate = rateAt(lastDate);
+      nextDate = nextChange(lastDate);
+
+    }
+
+    return periods;
+  }
 
 
 }
@@ -38,7 +88,9 @@ class RateChange{
 }
 
 class RatePeriod{
-  Period period;
-  num rate;
+  final Period period;
+  final num rate;
+
+  RatePeriod(this.period, this.rate);
 
 }

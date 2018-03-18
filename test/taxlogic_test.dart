@@ -1,11 +1,11 @@
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
-
 void main() {
 
   dates();
   periods();
+  rateChange();
   taxdata();
   incomeTaxEngland2017();
   incomeTaxEngland2018();
@@ -334,6 +334,60 @@ void periods(){
     });
 
 
+
+  });
+
+
+}
+
+void rateChange(){
+
+  RateHistory history = new RateHistory([
+    new RateChange(new Date(6,4,08),50000),
+    new RateChange(new Date(6,4,10),100000),
+    new RateChange(new Date(6,4,12),25000),
+    new RateChange(new Date(1,1,13),250000),
+    new RateChange(new Date(6,4,14),500000),
+    new RateChange(new Date(1,1,16),200000),
+  ]);
+
+  group('Rate histories ', (){
+
+    test('Last rate change', () {
+
+     expect(history.lastChange(new Date(1,1,15)).day, 6);
+     expect(history.lastChange(new Date(1,1,15)).month, 4);
+     expect(history.lastChange(new Date(1,1,15)).year, 2014);
+
+    });
+
+    test('Next rate change', () {
+
+      expect(history.nextChange(new Date(1,1,15)).day, 1);
+      expect(history.nextChange(new Date(1,1,15)).month, 1);
+      expect(history.nextChange(new Date(1,1,15)).year, 2016);
+
+    });
+
+    test('Next rate change', () {
+
+      expect(history.nextChange(new Date(1,1,17)), null);
+
+
+    });
+
+    test('Rate periods ', () {
+
+      Date start = new Date(1,1,14);
+      Date end = new Date(31,12,15);
+
+      Period period = new Period(start, end);
+
+        List<RatePeriod> ratePeriods = history.getRatePeriods(period);
+
+        print(ratePeriods.length);
+
+    });
 
   });
 
