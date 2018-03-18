@@ -371,7 +371,23 @@ void rateChange(){
 
     test('Next rate change', () {
 
+      expect(history.nextChange(new Date(6,4,14)).day, 1);
+      expect(history.nextChange(new Date(6,4,14)).month, 1);
+      expect(history.nextChange(new Date(6,4,14)).year, 2016);
+
+    });
+
+    test('Next rate change', () {
+
       expect(history.nextChange(new Date(1,1,17)), null);
+
+
+    });
+
+
+    test('Rate at date ', () {
+
+      expect(history.rateAt(new Date(1,1,14)), 250000);
 
 
     });
@@ -379,13 +395,36 @@ void rateChange(){
     test('Rate periods ', () {
 
       Date start = new Date(1,1,14);
-      Date end = new Date(31,12,15);
+      Date end = new Date(31,12,17);
 
       Period period = new Period(start, end);
 
-        List<RatePeriod> ratePeriods = history.getRatePeriods(period);
+      List<RatePeriod> ratePeriods = history.getRatePeriods(period);
+     
+      expect(ratePeriods[0].rate, 250000);
+      expect(ratePeriods[0].period.start.day, 1);
+      expect(ratePeriods[0].period.start.month, 1);
+      expect(ratePeriods[0].period.start.year, 2014);
+      expect(ratePeriods[0].period.end.day, 5);
+      expect(ratePeriods[0].period.end.month, 4);
+      expect(ratePeriods[0].period.end.year, 2014);
 
-        print(ratePeriods.length);
+      expect(ratePeriods[1].rate, 500000);
+      expect(ratePeriods[1].period.start.day, 6);
+      expect(ratePeriods[1].period.start.month, 4);
+      expect(ratePeriods[1].period.start.year, 2014);
+      expect(ratePeriods[1].period.end.day, 31);
+      expect(ratePeriods[1].period.end.month, 12);
+      expect(ratePeriods[1].period.end.year, 2015);
+
+      expect(ratePeriods[2].rate, 200000);
+      expect(ratePeriods[2].period.start.day, 1);
+      expect(ratePeriods[2].period.start.month, 1);
+      expect(ratePeriods[2].period.start.year, 2016);
+      expect(ratePeriods[2].period.end.day, 31);
+      expect(ratePeriods[2].period.end.month, 12);
+      expect(ratePeriods[2].period.end.year, 2017);
+
 
     });
 

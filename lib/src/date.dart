@@ -123,5 +123,9 @@ class Date{
 
   }
 
+  void printDate() => print('Date $day $month $year');
+
+
+
 }
 

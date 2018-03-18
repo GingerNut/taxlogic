@@ -14,11 +14,10 @@ class RateHistory{
 
     int i = 1;
 
-    while(i < history.length){
-      if (!(history[i].date < date)){
+    while(i < history.length && !(history[i].date > date)){
+
         rate = history[i].rate;
-        break;
-      }
+
       i++;
       }
     return rate;
@@ -45,7 +44,7 @@ class RateHistory{
 
     int i = 0;
 
-    while(i < history.length && history[i].date < date) {
+    while(i < history.length && !(history[i].date > date)) {
       i++;
     }
 
@@ -64,13 +63,18 @@ class RateHistory{
     Date nextDate = nextChange(lastDate);
 
     while(nextDate != null && !(nextDate>period.end) ){
-      RatePeriod ratePeriod = new RatePeriod(new Period(lastDate, nextDate), lastRate);
+
+      RatePeriod ratePeriod = new RatePeriod(new Period(lastDate, nextDate + (-1)), lastRate);
       periods.add(ratePeriod);
 
       lastDate = nextDate;
       lastRate = rateAt(lastDate);
       nextDate = nextChange(lastDate);
 
+    }
+
+    if(lastDate < period.end){
+      periods.add(new RatePeriod(new Period(lastDate, period.end), rateAt(period.end)));
     }
 
     return periods;
@@ -92,5 +96,10 @@ class RatePeriod{
   final num rate;
 
   RatePeriod(this.period, this.rate);
+
+  printRatePeriod(){
+    print('Rate $rate from ${period.start.day} ${period.start.month} ${period.start.year} to ${period.end.day} ${period.end.month} ${period.end.year}');
+
+  }
 
 }
