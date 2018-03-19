@@ -427,6 +427,18 @@ void rateChange(){
 
     });
 
+    test('Overall rate ', () {
+
+      Date start = new Date(1,7,15);
+      Date end = new Date(30,6,16);
+
+      Period period = new Period(start, end);
+
+      expect(history.overallRate(period), 350273.22);
+
+
+    });
+
   });
 
 

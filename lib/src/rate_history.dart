@@ -1,6 +1,6 @@
 import 'period.dart';
 import 'date.dart';
-
+import 'utilities.dart';
 
 class RateHistory{
 
@@ -81,6 +81,20 @@ class RateHistory{
   }
 
 
+  num overallRate(Period period){
+    List<RatePeriod> periods = getRatePeriods(period);
+
+    num overallRate = 0;
+
+    periods.forEach((part){
+      overallRate += part.rate * part.period.days / period.days;
+    });
+
+    return Utilities.roundTax(overallRate);
+
+  }
+
+
 }
 
 class RateChange{
@@ -96,6 +110,8 @@ class RatePeriod{
   final num rate;
 
   RatePeriod(this.period, this.rate);
+
+
 
   printRatePeriod(){
     print('Rate $rate from ${period.start.day} ${period.start.month} ${period.start.year} to ${period.end.day} ${period.end.month} ${period.end.year}');
