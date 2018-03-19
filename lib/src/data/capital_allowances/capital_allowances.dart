@@ -49,5 +49,20 @@ class CapitalAllowances{
 
   }
 
+  static getOverallAIA(Period period, Entity entity) {
+    if(entity.type == Class.company){
+
+      return company_AIA.overallRate(period);
+
+    } else {
+
+      return individual_AIA.overallRate(period);
+
+    }
+
+
+
+  }
+
 
 }

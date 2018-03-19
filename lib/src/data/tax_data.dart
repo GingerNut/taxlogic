@@ -7,6 +7,7 @@ import '../entities/entity.dart';
 import 'capital_allowances/capital_allowances.dart';
 import '../rate_history.dart';
 import '../period.dart';
+import 'interest/overdue_interest.dart';
 
 class TaxData{
 
@@ -78,5 +79,8 @@ class TaxData{
 
   static num AnnualInvestmentAllowance(Date date, Entity entity) => CapitalAllowances.getAIA(date, entity);
   static List<RatePeriod> AnnualInvestmentAllowancePeriods(Period period, Entity entity) => CapitalAllowances.getAIAPeriods(period, entity);
+  static num AnnualInvestmentOverallRate(Period period, Entity entity) => CapitalAllowances.getOverallAIA(period, entity);
+
+  static num OverdueInterestRate(Period period) => OverdueInterest.overdueInterest.overallRate(period);
 
 }
