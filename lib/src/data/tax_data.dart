@@ -37,8 +37,16 @@ class TaxData{
 
   //cgt
 
-  static num CapitalGainsAnnualExempt(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExempt;
-  static num CapitalGainsAnnualExemptTrustees(int year) => CapitalGainsTaxData.get(year).CapitalGainsAnnualExemptTrustees;
+  static num CapitalGainsAnnualExempt(int year, Entity entity) {
+    if(entity.type == Class.company) return 0;
+
+    num annualExemption = CapitalGainsTaxData.get(year).CapitalGainsAnnualExempt;
+
+    if(entity.type == Class.trust) return annualExemption / 2;
+
+    return annualExemption;
+  }
+
   static num CapitalGainsBasicRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateRes;
   static num CapitalGainsBasicRateNonRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsBasicRateNonRes;
   static num CapitalGainsHigherRateRes(int year) => CapitalGainsTaxData.get(year).CapitalGainsHigherRateRes;

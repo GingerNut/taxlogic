@@ -3,6 +3,7 @@ import 'capital_gains_tax_data_2016.dart';
 import 'capital_gains_tax_data_2017.dart';
 import 'capital_gains_tax_data_2018.dart';
 import 'capital_gains_tax_data_2019.dart';
+import '../../entities/entity.dart';
 
 abstract class CapitalGainsTaxData{
 

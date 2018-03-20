@@ -21,9 +21,10 @@ abstract class TaxPosition{
   TaxPosition(this.entity, this.period);
 
   refreshDisposals() {
+
     disposals.clear();
     entity.assets.forEach((asset) {
-      if(asset.saleDate is ChargeableAsset && asset.saleDate != null){
+      if(asset is ChargeableAsset && asset.saleDate != null){
         if(period.includes(asset.saleDate)){
           disposals.add(asset);
         }

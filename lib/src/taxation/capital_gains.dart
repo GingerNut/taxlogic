@@ -19,6 +19,10 @@ abstract class CapitalGains{
 
   CapitalGains(this.person, this.taxPosition);
 
+
+
   void calculate();
+
+
 
 }

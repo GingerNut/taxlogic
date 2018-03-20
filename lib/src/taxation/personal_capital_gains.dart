@@ -15,7 +15,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition):super(person, taxPosition){
+  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition) : super(person, taxPosition){
 
     if(taxPosition.previousTaxPosition != null){
       capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
@@ -28,7 +28,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     taxPosition.refreshDisposals();
 
-    annualExemption = TaxData.CapitalGainsAnnualExempt(taxPosition.period.end.year);
+    annualExemption = TaxData.CapitalGainsAnnualExempt(taxPosition.period.end.year, taxPosition.entity);
     netGains = 0;
     capitalGainsTax = 0;
 

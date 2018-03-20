@@ -1,9 +1,12 @@
-
+import '../data/tax_data.dart';
 import '../period.dart';
 import '../date.dart';
 import '../utilities.dart';
+import '../entities/entity.dart';
+import 'dart:math';
 
 class ChargeableAsset{
+  Entity entity;
   String name;
   String description;
   num cost;
@@ -19,6 +22,8 @@ class ChargeableAsset{
   bool rolloverReliefAsset = false;
   bool residentialProperty = false;
   bool exempt = false;
+
+  ChargeableAsset(this.entity);
 
   List<Improvement> _improvements = new List();
 
@@ -46,6 +51,14 @@ class ChargeableAsset{
     gain  = Utilities.roundIncome(gain);
 
     _taxableGain = gain;
+
+    if(entity.type == Class.company && _taxableGain > 0){
+
+      num indexation = min(TaxData.IndexationFactor(purchaseDate, saleDate) * cost, _taxableGain);
+
+      _taxableGain -= indexation ;
+      print(indexation);
+    }
 
     return _taxableGain;
   }

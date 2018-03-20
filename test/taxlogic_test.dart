@@ -2,7 +2,6 @@ import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
 void main() {
-
   dates();
   periods();
   rateChange();
@@ -14,6 +13,7 @@ void main() {
   incomeTaxScotland2019();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
+  capitalGains();
   incomeAndExpenditure();
   corporationTax();
 }
@@ -1034,7 +1034,7 @@ void capitalGains() {
 
     test('gain proceeds 10000 cost 5000 improvement 1500', () {
 
-      ChargeableAsset asset = new ChargeableAsset();
+      ChargeableAsset asset = new ChargeableAsset(person);
       asset.cost = 5000;
       asset.proceeds = 10000;
       asset.addImprovement(new Improvement(1000));
@@ -1046,7 +1046,7 @@ void capitalGains() {
 
     test('One asset with gain of 5000', () {
 
-      ChargeableAsset asset = new ChargeableAsset();
+      ChargeableAsset asset = new ChargeableAsset(person);
       asset.cost = 5000;
       asset.proceeds = 10000;
       asset.saleDate = new Date(5,4,18);
@@ -1061,7 +1061,7 @@ void capitalGains() {
 
 
       // gain 0f 13000
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.cost = 2000;
       asset01.proceeds = 15000;
       asset01.saleDate = new Date(5,4,18);
@@ -1069,7 +1069,7 @@ void capitalGains() {
 
 
       // loss of 4000
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.cost = 4000;
       asset02.addImprovement(new Improvement(1000));
       asset02.proceeds = 1000;
@@ -1078,7 +1078,7 @@ void capitalGains() {
 
 
       // outside the tax year
-      ChargeableAsset asset03 = new ChargeableAsset();
+      ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.cost = 5000;
       asset03.proceeds = 10000;
       asset03.saleDate = new Date(6,4,18);
@@ -1096,7 +1096,7 @@ void capitalGains() {
     person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 500;
 
       // gain 0f 13000
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.cost = 2000;
       asset01.proceeds = 15000;
       asset01.saleDate = new Date(5,4,18);
@@ -1104,7 +1104,7 @@ void capitalGains() {
 
 
       // loss of 4000
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.cost = 5000;
       asset02.proceeds = 1000;
       asset02.saleDate = new Date(5,4,18);
@@ -1112,7 +1112,7 @@ void capitalGains() {
 
 
       // outside the tax year
-      ChargeableAsset asset03 = new ChargeableAsset();
+      ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.cost = 5000;
       asset03.proceeds = 10000;
       asset03.saleDate = new Date(6,4,18);
@@ -1131,7 +1131,7 @@ void capitalGains() {
       person.taxPosition2018.capitalGainsTaxPosition.capitalLossesBroughtForward = 500;
 
       // gain 0f 15500
-      ChargeableAsset asset01 = new ChargeableAsset();
+      ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.cost = 2000;
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
@@ -1139,7 +1139,7 @@ void capitalGains() {
 
 
       // loss of 4000
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.cost = 5000;
       asset02.proceeds = 1000;
       asset02.saleDate = new Date(5,4,18);
@@ -1147,7 +1147,7 @@ void capitalGains() {
 
 
       // outside the tax year
-      ChargeableAsset asset03 = new ChargeableAsset();
+      ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.cost = 5000;
       asset03.proceeds = 10000;
       asset03.saleDate = new Date(6,4,18);
@@ -1338,7 +1338,7 @@ void capitalGains() {
 
 
       // gain 0f 50000 non res
-      ChargeableAsset asset02 = new ChargeableAsset();
+      ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.proceeds = 50000;
       asset02.cost = 0;
 
@@ -1346,7 +1346,7 @@ void capitalGains() {
       person.assets.add(asset02);
 
       // gain 0f 8000 ent
-      ChargeableAsset asset03 = new ChargeableAsset();
+      ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.proceeds = 8000;
       asset03.saleDate = new Date(5,4,18);
       asset03.entrepreneurRelief = true;
@@ -1444,7 +1444,17 @@ void capitalGains() {
 
     });
 
+    test('Indexation for company gains', () {
+      Company company = new Company();
 
+      Investment asset01 = new Investment(company);
+      asset01.proceeds = 100000;
+      asset01.cost = 20000;
+      asset01.purchaseDate = new Date(1,12,90);
+      asset01.saleDate = new Date(1,3,16);
+
+      expect(asset01.taxableGain, 59800);
+    });
 
 
 

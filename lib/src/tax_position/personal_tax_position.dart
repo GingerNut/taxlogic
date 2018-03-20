@@ -30,7 +30,6 @@ class PersonalTaxPosition extends TaxPosition{
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
     capitalGainsTaxPosition = new CapitalGainsTaxPosition(person, this);
-
   }
 
 
