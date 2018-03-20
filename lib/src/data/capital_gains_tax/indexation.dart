@@ -2,9 +2,7 @@ import '../../date.dart';
 
 
 class Indexation{
-
-  static const num RPI = 0.5;
-
+  
 
   static var RPI1982 = [78.73, 78.76, 79.44, 81.04, 81.62, 81.85, 81.88, 81.90, 81.85, 82.26, 82.66, 82.51];
   static var RPI1983 = [82.61, 82.97, 83.12, 84.28, 84.64, 84.84, 85.30, 85.68, 86.06, 86.36, 86.67, 86.89];
@@ -42,16 +40,70 @@ class Indexation{
   static var RPI2015 = [255.4, 256.7, 257.1, 258.0, 258.5, 258.9, 258.6, 259.8, 259.6, 259.5, 259.8, 260.6];
   static var RPI2016 = [258.8, 260.0, 261.1, 261.4, 262.1, 263.1, 263.4, 264.4, 264.9, 264.8, 265.5, 267.1];
   static var RPI2017 = [265.5, 268.4, 269.3, 270.6, 271.7, 272.3, 272.9, 274.7, 275.1, 275.3, 275.8, 278.1];
-  static var RPI2018 = [276.0, 278.1];
+  static var RPI2018 = [276.0, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1];
 
 
 
+  num RPI(Date date){
+    
+    var RPIlist;
+    
+    switch(date.year){
+      
+      case 1982 : RPIlist = RPI1982; break;
+      case 1983 : RPIlist = RPI1983; break;
+      case 1984 : RPIlist = RPI1984; break;
+      case 1985 : RPIlist = RPI1985; break;
+      case 1986 : RPIlist = RPI1986; break;
+      case 1987 : RPIlist = RPI1987; break;
+      case 1988 : RPIlist = RPI1988; break;
+      case 1989 : RPIlist = RPI1989; break;
 
-// place holder Indexation
+      case 1990 : RPIlist = RPI1990; break;
+      case 1991 : RPIlist = RPI1991; break;
+      case 1992 : RPIlist = RPI1992; break;
+      case 1993 : RPIlist = RPI1993; break;
+      case 1994 : RPIlist = RPI1994; break;
+      case 1995 : RPIlist = RPI1995; break;
+      case 1996 : RPIlist = RPI1996; break;
+      case 1997 : RPIlist = RPI1997; break;
+      case 1998 : RPIlist = RPI1998; break;
+      case 1999 : RPIlist = RPI1999; break;
 
+      case 2000 : RPIlist = RPI2000; break;
+      case 2001 : RPIlist = RPI2001; break;
+      case 2002 : RPIlist = RPI2002; break;
+      case 2003 : RPIlist = RPI2003; break;
+      case 2004 : RPIlist = RPI2004; break;
+      case 2005 : RPIlist = RPI2005; break;
+      case 2006 : RPIlist = RPI2006; break;
+      case 2007 : RPIlist = RPI2007; break;
+      case 2008 : RPIlist = RPI2008; break;
+      case 2009 : RPIlist = RPI2009; break;
+
+      case 2010 : RPIlist = RPI2010; break;
+      case 2011 : RPIlist = RPI2011; break;
+      case 2012 : RPIlist = RPI2012; break;
+      case 2013 : RPIlist = RPI2013; break;
+      case 2014 : RPIlist = RPI2014; break;
+      case 2015 : RPIlist = RPI2015; break;
+      case 2016 : RPIlist = RPI2016; break;
+      case 2017 : RPIlist = RPI2017; break;
+      case 2018 : RPIlist = RPI2018; break;
+
+      
+    }
+    
+    
+  }
+  
+  
   static num indexation(Date purchase, Date sale){
+    
+    
+    
 
-    return RPI;
+
   }
 
 }
