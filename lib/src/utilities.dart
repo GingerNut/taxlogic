@@ -20,6 +20,14 @@ class Utilities{
     return n;
   }
 
+  static num roundTo(num n, int rounding){
+    int decimals = rounding;
+    int fac = pow(10, decimals);
+
+    n = (n * fac).round() / fac;
+    return n;
+  }
+
   static bool isNumeric(String s) {
     if(s == null) {
       return false;

@@ -505,12 +505,30 @@ void taxdata(){
 
     });
 
-    test('Placeholder indexation ', () {
+    test('Indexation ', () {
 
-      Date purchase = new Date(1,1,60);
-      Date sale = new Date(1,7,17);
+      Date purchase = new Date(1,1,83);
+      Date sale = new Date(1,1,17);
 
-      expect(TaxData.IndexationFactor(purchase, sale), 0.5);
+      expect(TaxData.IndexationFactor(purchase, sale), 2.214);
+
+    });
+
+    test('Indexation ', () {
+
+      Date purchase = new Date(1,12,90);
+      Date sale = new Date(1,3,16);
+
+      expect(TaxData.IndexationFactor(purchase, sale), 1.010);
+
+    });
+
+    test('Indexation ', () {
+
+      Date purchase = new Date(1,1,82);
+      Date sale = new Date(1,2,18);
+
+      expect(TaxData.IndexationFactor(purchase, sale), 2.501);
 
     });
 

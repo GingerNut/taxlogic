@@ -1,5 +1,6 @@
 import '../../date.dart';
-
+import 'dart:math';
+import '../../utilities.dart';
 
 class Indexation{
   
@@ -40,11 +41,14 @@ class Indexation{
   static var RPI2015 = [255.4, 256.7, 257.1, 258.0, 258.5, 258.9, 258.6, 259.8, 259.6, 259.5, 259.8, 260.6];
   static var RPI2016 = [258.8, 260.0, 261.1, 261.4, 262.1, 263.1, 263.4, 264.4, 264.9, 264.8, 265.5, 267.1];
   static var RPI2017 = [265.5, 268.4, 269.3, 270.6, 271.7, 272.3, 272.9, 274.7, 275.1, 275.3, 275.8, 278.1];
-  static var RPI2018 = [276.0, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1, 278.1];
 
 
 
-  num RPI(Date date){
+  static num RPI(Date date){
+
+    if(date.year > 2017 ) return 278.1;
+    if(date.year <= 1982 && date.month < 3) return 79.44;
+    if(date.year < 1982) return 79.44;
     
     var RPIlist;
     
@@ -89,20 +93,20 @@ class Indexation{
       case 2015 : RPIlist = RPI2015; break;
       case 2016 : RPIlist = RPI2016; break;
       case 2017 : RPIlist = RPI2017; break;
-      case 2018 : RPIlist = RPI2018; break;
 
-      
     }
-    
-    
+
+    return RPIlist[date.month -1 ];
+
   }
   
   
   static num indexation(Date purchase, Date sale){
     
-    
-    
+    num rpisale = RPI(sale);
+    num rpipurchase = RPI(purchase);
 
+    return Utilities.roundTo((max(rpisale - rpipurchase,0))/rpipurchase,3);
 
   }
 
