@@ -52,11 +52,11 @@ class CapitalAllowances{
   static getOverallAIA(Period period, Entity entity) {
     if(entity.type == Class.company){
 
-      return company_AIA.overallRate(period);
+      return company_AIA.overallAmount(period);
 
     } else {
 
-      return individual_AIA.overallRate(period);
+      return individual_AIA.overallAmount(period);
 
     }
 

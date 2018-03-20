@@ -159,6 +159,14 @@ class Period{
 
   }
 
+  num leapDaysInPeriod(){
+    // find how many 28 Febs there are
+
+
+
+    return 0;
+  }
+
   void printPeriod(){
     print('period start ${start.day} ${start.month} ${start.year} and end ${end.day} ${end.month} ${end.year}');
 

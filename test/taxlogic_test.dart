@@ -434,31 +434,31 @@ void rateChange(){
 
       Period period = new Period(start, end);
 
-      expect(history.overallRate(period), 350273.22);
+      expect(history.overallAmount(period), 351232.88);
 
 
     });
 
     test('Overall rate ', () {
 
-      Date start = new Date(1,7,15);
+      Date start = new Date(1,10,15);
       Date end = new Date(30,6,16);
 
       Period period = new Period(start, end);
 
-      expect(history.overallRate(period), 350273.22);
+      expect(history.overallAmount(period), 225205.48);
 
 
     });
 
     test('Overall interst ', () {
 
-      Date start = new Date(1,7,15);
-      Date end = new Date(30,6,16);
+      Date start = new Date(1,1,12);
+      Date end = new Date(21,9,17);
 
       Period period = new Period(start, end);
 
-      expect(TaxData.OverdueInterestRate(period), 3.0);
+      expect(TaxData.OverdueInterestTotal(period), 16.91);
 
 
     });
@@ -504,6 +504,16 @@ void taxdata(){
 
 
     });
+
+    test('Placeholder indexation ', () {
+
+      Date purchase = new Date(1,1,60);
+      Date sale = new Date(1,7,17);
+
+      expect(TaxData.IndexationFactor(purchase, sale), 0.5);
+
+    });
+
 
 
   });

@@ -81,7 +81,7 @@ class RateHistory{
   }
 
 
-  num overallRate(Period period){
+  num overallAmount(Period period){
     List<RatePeriod> periods = getRatePeriods(period);
 
     num overallRate = 0;
@@ -90,7 +90,22 @@ class RateHistory{
       overallRate += part.rate * part.period.days / period.days;
     });
 
+    overallRate = overallRate * period.days / 365;
+
     return Utilities.roundTax(overallRate);
+
+  }
+
+  num averageRate(Period period){
+    List<RatePeriod> periods = getRatePeriods(period);
+
+    num average = 0;
+
+    periods.forEach((part){
+      average += part.rate * part.period.days / period.days;
+    });
+
+    return Utilities.roundTax(average);
 
   }
 
