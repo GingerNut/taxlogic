@@ -8,10 +8,10 @@ class Asset{
 
   String name;
   String description;
-  num cost;
+  num cost = 0;
   Date purchaseDate;
   Date saleDate;
-  num proceeds;
+  num proceeds = 0;
 
 
 

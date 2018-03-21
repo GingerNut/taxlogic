@@ -8,9 +8,13 @@ import '../utilities.dart';
 
 
 class CorporationTax extends Income{
- final CompanyTaxPosition taxPosition;
 
-  CorporationTax(Entity entity, this.taxPosition) : super(entity);
+ num totalProfits = 0;
+
+  CorporationTax(CompanyTaxPosition taxPosition) : super(taxPosition){
+
+
+  }
 
   num tax = 0;
 
@@ -22,17 +26,19 @@ class CorporationTax extends Income{
 
   calculate(){
 
+   totalProfits = (taxPosition as CompanyTaxPosition).income;
 
+   totalProfits += taxPosition.capitalGainsTaxPosition.gains;
 
 
    // calculate rate of tax
 
-  List<RatePeriod> periods = TaxData.CompanyRatePeriods(taxPosition.period);
+  List<RatePeriod> periods = TaxData.CompanyRatePeriods((taxPosition as CompanyTaxPosition).period);
 
   tax = 0;
 
   periods.forEach((period){
-   tax += taxPosition.income * period.period.duration/taxPosition.period.duration * period.rate;
+   tax += totalProfits * period.period.duration/(taxPosition as CompanyTaxPosition).period.duration * period.rate;
   });
 
   tax = Utilities.roundTax(tax);
@@ -43,12 +49,12 @@ class CorporationTax extends Income{
   List<String> narrative(){
    List<String> narrative = new List();
 
-   List<RatePeriod> periods = TaxData.CompanyRatePeriods(taxPosition.period);
+   List<RatePeriod> periods = TaxData.CompanyRatePeriods((taxPosition as CompanyTaxPosition).period);
 
   num tax;
 
    periods.forEach((period){
-    tax = taxPosition.income * period.period.duration/taxPosition.period.duration * period.rate;
+    tax = (taxPosition as CompanyTaxPosition).income * period.period.duration/(taxPosition as CompanyTaxPosition).period.duration * period.rate;
     tax = Utilities.roundTax(tax);
 
     String line = 'Period from ${period.period.start.day} ${period.period.start.month} ${period.period.start.year} ';

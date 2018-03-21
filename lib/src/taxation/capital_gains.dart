@@ -1,11 +1,10 @@
 import '../tax_position/tax_position.dart';
-import '../entities/entity.dart';
+import '../assets/chargeable_assets.dart';
 import 'dart:math';
 import '../data/tax_data.dart';
+import 'taxation.dart';
 
-abstract class CapitalGains{
-  Entity entity;
-  TaxPosition taxPosition;
+abstract class CapitalGains extends Taxation{
 
   num capitalLossesBroughtForward = 0;
   num capitalLossesCarriedForward = 0;
@@ -21,13 +20,26 @@ abstract class CapitalGains{
 
   num tax = 0;
 
-  CapitalGains(this.entity, this.taxPosition){
+  CapitalGains(TaxPosition taxPosition) : super(taxPosition){
 
     if(taxPosition.previousTaxPosition != null){
       capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
     }
 
     taxPosition.refreshDisposals();
+  }
+
+  get gains {
+
+    calculate();
+
+    num _gains = 0;
+
+    taxPosition.disposals.forEach((asset){
+      _gains += asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated;
+    });
+
+    return _gains;
   }
 
   void calculate(){
@@ -103,5 +115,7 @@ abstract class CapitalGains{
   void allocateLosses();
 
   void calculateTax();
+
+
 
 }

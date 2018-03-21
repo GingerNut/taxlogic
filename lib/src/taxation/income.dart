@@ -1,9 +1,10 @@
 import '../entities/entity.dart';
+import 'taxation.dart';
+import '../tax_position/tax_position.dart';
+
+abstract class Income extends Taxation{
 
 
-abstract class Income{
-  final Entity entity;
-
-  Income(this.entity);
+  Income(TaxPosition taxPosition) : super(taxPosition);
 
 }

@@ -1,8 +1,7 @@
 
 import '../../taxlogic.dart';
 import '../taxation/corporation_tax.dart';
-import '../assets/trade.dart';
-import '../assets/activity.dart';
+import '../taxation/company_capital_gains.dart';
 
 class CompanyTaxPosition extends TaxPosition{
   static const String jsonTagCode = "code";
@@ -12,22 +11,12 @@ class CompanyTaxPosition extends TaxPosition{
   static const String jsonTagDividend = "dividend";
   static const String jsonTagSavings = "savings";
 
-  Activity activity;
-  num dividend = 0;
-  num capitalGains = 0;
+
   num income = 0;
 
-  CorporationTax companyTax;
-
-
-  num get basicRateAvailable =>0;
-
   CompanyTaxPosition(Entity entity, Period period) : super (entity, period){
-    companyTax = new CorporationTax(entity, this);
-
-
-
-
+    incomeTaxPosition = new CorporationTax(this);
+    capitalGainsTaxPosition = new CompanyCapitalGainsPosition(this);
 
   }
 

@@ -5,6 +5,7 @@ import '../period.dart';
 import '../data/tax_data.dart';
 import '../taxation/capital_gains.dart';
 import '../tax_position/company_tax_position.dart';
+import '../taxation/income.dart';
 
 
 
@@ -14,6 +15,7 @@ abstract class TaxPosition{
   TaxPosition previousTaxPosition;
 
   CapitalGains capitalGainsTaxPosition;
+  Income incomeTaxPosition;
 
   List<ChargeableAsset> disposals = new List();
 

@@ -1698,13 +1698,34 @@ void corporationTax(){
       Date second = new Date(30,9,20);
       Period period = new Period(first, second);
       CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
-      CorporationTax corpTax = new CorporationTax(company, taxPosition);
+      CorporationTax corpTax = new CorporationTax(taxPosition);
 
       taxPosition.income = 10000;
       corpTax.calculate();
 
       expect(corpTax.tax, 1795.07);
     });
+
+    test('Accounting period', () {
+
+      Date first = new Date(1,4,16);
+      Date second = new Date(31,3,17);
+      Period period = new Period(first, second);
+      CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
+      CorporationTax corpTax = new CorporationTax(taxPosition);
+
+      ChargeableAsset asset01 = new ChargeableAsset(company);
+      asset01.saleDate = new Date(31,3,17);
+      asset01.proceeds = 10000;
+      asset01.cost = 5000;
+      company.assets.add(asset01);
+
+      taxPosition.income = 10000;
+      corpTax.calculate();
+
+      expect(corpTax.tax, 3000);
+    });
+
 
 
   });

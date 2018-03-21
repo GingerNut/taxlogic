@@ -14,7 +14,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-  PersonalCapitalGainsPosition(Person person, PersonalTaxPosition taxPosition) : super(person, taxPosition);
+  PersonalCapitalGainsPosition(PersonalTaxPosition taxPosition) : super(taxPosition);
 
   void allocateLosses(){
     num lossesToAllocate = totalLossUsed;

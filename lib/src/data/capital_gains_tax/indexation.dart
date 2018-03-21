@@ -45,7 +45,6 @@ class Indexation{
 
 
   static num RPI(Date date){
-
     if(date.year > 2017 ) return 278.1;
     if(date.year <= 1982 && date.month < 3) return 79.44;
     if(date.year < 1982) return 79.44;
@@ -102,7 +101,9 @@ class Indexation{
   
   
   static num indexation(Date purchase, Date sale){
-    
+
+    if(purchase == null || sale == null) return 0;
+
     num rpisale = RPI(sale);
     num rpipurchase = RPI(purchase);
 

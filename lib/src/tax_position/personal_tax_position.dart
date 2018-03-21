@@ -27,9 +27,9 @@ class PersonalTaxPosition extends TaxPosition{
 
   PersonalTaxPosition(Person person, int year) : super (person, new TaxYear(year)){
     period = new TaxYear(year);
-    incomeTax = new IncomeTaxPosition(person, this);
-    nicPosition = new NationalInsurancePosition(person, this);
-    capitalGainsTaxPosition = new PersonalCapitalGainsPosition(person, this);
+    incomeTax = new IncomeTaxPosition(this);
+    nicPosition = new NationalInsurancePosition(this);
+    capitalGainsTaxPosition = new PersonalCapitalGainsPosition(this);
   }
 
 
