@@ -10,7 +10,8 @@ enum Class{
 class Entity{
   String code;
   Class type;
-  bool scotland = false;
+
+  List<Entity> children = new List();
   List<ChargeableAsset> assets = new List();
 
 

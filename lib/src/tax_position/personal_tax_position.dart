@@ -25,7 +25,7 @@ class PersonalTaxPosition extends TaxPosition{
     return incomeTax.getBasicRateAvailable();
   }
 
-  PersonalTaxPosition(Entity person, int year) : super (person, new TaxYear(year)){
+  PersonalTaxPosition(Person person, int year) : super (person, new TaxYear(year)){
     period = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);

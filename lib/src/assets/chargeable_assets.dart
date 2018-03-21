@@ -57,7 +57,7 @@ class ChargeableAsset{
       num indexation = min(TaxData.IndexationFactor(purchaseDate, saleDate) * cost, _taxableGain);
 
       _taxableGain -= indexation ;
-      print(indexation);
+
     }
 
     return _taxableGain;
