@@ -1,12 +1,11 @@
-import 'package:taxlogic/src/entities/entity.dart';
-import 'dart:math';
+import 'package:taxlogic/src/entities/person.dart';
 import '../assets/chargeable_assets.dart';
 import '../utilities.dart';
-import '../tax_position/tax_position.dart';
+import '../tax_position/personal_tax_position.dart';
 import 'capital_gains.dart';
 import '../data/tax_data.dart';
 
-class CapitalGainsTaxPosition extends CapitalGains{
+class PersonalCapitalGainsPosition extends CapitalGains{
 
   num taxBasicRateRes = 0;
   num taxBasicRateNonRes = 0;
@@ -15,85 +14,9 @@ class CapitalGainsTaxPosition extends CapitalGains{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-  CapitalGainsTaxPosition(Entity person, TaxPosition taxPosition) : super(person, taxPosition){
+  PersonalCapitalGainsPosition(Person person, PersonalTaxPosition taxPosition) : super(person, taxPosition);
 
-    if(taxPosition.previousTaxPosition != null){
-      capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
-    }
-
-    taxPosition.refreshDisposals();
-  }
-
-  void calculate(){
-
-    taxPosition.refreshDisposals();
-
-    annualExemption = TaxData.CapitalGainsAnnualExempt(taxPosition.period.end.year, taxPosition.entity);
-    netGains = 0;
-    capitalGainsTax = 0;
-
-    totalGains = 0;
-    capitalLosses = 0;
-
-    taxPosition.disposals.forEach((asset){
-
-      if(asset.taxableGain > 0){
-        totalGains += asset.taxableGain;
-      } else{
-        capitalLosses -= asset.taxableGain;
-
-      }
-
-    });
-
-    // loss relief
-
-    netGains = totalGains - capitalLosses;
-    taxableGains = 0;
-    capitalLossesCarriedForward = capitalLossesBroughtForward;
-
-    num currentCapitalLossUsed = 0;
-    num broughtForwardLossUsed = 0;
-    num totalLossUsed = 0;
-
-    currentCapitalLossUsed = min(capitalLosses, totalGains);
-
-    if(netGains > 0){
-
-      if(capitalLossesBroughtForward > 0 && netGains > annualExemption){
-
-        broughtForwardLossUsed = min(capitalLossesBroughtForward, netGains - annualExemption);
-
-        netGains -= broughtForwardLossUsed;
-        capitalLossesCarriedForward -= broughtForwardLossUsed;
-
-      }
-      
-      //capitalLossesCarriedForward = capitalLossesBroughtForward - broughtForwardLossUsed;
-
-      totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
-
-    } else {
-      capitalLossesCarriedForward -= netGains;
-
-     }
-
-     if(netGains < annualExemption){
-      annualExemption = netGains;
-     }
-
-    taxableGains = netGains - annualExemption;
-
-    // calculate tax
-    
-    // allocate taxable gains to lowest rates
-
-    // first find basic rate amount
-
-
-
-  // allocate taxable gains in best way for taxpayer
-
+  void allocateLosses(){
     num lossesToAllocate = totalLossUsed;
 
     //sort disposals into loss priority - residential first, non residential next then entrepreneur
@@ -134,7 +57,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
       else if(priority == nonResidential) priority = entrepreneur;
       else priority = null;
     }
-    
+
     // allocate annual exemption
 
     num annualExemptionToAllocate = annualExemption;
@@ -160,11 +83,11 @@ class CapitalGainsTaxPosition extends CapitalGains{
       else if(priority == nonResidential) priority = entrepreneur;
       else priority = null;
     }
-    
-    
+
+
 
     // allocate gains to rates of tax
-    basicRateAmount = taxPosition.basicRateAvailable;
+    basicRateAmount = (taxPosition as PersonalTaxPosition).basicRateAvailable;
 
     num basicRateToAllocate = basicRateAmount;
 
@@ -189,19 +112,20 @@ class CapitalGainsTaxPosition extends CapitalGains{
       else if(priority == nonResidential) priority = entrepreneur;
       else priority = null;
     }
-    
-    // calculate tax
 
+  }
+
+  void calculateTax() {
     taxPosition.disposals.forEach((asset){
-      
+
       if(asset.residentialProperty){
         taxBasicRateRes += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
           taxHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
-        
+
       } else if (asset.entrepreneurRelief){
-        
+
         taxBasicRateEnt += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
           taxHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
@@ -214,7 +138,7 @@ class CapitalGainsTaxPosition extends CapitalGains{
           taxHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
       }
-      });
+    });
 
     tax = 0;
 
@@ -227,11 +151,4 @@ class CapitalGainsTaxPosition extends CapitalGains{
 
     tax = Utilities.roundTax(tax);
   }
-
-
-
-
-
-
-
 }

@@ -4,15 +4,9 @@ import '../date.dart';
 import '../utilities.dart';
 import '../entities/entity.dart';
 import 'dart:math';
+import 'asset.dart';
 
-class ChargeableAsset{
-  Entity entity;
-  String name;
-  String description;
-  num cost;
-  Date purchaseDate;
-  Date saleDate;
-  num proceeds;
+class ChargeableAsset extends Asset{
   num _taxableGain;
   num _totalImprovements;
   num lossAllocated = 0;
@@ -23,7 +17,7 @@ class ChargeableAsset{
   bool residentialProperty = false;
   bool exempt = false;
 
-  ChargeableAsset(this.entity);
+  ChargeableAsset(Entity entity) : super(entity);
 
   List<Improvement> _improvements = new List();
 

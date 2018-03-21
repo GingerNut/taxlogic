@@ -34,6 +34,4 @@ abstract class TaxPosition{
   }
 
 
-  num get basicRateAvailable;
-
 }

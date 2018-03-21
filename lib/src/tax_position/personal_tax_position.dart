@@ -29,7 +29,7 @@ class PersonalTaxPosition extends TaxPosition{
     period = new TaxYear(year);
     incomeTax = new IncomeTaxPosition(person, this);
     nicPosition = new NationalInsurancePosition(person, this);
-    capitalGainsTaxPosition = new CapitalGainsTaxPosition(person, this);
+    capitalGainsTaxPosition = new PersonalCapitalGainsPosition(person, this);
   }
 
 
