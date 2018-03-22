@@ -24,8 +24,6 @@ abstract class CapitalGains extends Taxation{
     if(taxPosition.previousTaxPosition != null){
       capitalLossesBroughtForward = taxPosition.previousTaxPosition.capitalGainsTaxPosition.capitalLossesCarriedForward;
     }
-
-    taxPosition.refreshDisposals();
   }
 
   get gains {
@@ -42,6 +40,8 @@ abstract class CapitalGains extends Taxation{
   }
 
   void calculate(){
+    taxPosition.refreshDisposals();
+
     analyseDisposals();
 
     allocateLosses();

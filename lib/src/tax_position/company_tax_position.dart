@@ -23,4 +23,8 @@ class CompanyTaxPosition extends TaxPosition{
 
 
 
+  @override
+  adjustPropertyProfit(IncomeAndExpenditureProperty accounts) {
+
+  }
 }

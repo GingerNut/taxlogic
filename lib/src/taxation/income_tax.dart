@@ -22,6 +22,8 @@ class IncomeTaxPosition extends Taxation{
   num higherRateUsed = 0;
   num additionalRateUsed = 0;
 
+
+
   num dividendNilRate = 0;
   num basicRateDividend = 0;
   num higherRateDividend = 0;
@@ -56,6 +58,8 @@ class IncomeTaxPosition extends Taxation{
 
 
   void calculate(){
+
+    taxPosition.refreshIncome();
    
     reset();
 
@@ -215,6 +219,13 @@ class IncomeTaxPosition extends Taxation{
     tax += basicRateDividend * TaxData.DividendBasicRate((taxPosition as PersonalTaxPosition).period.end.year, (taxPosition.entity as Person).scotland);
     tax += higherRateDividend * TaxData.DividendHigherRate((taxPosition as PersonalTaxPosition).period.end.year, (taxPosition.entity as Person).scotland);
     tax += additionalRateDividend * TaxData.DividendAdditionalRate((taxPosition as PersonalTaxPosition).period.end.year, (taxPosition.entity as Person).scotland);
+
+    // tax credits
+    // property tax credit
+
+    tax -= (taxPosition as PersonalTaxPosition).propertyTaxCredit;
+
+
 
     tax = Utilities.roundTax(tax);
 
