@@ -1,5 +1,6 @@
 import 'package:taxlogic/src/game/position/position.dart';
 import 'position/landlord_start.dart';
+import 'position/blank_position.dart';
 import '../date.dart';
 
 class Game{
@@ -14,6 +15,8 @@ class Game{
   newGame(int gameType, Date date){
     position = startingPosition(gameType, date);
 
+    position.setUp();
+
 
   }
 
@@ -25,7 +28,7 @@ class Game{
       case LANDLORD : position = new LandlordStart(this, date);
       break;
 
-      default: position = new Position(this, null, null);
+      default: position = new BlankStart(this, date);
     }
 
     return position;

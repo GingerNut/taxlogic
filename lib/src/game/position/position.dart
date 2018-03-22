@@ -2,15 +2,15 @@ import '../../entities/entity.dart';
 import 'package:taxlogic/src/game/move/move.dart';
 import '../game.dart';
 
-class Position{
-    Position lastPosition;
-    Move move;
+abstract class Position{
+    final Position lastPosition;
+    final Move move;
+    final Game game;
+
     Entity entity;
-    Game game;
 
-    Position(this.game, this.lastPosition, this.move){
+    Position(this.game, this.lastPosition, this.move);
 
-
-    }
+    setUp();
 
 }
