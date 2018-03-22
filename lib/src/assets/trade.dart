@@ -6,13 +6,10 @@ import '../accounts/trade_accounts.dart';
 import 'activity.dart';
 
 class Trade extends Activity{
-  final Entity entity;
-  DateTime commencement;
-  DateTime cessation;
 
-  Trade(this.entity);
 
-  List<TradeAccounts> accounts = new List();
+  Trade(Entity entity) : super(entity);
+
 
 
 
