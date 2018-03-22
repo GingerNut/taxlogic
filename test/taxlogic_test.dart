@@ -24,10 +24,12 @@ void game(){
   group('Game elements ', (){
 
     test('New game ', () {
-
       Game game = new Game();
+    });
 
-
+    test('Landlord start ', () {
+      Game game = new Game();
+      game.newGame(Game.LANDLORD, new Date(6,4,18));
     });
 
 
