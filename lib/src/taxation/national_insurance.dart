@@ -105,7 +105,7 @@ class NationalInsurancePosition extends Taxation{
       nicClass4 += tradeAboveUpperLimit * TaxData.C4RateAboveUpperLimit((taxPosition as PersonalTaxPosition).period.end.year);
     }
 
-    List<List<String>> narrativeNICCalc(List<List<String>> narrative){
+    List<List<String>> narrative(List<List<String>> narrative){
 
     //narrative.add(['','','','','','',]);
 

@@ -151,4 +151,8 @@ class PersonalCapitalGainsPosition extends CapitalGains{
 
     tax = Utilities.roundTax(tax);
   }
+  @override
+  List<List<String>> narrative(List<List<String>> narrative) {
+    // TODO: implement narrative
+  }
 }

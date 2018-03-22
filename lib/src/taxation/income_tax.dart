@@ -237,7 +237,7 @@ class IncomeTaxPosition extends Taxation{
 
 
 
-    List<List<String>> narrativeTaxCalc(List<List<String>> narrative){
+    List<List<String>> narrative(List<List<String>> narrative){
 
     //narrative.add(['','','','','','',]);
 

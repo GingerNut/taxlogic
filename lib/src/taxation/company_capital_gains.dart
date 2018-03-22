@@ -31,4 +31,8 @@ class CompanyCapitalGainsPosition extends CapitalGains{
   void calculateTax() {
 
   }
+  @override
+  List<List<String>> narrative(List<List<String>> narrative) {
+    // TODO: implement narrative
+  }
 }

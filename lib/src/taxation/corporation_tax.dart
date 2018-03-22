@@ -46,8 +46,9 @@ class CorporationTax extends Taxation{
   }
 
 
-  List<String> narrative(){
-   List<String> narrative = new List();
+ List<List<String>> narrative( List<List<String>> narrative){
+
+   List<String> narrativeLine = new List();
 
    List<RatePeriod> periods = TaxData.CompanyRatePeriods((taxPosition as CompanyTaxPosition).period);
 
@@ -62,7 +63,7 @@ class CorporationTax extends Taxation{
     line +=' at ${period.rate * 100}% ';
     line += ' $tax';
 
-    narrative.add(line);
+    narrativeLine.add(line);
 
    });
 
