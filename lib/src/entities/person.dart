@@ -17,10 +17,7 @@ class Person extends Entity{
   String surname;
   String address;
 
-  PersonalTaxPosition taxPosition2016;
-  PersonalTaxPosition taxPosition2017;
-  PersonalTaxPosition taxPosition2018;
-  PersonalTaxPosition taxPosition2019;
+  List<PersonalTaxPosition> taxYears = new List();
 
   PersonalTaxPosition currentTaxYear;
 
@@ -29,32 +26,23 @@ class Person extends Entity{
 
   }
 
-  void setTaxPositions(){
-    taxPosition2016 = new PersonalTaxPosition(this, 2016);
-    taxPosition2017 = new PersonalTaxPosition(this, 2017);
-    taxPosition2018 = new PersonalTaxPosition(this, 2018);
-    taxPosition2019 = new PersonalTaxPosition(this, 2019);
-  }
+  PersonalTaxPosition taxYear(int year){
 
+    PersonalTaxPosition taxYear;
 
-  PersonalTaxPosition getYear(int year){
+    taxYears.forEach((taxPosition){
+      if(taxPosition.period.end.year == year) taxYear = taxPosition;
+    });
 
-    switch(year){
-      case 2016: return taxPosition2016;
-
-      case 2017: return taxPosition2017;
-
-      case 2018: return taxPosition2018;
-
-      case 2019: return taxPosition2019;
-
+    if(taxYear == null){
+      taxYear = new PersonalTaxPosition(this, year);
+      taxYears.add(taxYear);
     }
-    return taxPosition2017;
-
+    return taxYear;
   }
 
   setCurrentTaxYear(int year) {
-    currentTaxYear = getYear(year);
+    currentTaxYear = taxYear(year);
   }
 
     static Person fromMap(Map map){
