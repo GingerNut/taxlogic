@@ -3,10 +3,10 @@ import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import 'package:taxlogic/src/entities/person.dart';
 import '../utilities.dart';
 import '../data/tax_data.dart';
-import 'income.dart';
+import 'taxation.dart';
 import '../tax_position/tax_position.dart';
 
-class IncomeTaxPosition extends Income{
+class IncomeTaxPosition extends Taxation{
 
   num personalAllowance;
   num personalAllowanceUsed = 0;
@@ -29,8 +29,6 @@ class IncomeTaxPosition extends Income{
 
   num savingsAllowance;
   num savingsNilRateBand;
-
-  num tax = 0.0;
 
 
   IncomeTaxPosition(TaxPosition taxPosition) : super(taxPosition);

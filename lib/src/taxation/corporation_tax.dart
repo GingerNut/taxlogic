@@ -1,4 +1,4 @@
-import 'income.dart';
+import 'taxation.dart';
 import '../entities/entity.dart';
 import '../tax_position/company_tax_position.dart';
 import '../date.dart';
@@ -7,7 +7,7 @@ import '../rate_history.dart';
 import '../utilities.dart';
 
 
-class CorporationTax extends Income{
+class CorporationTax extends Taxation{
 
  num totalProfits = 0;
 

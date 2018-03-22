@@ -1,9 +1,12 @@
 import '../tax_position/tax_position.dart';
 
 
-class Taxation{
+abstract class Taxation{
   TaxPosition taxPosition;
+  num tax = 0;
 
   Taxation(this.taxPosition);
+
+  void calculate();
 
 }

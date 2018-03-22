@@ -3,9 +3,9 @@ import 'package:taxlogic/src/entities/person.dart';
 import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import '../utilities.dart';
 import '../data/tax_data.dart';
-import 'income.dart';
+import 'taxation.dart';
 
-class NationalInsurancePosition extends Income{
+class NationalInsurancePosition extends Taxation{
 
   Person person;
 

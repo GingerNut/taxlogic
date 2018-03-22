@@ -1,8 +1,8 @@
 import '../accounts/accounting_period.dart';
 import '../entities/entity.dart';
+import 'asset.dart';
 
-class Activity{
-  final Entity entity;
+class Activity extends Asset{
   DateTime commencement;
   DateTime cessation;
 
@@ -14,7 +14,7 @@ class Activity{
 
   List<AccountingPeriod> accounts = new List();
 
-  Activity(this.entity);
+  Activity(Entity entity): super(entity);
 
 
 

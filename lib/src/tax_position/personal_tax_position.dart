@@ -17,17 +17,16 @@ class PersonalTaxPosition extends TaxPosition{
   num savings = 0;
   num capitalGains = 0;
 
-  IncomeTaxPosition incomeTax;
   NationalInsurancePosition nicPosition;
 
 
   num get basicRateAvailable{
-    return incomeTax.getBasicRateAvailable();
+    return (incomeTaxPosition as IncomeTaxPosition).getBasicRateAvailable();
   }
 
   PersonalTaxPosition(Person person, int year) : super (person, new TaxYear(year)){
     period = new TaxYear(year);
-    incomeTax = new IncomeTaxPosition(this);
+    incomeTaxPosition = new IncomeTaxPosition(this);
     nicPosition = new NationalInsurancePosition(this);
     capitalGainsTaxPosition = new PersonalCapitalGainsPosition(this);
   }

@@ -18,7 +18,6 @@ abstract class CapitalGains extends Taxation{
 
   num totalLossUsed = 0;
 
-  num tax = 0;
 
   CapitalGains(TaxPosition taxPosition) : super(taxPosition){
 
