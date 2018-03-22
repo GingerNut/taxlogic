@@ -46,8 +46,12 @@ abstract class TaxPosition{
     entity.assets.forEach((activity){
       if(activity is PropertyBusiness){
         (activity as PropertyBusiness).accounts.forEach((account){
+
+          if(period.includes(account.period.end)){
           propertyIncome += (account as IncomeAndExpenditureProperty).profit;
           adjustPropertyProfit(account);
+          }
+
         });
 
       }
