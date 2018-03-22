@@ -2,6 +2,7 @@ import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
 void main() {
+  game();
   dates();
   periods();
   rateChange();
@@ -16,6 +17,23 @@ void main() {
   capitalGains();
   incomeAndExpenditure();
   corporationTax();
+}
+
+void game(){
+
+  group('Game elements ', (){
+
+    test('New game ', () {
+
+      Game game = new Game();
+
+
+    });
+
+
+  });
+
+
 }
 
 void dates(){

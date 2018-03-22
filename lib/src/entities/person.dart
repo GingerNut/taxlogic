@@ -11,6 +11,7 @@ class Person extends Entity{
   static const String jsonTagAddress = "address";
 
   bool scotland = false;
+  Person spouse;
 
   String firstName;
   String surname;

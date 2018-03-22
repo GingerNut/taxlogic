@@ -24,3 +24,4 @@ export 'src/accounts/rental_income_and_expenditure.dart';
 export 'src/entities/company.dart';
 export 'src/data/tax_data.dart';
 export 'src/rate_history.dart';
+export 'src/game/game.dart';
