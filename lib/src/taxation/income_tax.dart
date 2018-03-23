@@ -63,7 +63,7 @@ class IncomeTaxPosition extends Taxation{
    
     reset();
 
-    totalIncome = (taxPosition as PersonalTaxPosition).earnings + (taxPosition as PersonalTaxPosition).trade + (taxPosition as PersonalTaxPosition).dividend + (taxPosition as PersonalTaxPosition).savings;
+    totalIncome = (taxPosition as PersonalTaxPosition).earnings + (taxPosition as PersonalTaxPosition).trade + (taxPosition as PersonalTaxPosition).dividend + (taxPosition as PersonalTaxPosition).savings + taxPosition.propertyIncome;
 
     num dividend = (taxPosition as PersonalTaxPosition).dividend;
     
@@ -223,7 +223,7 @@ class IncomeTaxPosition extends Taxation{
     // tax credits
     // property tax credit
 
-    tax -= (taxPosition as PersonalTaxPosition).propertyTaxCredit;
+    tax -= min(tax, (taxPosition as PersonalTaxPosition).propertyTaxCredit);
 
 
 

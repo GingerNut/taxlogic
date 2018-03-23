@@ -1,4 +1,4 @@
-import '../assets/chargeable_assets.dart';
+import '../assets/asset.dart';
 import '../date.dart';
 
 enum Class{
@@ -16,7 +16,7 @@ class Entity{
   Date death;
 
   List<Entity> children = new List();
-  List<ChargeableAsset> assets = new List();
+  List<Asset> assets = new List();
 
 
 }

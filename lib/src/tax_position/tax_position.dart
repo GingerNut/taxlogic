@@ -48,7 +48,7 @@ abstract class TaxPosition{
         (activity as PropertyBusiness).accounts.forEach((account){
 
           if(period.includes(account.period.end)){
-          propertyIncome += (account as IncomeAndExpenditureProperty).profit;
+          propertyIncome += (account as IncomeAndExpenditureProperty).profit + (account as IncomeAndExpenditureProperty).interestRestriction;
           adjustPropertyProfit(account);
           }
 

@@ -45,9 +45,8 @@ class IncomeAndExpenditure extends AccountingPeriod{
 
   add(Entry entry){
 
-    if(entry is Expenditure) expenditure.add(entry);
+    if(entry is Expenditure || entry is Interest) expenditure.add(entry);
     else if(entry is Income) income.add(entry);
-
   }
 }
 

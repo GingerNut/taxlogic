@@ -53,6 +53,10 @@ abstract class IncomeTaxData{
       case 2019:
         scotland ? taxData = new IncomeTaxDataScotland2019() : taxData = new IncomeTaxData2019();
         break;
+
+        default:
+          scotland ? taxData = new IncomeTaxDataScotland2018() : taxData = new IncomeTaxData2018();
+        break;
     }
 
     return taxData;
