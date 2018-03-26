@@ -31,8 +31,6 @@ class LandlordStart extends Position{
     ResidentialProperty property = new ResidentialProperty(entity);
     business.properties.add(property);
 
-    property.annualRent = 10000;
-    property.annualInterest = 5000;
 
     Date startDate = new Date(6,4,taxYear-1);
     Date enddate = new Date (5,4,taxYear);
@@ -40,19 +38,13 @@ class LandlordStart extends Position{
 
     IncomeAndExpenditureProperty rentalAccounts = new IncomeAndExpenditureProperty(period, entity);
 
-    rentalAccounts.add(new Income(new Date(5,4,taxYear), 'rents', property.annualRent));
-    rentalAccounts.add(new Interest(new Date(5,4,taxYear), 'interest', property.annualInterest));
+    rentalAccounts.add(new Income(new Date(5,4,taxYear), 'rents', property.rent(period)));
+    rentalAccounts.add(new Interest(new Date(5,4,taxYear), 'interest', property.interest(period)));
 
     print('printing from landlord start - property interest calcs not right');
 
-    print(rentalAccounts.profit);
-
     business.accounts.add(rentalAccounts);
     person.taxYear(taxYear).incomeTaxPosition.calculate();
-
-    print(person.taxYear(taxYear).propertyIncome);
-    print(person.taxYear(taxYear).incomeTaxPosition.tax);
-
 
   }
 

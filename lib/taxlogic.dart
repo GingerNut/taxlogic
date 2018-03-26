@@ -17,6 +17,8 @@ export 'src/database/database.dart';
 export 'src/period.dart';
 export 'src/date.dart';
 export 'src/assets/chargeable_assets.dart';
+export 'src/assets/activity.dart';
+export 'src/assets/property_business.dart';
 export 'src/assets/residential_property.dart';
 export 'src/tax_year.dart';
 export 'src/accounts/income_and_expenditure.dart';

@@ -24,6 +24,7 @@ abstract class TaxPosition{
   List<ChargeableAsset> disposals = new List();
 
   num propertyIncome = 0;
+  num propertyTaxCredit = 0;
   num tradingIncome = 0;
 
   refreshDisposals() {
@@ -43,13 +44,13 @@ abstract class TaxPosition{
     propertyIncome = 0;
     tradingIncome = 0;
 
-    entity.assets.forEach((activity){
+    entity.activities.forEach((activity){
       if(activity is PropertyBusiness){
         (activity as PropertyBusiness).accounts.forEach((account){
 
           if(period.includes(account.period.end)){
-          propertyIncome += (account as IncomeAndExpenditureProperty).profit + (account as IncomeAndExpenditureProperty).interestRestriction;
-          adjustPropertyProfit(account);
+          propertyIncome += (account as IncomeAndExpenditureProperty).profit;
+          propertyTaxCredit += (account as IncomeAndExpenditureProperty).taxCredit;
           }
 
         });

@@ -486,6 +486,49 @@ void rateChange(){
 
     });
 
+    test('Rental income  ', () {
+      Person person = new Person();
+      ResidentialProperty property = new ResidentialProperty(person);
+
+      Date date1 = new Date(1,1,17);
+      num amount1 = 10000;
+
+      Date date2 = new Date(1,1,18);
+      num amount2 = 15000;
+
+      property.setRent(amount1, date1);
+
+      Date start = new Date(1,1,17);
+      Date end = new Date(31,12,17);
+
+      Period period = new Period(start, end);
+
+      expect(property.rent(period), 10000);
+
+    });
+
+    test('Rental income  ', () {
+      Person person = new Person();
+      ResidentialProperty property = new ResidentialProperty(person);
+
+      Date date1 = new Date(1,1,17);
+      num amount1 = 10000;
+
+      Date date2 = new Date(1,1,18);
+      num amount2 = 15000;
+
+      property.setRent(amount1, date1);
+      property.setRent(amount2, date2);
+
+      Date start = new Date(1,7,17);
+      Date end = new Date(30,6,18);
+
+      Period period = new Period(start, end);
+
+      expect(property.rent(period), 12438.36);
+
+    });
+
   });
 
 
@@ -1696,6 +1739,72 @@ void incomeAndExpenditure(){
       expect(coPropertyAccount.profit, 1500);
       expect(coPropertyAccount.taxCredit, 0);
     });
+
+    test('Residential property with interest deduction 2021 company', () {
+      Company company = new Company();
+      Date start = new Date (6,4,17);
+      Date end = new Date(5,4,18);
+
+      Period period = new Period(start, end);
+      IncomeAndExpenditureProperty coPropertyAccount = new IncomeAndExpenditureProperty(period, company);
+
+      Date date = new Date(5,4,19);
+      coPropertyAccount.period.start = new Date(6,4,20);
+      coPropertyAccount.period.end = new Date(5,4,21);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      coPropertyAccount.add(rent1);
+      coPropertyAccount.add(rent2);
+      coPropertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      coPropertyAccount.add(repairs);
+      coPropertyAccount.add(interest);
+
+      expect(coPropertyAccount.profit, 1500);
+      expect(coPropertyAccount.taxCredit, 0);
+    });
+
+    test('Residential property 2020 added to Activities', () {
+
+      Date date = new Date(5,4,19);
+      propertyAccount.period.start = new Date(6,4,19);
+      propertyAccount.period.end = new Date(5,4,20);
+
+      Income rent1 = new Income(date, 'rent', 1000);
+      Income rent2 = new Income(date, 'rent', 3000);
+      Income rent3 = new Income(date, 'rent', 500);
+
+      propertyAccount.add(rent1);
+      propertyAccount.add(rent2);
+      propertyAccount.add(rent3);
+
+      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      Interest interest = new Interest(date, 'interet', 1000);
+
+      propertyAccount.add(repairs);
+      propertyAccount.add(interest);
+
+      Person person = new Person();
+      PropertyBusiness business = new PropertyBusiness(person);
+      business.accounts.add(propertyAccount);
+
+      person.activities.add(business);
+
+      person.taxYear(2020).incomeTaxPosition.calculate();
+
+      expect(propertyAccount.profit, 2250);
+      expect(propertyAccount.taxCredit, 150);
+      expect(person.taxYear(2020).propertyIncome, 2250);
+      expect(person.taxYear(2020).propertyTaxCredit, 150);
+    });
+
+
 
   });
 

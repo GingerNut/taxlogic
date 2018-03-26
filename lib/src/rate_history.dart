@@ -3,10 +3,17 @@ import 'date.dart';
 import 'utilities.dart';
 
 class RateHistory{
-
-  final List<RateChange> history;
-
   RateHistory(this.history);
+
+  RateHistory.empty(){
+    this.history = new List<RateChange>();
+  }
+
+  List<RateChange> history;
+
+  add(RateChange change){
+    history.add(change);
+  }
 
 
   num rateAt(Date date){
@@ -82,6 +89,8 @@ class RateHistory{
 
 
   num overallAmount(Period period){
+    if(history.length ==0) return 0;
+
     List<RatePeriod> periods = getRatePeriods(period);
 
     num overallRate = 0;

@@ -1,4 +1,5 @@
 import '../assets/asset.dart';
+import '../assets/activity.dart';
 import '../date.dart';
 
 enum Class{
@@ -17,6 +18,6 @@ class Entity{
 
   List<Entity> children = new List();
   List<Asset> assets = new List();
-
+  List<Activity> activities = new List();
 
 }

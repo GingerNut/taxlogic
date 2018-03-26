@@ -4,8 +4,7 @@ import '../entities/entity.dart';
 
 class ResidentialProperty extends Property{
 
-  num annualRent = 0;
-  num annualInterest = 0;
+
 
   List<Period> _mainResidencePeriods = new List();
   num residenceRelief;

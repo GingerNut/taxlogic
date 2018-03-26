@@ -16,7 +16,7 @@ class PersonalTaxPosition extends TaxPosition{
   num dividend = 0;
   num savings = 0;
   num capitalGains = 0;
-  num propertyTaxCredit = 0;
+
 
   NationalInsurancePosition nicPosition;
 
