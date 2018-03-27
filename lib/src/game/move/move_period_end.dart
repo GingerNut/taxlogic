@@ -4,8 +4,12 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class PeriodEnd extends Move{
-  PeriodEnd(Position position) : super(position);
+  PeriodEnd(int type, Position position): super(type, position);
 
 
 
+  @override
+  setUp() {
+    // TODO: implement setUp
+  }
 }

@@ -4,8 +4,12 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class AddAsset extends Move{
-  AddAsset(Position position) : super(position);
+  AddAsset(int type, Position position): super(type, position);
 
 
 
+  @override
+  setUp() {
+    // TODO: implement setUp
+  }
 }

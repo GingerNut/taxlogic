@@ -4,8 +4,12 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class ChangeActivity extends Move{
-  ChangeActivity(Position position) : super(position);
+  ChangeActivity(int type, Position position): super(type, position);
 
 
 
+  @override
+  setUp() {
+    // TODO: implement setUp
+  }
 }

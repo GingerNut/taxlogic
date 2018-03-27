@@ -4,8 +4,12 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class TransferEntity extends Move{
-  TransferEntity(Position position) : super(position);
+  TransferEntity(int type, Position position): super(type, position);
 
 
 
+  @override
+  setUp() {
+    // TODO: implement setUp
+  }
 }
