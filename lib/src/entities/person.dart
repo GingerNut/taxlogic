@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/date.dart';
 import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
 import '../assets/chargeable_assets.dart';
 import 'entity.dart';
@@ -45,6 +46,8 @@ class Person extends Entity{
     currentTaxYear = taxYear(year);
   }
 
+
+
     static Person fromMap(Map map){
 
       Person person = new Person();
@@ -70,5 +73,17 @@ class Person extends Entity{
 
       return jsonMap;
     }
+    @override
+  num taxPayble(Date periodend) {
+    if(periodend == death) return taxToDeath();
+
+    int taxyear = periodend.year;
+    taxYear(taxyear).incomeTaxPosition.calculate();
+    return  taxYear(taxyear).incomeTaxPosition.tax;
   }
+
+  num taxToDeath(){
+
+  }
+}
 

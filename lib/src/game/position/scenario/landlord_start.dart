@@ -10,40 +10,41 @@ import '../../../accounts/income_and_expenditure.dart';
 import 'scenario.dart';
 import '../../../entities/person.dart';
 import '../../../tax_year.dart';
+import '../../game.dart';
 
-class LandlordStart extends Position{
-  Scenario scenario;
+class LandlordStart extends Scenario{
+  Person person;
 
-  LandlordStart(Game game, this.scenario) : super(game, null, null);
-
-
+ LandlordStart();
 
 
   @override
-  setUp() {
-    Person person;
-    entity = new Person();
-    PropertyBusiness business = new PropertyBusiness(entity);
-    person = entity as Person;
+  void setup(Game game){
+    super.setup(game);
 
-    person.assets.add(business);
-    int taxYear = scenario.start.taxYear;
+    person = new Person();
 
-    ResidentialProperty property = new ResidentialProperty(entity);
+    game.position = new Position(game, null, null);
+    game.position.entity = person;
+    PropertyBusiness business = new PropertyBusiness(person);
+
+    person.activities.add(business);
+
+    ResidentialProperty property = new ResidentialProperty(person);
     business.properties.add(property);
 
+    property.setRent(projectedIncome, start);
+    property.setInterst(projectedFinanceCost, start);
 
-    Date startDate = new Date(6,4,taxYear-1);
-    Date enddate = new Date (5,4,taxYear);
-    Period period = new Period(startDate,enddate);
+    Date enddate = new Date (5,4,start.taxYear);
+    Period period = new Period(start, enddate);
 
-    IncomeAndExpenditureProperty rentalAccounts = new IncomeAndExpenditureProperty(period, entity);
+    IncomeAndExpenditureProperty rentalAccounts = new IncomeAndExpenditureProperty(period, person);
 
-    rentalAccounts.add(new Income(new Date(5,4,taxYear), 'rents', property.rent(period)));
-    rentalAccounts.add(new Interest(new Date(5,4,taxYear), 'interest', property.interest(period)));
+    rentalAccounts.add(new Income(enddate, 'rents', property.rent(period)));
+    rentalAccounts.add(new Interest(enddate, 'interest', property.interest(period)));
 
     business.accounts.add(rentalAccounts);
-    person.taxYear(taxYear).incomeTaxPosition.calculate();
 
   }
 

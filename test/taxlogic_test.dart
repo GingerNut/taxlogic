@@ -29,8 +29,20 @@ void game(){
 
     test('Landlord start ', () {
       Game game = new Game();
-      //game.newGame(Game.LANDLORD, new Date(6,4,18));
 
+      Scenario scenario = new LandlordStart()
+      ..start = new Date(6,4,18)
+      ..cost = 100000
+      ..finance = 50000
+      ..projectedIncome = 50000
+      ..projectedFinanceCost = 30000;
+
+      game.newGame(scenario);
+
+      //print(game.position.entity.taxPayble(new Date(5,4,2019)));
+
+
+      //Move move = new CreateEntity(Class.company, 'company');
 
 
     });

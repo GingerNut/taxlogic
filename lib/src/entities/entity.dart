@@ -9,7 +9,7 @@ enum Class{
       trust,
 }
 
-class Entity{
+abstract class Entity{
   String code;
   Class type;
 
@@ -20,4 +20,6 @@ class Entity{
   List<Asset> assets = new List();
   List<Activity> activities = new List();
 
+
+  num taxPayble(Date periodend);
 }

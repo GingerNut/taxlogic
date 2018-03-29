@@ -8,32 +8,17 @@ class Game{
   Scenario scenario;
   Position position;
 
-  Game(){
+  Game();
 
-  }
-
-  newGame(Scenario scenario, Date date){
+  newGame(Scenario scenario){
     this.scenario = scenario;
-    position = startingPosition(scenario, date);
 
-    position.setUp();
+    scenario.setup(this);
 
 
   }
 
-  Position startingPosition(Scenario scenario, Date date){
 
-    Position position;
-
-    switch(scenario.type){
-      case Scenario.LANDLORD : position = new LandlordStart(this, scenario);
-      break;
-
-      default: position = new BlankStart(this, scenario.start);
-    }
-
-    return position;
-  }
 
 
 }

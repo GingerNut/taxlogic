@@ -1,7 +1,9 @@
 import '../../../date.dart';
+import '../../game.dart';
 
-class Scenario {
-  static const LANDLORD = 1;
+abstract class Scenario {
+  static const RESIDENTIAL_LANDLORD = 1;
+  Game game;
 
   Date start;
   int type;
@@ -11,5 +13,9 @@ class Scenario {
   num projectedIncome;
   num projectedFinanceCost;
 
+
+  setup(Game game){
+    this.game = game;
+  }
 
 }

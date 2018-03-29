@@ -27,3 +27,6 @@ export 'src/entities/company.dart';
 export 'src/data/tax_data.dart';
 export 'src/rate_history.dart';
 export 'src/game/game.dart';
+export 'src/game/position/scenario/scenario.dart';
+export 'src/game/move/move.dart';
+export 'src/game/position/scenario/landlord_start.dart';

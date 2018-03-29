@@ -2,7 +2,7 @@ import '../../entities/entity.dart';
 import 'package:taxlogic/src/game/move/move.dart';
 import '../game.dart';
 
-abstract class Position{
+class Position{
     final Position lastPosition;
     final Move move;
     final Game game;
@@ -11,6 +11,12 @@ abstract class Position{
 
     Position(this.game, this.lastPosition, this.move);
 
-    setUp();
+
+
+    num TaxPayable(int taxyear){
+
+
+
+    }
 
 }

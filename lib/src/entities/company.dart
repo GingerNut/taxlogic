@@ -1,4 +1,5 @@
 import 'entity.dart';
+import 'package:taxlogic/src/date.dart';
 
 
 class Company extends Entity{
@@ -10,4 +11,8 @@ class Company extends Entity{
   }
 
 
+  @override
+  num taxPayble(Date periodend) {
+    // TODO: implement TaxPayble
+  }
 }
