@@ -79,6 +79,7 @@ void game(){
       expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.day, 5);
       expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.month, 4);
       expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.year, 2019);
+
       
     });
 

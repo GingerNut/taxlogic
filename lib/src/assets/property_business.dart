@@ -53,7 +53,12 @@ class PropertyBusiness extends Activity{
       property.saleDate  = date + (-1);
       property.proceeds = (value as PropertyPorfolio).getValue(property);
 
-      Property newProp = new Property(newbusiness.entity)
+      Property newProp;
+
+      if(property is ResidentialProperty) newProp = new ResidentialProperty(transferee);
+      else newProp = new Property(transferee);
+
+      newProp
         ..setRent(property.getRent(date), date)
         ..setInterst(property.getInterest(date), date)
         ..cost = (value as PropertyPorfolio).getValue(this);
