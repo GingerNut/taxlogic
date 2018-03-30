@@ -11,10 +11,17 @@ class Position{
     List<Entity> entities = new List();
 
     Position(this.game, this.lastPosition, this.move){
-
+        if(lastPosition != null) copyStaticData();
     }
 
 
+    copyStaticData(){
+        lastPosition.entities.forEach((e){
+                addEntity(e);
+            });
+
+            focussedEntity = lastPosition.focussedEntity;
+    }
 
     addEntity(Entity entity) => entities.add(entity);
 
@@ -24,6 +31,12 @@ class Position{
 
 
 
+    }
+
+    printEntities(){
+        entities.forEach((e){
+            print('${e.name}');
+        });
     }
 
 }

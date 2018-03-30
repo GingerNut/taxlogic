@@ -22,10 +22,10 @@ class StartActivity extends Move{
   setUpResidentialPropertyBusiness(){
     Property property;
 
-    property = new ResidentialProperty(position.focussedEntity);
+    property = new ResidentialProperty(originalPosition.focussedEntity);
 
-    property.setRent(position.game.scenario.projectedIncome, position.game.scenario.start);
-    property.setInterst(position.game.scenario.projectedFinanceCost, position.game.scenario.start);
+    property.setRent(originalPosition.game.scenario.projectedIncome, originalPosition.game.scenario.start);
+    property.setInterst(originalPosition.game.scenario.projectedFinanceCost, originalPosition.game.scenario.start);
 
 
   }
@@ -34,5 +34,10 @@ class StartActivity extends Move{
   @override
   setUp() {
     // TODO: implement setUp
+  }
+
+  @override
+  doMove(Position newPosition) {
+    // TODO: implement doMove
   }
 }

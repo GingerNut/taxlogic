@@ -13,4 +13,9 @@ class AddChild extends Move{
   setUp() {
     // TODO: implement setUp
   }
+
+  @override
+  doMove(Position newPosition) {
+    // TODO: implement doMove
+  }
 }

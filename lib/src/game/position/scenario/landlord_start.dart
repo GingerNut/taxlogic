@@ -22,7 +22,8 @@ class LandlordStart extends Scenario{
   void setup(Game game){
     super.setup(game);
 
-    person = new Person();
+    person = new Person()
+    ..name = 'landlord';
 
     game.position = new Position(game, null, null);
     game.position.addEntity(person);

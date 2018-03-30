@@ -1,6 +1,10 @@
 import '../assets/asset.dart';
 import '../assets/activity.dart';
 import '../date.dart';
+import 'person.dart';
+import 'partnership.dart';
+import 'company.dart';
+import 'trust.dart';
 
 abstract class Entity{
 
@@ -23,4 +27,27 @@ abstract class Entity{
 
 
   num taxPayble(Date periodend);
+
+
+
+  static Entity get(int type){
+    switch(type){
+
+      case Entity.INDIVIDUAL: return new Person();
+        break;
+
+      case Entity.COMPANY: return new Company();
+        break;
+
+      case Entity.PARTNERSHIP: return new Partnership();
+        break;
+
+      case Entity.TRUST: return new Trust();
+        break;
+    }
+
+
+
+  }
+
 }

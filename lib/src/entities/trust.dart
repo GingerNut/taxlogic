@@ -2,10 +2,10 @@ import 'entity.dart';
 import 'package:taxlogic/src/date.dart';
 
 
-class Partnership extends Entity{
+class Trust extends Entity{
 
-  Partnership(){
-    type = Entity.PARTNERSHIP;
+  Trust(){
+    type = Entity.TRUST;
 
 
   }

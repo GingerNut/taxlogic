@@ -5,24 +5,19 @@ import '../../entities/entity.dart';
 
 
 class CreateEntity extends Move{
-  CreateEntity(String name, int type, Position position): super(Move.CREATE_ENTITY, position);
+  CreateEntity(this.name, int type, Position position): super(Move.CREATE_ENTITY, position);
 
-
+  String name;
+  Entity entity;
 
   @override
   setUp() {
-    Entity entity;
-
-    switch(entity.type){
-
-
-
-
-
+     entity = Entity.get(type)
+     ..name = name;
     }
 
+  @override
+  doMove(Position position) {
+    position.addEntity(entity);
     }
-
-
-
   }

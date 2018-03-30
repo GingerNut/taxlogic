@@ -10,20 +10,16 @@ class Game{
   Position position;
   List<Position> history = new List();
 
-  Game();
-
   newGame(Scenario scenario){
     this.scenario = scenario;
-
     scenario.setup(this);
-
-
   }
 
   makeMove(Move move){
     move.setUp();
     history.add(position);
     position = new Position(this, position, move);
+    position.move.doMove(position);
   }
 
 

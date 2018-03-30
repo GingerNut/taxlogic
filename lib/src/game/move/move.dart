@@ -10,12 +10,12 @@ abstract class Move{
   static const int RESIDENTIAL_PROPERTY_BUSINESS = 1;
   static const int CREATE_ENTITY = 2;
 
-  Position position;
+  Position originalPosition;
 
   int type;
 
 
-  Move(this.type, this.position);
+  Move(this.type, this.originalPosition);
 
 
   static Move get (int type, Position position){
@@ -39,5 +39,6 @@ abstract class Move{
 
   setUp();
 
+  doMove(Position newPosition);
 
 }

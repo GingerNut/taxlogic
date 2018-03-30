@@ -46,9 +46,13 @@ void game(){
       expect((game.position.focussedEntity as Person).taxYear(2018).propertyTaxCredit, 1500);
       expect(game.position.focussedEntity.taxPayble(new Date(5,4,2018)), 18200);
 
+      expect(game.position.entities.length, 1);
+
       Move move = new CreateEntity('company', Entity.COMPANY, game.position);
 
       game.makeMove(move);
+
+      expect(game.position.entities.length, 2);
 
 
     });
@@ -1109,7 +1113,7 @@ void capitalGains() {
     Person person;
 
     setUp(()  {
-     person = new Person();
+     person = Entity.get(Entity.INDIVIDUAL);
      
     });
 
