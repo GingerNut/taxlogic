@@ -22,7 +22,7 @@ class StartActivity extends Move{
   setUpResidentialPropertyBusiness(){
     Property property;
 
-    property = new ResidentialProperty(position.entity);
+    property = new ResidentialProperty(position.focussedEntity);
 
     property.setRent(position.game.scenario.projectedIncome, position.game.scenario.start);
     property.setInterst(position.game.scenario.projectedFinanceCost, position.game.scenario.start);

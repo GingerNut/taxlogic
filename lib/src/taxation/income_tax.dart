@@ -59,6 +59,8 @@ class IncomeTaxPosition extends Taxation{
 
   void calculate(){
 
+    tax = 0.0;
+
     taxPosition.refreshIncome();
    
     reset();
@@ -224,7 +226,6 @@ class IncomeTaxPosition extends Taxation{
     // property tax credit
 
     tax -= min(tax, (taxPosition as PersonalTaxPosition).propertyTaxCredit);
-
 
 
     tax = Utilities.roundTax(tax);

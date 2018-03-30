@@ -7,11 +7,18 @@ class Position{
     final Move move;
     final Game game;
 
-    Entity entity;
+    Entity focussedEntity;
+    List<Entity> entities = new List();
 
-    Position(this.game, this.lastPosition, this.move);
+    Position(this.game, this.lastPosition, this.move){
+
+    }
 
 
+
+    addEntity(Entity entity) => entities.add(entity);
+
+    makeFocussed(Entity entity) => focussedEntity = entity;
 
     num TaxPayable(int taxyear){
 

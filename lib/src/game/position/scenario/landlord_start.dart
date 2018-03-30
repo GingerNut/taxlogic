@@ -25,7 +25,8 @@ class LandlordStart extends Scenario{
     person = new Person();
 
     game.position = new Position(game, null, null);
-    game.position.entity = person;
+    game.position.addEntity(person);
+    game.position.focussedEntity = person;
     PropertyBusiness business = new PropertyBusiness(person);
 
     person.activities.add(business);

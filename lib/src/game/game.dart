@@ -1,12 +1,14 @@
 import 'package:taxlogic/src/game/position/position.dart';
 import 'package:taxlogic/src/game/position/scenario/landlord_start.dart';
-import 'position/blank_position.dart';
+
 import '../date.dart';
 import 'position/scenario/scenario.dart';
+import 'move/move.dart';
 
 class Game{
   Scenario scenario;
   Position position;
+  List<Position> history = new List();
 
   Game();
 
@@ -16,6 +18,12 @@ class Game{
     scenario.setup(this);
 
 
+  }
+
+  makeMove(Move move){
+    move.setUp();
+    history.add(position);
+    position = new Position(this, position, move);
   }
 
 

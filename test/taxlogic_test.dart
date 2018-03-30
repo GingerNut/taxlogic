@@ -31,18 +31,24 @@ void game(){
       Game game = new Game();
 
       Scenario scenario = new LandlordStart()
-      ..start = new Date(6,4,18)
+      ..start = new Date(6,4,17)
       ..cost = 100000
       ..finance = 50000
-      ..projectedIncome = 50000
+      ..projectedIncome = 100000
       ..projectedFinanceCost = 30000;
 
       game.newGame(scenario);
 
-      //print(game.position.entity.taxPayble(new Date(5,4,2019)));
+      (game.position.focussedEntity as Person).taxYear(2018).incomeTaxPosition.calculate();
 
+      expect((game.position.focussedEntity as Person).taxYear(2018).propertyIncome, 77500);
+      expect((game.position.focussedEntity as Person).taxYear(2018).incomeTaxPosition.tax, 18200);
+      expect((game.position.focussedEntity as Person).taxYear(2018).propertyTaxCredit, 1500);
+      expect(game.position.focussedEntity.taxPayble(new Date(5,4,2018)), 18200);
 
-      //Move move = new CreateEntity(Class.company, 'company');
+      Move move = new CreateEntity('company', Entity.COMPANY, game.position);
+
+      game.makeMove(move);
 
 
     });
@@ -1198,7 +1204,7 @@ void capitalGains() {
 
       expect(person.taxYear(2018).capitalGainsTaxPosition.totalGains, 13000);
       expect(person.taxYear(2018).capitalGainsTaxPosition.capitalLosses, 4000);
-       expect(person.taxYear(2018).capitalGainsTaxPosition.netGains, 9000);
+      expect(person.taxYear(2018).capitalGainsTaxPosition.netGains, 9000);
       expect(person.taxYear(2018).capitalGainsTaxPosition.capitalLossesCarriedForward, 500);
     });
 

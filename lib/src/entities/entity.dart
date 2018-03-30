@@ -2,16 +2,17 @@ import '../assets/asset.dart';
 import '../assets/activity.dart';
 import '../date.dart';
 
-enum Class{
-      individual,
-      company,
-      partnership,
-      trust,
-}
-
 abstract class Entity{
+
+  static const INDIVIDUAL = 0;
+  static const COMPANY = 1;
+  static const PARTNERSHIP = 2;
+  static const TRUST = 3;
+
   String code;
-  Class type;
+  String name;
+  String narrative;
+  int type;
 
   Date birth;
   Date death;

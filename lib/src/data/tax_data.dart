@@ -38,11 +38,11 @@ class TaxData{
   //cgt
 
   static num CapitalGainsAnnualExempt(int year, Entity entity) {
-    if(entity.type == Class.company) return 0;
+    if(entity.type == Entity.COMPANY) return 0;
 
     num annualExemption = CapitalGainsTaxData.get(year).CapitalGainsAnnualExempt;
 
-    if(entity.type == Class.trust) return annualExemption / 2;
+    if(entity.type == Entity.TRUST) return annualExemption / 2;
 
     return annualExemption;
   }

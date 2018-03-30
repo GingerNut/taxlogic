@@ -6,7 +6,7 @@ class Company extends Entity{
 
 
   Company(){
-    type = Class.company;
+    type = Entity.COMPANY;
 
   }
 

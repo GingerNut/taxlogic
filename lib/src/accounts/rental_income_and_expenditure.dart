@@ -23,7 +23,7 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
 
     _interestRestriction = 0;
 
-    if(entity.type == Class.individual){
+    if(entity.type == Entity.INDIVIDUAL){
 
       expenditure.forEach((expense){
 
@@ -37,7 +37,7 @@ class IncomeAndExpenditureProperty extends IncomeAndExpenditure{
 
   get financeAdjustment{
 
-    if(entity.type != Class.individual) return 0;
+    if(entity.type != Entity.INDIVIDUAL) return 0;
 
     switch(period.end.year){
       case 2018: return finance2018;

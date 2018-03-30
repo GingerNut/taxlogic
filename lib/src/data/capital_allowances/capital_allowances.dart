@@ -23,7 +23,7 @@ class CapitalAllowances{
   ]);
 
   static num getAIA(Date date, Entity entity){
-    if(entity.type == Class.company){
+    if(entity.type == Entity.COMPANY){
 
       return company_AIA.rateAt(date);
 
@@ -36,7 +36,7 @@ class CapitalAllowances{
   }
 
   static List<RatePeriod> getAIAPeriods(Period period, Entity entity){
-    if(entity.type == Class.company){
+    if(entity.type == Entity.COMPANY){
 
       return company_AIA.getRatePeriods(period);
 
@@ -50,7 +50,7 @@ class CapitalAllowances{
   }
 
   static getOverallAIA(Period period, Entity entity) {
-    if(entity.type == Class.company){
+    if(entity.type == Entity.COMPANY){
 
       return company_AIA.overallAmount(period);
 

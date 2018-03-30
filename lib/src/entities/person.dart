@@ -23,7 +23,7 @@ class Person extends Entity{
   PersonalTaxPosition currentTaxYear;
 
   Person(){
-    type = Class.individual;
+    type = Entity.INDIVIDUAL;
 
   }
 

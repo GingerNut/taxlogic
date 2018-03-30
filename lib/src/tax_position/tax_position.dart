@@ -42,6 +42,7 @@ abstract class TaxPosition{
 
   refreshIncome(){
     propertyIncome = 0;
+    propertyTaxCredit = 0;
     tradingIncome = 0;
 
     entity.activities.forEach((activity){
