@@ -23,7 +23,7 @@ class LandlordStart extends Scenario{
     super.setup(game);
 
     person = new Person()
-    ..name = 'landlord';
+    ..name = name;
 
     game.position = new Position(game, null, null);
     game.position.addEntity(person);
@@ -34,6 +34,7 @@ class LandlordStart extends Scenario{
 
     ResidentialProperty property = new ResidentialProperty(person);
     business.properties.add(property);
+    business.name = 'Property portfolio';
 
     property.setRent(projectedIncome, start);
     property.setInterst(projectedFinanceCost, start);

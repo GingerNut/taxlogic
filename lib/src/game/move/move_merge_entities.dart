@@ -8,10 +8,7 @@ class MergeEntity extends Move{
 
 
 
-  @override
-  setUp() {
-    // TODO: implement setUp
-  }
+  
 
   @override
   doMove(Position newPosition) {

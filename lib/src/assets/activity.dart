@@ -1,10 +1,13 @@
 import '../accounts/accounting_period.dart';
 import '../entities/entity.dart';
 import 'asset.dart';
+import '../date.dart';
+import '../assets/value.dart';
 
-class Activity extends Asset{
-  DateTime commencement;
-  DateTime cessation;
+abstract class Activity extends Asset{
+  String name;
+  Date commencement;
+  Date cessation;
 
   num lossBroughtForward = 0;
   num lossCarriedForward = 0;
@@ -15,6 +18,8 @@ class Activity extends Asset{
   List<AccountingPeriod> accounts = new List();
 
   Activity(Entity entity): super(entity);
+
+  transferToEntity(Date date, Entity transferee, Value value);
 
 
 

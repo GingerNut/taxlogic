@@ -30,9 +30,14 @@ void game(){
     test('Landlord start ', () {
       Game game = new Game();
 
+      String landlordName = 'Landlord';
+      String companyName = 'Company';
+      String businessName = 'Property portfolio';
+
       Scenario scenario = new LandlordStart()
+      ..name = landlordName
       ..start = new Date(6,4,17)
-      ..cost = 100000
+      ..cost = 1000000
       ..finance = 50000
       ..projectedIncome = 100000
       ..projectedFinanceCost = 30000;
@@ -47,14 +52,34 @@ void game(){
       expect(game.position.focussedEntity.taxPayble(new Date(5,4,2018)), 18200);
 
       expect(game.position.entities.length, 1);
-
-      Move move = new CreateEntity('company', Entity.COMPANY, game.position);
-
+      Move move = new CreateEntity(companyName, Entity.COMPANY, game.position);
       game.makeMove(move);
-
       expect(game.position.entities.length, 2);
 
 
+      Entity from = game.position.getEntityByName(landlordName);
+      Entity to = game.position.getEntityByName(companyName);
+
+      move = new TransferActivity(new Date(6,4,19),
+          from.getActivityByName(businessName),
+          from,
+          to,
+          new PropertyPorfolio(),
+          0,
+          false,
+          false,
+          'transfer property portofolio',
+          game.position);
+
+      game.makeMove(move);
+
+      expect(game.history.length, 2);
+      expect(game.position.getEntityByName(landlordName).activities.length, 1);
+      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).name, businessName);
+      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.day, 5);
+      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.month, 4);
+      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.year, 2019);
+      
     });
 
 

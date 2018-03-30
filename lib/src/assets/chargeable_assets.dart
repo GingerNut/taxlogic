@@ -6,6 +6,9 @@ import '../entities/entity.dart';
 import 'dart:math';
 import 'asset.dart';
 
+import 'package:taxlogic/src/assets/activity.dart';
+import 'package:taxlogic/src/assets/value.dart';
+
 class ChargeableAsset extends Asset{
   num _taxableGain;
   num _totalImprovements;
@@ -73,6 +76,7 @@ class ChargeableAsset extends Asset{
   void refreshGain(){
     _taxableGain = null;
   }
+
 
 
 }

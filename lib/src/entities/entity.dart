@@ -28,6 +28,16 @@ abstract class Entity{
 
   num taxPayble(Date periodend);
 
+  Activity getActivityByName(String name){
+    Activity named;
+
+    activities.forEach((e){
+      if(e.name == name) named = e;
+    });
+
+    return named;
+
+  }
 
 
   static Entity get(int type){

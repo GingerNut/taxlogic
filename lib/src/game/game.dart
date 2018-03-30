@@ -16,7 +16,6 @@ class Game{
   }
 
   makeMove(Move move){
-    move.setUp();
     history.add(position);
     position = new Position(this, position, move);
     position.move.doMove(position);

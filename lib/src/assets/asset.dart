@@ -1,8 +1,9 @@
 import '../entities/entity.dart';
 import '../date.dart';
+import 'activity.dart';
+import 'value.dart';
 
-
-class Asset{
+abstract class Asset{
   final Entity entity;
   Asset(this.entity);
 
@@ -12,7 +13,5 @@ class Asset{
   Date purchaseDate;
   Date saleDate;
   num proceeds = 0;
-
-
 
 }

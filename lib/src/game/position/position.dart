@@ -27,10 +27,20 @@ class Position{
 
     makeFocussed(Entity entity) => focussedEntity = entity;
 
-    num TaxPayable(int taxyear){
+   num TaxPayable(int taxyear){
 
 
 
+    }
+
+    Entity getEntityByName(String name){
+     Entity named ;
+
+     entities.forEach((e){
+       if(e.name == name) named = e;
+     });
+
+     return named;
     }
 
     printEntities(){

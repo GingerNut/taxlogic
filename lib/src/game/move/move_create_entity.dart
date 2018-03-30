@@ -10,14 +10,12 @@ class CreateEntity extends Move{
   String name;
   Entity entity;
 
-  @override
-  setUp() {
-     entity = Entity.get(type)
-     ..name = name;
-    }
 
   @override
   doMove(Position position) {
+    entity = Entity.get(type)
+      ..name = name;
+
     position.addEntity(entity);
     }
   }

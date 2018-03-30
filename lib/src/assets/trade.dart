@@ -4,6 +4,8 @@ import '../accounts/income_and_expenditure.dart';
 import '../entities/entity.dart';
 import '../accounts/trade_accounts.dart';
 import 'activity.dart';
+import '../date.dart';
+import 'value.dart';
 
 class Trade extends Activity{
 
@@ -14,4 +16,12 @@ class Trade extends Activity{
 
 
 
+  // TODO: implement duplicate
+  @override
+  Activity transferToEntity(Date date, Entity transferee, Value value)  => null;
+
+  @override
+  transferToActivity(Activity activity, Date date, Value value) {
+    // TODO: implement transferToActivity
+  }
 }

@@ -4,6 +4,7 @@ import '../period.dart';
 import '../date.dart';
 import '../entities/entity.dart';
 import '../rate_history.dart';
+import 'value.dart';
 
 class Property extends ChargeableAsset{
   Property(Entity entity) : super(entity);
@@ -19,7 +20,17 @@ class Property extends ChargeableAsset{
     _interestsDue.add(new RateChange(date, amount));
   }
 
+  num getRent(Date date){
+    return _rentsDue.rateAt(date);
+  }
+
+  num getInterest(Date date){
+    return _interestsDue.rateAt(date);
+  }
+
   num rent(Period period)=>_rentsDue.overallAmount(period);
 
   num interest(Period period)=>_interestsDue.overallAmount(period);
+
+
 }

@@ -3,7 +3,8 @@ import 'activity.dart';
 import '../period.dart';
 import '../entities/entity.dart';
 import '../assets/residential_property.dart';
-
+import '../date.dart';
+import 'value.dart';
 
 class PropertyBusiness extends Activity{
 
@@ -38,4 +39,32 @@ class PropertyBusiness extends Activity{
     }
 
   
+  // TODO: implement duplicate
+  @override
+  transferToEntity(Date date, Entity transferee, Value value) {
+
+    cessation = date + (-1);
+
+    PropertyBusiness newbusiness = new PropertyBusiness(transferee)
+    ..commencement = date
+    ..name = name;
+
+    properties.forEach((property){
+      property.saleDate  = date + (-1);
+      property.proceeds = (value as PropertyPorfolio).getValue(property);
+
+      Property newProp = new Property(newbusiness.entity)
+        ..setRent(property.getRent(date), date)
+        ..setInterst(property.getInterest(date), date)
+        ..cost = (value as PropertyPorfolio).getValue(this);
+
+      newbusiness.properties.add(newProp);
+
+    });
+
+    transferee.activities.add(newbusiness);
+  }
+
+
+
 }
