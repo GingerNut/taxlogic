@@ -5,6 +5,13 @@ import '../period_collection.dart';
 import '../date.dart';
 import '../period.dart';
 
+
+// this shows tax payable for a year to 31 March to compare with tax years
+// income is shared between accounting periods
+// gains are taxed on the basis of the disposal date
+// this is therefore a hyrbid approach to allow game to be based on tax years
+// this should not be used for actual accounitng perids = that is covered separately
+
 class CompanyTaxYear extends TaxPosition{
   PeriodCollection accountingPeriods;
 
