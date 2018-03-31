@@ -24,7 +24,7 @@ abstract class Entity{
   Date birth;
   Date death;
 
-  List<TaxPosition> taxPeriod = new List();
+  List<TaxPosition> taxPeriods = new List();
   List<Entity> children = new List();
   List<Asset> assets = new List();
   List<Activity> activities = new List();

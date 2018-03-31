@@ -31,7 +31,7 @@ class Company extends Entity{
 
       CompanyTaxPosition nextAp = new CompanyTaxPosition(this, new Period(periodStart, periodEnd));
 
-      taxPeriod.add(nextAp);
+      taxPeriods.add(nextAp);
 
       return nextAp;
 
@@ -41,12 +41,12 @@ class Company extends Entity{
     Date lastAPend;
     CompanyTaxPosition lastAP;
 
-    if(taxPeriod.length>0) {
-      lastAPend = taxPeriod[0].period.end;
-      lastAP = taxPeriod[0];
+    if(taxPeriods.length>0) {
+      lastAPend = taxPeriods[0].period.end;
+      lastAP = taxPeriods[0];
     }
 
-    taxPeriod.forEach((ap){
+    taxPeriods.forEach((ap){
       if(ap.period.end > lastAPend){
         lastAPend = ap.period.end;
         lastAP = ap;

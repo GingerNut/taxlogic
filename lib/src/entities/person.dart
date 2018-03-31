@@ -31,13 +31,13 @@ class Person extends Entity{
 
     PersonalTaxPosition taxYear;
 
-    taxPeriod.forEach((taxPosition){
+    taxPeriods.forEach((taxPosition){
       if(taxPosition.period.end.year == year) taxYear = taxPosition;
     });
 
     if(taxYear == null){
       taxYear = new PersonalTaxPosition(this, year);
-      taxPeriod.add(taxYear);
+      taxPeriods.add(taxYear);
     }
     return taxYear;
   }

@@ -32,3 +32,4 @@ export 'src/game/move/move.dart';
 export 'src/game/position/scenario/landlord_start.dart';
 export 'src/assets/value.dart';
 export 'src/period_end.dart';
+export 'src/period_collection.dart';
