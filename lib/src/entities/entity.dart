@@ -5,6 +5,9 @@ import 'person.dart';
 import 'partnership.dart';
 import 'company.dart';
 import 'trust.dart';
+import '../tax_position/tax_position.dart';
+export 'company.dart';
+export 'person.dart';
 
 abstract class Entity{
 
@@ -21,10 +24,10 @@ abstract class Entity{
   Date birth;
   Date death;
 
+  List<TaxPosition> taxPeriod = new List();
   List<Entity> children = new List();
   List<Asset> assets = new List();
   List<Activity> activities = new List();
-
 
   num taxPayble(Date periodend);
 
@@ -55,8 +58,6 @@ abstract class Entity{
       case Entity.TRUST: return new Trust();
         break;
     }
-
-
 
   }
 

@@ -18,7 +18,7 @@ class Person extends Entity{
   String surname;
   String address;
 
-  List<PersonalTaxPosition> taxYears = new List();
+
 
   PersonalTaxPosition currentTaxYear;
 
@@ -31,13 +31,13 @@ class Person extends Entity{
 
     PersonalTaxPosition taxYear;
 
-    taxYears.forEach((taxPosition){
+    taxPeriod.forEach((taxPosition){
       if(taxPosition.period.end.year == year) taxYear = taxPosition;
     });
 
     if(taxYear == null){
       taxYear = new PersonalTaxPosition(this, year);
-      taxYears.add(taxYear);
+      taxPeriod.add(taxYear);
     }
     return taxYear;
   }

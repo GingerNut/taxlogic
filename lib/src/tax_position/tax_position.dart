@@ -11,6 +11,9 @@ import '../assets/property_business.dart';
 import '../accounts/rental_income_and_expenditure.dart';
 import '../accounts/accounts.dart';
 
+export 'company_tax_position.dart';
+export 'personal_tax_position.dart';
+
 abstract class TaxPosition{
   TaxPosition(this.entity, this.period);
 

@@ -52,15 +52,17 @@ void game(){
       expect(game.position.focussedEntity.taxPayble(new Date(5,4,2018)), 18200);
 
       expect(game.position.entities.length, 1);
-      Move move = new CreateEntity(companyName, Entity.COMPANY, game.position);
+      Move move = new CreateEntity(new Date(1,4,18), companyName, Entity.COMPANY, game.position);
       game.makeMove(move);
       expect(game.position.entities.length, 2);
-
+      expect(game.position.getEntityByName(companyName).type, Entity.COMPANY);
 
       Entity from = game.position.getEntityByName(landlordName);
       Entity to = game.position.getEntityByName(companyName);
 
-      move = new TransferActivity(new Date(6,4,19),
+      Date transferDate = new Date(6,4,19);
+
+      move = new TransferActivity(transferDate,
           from.getActivityByName(businessName),
           from,
           to,
@@ -73,14 +75,24 @@ void game(){
 
       game.makeMove(move);
 
-      expect(game.history.length, 2);
-      expect(game.position.getEntityByName(landlordName).activities.length, 1);
-      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).name, businessName);
-      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.day, 5);
-      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.month, 4);
-      expect(game.position.getEntityByName(landlordName).getActivityByName(businessName).cessation.year, 2019);
+      Person person = game.position.getEntityByName(landlordName);
+      Company company = game.position.getEntityByName(companyName)as Company;
 
-      
+      expect(game.history.length, 2);
+      expect(person.activities.length, 1);
+      expect(person.getActivityByName(businessName).name, businessName);
+      expect(person.getActivityByName(businessName).cessation.day, 5);
+      expect(person.getActivityByName(businessName).cessation.month, 4);
+      expect(person.getActivityByName(businessName).cessation.year, 2019);
+
+      // test tax position in company - set company accounting date then calculate tax
+
+      expect(company.nextAccountingPeriod(transferDate).period.end.day, 31);
+      expect(company.nextAccountingPeriod(transferDate).period.end.month, 3);
+      //expect(company.nextAccountingPeriod(transferDate).period.end.year, 2020);
+
+
+
     });
 
 
@@ -177,6 +189,42 @@ void dates(){
       expect(new Date(30,6,17).financialYear, 2018);
       expect(new Date(1,1,17).financialYear, 2017);
       expect(new Date(31,12,20).financialYear, 2021);
+    });
+
+    test('period ends ', () {
+
+      PeriodEnd periodEnd = new PeriodEnd(30, 6);
+      Date test = new Date(5,4,19);
+
+      expect(periodEnd.next(test).year, 2019);
+      expect(periodEnd.next(test).month, 6);
+      expect(periodEnd.next(test).day, 30);
+
+      test = new Date(30,6,2020);
+
+      expect(periodEnd.next(test).year, 2020);
+      expect(periodEnd.next(test).month, 6);
+      expect(periodEnd.next(test).day, 30);
+
+      test = new Date(1,7,2020);
+
+      expect(periodEnd.next(test).year, 2021);
+      expect(periodEnd.next(test).month, 6);
+      expect(periodEnd.next(test).day, 30);
+
+      periodEnd = new PeriodEnd(5, 4);
+      test = new Date(6,4,2019);
+
+      expect(periodEnd.next(test).year, 2020);
+      expect(periodEnd.next(test).month, 4);
+      expect(periodEnd.next(test).day, 5);
+
+      test = new Date(5,4,2019);
+
+      expect(periodEnd.next(test).year, 2019);
+      expect(periodEnd.next(test).month, 4);
+      expect(periodEnd.next(test).day, 5);
+
     });
 
   });
