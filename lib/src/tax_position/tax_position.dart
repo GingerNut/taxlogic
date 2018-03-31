@@ -24,7 +24,7 @@ abstract class TaxPosition{
   static const String jsonTagSavings = "savings";
 
 
-  TaxPosition(this.entity, this.period);
+  TaxPosition(this.entity);
 
   Entity entity;
   Period period;

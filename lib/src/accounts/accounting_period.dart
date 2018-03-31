@@ -7,7 +7,7 @@ class AccountingPeriod{
   Period period;
   AccountingPeriod previousPeriod;
 
-  AccountingPeriod( this.period, this.entity);
+  AccountingPeriod(this.period, this.entity);
 
 
 }

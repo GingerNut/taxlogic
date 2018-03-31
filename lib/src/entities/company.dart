@@ -33,11 +33,11 @@ class Company extends Entity{
 
       }
 
-      CompanyTaxPosition nextAp = new CompanyTaxPosition(this, new Period(periodStart, periodEnd));
+      //ompanyTaxPosition nextAp = new CompanyTaxPosition(this, new Period(periodStart, periodEnd));
 
-      taxPeriods.add(nextAp);
+     // taxPeriods.add(nextAp);
 
-      return nextAp;
+      //return nextAp;
 
   }
 

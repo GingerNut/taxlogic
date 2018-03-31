@@ -98,7 +98,6 @@ void game(){
 
   });
 
-
 }
 
 void dates(){
@@ -460,8 +459,8 @@ void periods(){
       Period two = new Period(new Date(1,8,2018), new Date(31,8,2018));
       Period test =new Period(new Date(15,7,2018), new Date(15,8,2018));
 
-      CompanyTaxPosition period1 = new CompanyTaxPosition(company, one);
-      CompanyTaxPosition period2 = new CompanyTaxPosition(company, two);
+      CompanyAccountingPeriod period1 = new CompanyAccountingPeriod(company, one);
+      CompanyAccountingPeriod period2 = new CompanyAccountingPeriod(company, two);
 
       company.taxPeriods.add(period1);
       company.taxPeriods.add(period2);
@@ -1954,7 +1953,7 @@ void corporationTax(){
       Date first = new Date(1,10,19);
       Date second = new Date(30,9,20);
       Period period = new Period(first, second);
-      CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
+      CompanyAccountingPeriod taxPosition = new CompanyAccountingPeriod(company, period);
       CorporationTax corpTax = new CorporationTax(taxPosition);
 
       taxPosition.income = 10000;
@@ -1968,7 +1967,7 @@ void corporationTax(){
       Date first = new Date(1,4,16);
       Date second = new Date(31,3,17);
       Period period = new Period(first, second);
-      CompanyTaxPosition taxPosition = new CompanyTaxPosition(company, period);
+      CompanyAccountingPeriod taxPosition = new CompanyAccountingPeriod(company, period);
       CorporationTax corpTax = new CorporationTax(taxPosition);
 
       ChargeableAsset asset01 = new ChargeableAsset(company);
