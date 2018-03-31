@@ -6,6 +6,8 @@ import 'partnership.dart';
 import 'company.dart';
 import 'trust.dart';
 import '../tax_position/tax_position.dart';
+import '../period_collection.dart';
+import '../period.dart';
 export 'company.dart';
 export 'person.dart';
 
@@ -29,7 +31,11 @@ abstract class Entity{
   List<Asset> assets = new List();
   List<Activity> activities = new List();
 
-  num taxPayble(Date periodend);
+  num taxPayble(int taxYearEnd);
+
+  TaxPosition taxYear(int taxYearEnd);
+
+  PeriodCollection getTaxPeriods(Period period);
 
   Activity getActivityByName(String name){
     Activity named;

@@ -3,8 +3,12 @@ import 'package:taxlogic/src/date.dart';
 import '../tax_position/company_tax_position.dart';
 import '../period.dart';
 import '../period_end.dart';
+import 'package:taxlogic/src/period_collection.dart';
+import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class Company extends Entity{
+
+  List<CompanyAccountingPeriod> accountingPeriods = new List();
 
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
 
@@ -67,7 +71,17 @@ class Company extends Entity{
   }
 
   @override
-  num taxPayble(Date periodend) {
+  num taxPayble(int taxYearEnd) {
     // TODO: implement TaxPayble
+  }
+
+  @override
+  PeriodCollection getTaxPeriods(Period period) {
+    // TODO: implement getTaxPeriods
+  }
+
+  @override
+  CompanyTaxPosition taxYear(int taxYearEnd) {
+    // TODO: implement taxYear
   }
 }

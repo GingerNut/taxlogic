@@ -1,5 +1,8 @@
 import 'package:taxlogic/src/date.dart';
+import 'package:taxlogic/src/period.dart';
+import 'package:taxlogic/src/period_collection.dart';
 import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
+import 'package:taxlogic/src/tax_position/tax_position.dart';
 import '../assets/chargeable_assets.dart';
 import 'entity.dart';
 
@@ -73,17 +76,17 @@ class Person extends Entity{
 
       return jsonMap;
     }
-    @override
-  num taxPayble(Date periodend) {
-    if(periodend == death) return taxToDeath();
 
-    int taxyear = periodend.year;
-    taxYear(taxyear).incomeTaxPosition.calculate();
-    return  taxYear(taxyear).incomeTaxPosition.tax;
+    @override
+  num taxPayble(int taxYearEnd) {
+
+    taxYear(taxYearEnd).incomeTaxPosition.calculate();
+    return  taxYear(taxYearEnd).incomeTaxPosition.tax;
   }
 
-  num taxToDeath(){
-
+  @override
+  PeriodCollection getTaxPeriods(Period period) {
+    // TODO: implement getTaxPeriods
   }
 }
 

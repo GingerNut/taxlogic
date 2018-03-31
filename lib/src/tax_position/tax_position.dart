@@ -13,8 +13,17 @@ import '../accounts/accounts.dart';
 
 export 'company_tax_position.dart';
 export 'personal_tax_position.dart';
+export 'company_accounting_period.dart';
 
 abstract class TaxPosition{
+  static const String jsonTagCode = "code";
+  static const String jsonTagYear = "year";
+  static const String jsonTagEarnings = "earnings";
+  static const String jsonTagTrade = "trade";
+  static const String jsonTagDividend = "dividend";
+  static const String jsonTagSavings = "savings";
+
+
   TaxPosition(this.entity, this.period);
 
   Entity entity;

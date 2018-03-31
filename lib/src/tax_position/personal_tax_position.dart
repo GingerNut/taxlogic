@@ -4,12 +4,6 @@ import '../tax_year.dart';
 
 
 class PersonalTaxPosition extends TaxPosition{
-  static const String jsonTagCode = "code";
-  static const String jsonTagYear = "year";
-  static const String jsonTagEarnings = "earnings";
-  static const String jsonTagTrade = "trade";
-  static const String jsonTagDividend = "dividend";
-  static const String jsonTagSavings = "savings";
 
   num earnings = 0;
   num trade = 0;
@@ -37,22 +31,22 @@ class PersonalTaxPosition extends TaxPosition{
 
     PersonalTaxPosition position = new PersonalTaxPosition(person, int.parse(map['year']));
 
-    position.earnings = int.parse(map[jsonTagEarnings]);
-    position.trade = int.parse(map[jsonTagTrade]);
-    position.dividend = int.parse(map[jsonTagDividend]);
-    position.savings = int.parse(map[jsonTagSavings]);
+    position.earnings = int.parse(map[TaxPosition.jsonTagEarnings]);
+    position.trade = int.parse(map[TaxPosition.jsonTagTrade]);
+    position.dividend = int.parse(map[TaxPosition.jsonTagDividend]);
+    position.savings = int.parse(map[TaxPosition.jsonTagSavings]);
 
     return position;
   }
 
   Map toMap(){
     Map jsonMap = {
-      jsonTagCode: entity.code,
-      jsonTagYear: period.end.year.toString(),
-      jsonTagEarnings: earnings.toString(),
-      jsonTagTrade: trade.toString(),
-      jsonTagDividend: dividend.toString(),
-      jsonTagSavings: savings.toString(),
+      TaxPosition.jsonTagCode: entity.code,
+      TaxPosition.jsonTagYear: period.end.year.toString(),
+      TaxPosition.jsonTagEarnings: earnings.toString(),
+      TaxPosition.jsonTagTrade: trade.toString(),
+      TaxPosition.jsonTagDividend: dividend.toString(),
+      TaxPosition.jsonTagSavings: savings.toString(),
     };
 
     return jsonMap;
