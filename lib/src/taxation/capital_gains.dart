@@ -39,15 +39,18 @@ abstract class CapitalGains extends Taxation{
     return _gains;
   }
 
-  void calculate(){
+  num calculate(){
+
     taxPosition.refreshDisposals();
 
     analyseDisposals();
 
     allocateLosses();
 
-    calculateTax();
+    return calculateTax();
   }
+
+  num calculateTax();
 
   void analyseDisposals(){
 
@@ -112,8 +115,6 @@ abstract class CapitalGains extends Taxation{
   }
 
   void allocateLosses();
-
-  void calculateTax();
 
 
 

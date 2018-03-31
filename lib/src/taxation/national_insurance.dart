@@ -25,7 +25,7 @@ class NationalInsurancePosition extends Taxation{
 
   NationalInsurancePosition(PersonalTaxPosition taxPosition) : super(taxPosition);
 
-  void calculate(){
+  calculate(){
 
     earningsBetweenPTandUEL = 0;
     earningsAboveUEL= 0;

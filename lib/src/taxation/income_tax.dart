@@ -57,9 +57,9 @@ class IncomeTaxPosition extends Taxation{
   }
 
 
-  void calculate(){
+  num calculate(){
 
-    tax = 0.0;
+    num tax = 0.0;
 
     taxPosition.refreshIncome();
    
@@ -230,6 +230,7 @@ class IncomeTaxPosition extends Taxation{
 
     tax = Utilities.roundTax(tax);
 
+    return tax;
   }
 
   num getBasicRateAvailable(){

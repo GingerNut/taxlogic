@@ -5,9 +5,11 @@ import '../period.dart';
 
 
 class CompanyAccountingPeriod extends CompanyTaxPosition{
-  CompanyAccountingPeriod(Entity entity, Period period) : super(entity) {
+  CompanyAccountingPeriod(Company company, Period period) : super(company) {
+
     this.period = period;
   }
+
 
 
 

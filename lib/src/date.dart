@@ -96,6 +96,12 @@ class Date{
     return difference > 0;
   }
 
+  bool operator == (o) => o is Date && o.day == day && o.month == month && o.year == year;
+
+  int get hashCode{
+     return year * 366 + month * 12 + day;
+  }
+
   static bool isleap(int year){
     if(((year % (4) == 0) && (year %(100) != 0)) || (year %(400) == 0)){
       return true;

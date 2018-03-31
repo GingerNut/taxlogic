@@ -122,6 +122,30 @@ void dates(){
       expect(first > second, true);
     });
 
+    test('equality ', () {
+
+      Date first = new Date(15,3,18);
+      Date second = new Date(15,3,19);
+
+      expect(first == second, false);
+
+      first = new Date(15,3,18);
+      second = new Date(15,4,18);
+
+      expect(first == second, false);
+
+      first = new Date(15,3,18);
+      second = new Date(16,3,18);
+
+      expect(first == second, false);
+
+      first = new Date(16,3,18);
+      second = new Date(16,3,18);
+
+      expect(first == second, true);
+
+    });
+
     test('Difference between dates 15/3/18 after 12/3/18', () {
 
       Date first = new Date(15,3,18);
@@ -1953,13 +1977,10 @@ void corporationTax(){
       Date first = new Date(1,10,19);
       Date second = new Date(30,9,20);
       Period period = new Period(first, second);
-      CompanyAccountingPeriod taxPosition = new CompanyAccountingPeriod(company, period);
-      CorporationTax corpTax = new CorporationTax(taxPosition);
 
-      taxPosition.income = 10000;
-      corpTax.calculate();
+      company.accountingPeriod(period).income = 10000;
 
-      expect(corpTax.tax, 1795.07);
+      expect(company.accountingPeriod(period).tax, 1795.07);
     });
 
     test('Accounting period', () {
@@ -1967,8 +1988,6 @@ void corporationTax(){
       Date first = new Date(1,4,16);
       Date second = new Date(31,3,17);
       Period period = new Period(first, second);
-      CompanyAccountingPeriod taxPosition = new CompanyAccountingPeriod(company, period);
-      CorporationTax corpTax = new CorporationTax(taxPosition);
 
       ChargeableAsset asset01 = new ChargeableAsset(company);
       asset01.saleDate = new Date(31,3,17);
@@ -1976,10 +1995,25 @@ void corporationTax(){
       asset01.cost = 5000;
       company.assets.add(asset01);
 
-      taxPosition.income = 10000;
-      corpTax.calculate();
+      company.accountingPeriod(period).income = 10000;
+      expect(company.accountingPeriod(period).tax, 3000);
+    });
 
-      expect(corpTax.tax, 3000);
+    test('Accounting period', () {
+
+      Date first = new Date(1,4,16);
+      Date second = new Date(31,3,17);
+      Period period = new Period(first, second);
+      company.accountingPeriod(period);
+
+      first = new Date(1,4,17);
+      second = new Date(31,3,18);
+      period = new Period(first, second);
+      company.accountingPeriod(period);
+
+      expect(company.lastAccountingPeriod().period.end.year, 2018);
+      expect(company.taxPeriods.length, 2);
+
     });
 
 

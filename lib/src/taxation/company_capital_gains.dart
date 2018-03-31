@@ -28,7 +28,7 @@ class CompanyCapitalGainsPosition extends CapitalGains{
     }
   }
 
-  void calculateTax() {
+  num  calculateTax() {
 
   }
   @override

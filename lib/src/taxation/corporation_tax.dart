@@ -16,15 +16,15 @@ class CorporationTax extends Taxation{
 
   }
 
-  num tax = 0;
-
  int daysAtFirstRate;
  int daysAtSecondRate;
  int daysInPeriod;
 
 
 
-  calculate(){
+  num calculate(){
+
+   num tax = 0;
 
    totalProfits = (taxPosition as CompanyTaxPosition).income;
 
@@ -35,7 +35,6 @@ class CorporationTax extends Taxation{
 
   List<RatePeriod> periods = TaxData.CompanyRatePeriods((taxPosition as CompanyTaxPosition).period);
 
-  tax = 0;
 
   periods.forEach((period){
    tax += totalProfits * period.period.duration/(taxPosition as CompanyTaxPosition).period.duration * period.rate;
@@ -43,6 +42,7 @@ class CorporationTax extends Taxation{
 
   tax = Utilities.roundTax(tax);
 
+  return tax;
   }
 
 
@@ -52,7 +52,7 @@ class CorporationTax extends Taxation{
 
    List<RatePeriod> periods = TaxData.CompanyRatePeriods((taxPosition as CompanyTaxPosition).period);
 
-  num tax;
+ num tax = 0;
 
    periods.forEach((period){
     tax = (taxPosition as CompanyTaxPosition).income * period.period.duration/(taxPosition as CompanyTaxPosition).period.duration * period.rate;

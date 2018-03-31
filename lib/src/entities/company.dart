@@ -8,42 +8,51 @@ import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class Company extends Entity{
 
-  List<CompanyAccountingPeriod> accountingPeriods = new List();
-
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
 
-  CompanyTaxPosition nextAccountingPeriod(Date date){
 
-      CompanyTaxPosition lastAP = lastAccountingPeriod();
+  CompanyAccountingPeriod accountingPeriod(Period period){
 
-      Date periodStart;
-      Date periodEnd;
+    Date start = period.start;
+    Date end = period.end;
 
-      if(lastAP == null){
-        periodEnd = new Date(defaultPeriod.day, defaultPeriod.month, date.financialYear);
-        periodStart = date;
-        if(birth > periodStart) periodStart = birth;
+    CompanyTaxPosition lastPos = lastAccountingPeriod();
+    CompanyAccountingPeriod newPeriod;
 
-      } else if(lastAP.period.end < date){
+    if(lastPos == null){
+      newPeriod = new CompanyAccountingPeriod(this, new Period(start,end));
 
+      taxPeriods.add(newPeriod);
 
-      } else {
-        periodStart = lastAP.period.end + 1;
-        periodEnd = new Date(lastAP.period.end.day, lastAP.period.end.month, lastAP.period.end.year +1 );
+      return newPeriod;
 
+    } else {
+
+      if(lastPos.period.end > period.end) return lastPos;
+
+      if(lastPos.period.end == period.end) return lastPos;
+
+      int overlap = Period.overlap(lastPos.period, period);
+
+      if(overlap > 0 && lastPos.period.end < period.end) {
+        start = lastPos.period.end + 1;
+
+        newPeriod = new CompanyAccountingPeriod(this, new Period(start,end));
+
+        taxPeriods.add(newPeriod);
       }
 
-      //ompanyTaxPosition nextAp = new CompanyTaxPosition(this, new Period(periodStart, periodEnd));
+    }
 
-     // taxPeriods.add(nextAp);
+    newPeriod = new CompanyAccountingPeriod(this, new Period(start,end));
+    taxPeriods.add(newPeriod);
 
-      //return nextAp;
-
+    return newPeriod;
   }
 
-  CompanyTaxPosition lastAccountingPeriod(){
+  CompanyAccountingPeriod lastAccountingPeriod(){
     Date lastAPend;
-    CompanyTaxPosition lastAP;
+    CompanyAccountingPeriod lastAP;
 
     if(taxPeriods.length>0) {
       lastAPend = taxPeriods[0].period.end;

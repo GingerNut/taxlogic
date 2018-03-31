@@ -115,7 +115,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
 
   }
 
-  void calculateTax() {
+  num calculateTax() {
     taxPosition.disposals.forEach((asset){
 
       if(asset.residentialProperty){
@@ -140,7 +140,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
       }
     });
 
-    tax = 0;
+    num tax = 0;
 
     tax += taxBasicRateRes * TaxData.CapitalGainsBasicRateRes(taxPosition.period.end.year);
     tax += taxBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(taxPosition.period.end.year);
@@ -150,6 +150,8 @@ class PersonalCapitalGainsPosition extends CapitalGains{
     tax +=  taxHigherRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
 
     tax = Utilities.roundTax(tax);
+
+    return tax;
   }
   @override
   List<List<String>> narrative(List<List<String>> narrative) {

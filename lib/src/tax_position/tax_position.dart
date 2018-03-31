@@ -39,6 +39,9 @@ abstract class TaxPosition{
   num propertyTaxCredit = 0;
   num tradingIncome = 0;
 
+  num get tax => incomeTaxPosition.tax + capitalGainsTaxPosition.tax;
+
+
   refreshDisposals() {
 
     disposals.clear();
