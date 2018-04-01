@@ -1,6 +1,6 @@
-import '../../date.dart';
-import '../../rate_history.dart';
-import '../../period.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 
 abstract class CompanyTaxData{
   static RateHistory companyMainRate = new RateHistory([

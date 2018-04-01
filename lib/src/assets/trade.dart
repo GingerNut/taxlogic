@@ -4,7 +4,7 @@ import '../accounts/income_and_expenditure.dart';
 import '../entities/entity.dart';
 import '../accounts/trade_accounts.dart';
 import 'activity.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'value.dart';
 
 class Trade extends Activity{

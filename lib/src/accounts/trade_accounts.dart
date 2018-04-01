@@ -1,5 +1,5 @@
 import 'income_and_expenditure.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import '../entities/entity.dart';
 
 class TradeAccounts extends IncomeAndExpenditure{

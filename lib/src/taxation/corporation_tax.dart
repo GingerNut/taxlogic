@@ -1,10 +1,10 @@
 import 'taxation.dart';
 import '../entities/entity.dart';
-import '../tax_position/company_tax_position.dart';
-import '../date.dart';
+import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../data/tax_data.dart';
-import '../rate_history.dart';
-import '../utilities.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 class CorporationTax extends Taxation{

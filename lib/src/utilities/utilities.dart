@@ -1,4 +1,10 @@
 import 'dart:math';
+export 'date.dart';
+export 'period.dart';
+export 'period_collection.dart';
+export 'rate_history.dart';
+export 'period_end.dart';
+export 'tax_year.dart';
 
 class Utilities{
 

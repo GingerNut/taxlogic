@@ -1,4 +1,4 @@
-import '../../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../../game.dart';
 
 abstract class Scenario {

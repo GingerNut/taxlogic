@@ -1,5 +1,5 @@
 import '../entities/entity.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'activity.dart';
 import 'value.dart';
 

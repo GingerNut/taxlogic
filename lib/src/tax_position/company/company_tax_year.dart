@@ -1,9 +1,9 @@
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'tax_position.dart';
-import '../period_collection.dart';
-import '../date.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period_collection.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 
 
 // this shows tax payable for a year to 31 March to compare with tax years

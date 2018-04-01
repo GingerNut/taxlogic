@@ -1,7 +1,7 @@
 import 'package:taxlogic/src/entities/company.dart';
 import '../assets/chargeable_assets.dart';
-import '../utilities.dart';
-import '../tax_position/company_tax_position.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
+import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import 'capital_gains.dart';
 import '../data/tax_data.dart';
 

@@ -1,6 +1,6 @@
-import 'period.dart';
-import 'date.dart';
-import 'utilities.dart';
+import 'package:taxlogic/src/utilities/period.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 class RateHistory{
   RateHistory(this.history);

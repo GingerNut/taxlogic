@@ -1,46 +1,35 @@
 
 import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
 import '../taxation/capital_gains.dart';
-import '../tax_position/company_tax_position.dart';
+import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import '../taxation/taxation.dart';
 import '../accounts/accounting_period.dart';
 import '../assets/property_business.dart';
 import '../accounts/rental_income_and_expenditure.dart';
 import '../accounts/accounts.dart';
+import '../income/income.dart';
 
-export 'company_tax_position.dart';
-export 'personal_tax_position.dart';
-export 'company_accounting_period.dart';
+export 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
+export 'package:taxlogic/src/tax_position/personal/personal_tax_2018.dart';
+export 'package:taxlogic/src/tax_position/company/company_accounting_period.dart';
 
 abstract class TaxPosition{
-  static const String jsonTagCode = "code";
-  static const String jsonTagYear = "year";
-  static const String jsonTagEarnings = "earnings";
-  static const String jsonTagTrade = "trade";
-  static const String jsonTagDividend = "dividend";
-  static const String jsonTagSavings = "savings";
-
-
   TaxPosition(this.entity);
 
   Entity entity;
   Period period;
   TaxPosition previousTaxPosition;
 
-  CapitalGains capitalGainsTaxPosition;
-  Taxation incomeTaxPosition;
-
+  List<Income> income = new List();
   List<ChargeableAsset> disposals = new List();
 
-  num propertyIncome = 0;
-  num propertyTaxCredit = 0;
-  num tradingIncome = 0;
+  num capitalLossBroughtForward = 0;
+  num capitalLossCarriedForward = 0;
 
-  num get tax => incomeTaxPosition.tax + capitalGainsTaxPosition.tax;
-
+  num get tax;
 
   refreshDisposals() {
 
@@ -56,9 +45,7 @@ abstract class TaxPosition{
   }
 
   refreshIncome(){
-    propertyIncome = 0;
-    propertyTaxCredit = 0;
-    tradingIncome = 0;
+
 
     entity.activities.forEach((activity){
       if(activity is PropertyBusiness){
@@ -76,7 +63,5 @@ abstract class TaxPosition{
     });
 
   }
-
-  adjustPropertyProfit(IncomeAndExpenditureProperty accounts);
 
 }

@@ -1,7 +1,7 @@
 import 'package:taxlogic/src/entities/person.dart';
 import '../assets/chargeable_assets.dart';
-import '../utilities.dart';
-import '../tax_position/personal_tax_position.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
+import 'package:taxlogic/src/tax_position/personal/personal_tax_position.dart';
 import 'capital_gains.dart';
 import '../data/tax_data.dart';
 
@@ -14,7 +14,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
   num taxHigherRateNonRes = 0;
   num taxHigherRateEnt = 0;
 
-  PersonalCapitalGainsPosition(PersonalTaxPosition taxPosition) : super(taxPosition);
+  PersonalCapitalGainsPosition(PersonalTax2018 taxPosition) : super(taxPosition);
 
   void allocateLosses(){
     num lossesToAllocate = totalLossUsed;
@@ -87,7 +87,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
 
 
     // allocate gains to rates of tax
-    basicRateAmount = (taxPosition as PersonalTaxPosition).basicRateAvailable;
+    basicRateAmount = (taxPosition as PersonalTax2018).basicRateAvailable;
 
     num basicRateToAllocate = basicRateAmount;
 
@@ -153,6 +153,7 @@ class PersonalCapitalGainsPosition extends CapitalGains{
 
     return tax;
   }
+
   @override
   List<List<String>> narrative(List<List<String>> narrative) {
     // TODO: implement narrative

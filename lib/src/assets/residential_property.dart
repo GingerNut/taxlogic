@@ -1,4 +1,4 @@
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import 'property.dart';
 import '../entities/entity.dart';
 

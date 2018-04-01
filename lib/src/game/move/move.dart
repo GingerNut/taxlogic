@@ -1,6 +1,6 @@
 
 import '../position/position.dart';
-import '../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'move_start_activity.dart';
 export 'move_start_activity.dart';
 import 'move_create_entity.dart';

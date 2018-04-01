@@ -1,9 +1,9 @@
 import 'chargeable_assets.dart';
 import '../accounts/accounts.dart';
-import '../period.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/period.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../entities/entity.dart';
-import '../rate_history.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
 import 'value.dart';
 
 class Property extends ChargeableAsset{

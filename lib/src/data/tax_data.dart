@@ -2,11 +2,11 @@ import 'income_tax/income_tax_data.dart';
 import 'capital_gains_tax/capital_gains_tax_data.dart';
 import 'national_insurance/national_insurance_data.dart';
 import 'company_tax/company_tax_data.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../entities/entity.dart';
 import 'capital_allowances/capital_allowances.dart';
-import '../rate_history.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import 'interest/overdue_interest.dart';
 import 'capital_gains_tax/indexation.dart';
 

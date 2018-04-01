@@ -1,7 +1,7 @@
 import '../accounts/accounting_period.dart';
 import '../entities/entity.dart';
 import 'asset.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../assets/value.dart';
 
 abstract class Activity extends Asset{

@@ -1,7 +1,7 @@
 
 
 import 'income_and_expenditure.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import '../data/income_tax/income_tax_data.dart';
 import '../entities/entity.dart';
 

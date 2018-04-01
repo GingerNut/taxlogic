@@ -1,5 +1,5 @@
-import '../../rate_history.dart';
-import '../../date.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 
 
 class OverdueInterest{

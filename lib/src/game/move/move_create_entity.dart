@@ -2,7 +2,7 @@
 import 'package:taxlogic/src/game/move/move.dart';
 import 'package:taxlogic/src/game/position/position.dart';
 import '../../entities/entity.dart';
-import '../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 
 
 class CreateEntity extends Move{

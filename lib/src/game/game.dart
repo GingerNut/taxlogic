@@ -1,7 +1,7 @@
 import 'package:taxlogic/src/game/position/position.dart';
 import 'package:taxlogic/src/game/position/scenario/landlord_start.dart';
 
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'position/scenario/scenario.dart';
 import 'move/move.dart';
 

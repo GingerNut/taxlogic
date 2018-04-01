@@ -1,7 +1,7 @@
 import '../data/tax_data.dart';
-import '../period.dart';
-import '../date.dart';
-import '../utilities.dart';
+import 'package:taxlogic/src/utilities/period.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 import '../entities/entity.dart';
 import 'dart:math';
 import 'asset.dart';

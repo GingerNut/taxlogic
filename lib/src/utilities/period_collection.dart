@@ -1,7 +1,7 @@
 
-import 'tax_position/tax_position.dart';
-import 'period.dart';
-import 'entities/entity.dart';
+import '../tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/period.dart';
+import '../entities/entity.dart';
 
 class PeriodCollection{
 

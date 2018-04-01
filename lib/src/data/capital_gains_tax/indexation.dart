@@ -1,6 +1,6 @@
-import '../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'dart:math';
-import '../../utilities.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 class Indexation{
   

@@ -1,7 +1,7 @@
 import '../assets/asset.dart';
 import 'capital_allowances.dart';
 import '../entities/entity.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/assets/activity.dart';
 import 'package:taxlogic/src/assets/value.dart';
 

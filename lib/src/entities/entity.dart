@@ -1,13 +1,13 @@
 import '../assets/asset.dart';
 import '../assets/activity.dart';
-import '../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import 'person.dart';
 import 'partnership.dart';
 import 'company.dart';
 import 'trust.dart';
 import '../tax_position/tax_position.dart';
-import '../period_collection.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/period_collection.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 export 'company.dart';
 export 'person.dart';
 
@@ -30,8 +30,6 @@ abstract class Entity{
   List<Entity> children = new List();
   List<Asset> assets = new List();
   List<Activity> activities = new List();
-
-  num taxPayble(int taxYearEnd);
 
   TaxPosition taxYear(int taxYearEnd);
 
@@ -64,7 +62,7 @@ abstract class Entity{
       case Entity.TRUST: return new Trust();
         break;
     }
-
+    return null;
   }
 
 }

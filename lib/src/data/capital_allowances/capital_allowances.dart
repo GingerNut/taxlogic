@@ -1,7 +1,7 @@
-import '../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../../entities/entity.dart';
-import '../../rate_history.dart';
-import '../../period.dart';
+import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 
 class CapitalAllowances{
   static RateHistory individual_AIA = new RateHistory([

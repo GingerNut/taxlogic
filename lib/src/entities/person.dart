@@ -1,7 +1,7 @@
-import 'package:taxlogic/src/date.dart';
-import 'package:taxlogic/src/period.dart';
-import 'package:taxlogic/src/period_collection.dart';
-import 'package:taxlogic/src/tax_position/personal_tax_position.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/period.dart';
+import 'package:taxlogic/src/utilities/period_collection.dart';
+import 'package:taxlogic/src/tax_position/personal/personal_tax_position.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import '../assets/chargeable_assets.dart';
 import 'entity.dart';
@@ -39,7 +39,7 @@ class Person extends Entity{
     });
 
     if(taxYear == null){
-      taxYear = new PersonalTaxPosition(this, year);
+      taxYear = new PersonalTax2018(this, year);
       taxPeriods.add(taxYear);
     }
     return taxYear;

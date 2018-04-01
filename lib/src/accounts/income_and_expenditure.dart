@@ -1,5 +1,5 @@
-import '../date.dart';
-import '../period.dart';
+import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import '../accounts/capital_allowances.dart';
 import '../accounts/plant_and_machinery.dart';
 import '../entities/entity.dart';

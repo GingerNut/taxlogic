@@ -2,14 +2,14 @@ import 'package:taxlogic/src/game/game.dart';
 import '../position.dart';
 import '../../../entities/person.dart';
 import '../../../assets/property_business.dart';
-import '../../../date.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 import '../../../assets/residential_property.dart';
 import '../../../accounts/rental_income_and_expenditure.dart';
-import '../../../period.dart';
+import 'package:taxlogic/src/utilities/period.dart';
 import '../../../accounts/income_and_expenditure.dart';
 import 'scenario.dart';
 import '../../../entities/person.dart';
-import '../../../tax_year.dart';
+import 'package:taxlogic/src/utilities/tax_year.dart';
 import '../../game.dart';
 
 class LandlordStart extends Scenario{
