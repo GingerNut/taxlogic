@@ -2,17 +2,17 @@ import 'package:taxlogic/src/entities/person.dart';
 import '../assets/chargeable_assets.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 import 'package:taxlogic/src/tax_position/personal/personal_tax_position.dart';
-import 'capital_gains.dart';
+import 'package:taxlogic/src/taxation/archive/capital_gains.dart';
 import '../data/tax_data.dart';
 
 class PersonalCapitalGainsPosition extends CapitalGains{
 
-  num taxBasicRateRes = 0;
-  num taxBasicRateNonRes = 0;
-  num taxBasicRateEnt = 0;
-  num taxHigherRateRes = 0;
-  num taxHigherRateNonRes = 0;
-  num taxHigherRateEnt = 0;
+  num cgtBasicRateRes = 0;
+  num cgtBasicRateNonRes = 0;
+  num cgtBasicRateEnt = 0;
+  num cgtHigherRateRes = 0;
+  num cgtHigherRateNonRes = 0;
+  num cgtHigherRateEnt = 0;
 
   PersonalCapitalGainsPosition(PersonalTax2018 taxPosition) : super(taxPosition);
 
@@ -119,35 +119,35 @@ class PersonalCapitalGainsPosition extends CapitalGains{
     taxPosition.disposals.forEach((asset){
 
       if(asset.residentialProperty){
-        taxBasicRateRes += asset.basicRateAllocated;
+        cgtBasicRateRes += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          taxHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+          cgtHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
 
       } else if (asset.entrepreneurRelief){
 
-        taxBasicRateEnt += asset.basicRateAllocated;
+        cgtBasicRateEnt += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
-          taxHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+          cgtHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
 
       } else {
 
-        taxBasicRateNonRes += asset.basicRateAllocated;
+        cgtBasicRateNonRes += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          taxHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+          cgtHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
       }
     });
 
     num tax = 0;
 
-    tax += taxBasicRateRes * TaxData.CapitalGainsBasicRateRes(taxPosition.period.end.year);
-    tax += taxBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(taxPosition.period.end.year);
-    tax +=  taxBasicRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
-    tax +=  taxHigherRateRes * TaxData.CapitalGainsHigherRateRes(taxPosition.period.end.year);
-    tax +=  taxHigherRateNonRes * TaxData.CapitalGainsHigherRateNonRes(taxPosition.period.end.year);
-    tax +=  taxHigherRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
+    tax += cgtBasicRateRes * TaxData.CapitalGainsBasicRateRes(taxPosition.period.end.year);
+    tax += cgtBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(taxPosition.period.end.year);
+    tax +=  cgtBasicRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
+    tax +=  cgtHigherRateRes * TaxData.CapitalGainsHigherRateRes(taxPosition.period.end.year);
+    tax +=  cgtHigherRateNonRes * TaxData.CapitalGainsHigherRateNonRes(taxPosition.period.end.year);
+    tax +=  cgtHigherRateEnt * TaxData.CapitalGainsEntrepreneur(taxPosition.period.end.year);
 
     tax = Utilities.roundTax(tax);
 

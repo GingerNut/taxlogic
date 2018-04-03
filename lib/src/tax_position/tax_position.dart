@@ -1,9 +1,9 @@
-
+import 'dart:math';
 import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
-import '../taxation/capital_gains.dart';
+import 'package:taxlogic/src/taxation/archive/capital_gains.dart';
 import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import '../taxation/taxation.dart';
 import '../accounts/accounting_period.dart';
@@ -13,7 +13,7 @@ import '../accounts/accounts.dart';
 import '../income/income.dart';
 
 export 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
-export 'package:taxlogic/src/tax_position/personal/personal_tax_2018.dart';
+
 export 'package:taxlogic/src/tax_position/company/company_accounting_period.dart';
 
 abstract class TaxPosition{
@@ -26,6 +26,10 @@ abstract class TaxPosition{
   List<Income> income = new List();
   List<ChargeableAsset> disposals = new List();
 
+  num annualExemption = 0;
+  num netGains = 0;
+  num totalLossUsed = 0;
+  num taxableGains;
   num capitalLossBroughtForward = 0;
   num capitalLossCarriedForward = 0;
 
@@ -44,24 +48,66 @@ abstract class TaxPosition{
 
   }
 
-  refreshIncome(){
+  void analyseDisposals(){
 
+    refreshDisposals();
+    annualExemption = TaxData.CapitalGainsAnnualExempt(period.end.year, entity);
 
-    entity.activities.forEach((activity){
-      if(activity is PropertyBusiness){
-        (activity as PropertyBusiness).accounts.forEach((account){
+    netGains = 0;
 
-          if(period.includes(account.period.end)){
-          propertyIncome += (account as IncomeAndExpenditureProperty).profit;
-          propertyTaxCredit += (account as IncomeAndExpenditureProperty).taxCredit;
-          }
+    num totalGains = 0;
+    num capitalLosses = 0;
 
-        });
+    disposals.forEach((asset){
+
+      if(asset.taxableGain > 0){
+        totalGains += asset.taxableGain;
+      } else{
+        capitalLosses -= asset.taxableGain;
 
       }
 
     });
 
+    // loss relief
+
+    netGains = totalGains - capitalLosses;
+    taxableGains = 0;
+    capitalLossCarriedForward = capitalLossBroughtForward;
+
+    num currentCapitalLossUsed = 0;
+    num broughtForwardLossUsed = 0;
+
+
+    currentCapitalLossUsed = min(capitalLosses, totalGains);
+
+    if(netGains > 0){
+
+      if(capitalLossBroughtForward > 0 && netGains > annualExemption){
+
+        broughtForwardLossUsed = min(capitalLossBroughtForward, netGains - annualExemption);
+
+        netGains -= broughtForwardLossUsed;
+        capitalLossCarriedForward -= broughtForwardLossUsed;
+
+      }
+
+      //capitalLossesCarriedForward = capitalLossesBroughtForward - broughtForwardLossUsed;
+
+      totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
+
+    } else {
+      capitalLossCarriedForward -= netGains;
+
+    }
+
+    if(netGains < annualExemption){
+      annualExemption = netGains;
+    }
+
+    taxableGains = netGains - annualExemption;
+
   }
+
 
 }

@@ -758,7 +758,7 @@ void taxdata(){
 void incomeTaxEngland2017(){
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax England 2017', ()
@@ -770,32 +770,29 @@ void incomeTaxEngland2017(){
       person = new Person();
       person.scotland = false;
       taxPosition = person.taxYear(2017);
-      incomeTaxPosition = taxPosition.incomeTaxPosition;
     });
 
 
     test('20,000 2017 england', () {
       taxPosition.earnings = 20000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 1800);
+      expect(taxPosition.tax, 1800);
     });
 
     test('45,000 2017 england', () {
       taxPosition.earnings = 45000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 7200);
+
+      expect(taxPosition.tax, 7200);
     });
 
     test('90,000 2017 england', () {
       taxPosition.earnings = 90000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 25200);
+
+      expect(taxPosition.tax, 25200);
     });
 
     test('200,000 2017 england', () {
       taxPosition.earnings = 200000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 76100);
+      expect(taxPosition.tax, 76100);
     });
 
 
@@ -806,7 +803,7 @@ void incomeTaxEngland2017(){
 void incomeTaxEngland2018(){
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax England 2018', ()
@@ -816,32 +813,29 @@ void incomeTaxEngland2018(){
       person = new Person();
       person.scotland = false;
       taxPosition = person.taxYear(2018);
-      incomeTaxPosition = taxPosition.incomeTaxPosition;
     });
 
 
     test('20,000 2018 england', () {
       taxPosition.earnings = 20000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 1700);
+
+      expect(taxPosition.tax, 1700);
     });
 
     test('45,000 2018 england', () {
       taxPosition.earnings = 45000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 6700);
+      expect(taxPosition.tax, 6700);
     });
 
     test('90,000 2018 england', () {
       taxPosition.earnings = 90000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 24700);
+
+      expect(taxPosition.tax, 24700);
     });
 
     test('200,000 2018 england', () {
       taxPosition.earnings = 200000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 75800);
+      expect(taxPosition.tax, 75800);
     });
 
 
@@ -852,7 +846,7 @@ void incomeTaxEngland2018(){
 void incomeTaxEnglandDividend2018(){
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax dividned 2018', ()
@@ -863,97 +857,83 @@ void incomeTaxEnglandDividend2018(){
       person.scotland = false;
       
       taxPosition = person.taxYear(2018);
-      incomeTaxPosition = taxPosition.incomeTaxPosition;
     });
 
 
     test('1,000 2018 no other income', () {
       taxPosition.dividend = 1000;
       taxPosition.earnings = 0;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 0);
+      expect(taxPosition.tax, 0);
     });
 
     test('1,000 2018 20000 income', () {
       taxPosition.dividend = 1000;
       taxPosition.earnings = 20000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 1700);
+      expect(taxPosition.tax, 1700);
     });
 
     test('6,000 2018 20000 income', () {
       taxPosition.dividend = 6000;
       taxPosition.earnings = 20000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 1775);
+      expect(taxPosition.tax, 1775);
     });
 
     test('40,000 2018 no other income', () {
       taxPosition.dividend = 40000;
       taxPosition.earnings = 0;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 1762.50);
+      expect(taxPosition.tax, 1762.50);
     });
 
     test('10,000 2018 20000 other', () {
       taxPosition.dividend = 20000;
       taxPosition.earnings = 10000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 1012.5);
+      expect(taxPosition.tax, 1012.5);
     });
 
     test('60,000 2018 10000 other', () {
       taxPosition.dividend = 60000;
       taxPosition.earnings = 10000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 10262.5);
+      expect(taxPosition.tax, 10262.5);
     });
 
     test('20,000 2018 30000 other', () {
       taxPosition.dividend = 20000;
       taxPosition.earnings = 30000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 6075);
+      expect(taxPosition.tax, 6075);
     });
 
     test('80,000 2018 30000 other', () {
       taxPosition.dividend = 80000;
       taxPosition.earnings = 30000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 27825);
+      expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 30000 other', () {
       taxPosition.dividend = 100000;
       taxPosition.earnings = 30000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 36875);
+      expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 150000 other', () {
       taxPosition.dividend = 50000;
       taxPosition.earnings = 150000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 70445);
+      expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 no other income', () {
       taxPosition.dividend = 60000;
       taxPosition.earnings = 0;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 7012.50);
+      expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 no other income', () {
       taxPosition.dividend = 100000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 20012.50);
+      expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 no other income', () {
       taxPosition.dividend = 200000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 59050);
+      expect(taxPosition.tax, 59050);
     });
 
 
@@ -964,7 +944,7 @@ void incomeTaxEnglandDividend2018(){
 void incomeTaxEnglandSavings2018(){
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax savings 2018', ()
@@ -975,7 +955,6 @@ void incomeTaxEnglandSavings2018(){
       person.scotland = false;
       
       taxPosition = person.taxYear(2018);
-      incomeTaxPosition = taxPosition.incomeTaxPosition;
     });
 
 
@@ -983,17 +962,14 @@ void incomeTaxEnglandSavings2018(){
       taxPosition.dividend = 0;
       taxPosition.earnings = 0;
       taxPosition.savings = 4000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 0);
+      expect(taxPosition.tax, 0);
     });
 
     test('40,000 2018 savings', () {
       taxPosition.earnings = 6000;
       taxPosition.savings = 4000;
       taxPosition.dividend = 5000;
-
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 0);
+      expect(taxPosition.tax, 0);
     });
 
     test('10,000 2018 savings', () {
@@ -1001,8 +977,7 @@ void incomeTaxEnglandSavings2018(){
       taxPosition.savings = 5000;
       taxPosition.dividend = 20000;
 
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 1625);
+      expect(taxPosition.tax, 1625);
     });
 
     test('60,000 2018 savings', () {
@@ -1010,8 +985,7 @@ void incomeTaxEnglandSavings2018(){
       taxPosition.savings = 2000;
       taxPosition.dividend = 60000;
 
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 10750);
+      expect(taxPosition.tax, 10750);
     });
 
     test('20,000 2018 savings', () {
@@ -1019,48 +993,41 @@ void incomeTaxEnglandSavings2018(){
       taxPosition.savings = 6000;
       taxPosition.dividend = 4000;
 
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 200);
+      expect(taxPosition.tax, 200);
     });
 
     test('80,000 2018 savings', () {
       taxPosition.dividend = 80000;
       taxPosition.earnings = 30000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 27825);
+      expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 savings', () {
       taxPosition.dividend = 100000;
       taxPosition.earnings = 30000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 36875);
+      expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 savings', () {
       taxPosition.dividend = 50000;
       taxPosition.earnings = 150000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 70445);
+      expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 savings', () {
       taxPosition.dividend = 60000;
       taxPosition.earnings = 0;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 7012.50);
+      expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 savings', () {
       taxPosition.dividend = 100000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 20012.50);
+      expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 savings', () {
       taxPosition.dividend = 200000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 59050);
+      expect(taxPosition.tax, 59050);
     });
 
 
@@ -1071,7 +1038,7 @@ void incomeTaxEnglandSavings2018(){
 void incomeTaxScotland2019(){
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   IncomeTaxPosition incomeTaxPosition;
 
   group('Income tax Scotland 2019', ()
@@ -1082,32 +1049,27 @@ void incomeTaxScotland2019(){
       person.scotland = true;
 
       taxPosition = person.taxYear(2019);
-      incomeTaxPosition = taxPosition.incomeTaxPosition;
     });
 
 
     test('20,000 2019 scotland', () {
       taxPosition.earnings = 20000;
-      incomeTaxPosition.calculate();
-      expect(incomeTaxPosition.tax, 1610);
+      expect(taxPosition.tax, 1610);
     });
 
     test('45,000 2019 scotland', () {
       taxPosition.earnings = 45000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 7134);
+      expect(taxPosition.tax, 7134);
     });
 
     test('90,000 2019 scotland', () {
       taxPosition.earnings = 90000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 25584);
+      expect(taxPosition.tax, 25584);
     });
 
     test('200,000 2019 scotland', () {
       taxPosition.earnings = 200000;
-      taxPosition.incomeTaxPosition.calculate();
-      expect(taxPosition.incomeTaxPosition.tax, 78042.50);
+      expect(taxPosition.tax, 78042.50);
     });
 
 
@@ -1118,8 +1080,7 @@ void incomeTaxScotland2019(){
 void nationalInsuranceEarnings() {
 
   Person person;
-  PersonalTax2018 taxPosition;
-  NationalInsurancePosition nicPosition;
+  PersonalTaxPosition taxPosition;
 
   group('National insurance earnings', () {
 
@@ -1128,58 +1089,49 @@ void nationalInsuranceEarnings() {
       person.scotland = false;
 
       taxPosition = person.taxYear(2018);
-      nicPosition = taxPosition.nicPosition;
     });
 
     test('5,000 2018 employee', () {
       taxPosition.earnings = 5000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1p, 0);
+      expect(taxPosition.nicClass1p, 0);
     });
 
     test('5,000 2018 employer', () {
       taxPosition.earnings = 5000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1s, 0);
+      expect(taxPosition.nicClass1s, 0);
     });
 
     test('20,000 2018 employee', () {
       taxPosition.earnings = 20000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1p, 1420.8);
+      expect(taxPosition.nicClass1p, 1420.8);
 
     });
 
     test('20,000 2018 employer', () {
       taxPosition.earnings = 20000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1s, 1633.92);
+      expect(taxPosition.nicClass1s, 1633.92);
     });
 
     test('45,000 2018 employee', () {
       taxPosition.earnings = 45000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1p, 4420.8);
+      expect(taxPosition.nicClass1p, 4420.8);
 
     });
 
     test('45,000 2018 employer', () {
       taxPosition.earnings = 45000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1s, 5083.92);
+      expect(taxPosition.nicClass1s, 5083.92);
     });
 
     test('90,000 2018 employee', () {
       taxPosition.earnings = 90000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1p, 5320.8);
+      expect(taxPosition.nicClass1p, 5320.8);
 
     });
 
     test('90,000 2018 employer', () {
       taxPosition.earnings = 90000;
-      nicPosition.calculate();
-      expect(nicPosition.nicClass1s, 11293.92);
+      expect(taxPosition.nicClass1s, 11293.92);
     });
 
 
@@ -1189,7 +1141,7 @@ void nationalInsuranceEarnings() {
 void nationalInsuranceTrade() {
 
   Person person;
-  PersonalTax2018 taxPosition;
+  PersonalTaxPosition taxPosition;
   NationalInsurancePosition nicPosition;
 
   group('National insurance trade', () {

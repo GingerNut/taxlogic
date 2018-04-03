@@ -39,7 +39,7 @@ class Person extends Entity{
     });
 
     if(taxYear == null){
-      taxYear = new PersonalTax2018(this, year);
+      taxYear = new PersonalTaxPosition(this, year);
       taxPeriods.add(taxYear);
     }
     return taxYear;
@@ -80,8 +80,7 @@ class Person extends Entity{
     @override
   num taxPayble(int taxYearEnd) {
 
-    taxYear(taxYearEnd).incomeTaxPosition.calculate();
-    return  taxYear(taxYearEnd).incomeTaxPosition.tax;
+    return  taxYear(taxYearEnd).tax;
   }
 
   @override
