@@ -1,25 +1,18 @@
 
-import '../../taxlogic.dart';
-import '../taxation/corporation_tax.dart';
-import '../taxation/company_capital_gains.dart';
+import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 
 
 class CompanyTaxPosition extends TaxPosition{
 
-  num income = 0;
 
   CompanyTaxPosition(Entity entity) : super (entity){
-    incomeTaxPosition = new CorporationTax(this);
-    capitalGainsTaxPosition = new CompanyCapitalGainsPosition(this);
 
   }
 
 
-
-
+  // TODO: implement tax
   @override
-  adjustPropertyProfit(IncomeAndExpenditureProperty accounts) {
-
-  }
+  num get tax => null;
 }

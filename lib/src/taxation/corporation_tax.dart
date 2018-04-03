@@ -1,4 +1,4 @@
-import 'taxation.dart';
+
 import '../entities/entity.dart';
 import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
@@ -7,11 +7,11 @@ import 'package:taxlogic/src/utilities/rate_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
-class CorporationTax extends Taxation{
+class CorporationTax{
 
  num totalProfits = 0;
 
-  CorporationTax(CompanyTaxPosition taxPosition) : super(taxPosition){
+  CorporationTax(CompanyTaxPosition taxPosition){
 
 
   }
@@ -26,9 +26,9 @@ class CorporationTax extends Taxation{
 
    num tax = 0;
 
-   totalProfits = (taxPosition as CompanyTaxPosition).income;
+   totalProfits = 1;
 
-   totalProfits += taxPosition.capitalGainsTaxPosition.gains;
+   totalProfits += 0;
 
 
    // calculate rate of tax

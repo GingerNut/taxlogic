@@ -3,13 +3,7 @@ import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
-import 'package:taxlogic/src/taxation/archive/capital_gains.dart';
-import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
-import '../taxation/taxation.dart';
-import '../accounts/accounting_period.dart';
-import '../assets/property_business.dart';
-import '../accounts/rental_income_and_expenditure.dart';
-import '../accounts/accounts.dart';
+
 import '../income/income.dart';
 
 export 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
@@ -28,6 +22,8 @@ abstract class TaxPosition{
 
   num annualExemption = 0;
   num netGains = 0;
+  num totalGains = 0;
+  num capitalLosses = 0;
   num totalLossUsed = 0;
   num taxableGains;
   num capitalLossBroughtForward = 0;
@@ -55,8 +51,8 @@ abstract class TaxPosition{
 
     netGains = 0;
 
-    num totalGains = 0;
-    num capitalLosses = 0;
+    totalGains = 0;
+    capitalLosses = 0;
 
     disposals.forEach((asset){
 

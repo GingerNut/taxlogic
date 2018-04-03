@@ -1,6 +1,7 @@
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/entities/entity.dart';
-import 'tax_position.dart';
+import 'package:taxlogic/taxlogic.dart';
+
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/period.dart';
@@ -37,4 +38,7 @@ class CompanyTaxYear extends TaxPosition{
   adjustPropertyProfit(IncomeAndExpenditureProperty accounts) {
     // TODO: implement adjustPropertyProfit
   }
+  // TODO: implement tax
+  @override
+  num get tax => null;
 }

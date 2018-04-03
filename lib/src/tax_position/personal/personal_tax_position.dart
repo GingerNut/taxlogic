@@ -9,7 +9,9 @@ import 'package:taxlogic/taxlogic.dart';
 
 
 class PersonalTaxPosition extends TaxPosition{
-  PersonalTaxPosition(this.person, this.year) : super(person);
+  PersonalTaxPosition(this.person, this.year) : super(person){
+    period = new Period (new Date(6,4,year-1), new Date (5,4,year));
+  }
 
   final Person person;
   final int year;
@@ -56,22 +58,25 @@ class PersonalTaxPosition extends TaxPosition{
   num cgtHigherRateNonRes = 0;
   num cgtHigherRateEnt = 0;
 
-  num earnings;
-  num trade;
-  num savings;
-  num dividend;
+  num earnings =0;
+  num trade =0;
+  num savings = 0;
+  num dividend =0;
+  num propertyIncome = 0;
+  num propertyTaxCredit = 0;
   
-  num _tax;
+  num _tax = 0;
   num _totalIncome;
 
   num get totalIncome{
     if(_totalIncome != null) return _totalIncome;
 
-    _totalIncome = 0;
-
     income.forEach((inc){
-      _totalIncome += inc.income;
+      inc.income;
     });
+
+    _totalIncome = earnings + trade + savings + dividend;
+
     return _totalIncome;
   }
 
@@ -97,9 +102,9 @@ class PersonalTaxPosition extends TaxPosition{
     
     reset();
 
-    _tax += incomeTax();
+    incomeTax();
 
-    _tax += dividendTax();
+    dividendTax();
 
     nationalInsurance();
 
@@ -107,15 +112,15 @@ class PersonalTaxPosition extends TaxPosition{
 
     allocateLosses();
 
-    _tax += capitalGainsTax();
+    capitalGainsTax();
 
     _tax -= taxCredit.clamp(0,taxCredit);
 
     _tax -= taxDeducted;
 
-    _tax = Utilities.roundTax(tax);
+    _tax = Utilities.roundTax(_tax);
 
-    return tax;
+    return _tax;
   }
 
 
@@ -409,7 +414,6 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
   void Class1(){
-
     if(earnings < TaxData.C1PrimaryThreshold(period.end.year)){
 
     } else if(earnings < TaxData.C1UpperEarningsLimit(period.end.year)){

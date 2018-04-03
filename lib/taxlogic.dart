@@ -1,10 +1,6 @@
 
 library taxlogic;
 
-export 'package:taxlogic/src/taxation/archive/income_tax.dart';
-export 'package:taxlogic/src/taxation/archive/personal_capital_gains.dart';
-export 'package:taxlogic/src/taxation/archive/capital_gains.dart';
-export 'package:taxlogic/src/taxation/archive/national_insurance.dart';
 export 'package:taxlogic/src/utilities/utilities.dart';
 export 'src/tax_position/tax_position.dart';
 export 'package:taxlogic/src/entities/person.dart';
