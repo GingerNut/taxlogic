@@ -1,13 +1,17 @@
 import '../entities/entity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
+export 'rental_income.dart';
 
+class Income{
+  Income(this.activity, this.period);
 
-abstract class Income{
-  Income(this.entity, this.year);
+  final Activity activity;
+  final Period period;
 
-  final Entity entity;
-  final int year;
+  bool manualSet = true;
 
-  num get income;
+  num income = 0;
 
   num get taxDeducted => 0;
 

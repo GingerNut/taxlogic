@@ -3,7 +3,7 @@ import '../accounts/plant_and_machinery.dart';
 import '../accounts/income_and_expenditure.dart';
 import '../entities/entity.dart';
 import '../accounts/trade_accounts.dart';
-import 'activity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'value.dart';
 
@@ -20,8 +20,5 @@ class Trade extends Activity{
   @override
   Activity transferToEntity(Date date, Entity transferee, Value value)  => null;
 
-  @override
-  transferToActivity(Activity activity, Date date, Value value) {
-    // TODO: implement transferToActivity
-  }
+
 }

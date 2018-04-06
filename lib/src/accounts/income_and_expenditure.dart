@@ -1,6 +1,6 @@
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/period.dart';
-import '../accounts/capital_allowances.dart';
+
 import '../accounts/plant_and_machinery.dart';
 import '../entities/entity.dart';
 import 'accounting_period.dart';
@@ -9,8 +9,8 @@ class IncomeAndExpenditure extends AccountingPeriod{
 
   num _profit;
 
-  List<Income> income = new List();
-  List<Expenditure> expenditure = new List();
+  List<IncomeAccount> income = new List();
+  List<ExpenditureAccount> expenditure = new List();
   List<PlantAndMachinery> plant = new List();
 
   num mainPool = 0;
@@ -45,8 +45,8 @@ class IncomeAndExpenditure extends AccountingPeriod{
 
   add(Entry entry){
 
-    if(entry is Expenditure || entry is Interest) expenditure.add(entry);
-    else if(entry is Income) income.add(entry);
+    if(entry is ExpenditureAccount || entry is Interest) expenditure.add(entry);
+    else if(entry is IncomeAccount) income.add(entry);
   }
 }
 
@@ -58,21 +58,23 @@ class Entry{
   Entry( this.date, this.name, this.amount,);
 }
 
-class Income extends Entry{
+class IncomeAccount extends Entry{
 
-  Income(Date date, String name, num amount) : super(date, name, amount);
+
+
+  IncomeAccount(Date date, String name, num amount) : super(date, name, amount);
 
 }
 
 
-class Expenditure extends Entry{
+class ExpenditureAccount extends Entry{
   bool finance = false;
 
-  Expenditure(Date date, String name, num amount) : super(date, name, amount);
+  ExpenditureAccount(Date date, String name, num amount) : super(date, name, amount);
 
 }
 
-class Interest extends Expenditure{
+class Interest extends ExpenditureAccount{
 
   Interest(Date date, String name, num amount) : super(date, name, amount){
     finance = true;

@@ -1,5 +1,5 @@
 import '../assets/asset.dart';
-import '../assets/activity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'person.dart';
 import 'partnership.dart';

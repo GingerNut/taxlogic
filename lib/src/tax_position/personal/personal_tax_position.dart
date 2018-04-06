@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import '../../data/tax_data.dart';
+import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 import 'package:taxlogic/taxlogic.dart';
 
@@ -11,6 +12,18 @@ import 'package:taxlogic/taxlogic.dart';
 class PersonalTaxPosition extends TaxPosition{
   PersonalTaxPosition(this.person, this.year) : super(person){
     period = new Period (new Date(6,4,year-1), new Date (5,4,year));
+
+    earnings = new Income(person.employment, period);
+    trade = new Income(person.trade, period);
+    savings = new Income(person.savings, period);
+    dividend = new Income(person.investment, period);
+    propertyIncome = new PropertyIncome(person.propertyBusiness, period);
+
+    income.add(earnings);
+    income.add(trade);
+    income.add(savings);
+    income.add(dividend);
+    income.add(propertyIncome);
   }
 
   final Person person;
@@ -22,7 +35,7 @@ class PersonalTaxPosition extends TaxPosition{
   num taxableSavingsIncome;
 
   num taxableIncome;
-  num taxableNonDividenIncome;
+  num taxableNonDividendIncome;
   num savingsRateUsed;
   num savingsAllowanceUsed;
   num startRateUsed;
@@ -45,25 +58,25 @@ class PersonalTaxPosition extends TaxPosition{
   num tradeAboveLowerLimit=0;
   num tradeAboveUpperLimit=0;
 
-  num nicClass1p = 0.0;
-  num nicClass1s = 0.0;
-  num nicClass2 = 0.0;
-  num nicClass3 = 0.0;
-  num nicClass4 = 0.0;
+  num nicClass1p;
+  num nicClass1s;
+  num nicClass2;
+  num nicClass3;
+  num nicClass4;
 
-  num cgtBasicRateRes = 0;
-  num cgtBasicRateNonRes = 0;
-  num cgtBasicRateEnt = 0;
-  num cgtHigherRateRes = 0;
-  num cgtHigherRateNonRes = 0;
-  num cgtHigherRateEnt = 0;
+  num cgtBasicRateRes ;
+  num cgtBasicRateNonRes;
+  num cgtBasicRateEnt ;
+  num cgtHigherRateRes ;
+  num cgtHigherRateNonRes ;
+  num cgtHigherRateEnt ;
+  num capitalGainsTaxPayable ;
 
-  num earnings =0;
-  num trade =0;
-  num savings = 0;
-  num dividend =0;
-  num propertyIncome = 0;
-  num propertyTaxCredit = 0;
+  Income earnings;
+  Income trade;
+  Income savings;
+  Income dividend;
+  PropertyIncome propertyIncome;
   
   num _tax = 0;
   num _totalIncome;
@@ -71,22 +84,55 @@ class PersonalTaxPosition extends TaxPosition{
   num get totalIncome{
     if(_totalIncome != null) return _totalIncome;
 
+    refreshIncome();
+
     income.forEach((inc){
       inc.income;
     });
 
-    _totalIncome = earnings + trade + savings + dividend;
+    _totalIncome = 0;
+
+    income.forEach( (inc) => _totalIncome += inc.income );
 
     return _totalIncome;
   }
 
+  refreshIncome(){
+
+    entity.activities.forEach((activity){
+
+      if(activity is PropertyBusiness){
+
+        IncomeAndExpenditureProperty accounts;
+
+        activity.accounts.forEach((ap) {
+
+          if(period.includes(ap.period.end)) accounts = ap;
+        });
+
+       if(accounts != null) propertyIncome.accounts = accounts;
+
+      }
+
+
+    });
+
+  }
+
   num get taxCredit {
-    num taxCredit = 0;
+    num _taxCredit = 0;
 
     income.forEach((inc){
-      taxCredit += inc.taxCredit;
+
+      if(inc != null){
+        if(inc is PropertyIncome)print(inc.taxCredit);
+        _taxCredit += inc.taxCredit;
+      }
     });
-    return taxCredit;
+
+
+
+    return _taxCredit;
   }
 
   num get taxDeducted {
@@ -108,11 +154,11 @@ class PersonalTaxPosition extends TaxPosition{
 
     nationalInsurance();
 
-    refreshDisposals();
+    analyseDisposals();
 
     allocateLosses();
 
-    capitalGainsTax();
+    _tax += capitalGainsTax();
 
     _tax -= taxCredit.clamp(0,taxCredit);
 
@@ -130,7 +176,7 @@ class PersonalTaxPosition extends TaxPosition{
     personalAllowanceUsed = 0;
     taxableSavingsIncome = 0;
     taxableIncome = 0;
-    taxableNonDividenIncome = 0;
+    taxableNonDividendIncome = 0;
     savingsRateUsed = 0;
     savingsAllowanceUsed = 0;
     startRateUsed = 0;
@@ -161,14 +207,14 @@ class PersonalTaxPosition extends TaxPosition{
     savingsNilRateBand = TaxData.savingsStartingNilBand(
         period.end.year,
         person.scotland);
-    if (totalIncome - savings >
+    if (totalIncome - savings.income >
         TaxData.PersonalAllowanceDefault(
             period.end.year,
             person.scotland)) {
       savingsNilRateBand = max(0, TaxData.savingsStartingNilBand(
           period.end.year,
           person.scotland) - max(0,
-          totalIncome - savings -
+          totalIncome - savings.income -
               TaxData.PersonalAllowanceDefault(
                   period.end.year,
                   person.scotland)));
@@ -177,14 +223,14 @@ class PersonalTaxPosition extends TaxPosition{
 
 
     taxableSavingsIncome = max(0,
-        savings - savingsAllowance -
+        savings.income - savingsAllowance -
             savingsNilRateBand);
 
-    _totalIncome = totalIncome - savings +
+    _totalIncome = totalIncome - savings.income +
         taxableSavingsIncome;
 
 
-    num nonDividendIncome = totalIncome - dividend;
+    num nonDividendIncome = totalIncome - dividend.income;
 
     // calculate personal allowance
 
@@ -203,18 +249,18 @@ class PersonalTaxPosition extends TaxPosition{
           period.end.year,
           person.scotland), totalIncome);
 
-    taxableNonDividenIncome = max(0, nonDividendIncome - personalAllowance);
+    taxableNonDividendIncome = max(0, nonDividendIncome - personalAllowance);
 
     if (person.scotland) {
       if (nonDividendIncome <= TaxData.PersonalAllowanceDefault(
           period.end.year,
           person.scotland)) {
         personalAllowanceUsed = nonDividendIncome;
-      } else if (taxableNonDividenIncome < TaxData.StarterRateBand(
+      } else if (taxableNonDividendIncome < TaxData.StarterRateBand(
           period.end.year,
           person.scotland)) {
-        startRateUsed = taxableNonDividenIncome;
-      } else if (taxableNonDividenIncome < TaxData.StarterRateBand(
+        startRateUsed = taxableNonDividendIncome;
+      } else if (taxableNonDividendIncome < TaxData.StarterRateBand(
           period.end.year,
           person.scotland) + TaxData.BasicRateBand(
           period.end.year,
@@ -222,8 +268,8 @@ class PersonalTaxPosition extends TaxPosition{
         startRateUsed = TaxData.StarterRateBand(
             period.end.year,
             person.scotland);
-        basicRateUsed = taxableNonDividenIncome - startRateUsed;
-      } else if (taxableNonDividenIncome < TaxData.StarterRateBand(
+        basicRateUsed = taxableNonDividendIncome - startRateUsed;
+      } else if (taxableNonDividendIncome < TaxData.StarterRateBand(
           period.end.year,
           person.scotland) + TaxData.BasicRateBand(
           period.end.year,
@@ -237,8 +283,8 @@ class PersonalTaxPosition extends TaxPosition{
             period.end.year,
             person.scotland);
         intermediateRateUsed =
-            taxableNonDividenIncome - startRateUsed - basicRateUsed;
-      } else if (taxableNonDividenIncome < TaxData.AdditionalRateLimit(
+            taxableNonDividendIncome - startRateUsed - basicRateUsed;
+      } else if (taxableNonDividendIncome < TaxData.AdditionalRateLimit(
           period.end.year,
           person.scotland)) {
         startRateUsed = TaxData.StarterRateBand(
@@ -251,7 +297,7 @@ class PersonalTaxPosition extends TaxPosition{
             period.end.year,
             person.scotland);
         higherRateUsed =
-            taxableNonDividenIncome - startRateUsed - basicRateUsed -
+            taxableNonDividendIncome - startRateUsed - basicRateUsed -
                 intermediateRateUsed;
       } else {
         startRateUsed = TaxData.StarterRateBand(
@@ -267,7 +313,7 @@ class PersonalTaxPosition extends TaxPosition{
             period.end.year,
             person.scotland) - startRateUsed - basicRateUsed -
             intermediateRateUsed;
-        additionalRateUsed = taxableNonDividenIncome -
+        additionalRateUsed = taxableNonDividendIncome -
             TaxData.AdditionalRateLimit(
                 period.end.year,
                 person.scotland);
@@ -276,13 +322,13 @@ class PersonalTaxPosition extends TaxPosition{
         period.end.year,
         person.scotland)) {
       personalAllowanceUsed = nonDividendIncome;
-    } else if (taxableNonDividenIncome < TaxData.BasicRateBand(
+    } else if (taxableNonDividendIncome < TaxData.BasicRateBand(
         period.end.year,
         person.scotland)) {
       personalAllowanceUsed = personalAllowance;
 
-      basicRateUsed = taxableNonDividenIncome - startRateUsed;
-    } else if (taxableNonDividenIncome < TaxData.AdditionalRateLimit(
+      basicRateUsed = taxableNonDividendIncome - startRateUsed;
+    } else if (taxableNonDividendIncome < TaxData.AdditionalRateLimit(
         period.end.year,
         person.scotland)) {
       personalAllowanceUsed = personalAllowance;
@@ -290,7 +336,7 @@ class PersonalTaxPosition extends TaxPosition{
           period.end.year,
           person.scotland);
       higherRateUsed =
-          taxableNonDividenIncome - basicRateUsed - intermediateRateUsed;
+          taxableNonDividendIncome - basicRateUsed - intermediateRateUsed;
       ;
     } else {
       personalAllowanceUsed = personalAllowance;
@@ -301,7 +347,7 @@ class PersonalTaxPosition extends TaxPosition{
           period.end.year,
           person.scotland) - basicRateUsed - intermediateRateUsed -
           startRateUsed;
-      additionalRateUsed = taxableNonDividenIncome -
+      additionalRateUsed = taxableNonDividendIncome -
           TaxData.AdditionalRateLimit(
               period.end.year,
               person.scotland);
@@ -324,7 +370,7 @@ class PersonalTaxPosition extends TaxPosition{
 
       num diviPersonalAllowance = personalAllowance - personalAllowanceUsed;
 
-      num dividendRemaining = dividend - diviPersonalAllowance;
+      num dividendRemaining = dividend.income - diviPersonalAllowance;
 
       num diviBasicRateLeft = TaxData.BasicRateBand(period.end.year, person.scotland) + TaxData.StarterRateBand(period.end.year, person.scotland) + TaxData.IntermediateRateBand(period.end.year, person.scotland) - basicRateUsed;
       num diviHigherRateLeft = TaxData.AdditionalRateLimit(period.end.year, person.scotland) - TaxData.StarterRateBand(period.end.year, person.scotland) - TaxData.BasicRateBand(period.end.year, person.scotland) - TaxData.IntermediateRateBand(period.end.year, person.scotland) - higherRateUsed;
@@ -356,7 +402,7 @@ class PersonalTaxPosition extends TaxPosition{
       // the dividend nil rate band
 
 
-      num dividendNilRateBandRemaining = min(TaxData.DividendNilBand(period.end.year, person.scotland),  dividend);
+      num dividendNilRateBandRemaining = min(TaxData.DividendNilBand(period.end.year, person.scotland),  dividend.income);
 
 
       dividendNilRate = min(dividendNilRateBandRemaining, basicRateDividend);
@@ -396,9 +442,9 @@ class PersonalTaxPosition extends TaxPosition{
     nicClass3 = 0.0;
     nicClass4 = 0.0;
 
-    if(earnings > 0) Class1();
+    if(earnings.income > 0) Class1();
 
-    if(trade > 0) Class4();
+    if(trade.income > 0) Class4();
 
     Class2();
 
@@ -414,17 +460,17 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
   void Class1(){
-    if(earnings < TaxData.C1PrimaryThreshold(period.end.year)){
+    if(earnings.income < TaxData.C1PrimaryThreshold(period.end.year)){
 
-    } else if(earnings < TaxData.C1UpperEarningsLimit(period.end.year)){
-      earningsBetweenPTandUEL = earnings - TaxData.C1PrimaryThreshold(period.end.year);
+    } else if(earnings.income < TaxData.C1UpperEarningsLimit(period.end.year)){
+      earningsBetweenPTandUEL = earnings.income- TaxData.C1PrimaryThreshold(period.end.year);
     } else {
       earningsBetweenPTandUEL = TaxData.C1UpperEarningsLimit(period.end.year) - TaxData.C1PrimaryThreshold(period.end.year);
-      earningsAboveUEL = earnings - TaxData.C1UpperEarningsLimit(period.end.year);
+      earningsAboveUEL = earnings.income- TaxData.C1UpperEarningsLimit(period.end.year);
     }
 
-    if(earnings > TaxData.C1SecondaryThreshold(period.end.year)) {
-      earningsAboveSecondaryThreshold = earnings - TaxData.C1SecondaryThreshold(period.end.year);
+    if(earnings.income> TaxData.C1SecondaryThreshold(period.end.year)) {
+      earningsAboveSecondaryThreshold = earnings.income- TaxData.C1SecondaryThreshold(period.end.year);
 
     }
 
@@ -447,13 +493,13 @@ class PersonalTaxPosition extends TaxPosition{
 
   Class4(){
 
-    if(trade < TaxData.C4UpperProfitLimit(period.end.year)){
+    if(trade.income < TaxData.C4UpperProfitLimit(period.end.year)){
 
-      if(trade > TaxData.C4LowerProfitLimit(period.end.year)) tradeAboveLowerLimit = trade - TaxData.C4LowerProfitLimit(period.end.year);
+      if(trade.income > TaxData.C4LowerProfitLimit(period.end.year)) tradeAboveLowerLimit = trade.income - TaxData.C4LowerProfitLimit(period.end.year);
     } else {
 
       tradeAboveLowerLimit = TaxData.C4UpperProfitLimit(period.end.year) - TaxData.C4LowerProfitLimit(period.end.year);
-      tradeAboveUpperLimit = trade - TaxData.C4UpperProfitLimit(period.end.year);
+      tradeAboveUpperLimit = trade.income - TaxData.C4UpperProfitLimit(period.end.year);
     }
 
     nicClass4 = 0;
@@ -561,6 +607,14 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
   num capitalGainsTax() {
+
+    cgtBasicRateRes = 0;
+    cgtBasicRateNonRes = 0;
+    cgtBasicRateEnt = 0;
+    cgtHigherRateRes = 0;
+    cgtHigherRateNonRes = 0;
+    cgtHigherRateEnt = 0;
+
     disposals.forEach((asset){
 
       if(asset.residentialProperty){
@@ -585,18 +639,18 @@ class PersonalTaxPosition extends TaxPosition{
       }
     });
 
-    num tax = 0;
+    capitalGainsTaxPayable = 0;
 
-    tax += cgtBasicRateRes * TaxData.CapitalGainsBasicRateRes(period.end.year);
-    tax += cgtBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(period.end.year);
-    tax +=  cgtBasicRateEnt * TaxData.CapitalGainsEntrepreneur(period.end.year);
-    tax +=  cgtHigherRateRes * TaxData.CapitalGainsHigherRateRes(period.end.year);
-    tax +=  cgtHigherRateNonRes * TaxData.CapitalGainsHigherRateNonRes(period.end.year);
-    tax +=  cgtHigherRateEnt * TaxData.CapitalGainsEntrepreneur(period.end.year);
+    capitalGainsTaxPayable += cgtBasicRateRes * TaxData.CapitalGainsBasicRateRes(period.end.year);
+    capitalGainsTaxPayable += cgtBasicRateNonRes * TaxData.CapitalGainsBasicRateNonRes(period.end.year);
+    capitalGainsTaxPayable +=  cgtBasicRateEnt * TaxData.CapitalGainsEntrepreneur(period.end.year);
+    capitalGainsTaxPayable +=  cgtHigherRateRes * TaxData.CapitalGainsHigherRateRes(period.end.year);
+    capitalGainsTaxPayable +=  cgtHigherRateNonRes * TaxData.CapitalGainsHigherRateNonRes(period.end.year);
+    capitalGainsTaxPayable +=  cgtHigherRateEnt * TaxData.CapitalGainsEntrepreneur(period.end.year);
 
-    tax = Utilities.roundTax(tax);
+    capitalGainsTaxPayable = Utilities.roundTax(capitalGainsTaxPayable);
 
-    return tax;
+    return capitalGainsTaxPayable;
   }
 
   num get basicRateAvailable{

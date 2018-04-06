@@ -1,8 +1,15 @@
 import '../accounts/accounting_period.dart';
 import '../entities/entity.dart';
-import 'asset.dart';
+import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import '../assets/value.dart';
+
+export 'employment.dart';
+export 'trade.dart';
+export 'savings.dart';
+export 'share_holding.dart';
+export 'property_business.dart';
+export 'other.dart';
 
 abstract class Activity extends Asset{
   String name;

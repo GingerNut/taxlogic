@@ -19,6 +19,8 @@ abstract class CapitalGainsTaxData{
 
     CapitalGainsTaxData taxData;
 
+    if(year > 2019) year = 2019;
+
     switch(year){
       case 2016:
         taxData = new CapitalGainsTaxData2016();

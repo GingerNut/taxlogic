@@ -1,10 +1,12 @@
-import 'property.dart';
-import 'activity.dart';
+import 'package:taxlogic/src/assets/property.dart';
+
+import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/assets/value.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../entities/entity.dart';
 import '../assets/residential_property.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'value.dart';
+
 
 class PropertyBusiness extends Activity{
 

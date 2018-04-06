@@ -1,6 +1,6 @@
 import '../entities/entity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'activity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'value.dart';
 
 abstract class Asset{

@@ -1,6 +1,8 @@
 import 'dart:math';
 import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
+import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
+import 'package:taxlogic/src/activity/property_business.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
 
@@ -20,6 +22,8 @@ abstract class TaxPosition{
   List<Income> income = new List();
   List<ChargeableAsset> disposals = new List();
 
+
+
   num annualExemption = 0;
   num netGains = 0;
   num totalGains = 0;
@@ -30,6 +34,8 @@ abstract class TaxPosition{
   num capitalLossCarriedForward = 0;
 
   num get tax;
+
+  refreshIncome();
 
   refreshDisposals() {
 
@@ -88,7 +94,7 @@ abstract class TaxPosition{
 
       }
 
-      //capitalLossesCarriedForward = capitalLossesBroughtForward - broughtForwardLossUsed;
+      //capitalLossCarriedForward = capitalLossBroughtForward - broughtForwardLossUsed;
 
       totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
 

@@ -1,7 +1,7 @@
 import 'package:taxlogic/src/game/game.dart';
 import '../position.dart';
 import '../../../entities/person.dart';
-import '../../../assets/property_business.dart';
+import 'package:taxlogic/src/activity/property_business.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import '../../../assets/residential_property.dart';
 import '../../../accounts/rental_income_and_expenditure.dart';
@@ -44,7 +44,7 @@ class LandlordStart extends Scenario{
 
     IncomeAndExpenditureProperty rentalAccounts = new IncomeAndExpenditureProperty(period, person);
 
-    rentalAccounts.add(new Income(enddate, 'rents', property.rent(period)));
+    rentalAccounts.add(new IncomeAccount(enddate, 'rents', property.rent(period)));
     rentalAccounts.add(new Interest(enddate, 'interest', property.interest(period)));
 
     business.accounts.add(rentalAccounts);

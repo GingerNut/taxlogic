@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
@@ -21,6 +22,11 @@ class Person extends Entity{
   String surname;
   String address;
 
+  Employment employment;
+  Trade trade;
+  ShareHolding investment;
+  Savings savings;
+  PropertyBusiness propertyBusiness;
 
 
   PersonalTaxPosition currentTaxYear;
@@ -28,6 +34,11 @@ class Person extends Entity{
   Person(){
     type = Entity.INDIVIDUAL;
 
+    employment = new Employment(this);
+    trade = new Trade(this);
+    investment = new ShareHolding(this);
+    savings = new Savings(this);
+    propertyBusiness = new PropertyBusiness(this);
   }
 
   PersonalTaxPosition taxYear(int year){

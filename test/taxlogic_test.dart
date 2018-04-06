@@ -16,7 +16,7 @@ void main() {
   nationalInsuranceTrade();
   capitalGains();
   incomeAndExpenditure();
- // corporationTax();
+  corporationTax();
 }
 
 void game(){
@@ -771,24 +771,24 @@ void incomeTaxEngland2017(){
 
 
     test('20,000 2017 england', () {
-      taxPosition.earnings = 20000;
+      taxPosition.earnings.income= 20000;
       expect(taxPosition.tax, 1800);
     });
 
     test('45,000 2017 england', () {
-      taxPosition.earnings = 45000;
+      taxPosition.earnings.income= 45000;
 
       expect(taxPosition.tax, 7200);
     });
 
     test('90,000 2017 england', () {
-      taxPosition.earnings = 90000;
+      taxPosition.earnings.income= 90000;
 
       expect(taxPosition.tax, 25200);
     });
 
     test('200,000 2017 england', () {
-      taxPosition.earnings = 200000;
+      taxPosition.earnings.income= 200000;
       expect(taxPosition.tax, 76100);
     });
 
@@ -813,24 +813,24 @@ void incomeTaxEngland2018(){
 
 
     test('20,000 2018 england', () {
-      taxPosition.earnings = 20000;
+      taxPosition.earnings.income= 20000;
 
       expect(taxPosition.tax, 1700);
     });
 
     test('45,000 2018 england', () {
-      taxPosition.earnings = 45000;
+      taxPosition.earnings.income= 45000;
       expect(taxPosition.tax, 6700);
     });
 
     test('90,000 2018 england', () {
-      taxPosition.earnings = 90000;
+      taxPosition.earnings.income= 90000;
 
       expect(taxPosition.tax, 24700);
     });
 
     test('200,000 2018 england', () {
-      taxPosition.earnings = 200000;
+      taxPosition.earnings.income= 200000;
       expect(taxPosition.tax, 75800);
     });
 
@@ -856,78 +856,78 @@ void incomeTaxEnglandDividend2018(){
 
 
     test('1,000 2018 no other income', () {
-      taxPosition.dividend = 1000;
-      taxPosition.earnings = 0;
+      taxPosition.dividend.income= 1000;
+      taxPosition.earnings.income= 0;
       expect(taxPosition.tax, 0);
     });
 
     test('1,000 2018 20000 income', () {
-      taxPosition.dividend = 1000;
-      taxPosition.earnings = 20000;
+      taxPosition.dividend.income= 1000;
+      taxPosition.earnings.income= 20000;
       expect(taxPosition.tax, 1700);
     });
 
     test('6,000 2018 20000 income', () {
-      taxPosition.dividend = 6000;
-      taxPosition.earnings = 20000;
+      taxPosition.dividend.income= 6000;
+      taxPosition.earnings.income= 20000;
       expect(taxPosition.tax, 1775);
     });
 
     test('40,000 2018 no other income', () {
-      taxPosition.dividend = 40000;
-      taxPosition.earnings = 0;
+      taxPosition.dividend.income= 40000;
+      taxPosition.earnings.income= 0;
       expect(taxPosition.tax, 1762.50);
     });
 
     test('10,000 2018 20000 other', () {
-      taxPosition.dividend = 20000;
-      taxPosition.earnings = 10000;
+      taxPosition.dividend.income= 20000;
+      taxPosition.earnings.income= 10000;
       expect(taxPosition.tax, 1012.5);
     });
 
     test('60,000 2018 10000 other', () {
-      taxPosition.dividend = 60000;
-      taxPosition.earnings = 10000;
+      taxPosition.dividend.income= 60000;
+      taxPosition.earnings.income= 10000;
       expect(taxPosition.tax, 10262.5);
     });
 
     test('20,000 2018 30000 other', () {
-      taxPosition.dividend = 20000;
-      taxPosition.earnings = 30000;
+      taxPosition.dividend.income= 20000;
+      taxPosition.earnings.income= 30000;
       expect(taxPosition.tax, 6075);
     });
 
     test('80,000 2018 30000 other', () {
-      taxPosition.dividend = 80000;
-      taxPosition.earnings = 30000;
+      taxPosition.dividend.income= 80000;
+      taxPosition.earnings.income= 30000;
       expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 30000 other', () {
-      taxPosition.dividend = 100000;
-      taxPosition.earnings = 30000;
+      taxPosition.dividend.income= 100000;
+      taxPosition.earnings.income= 30000;
       expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 150000 other', () {
-      taxPosition.dividend = 50000;
-      taxPosition.earnings = 150000;
+      taxPosition.dividend.income= 50000;
+      taxPosition.earnings.income= 150000;
       expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 no other income', () {
-      taxPosition.dividend = 60000;
-      taxPosition.earnings = 0;
+      taxPosition.dividend.income= 60000;
+      taxPosition.earnings.income= 0;
       expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 no other income', () {
-      taxPosition.dividend = 100000;
+      taxPosition.dividend.income= 100000;
       expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 no other income', () {
-      taxPosition.dividend = 200000;
+      taxPosition.dividend.income= 200000;
       expect(taxPosition.tax, 59050);
     });
 
@@ -953,74 +953,74 @@ void incomeTaxEnglandSavings2018(){
 
 
     test('4,000 2018 savings', () {
-      taxPosition.dividend = 0;
-      taxPosition.earnings = 0;
-      taxPosition.savings = 4000;
+      taxPosition.dividend.income= 0;
+      taxPosition.earnings.income= 0;
+      taxPosition.savings.income= 4000;
       expect(taxPosition.tax, 0);
     });
 
     test('40,000 2018 savings', () {
-      taxPosition.earnings = 6000;
-      taxPosition.savings = 4000;
-      taxPosition.dividend = 5000;
+      taxPosition.earnings.income= 6000;
+      taxPosition.savings.income= 4000;
+      taxPosition.dividend.income= 5000;
       expect(taxPosition.tax, 0);
     });
 
     test('10,000 2018 savings', () {
-      taxPosition.earnings = 10000;
-      taxPosition.savings = 5000;
-      taxPosition.dividend = 20000;
+      taxPosition.earnings.income= 10000;
+      taxPosition.savings.income= 5000;
+      taxPosition.dividend.income= 20000;
 
       expect(taxPosition.tax, 1625);
     });
 
     test('60,000 2018 savings', () {
-      taxPosition.earnings = 10000;
-      taxPosition.savings = 2000;
-      taxPosition.dividend = 60000;
+      taxPosition.earnings.income= 10000;
+      taxPosition.savings.income= 2000;
+      taxPosition.dividend.income= 60000;
 
       expect(taxPosition.tax, 10750);
     });
 
     test('20,000 2018 savings', () {
-      taxPosition.earnings = 10000;
-      taxPosition.savings = 6000;
-      taxPosition.dividend = 4000;
+      taxPosition.earnings.income= 10000;
+      taxPosition.savings.income= 6000;
+      taxPosition.dividend.income= 4000;
 
       expect(taxPosition.tax, 200);
     });
 
     test('80,000 2018 savings', () {
-      taxPosition.dividend = 80000;
-      taxPosition.earnings = 30000;
+      taxPosition.dividend.income= 80000;
+      taxPosition.earnings.income= 30000;
       expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 savings', () {
-      taxPosition.dividend = 100000;
-      taxPosition.earnings = 30000;
+      taxPosition.dividend.income= 100000;
+      taxPosition.earnings.income= 30000;
       expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 savings', () {
-      taxPosition.dividend = 50000;
-      taxPosition.earnings = 150000;
+      taxPosition.dividend.income= 50000;
+      taxPosition.earnings.income= 150000;
       expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 savings', () {
-      taxPosition.dividend = 60000;
-      taxPosition.earnings = 0;
+      taxPosition.dividend.income= 60000;
+      taxPosition.earnings.income= 0;
       expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 savings', () {
-      taxPosition.dividend = 100000;
+      taxPosition.dividend.income= 100000;
       expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 savings', () {
-      taxPosition.dividend = 200000;
+      taxPosition.dividend.income= 200000;
       expect(taxPosition.tax, 59050);
     });
 
@@ -1046,22 +1046,22 @@ void incomeTaxScotland2019(){
 
 
     test('20,000 2019 scotland', () {
-      taxPosition.earnings = 20000;
+      taxPosition.earnings.income= 20000;
       expect(taxPosition.tax, 1610);
     });
 
     test('45,000 2019 scotland', () {
-      taxPosition.earnings = 45000;
+      taxPosition.earnings.income= 45000;
       expect(taxPosition.tax, 7134);
     });
 
     test('90,000 2019 scotland', () {
-      taxPosition.earnings = 90000;
+      taxPosition.earnings.income= 90000;
       expect(taxPosition.tax, 25584);
     });
 
     test('200,000 2019 scotland', () {
-      taxPosition.earnings = 200000;
+      taxPosition.earnings.income= 200000;
       expect(taxPosition.tax, 78042.50);
     });
 
@@ -1085,52 +1085,52 @@ void nationalInsuranceEarnings() {
     });
 
     test('5,000 2018 employee', () {
-      taxPosition.earnings = 5000;
+      taxPosition.earnings.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 0);
     });
 
     test('5,000 2018 employer', () {
-      taxPosition.earnings = 5000;
+      taxPosition.earnings.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 0);
     });
 
     test('20,000 2018 employee', () {
-      taxPosition.earnings = 20000;
+      taxPosition.earnings.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 1420.8);
 
     });
 
     test('20,000 2018 employer', () {
-      taxPosition.earnings = 20000;
+      taxPosition.earnings.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 1633.92);
     });
 
     test('45,000 2018 employee', () {
-      taxPosition.earnings = 45000;
+      taxPosition.earnings.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 4420.8);
 
     });
 
     test('45,000 2018 employer', () {
-      taxPosition.earnings = 45000;
+      taxPosition.earnings.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 5083.92);
     });
 
     test('90,000 2018 employee', () {
-      taxPosition.earnings = 90000;
+      taxPosition.earnings.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 5320.8);
 
     });
 
     test('90,000 2018 employer', () {
-      taxPosition.earnings = 90000;
+      taxPosition.earnings.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 11293.92);
     });
@@ -1154,13 +1154,13 @@ void nationalInsuranceTrade() {
     });
 
     test('5,000 2018 trade', () {
-      taxPosition.trade = 5000;
+      taxPosition.trade.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 0);
     });
 
     test('20,000 2018 trade', () {
-      taxPosition.trade = 20000;
+      taxPosition.trade.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 1065.24);
 
@@ -1168,14 +1168,14 @@ void nationalInsuranceTrade() {
 
 
     test('45,000 2018 trade', () {
-      taxPosition.trade = 45000;
+      taxPosition.trade.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 3315.24);
 
     });
 
     test('90,000 2018 trade', () {
-      taxPosition.trade = 90000;
+      taxPosition.trade.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 4215.24);
 
@@ -1216,6 +1216,7 @@ void capitalGains() {
       asset.proceeds = 10000;
       asset.saleDate = new Date(5,4,18);
       person.assets.add(asset);
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 5000);
     });
@@ -1246,6 +1247,7 @@ void capitalGains() {
       asset03.proceeds = 10000;
       asset03.saleDate = new Date(6,4,18);
       person.assets.add(asset03);
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 13000);
       expect(person.taxYear(2018).capitalLosses, 4000);
@@ -1278,6 +1280,7 @@ void capitalGains() {
       asset03.proceeds = 10000;
       asset03.saleDate = new Date(6,4,18);
       person.assets.add(asset03);
+    person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 13000);
       expect(person.taxYear(2018).capitalLosses, 4000);
@@ -1312,6 +1315,8 @@ void capitalGains() {
       asset03.saleDate = new Date(6,4,18);
       person.assets.add(asset03);
 
+      person.taxYear(2018).tax;
+
       expect(person.taxYear(2018).totalGains, 15500);
       expect(person.taxYear(2018).capitalLosses, 4000);
       expect(person.taxYear(2018).netGains, 11300);
@@ -1328,6 +1333,7 @@ void capitalGains() {
       asset01.saleDate = new Date(5,4,18);
       person.assets.add(asset01);
 
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 15500);
       expect(person.taxYear(2018).capitalLosses, 0);
@@ -1344,8 +1350,9 @@ void capitalGains() {
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
       person.assets.add(asset01);
-      person.taxYear(2018).earnings = 20000;
+      person.taxYear(2018).earnings.income= 20000;
 
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 15500);
       expect(person.taxYear(2018).capitalLosses, 0);
@@ -1356,7 +1363,7 @@ void capitalGains() {
     });
 
     test('Loss allocation 1', () {
-      person.taxYear(2018).earnings = 20000;
+      person.taxYear(2018).earnings.income= 20000;
       // gain 0f 10000 res
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 10000;
@@ -1373,7 +1380,7 @@ void capitalGains() {
 
       asset02.saleDate = new Date(5,4,18);
       person.assets.add(asset02);
-      person.taxYear(2018).earnings = 20000;
+      person.taxYear(2018).earnings.income= 20000;
 
       // loss pf 15000
       ResidentialProperty asset20 = new ResidentialProperty(person);
@@ -1382,8 +1389,8 @@ void capitalGains() {
 
       asset20.saleDate = new Date(5,4,18);
       person.assets.add(asset20);
-      person.taxYear(2018).earnings = 20000;
-
+      person.taxYear(2018).earnings.income= 20000;
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 21000);
       expect(person.taxYear(2018).capitalLosses, 15000);
@@ -1393,12 +1400,12 @@ void capitalGains() {
       expect(person.taxYear(2018).basicRateAvailable, 25000);
       expect(asset01.lossAllocated, 10000);
       expect(asset02.lossAllocated, 5000);
-      expect(person.taxYear(2018).tax, 0);
+      expect(person.taxYear(2018).tax, 1700);
     });
 
     test('Loss allocation 2', () {
 
-      person.taxYear(2018).earnings = 15000;
+      person.taxYear(2018).earnings.income= 15000;
       person.taxYear(2018).capitalLossBroughtForward = 15000;
       
       // gain 0f 4000 res
@@ -1460,22 +1467,22 @@ void capitalGains() {
 
       asset21.saleDate = new Date(5,4,18);
       person.assets.add(asset21);
-
+      person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 35000);
       expect(person.taxYear(2018).capitalLosses, 12000);
       expect(person.taxYear(2018).netGains, 11300);
       expect(person.taxYear(2018).taxableGains, 0);
       expect(person.taxYear(2018).capitalLossCarriedForward, 3300);
-      expect(person.taxYear(2018)..basicRateAvailable, 30000);
+      expect(person.taxYear(2018).basicRateAvailable, 30000);
       expect(asset04.lossAllocated + asset05.lossAllocated, 8700);
-      expect(person.taxYear(2018).tax, 0);
+      expect(person.taxYear(2018).tax, 700);
 
     });
 
     test('Basic Rate allocatoin 1', () {
 
-      person.taxYear(2018).earnings = 0;
+      person.taxYear(2018).earnings.income= 0;
       person.taxYear(2018).capitalLossBroughtForward = 2300;
 
       // gain 0f 20000 res
@@ -1502,7 +1509,7 @@ void capitalGains() {
       asset03.cost = 0;
       person.assets.add(asset03);
 
-
+      person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 78000);
       expect(person.taxYear(2018).capitalLosses, 0);
       expect(person.taxYear(2018).netGains, 75700);
@@ -1531,7 +1538,7 @@ void capitalGains() {
       asset02.saleDate = new Date(5,4,18);
       person.assets.add(asset02);
 
-
+      person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 20000);
       expect(person.taxYear(2018).capitalLosses, 0);
       expect(person.taxYear(2018).netGains, 20000);
@@ -1560,7 +1567,7 @@ void capitalGains() {
       asset02.addResidencePeriod(new Period(new Date(1,1,18), new Date(5,4,18)));
       person.assets.add(asset02);
 
-
+      person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 0);
       expect(person.taxYear(2018).capitalLosses, 0);
       expect(person.taxYear(2018).netGains, 0);
@@ -1637,15 +1644,15 @@ void incomeAndExpenditure(){
 
       Date date = new Date(5,4,18);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       incomeAndExpenditure.add(rent1);
       incomeAndExpenditure.add(rent2);
       incomeAndExpenditure.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
 
       incomeAndExpenditure.add(repairs);
 
@@ -1657,15 +1664,15 @@ void incomeAndExpenditure(){
 
       Date date = new Date(5,4,18);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       incomeAndExpenditure.add(rent1);
       incomeAndExpenditure.add(rent2);
       incomeAndExpenditure.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
 
       incomeAndExpenditure.add(repairs);
 
@@ -1677,15 +1684,15 @@ void incomeAndExpenditure(){
 
       Date date = new Date(5,4,18);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
 
       propertyAccount.add(repairs);
 
@@ -1697,15 +1704,15 @@ void incomeAndExpenditure(){
 
       Date date = new Date(5,4,18);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       propertyAccount.add(repairs);
@@ -1721,15 +1728,15 @@ void incomeAndExpenditure(){
       propertyAccount.period.start = new Date(6,4,18);
       propertyAccount.period.end = new Date(5,4,19);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       propertyAccount.add(repairs);
@@ -1745,15 +1752,15 @@ void incomeAndExpenditure(){
       propertyAccount.period.start = new Date(6,4,19);
       propertyAccount.period.end = new Date(5,4,20);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       propertyAccount.add(repairs);
@@ -1769,15 +1776,15 @@ void incomeAndExpenditure(){
       propertyAccount.period.start = new Date(6,4,20);
       propertyAccount.period.end = new Date(5,4,21);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       propertyAccount.add(repairs);
@@ -1799,15 +1806,15 @@ void incomeAndExpenditure(){
       coPropertyAccount.period.start = new Date(6,4,20);
       coPropertyAccount.period.end = new Date(5,4,21);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       coPropertyAccount.add(rent1);
       coPropertyAccount.add(rent2);
       coPropertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       coPropertyAccount.add(repairs);
@@ -1829,15 +1836,15 @@ void incomeAndExpenditure(){
       coPropertyAccount.period.start = new Date(6,4,20);
       coPropertyAccount.period.end = new Date(5,4,21);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       coPropertyAccount.add(rent1);
       coPropertyAccount.add(rent2);
       coPropertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       coPropertyAccount.add(repairs);
@@ -1853,15 +1860,15 @@ void incomeAndExpenditure(){
       propertyAccount.period.start = new Date(6,4,19);
       propertyAccount.period.end = new Date(5,4,20);
 
-      Income rent1 = new Income(date, 'rent', 1000);
-      Income rent2 = new Income(date, 'rent', 3000);
-      Income rent3 = new Income(date, 'rent', 500);
+      IncomeAccount rent1 = new IncomeAccount(date, 'rent', 1000);
+      IncomeAccount rent2 = new IncomeAccount(date, 'rent', 3000);
+      IncomeAccount rent3 = new IncomeAccount(date, 'rent', 500);
 
       propertyAccount.add(rent1);
       propertyAccount.add(rent2);
       propertyAccount.add(rent3);
 
-      Expenditure repairs = new Expenditure(date, 'repairs', 2000);
+      ExpenditureAccount repairs = new ExpenditureAccount(date, 'repairs', 2000);
       Interest interest = new Interest(date, 'interet', 1000);
 
       propertyAccount.add(repairs);
@@ -1872,11 +1879,12 @@ void incomeAndExpenditure(){
       business.accounts.add(propertyAccount);
 
       person.activities.add(business);
+      person.taxYear(2020).tax;
 
       expect(propertyAccount.profit, 2250);
       expect(propertyAccount.taxCredit, 150);
-      expect(person.taxYear(2020).propertyIncome, 2250);
-      expect(person.taxYear(2020).propertyTaxCredit, 150);
+      expect(person.taxYear(2020).propertyIncome.income, 2250);
+      expect(person.taxYear(2020).propertyIncome.taxCredit, 150);
     });
 
 
@@ -1903,7 +1911,7 @@ void corporationTax(){
       Date second = new Date(30,9,20);
       Period period = new Period(first, second);
 
-      company.accountingPeriod(period).income = 10000;
+      company.accountingPeriod(period).other.income = 10000;
 
       expect(company.accountingPeriod(period).tax, 1795.07);
     });
@@ -1920,7 +1928,7 @@ void corporationTax(){
       asset01.cost = 5000;
       company.assets.add(asset01);
 
-      company.accountingPeriod(period).income = 10000;
+      company.accountingPeriod(period).other.income = 10000;
       expect(company.accountingPeriod(period).tax, 3000);
     });
 

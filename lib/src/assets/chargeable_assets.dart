@@ -6,7 +6,7 @@ import '../entities/entity.dart';
 import 'dart:math';
 import 'asset.dart';
 
-import 'package:taxlogic/src/assets/activity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/value.dart';
 
 class ChargeableAsset extends Asset{

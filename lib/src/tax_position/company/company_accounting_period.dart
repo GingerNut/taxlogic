@@ -17,8 +17,5 @@ class CompanyAccountingPeriod extends CompanyTaxPosition{
 
 
 
-  @override
-  adjustPropertyProfit(IncomeAndExpenditureProperty accounts) {
-    // TODO: implement adjustPropertyProfit
-  }
+
 }
