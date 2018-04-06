@@ -1,13 +1,16 @@
 import '../entities/entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 export 'rental_income.dart';
 
 class Income{
-  Income(this.activity, this.period);
+  Income(this.activity, this.taxPosition){
+    taxPosition.income.add(this);
+  }
 
   final Activity activity;
-  final Period period;
+  final TaxPosition taxPosition;
 
   bool manualSet = true;
 

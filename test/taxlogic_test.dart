@@ -2,7 +2,7 @@ import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
 void main() {
-  //game();
+  game();
   dates();
   periods();
   rateChange();
@@ -44,10 +44,15 @@ void game(){
 
       game.newGame(scenario);
 
-      expect((game.position.focussedEntity as Person).taxYear(2018).propertyIncome, 77500);
+      PersonalTaxPosition personTaxPosition = (game.position.focussedEntity as Person).taxYear(2018);
+      print(personTaxPosition.income.length);
+
+      personTaxPosition.person.activities[0].income(personTaxPosition);
+
       expect((game.position.focussedEntity as Person).taxYear(2018).tax, 18200);
-      expect((game.position.focussedEntity as Person).taxYear(2018).propertyTaxCredit, 1500);
-      expect(game.position.focussedEntity.taxPayble(2018), 18200);
+      expect((game.position.focussedEntity as Person).taxYear(2018).propertyIncome, 77500);
+
+      expect(game.position.focussedEntity.taxYear(2018).tax, 18200);
 
       expect(game.position.entities.length, 1);
       Move move = new CreateEntity(new Date(1,4,18), companyName, Entity.COMPANY, game.position);
@@ -83,9 +88,9 @@ void game(){
       expect(person.getActivityByName(businessName).cessation.month, 4);
       expect(person.getActivityByName(businessName).cessation.year, 2019);
 
-      // test tax position in company - set company accounting date then calculate tax
+      /// test tax position in company - set company accounting date then calculate tax
 
-      //expect(company.nextAccountingPeriod(transferDate).period.end.day, 31);
+      // expect(company.nextAccountingPeriod(transferDate).period.end.day, 31);
       //expect(company.nextAccountingPeriod(transferDate).period.end.month, 3);
       //expect(company.nextAccountingPeriod(transferDate).period.end.year, 2020);
 
@@ -677,6 +682,17 @@ void rateChange(){
 
     });
 
+    test('Test default amount  ', () {
+
+      RateHistory history = new RateHistory.empty();
+      history.set(5000);
+
+      Date test = new Date(21,9,62);
+
+      expect(history.rateAt(test), 5000);
+
+    });
+
   });
 
 
@@ -757,6 +773,7 @@ void incomeTaxEngland2017(){
 
   Person person;
   PersonalTaxPosition taxPosition;
+  Income earnings;
 
   group('Income tax England 2017', ()
   {
@@ -766,29 +783,31 @@ void incomeTaxEngland2017(){
     setUp(() {
       person = new Person();
       person.scotland = false;
+      Employment employment = new Employment(person);
       taxPosition = person.taxYear(2017);
+      earnings = new Income(employment, taxPosition);
     });
 
 
     test('20,000 2017 england', () {
-      taxPosition.earnings.income= 20000;
+      earnings.income = 20000;
       expect(taxPosition.tax, 1800);
     });
 
     test('45,000 2017 england', () {
-      taxPosition.earnings.income= 45000;
+      earnings.income= 45000;
 
       expect(taxPosition.tax, 7200);
     });
 
     test('90,000 2017 england', () {
-      taxPosition.earnings.income= 90000;
+      earnings.income= 90000;
 
       expect(taxPosition.tax, 25200);
     });
 
     test('200,000 2017 england', () {
-      taxPosition.earnings.income= 200000;
+      earnings.income= 200000;
       expect(taxPosition.tax, 76100);
     });
 
@@ -801,6 +820,7 @@ void incomeTaxEngland2018(){
 
   Person person;
   PersonalTaxPosition taxPosition;
+  Income earnings;
 
   group('Income tax England 2018', ()
   {
@@ -809,28 +829,32 @@ void incomeTaxEngland2018(){
       person = new Person();
       person.scotland = false;
       taxPosition = person.taxYear(2018);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
     });
 
 
     test('20,000 2018 england', () {
-      taxPosition.earnings.income= 20000;
+      earnings.income= 20000;
 
       expect(taxPosition.tax, 1700);
     });
 
     test('45,000 2018 england', () {
-      taxPosition.earnings.income= 45000;
+      earnings.income= 45000;
       expect(taxPosition.tax, 6700);
     });
 
     test('90,000 2018 england', () {
-      taxPosition.earnings.income= 90000;
+      earnings.income= 90000;
 
       expect(taxPosition.tax, 24700);
     });
 
     test('200,000 2018 england', () {
-      taxPosition.earnings.income= 200000;
+      earnings.income= 200000;
       expect(taxPosition.tax, 75800);
     });
 
@@ -843,6 +867,8 @@ void incomeTaxEnglandDividend2018(){
 
   Person person;
   PersonalTaxPosition taxPosition;
+  Income earnings;
+  Income dividend;
 
   group('Income tax dividned 2018', ()
   {
@@ -852,82 +878,90 @@ void incomeTaxEnglandDividend2018(){
       person.scotland = false;
       
       taxPosition = person.taxYear(2018);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
+      ShareHolding investment = new ShareHolding(person);
+      dividend = new Income(investment, taxPosition);
+
+
     });
 
 
     test('1,000 2018 no other income', () {
-      taxPosition.dividend.income= 1000;
-      taxPosition.earnings.income= 0;
+      dividend.income= 1000;
+      earnings.income= 0;
       expect(taxPosition.tax, 0);
     });
 
     test('1,000 2018 20000 income', () {
-      taxPosition.dividend.income= 1000;
-      taxPosition.earnings.income= 20000;
+      dividend.income= 1000;
+      earnings.income= 20000;
       expect(taxPosition.tax, 1700);
     });
 
     test('6,000 2018 20000 income', () {
-      taxPosition.dividend.income= 6000;
-      taxPosition.earnings.income= 20000;
+      dividend.income= 6000;
+      earnings.income= 20000;
       expect(taxPosition.tax, 1775);
     });
 
     test('40,000 2018 no other income', () {
-      taxPosition.dividend.income= 40000;
-      taxPosition.earnings.income= 0;
+      dividend.income= 40000;
+      earnings.income= 0;
       expect(taxPosition.tax, 1762.50);
     });
 
     test('10,000 2018 20000 other', () {
-      taxPosition.dividend.income= 20000;
-      taxPosition.earnings.income= 10000;
+      dividend.income= 20000;
+      earnings.income= 10000;
       expect(taxPosition.tax, 1012.5);
     });
 
     test('60,000 2018 10000 other', () {
-      taxPosition.dividend.income= 60000;
-      taxPosition.earnings.income= 10000;
+      dividend.income= 60000;
+      earnings.income= 10000;
       expect(taxPosition.tax, 10262.5);
     });
 
     test('20,000 2018 30000 other', () {
-      taxPosition.dividend.income= 20000;
-      taxPosition.earnings.income= 30000;
+      dividend.income= 20000;
+      earnings.income= 30000;
       expect(taxPosition.tax, 6075);
     });
 
     test('80,000 2018 30000 other', () {
-      taxPosition.dividend.income= 80000;
-      taxPosition.earnings.income= 30000;
+      dividend.income= 80000;
+      earnings.income= 30000;
       expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 30000 other', () {
-      taxPosition.dividend.income= 100000;
-      taxPosition.earnings.income= 30000;
+      dividend.income= 100000;
+      earnings.income= 30000;
       expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 150000 other', () {
-      taxPosition.dividend.income= 50000;
-      taxPosition.earnings.income= 150000;
+      dividend.income= 50000;
+      earnings.income= 150000;
       expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 no other income', () {
-      taxPosition.dividend.income= 60000;
-      taxPosition.earnings.income= 0;
+      dividend.income= 60000;
+      earnings.income= 0;
       expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 no other income', () {
-      taxPosition.dividend.income= 100000;
+      dividend.income= 100000;
       expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 no other income', () {
-      taxPosition.dividend.income= 200000;
+      dividend.income= 200000;
       expect(taxPosition.tax, 59050);
     });
 
@@ -940,6 +974,9 @@ void incomeTaxEnglandSavings2018(){
 
   Person person;
   PersonalTaxPosition taxPosition;
+  Income earnings;
+  Income dividend;
+  Income savings;
 
   group('Income tax savings 2018', ()
   {
@@ -949,78 +986,87 @@ void incomeTaxEnglandSavings2018(){
       person.scotland = false;
       
       taxPosition = person.taxYear(2018);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
+      ShareHolding investment = new ShareHolding(person);
+      dividend = new Income(investment, taxPosition);
+
+      Savings deposit = new Savings(person);
+      savings = new Income(deposit, taxPosition);
     });
 
 
     test('4,000 2018 savings', () {
-      taxPosition.dividend.income= 0;
-      taxPosition.earnings.income= 0;
-      taxPosition.savings.income= 4000;
+      dividend.income= 0;
+      earnings.income= 0;
+      savings.income= 4000;
       expect(taxPosition.tax, 0);
     });
 
     test('40,000 2018 savings', () {
-      taxPosition.earnings.income= 6000;
-      taxPosition.savings.income= 4000;
-      taxPosition.dividend.income= 5000;
+      earnings.income= 6000;
+      savings.income= 4000;
+      dividend.income= 5000;
       expect(taxPosition.tax, 0);
     });
 
     test('10,000 2018 savings', () {
-      taxPosition.earnings.income= 10000;
-      taxPosition.savings.income= 5000;
-      taxPosition.dividend.income= 20000;
+      earnings.income= 10000;
+      savings.income= 5000;
+      dividend.income= 20000;
 
       expect(taxPosition.tax, 1625);
     });
 
     test('60,000 2018 savings', () {
-      taxPosition.earnings.income= 10000;
-      taxPosition.savings.income= 2000;
-      taxPosition.dividend.income= 60000;
+      earnings.income= 10000;
+      savings.income= 2000;
+      dividend.income= 60000;
 
       expect(taxPosition.tax, 10750);
     });
 
     test('20,000 2018 savings', () {
-      taxPosition.earnings.income= 10000;
-      taxPosition.savings.income= 6000;
-      taxPosition.dividend.income= 4000;
+      earnings.income= 10000;
+      savings.income= 6000;
+      dividend.income= 4000;
 
       expect(taxPosition.tax, 200);
     });
 
     test('80,000 2018 savings', () {
-      taxPosition.dividend.income= 80000;
-      taxPosition.earnings.income= 30000;
+      dividend.income= 80000;
+      earnings.income= 30000;
       expect(taxPosition.tax, 27825);
     });
 
     test('100,000 2018 savings', () {
-      taxPosition.dividend.income= 100000;
-      taxPosition.earnings.income= 30000;
+      dividend.income= 100000;
+      earnings.income= 30000;
       expect(taxPosition.tax, 36875);
     });
 
     test('50,000 2018 savings', () {
-      taxPosition.dividend.income= 50000;
-      taxPosition.earnings.income= 150000;
+      dividend.income= 50000;
+      earnings.income= 150000;
       expect(taxPosition.tax, 70445);
     });
 
     test('60,000 2018 savings', () {
-      taxPosition.dividend.income= 60000;
-      taxPosition.earnings.income= 0;
+      dividend.income= 60000;
+      earnings.income= 0;
       expect(taxPosition.tax, 7012.50);
     });
 
     test('100,000 2018 savings', () {
-      taxPosition.dividend.income= 100000;
+      dividend.income= 100000;
       expect(taxPosition.tax, 20012.50);
     });
 
     test('200,000 2018 savings', () {
-      taxPosition.dividend.income= 200000;
+      dividend.income= 200000;
       expect(taxPosition.tax, 59050);
     });
 
@@ -1034,6 +1080,10 @@ void incomeTaxScotland2019(){
   Person person;
   PersonalTaxPosition taxPosition;
 
+  Income earnings;
+  Income dividend;
+  Income savings;
+
   group('Income tax Scotland 2019', ()
   {
 
@@ -1042,26 +1092,35 @@ void incomeTaxScotland2019(){
       person.scotland = true;
 
       taxPosition = person.taxYear(2019);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
+      ShareHolding investment = new ShareHolding(person);
+      dividend = new Income(investment, taxPosition);
+
+      Savings deposit = new Savings(person);
+      savings = new Income(deposit, taxPosition);
     });
 
 
     test('20,000 2019 scotland', () {
-      taxPosition.earnings.income= 20000;
+      earnings.income= 20000;
       expect(taxPosition.tax, 1610);
     });
 
     test('45,000 2019 scotland', () {
-      taxPosition.earnings.income= 45000;
+      earnings.income= 45000;
       expect(taxPosition.tax, 7134);
     });
 
     test('90,000 2019 scotland', () {
-      taxPosition.earnings.income= 90000;
+      earnings.income= 90000;
       expect(taxPosition.tax, 25584);
     });
 
     test('200,000 2019 scotland', () {
-      taxPosition.earnings.income= 200000;
+      earnings.income= 200000;
       expect(taxPosition.tax, 78042.50);
     });
 
@@ -1075,6 +1134,11 @@ void nationalInsuranceEarnings() {
   Person person;
   PersonalTaxPosition taxPosition;
 
+  Income earnings;
+  Income dividend;
+  Income savings;
+
+
   group('National insurance earnings', () {
 
     setUp(() {
@@ -1082,55 +1146,64 @@ void nationalInsuranceEarnings() {
       person.scotland = false;
 
       taxPosition = person.taxYear(2018);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
+      ShareHolding investment = new ShareHolding(person);
+      dividend = new Income(investment, taxPosition);
+
+      Savings deposit = new Savings(person);
+      savings = new Income(deposit, taxPosition);
     });
 
     test('5,000 2018 employee', () {
-      taxPosition.earnings.income= 5000;
+      earnings.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 0);
     });
 
     test('5,000 2018 employer', () {
-      taxPosition.earnings.income= 5000;
+      earnings.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 0);
     });
 
     test('20,000 2018 employee', () {
-      taxPosition.earnings.income= 20000;
+      earnings.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 1420.8);
 
     });
 
     test('20,000 2018 employer', () {
-      taxPosition.earnings.income= 20000;
+      earnings.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 1633.92);
     });
 
     test('45,000 2018 employee', () {
-      taxPosition.earnings.income= 45000;
+      earnings.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 4420.8);
 
     });
 
     test('45,000 2018 employer', () {
-      taxPosition.earnings.income= 45000;
+      earnings.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 5083.92);
     });
 
     test('90,000 2018 employee', () {
-      taxPosition.earnings.income= 90000;
+      earnings.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass1p, 5320.8);
 
     });
 
     test('90,000 2018 employer', () {
-      taxPosition.earnings.income= 90000;
+      earnings.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass1s, 11293.92);
     });
@@ -1144,6 +1217,11 @@ void nationalInsuranceTrade() {
   Person person;
   PersonalTaxPosition taxPosition;
 
+  Income earnings;
+  Income dividend;
+  Income savings;
+  Income trade;
+
   group('National insurance trade', () {
 
     setUp(() {
@@ -1151,16 +1229,27 @@ void nationalInsuranceTrade() {
       person.scotland = false;
 
       taxPosition = person.taxYear(2018);
+
+      Employment employment = new Employment(person);
+      earnings = new Income(employment, taxPosition);
+
+      ShareHolding investment = new ShareHolding(person);
+      dividend = new Income(investment, taxPosition);
+      Savings deposit = new Savings(person);
+      savings = new Income(deposit, taxPosition);
+
+      Trade business = new Trade(person);
+      trade = new Income(business, taxPosition);
     });
 
     test('5,000 2018 trade', () {
-      taxPosition.trade.income= 5000;
+      trade.income= 5000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 0);
     });
 
     test('20,000 2018 trade', () {
-      taxPosition.trade.income= 20000;
+      trade.income= 20000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 1065.24);
 
@@ -1168,14 +1257,14 @@ void nationalInsuranceTrade() {
 
 
     test('45,000 2018 trade', () {
-      taxPosition.trade.income= 45000;
+      trade.income= 45000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 3315.24);
 
     });
 
     test('90,000 2018 trade', () {
-      taxPosition.trade.income= 90000;
+      trade.income= 90000;
       taxPosition.tax;
       expect(taxPosition.nicClass4, 4215.24);
 
@@ -1187,12 +1276,36 @@ void nationalInsuranceTrade() {
 
 void capitalGains() {
 
+  Person person;
+  PersonalTaxPosition taxPosition;
+
+  Income earnings;
+  Income dividend;
+  Income savings;
+  Income trade;
+
+
   group('Capital gains 2018', () {
 
-    Person person;
+    person;
 
     setUp(()  {
      person = Entity.get(Entity.INDIVIDUAL);
+     person.scotland = false;
+
+     taxPosition = person.taxYear(2018);
+
+     Employment employment = new Employment(person);
+     earnings = new Income(employment, taxPosition);
+
+     ShareHolding investment = new ShareHolding(person);
+     dividend = new Income(investment, taxPosition);
+
+     Savings deposit = new Savings(person);
+     savings = new Income(deposit, taxPosition);
+
+     Trade business = new Trade(person);
+     trade = new Income(business, taxPosition);
      
     });
 
@@ -1216,7 +1329,7 @@ void capitalGains() {
       asset.proceeds = 10000;
       asset.saleDate = new Date(5,4,18);
       person.assets.add(asset);
-      person.taxYear(2018).tax;
+      taxPosition.tax;
 
       expect(person.taxYear(2018).totalGains, 5000);
     });
@@ -1350,7 +1463,7 @@ void capitalGains() {
       asset01.proceeds = 17500;
       asset01.saleDate = new Date(5,4,18);
       person.assets.add(asset01);
-      person.taxYear(2018).earnings.income= 20000;
+      earnings.income= 20000;
 
       person.taxYear(2018).tax;
 
@@ -1363,7 +1476,7 @@ void capitalGains() {
     });
 
     test('Loss allocation 1', () {
-      person.taxYear(2018).earnings.income= 20000;
+      earnings.income= 20000;
       // gain 0f 10000 res
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.proceeds = 10000;
@@ -1380,7 +1493,7 @@ void capitalGains() {
 
       asset02.saleDate = new Date(5,4,18);
       person.assets.add(asset02);
-      person.taxYear(2018).earnings.income= 20000;
+      earnings.income= 20000;
 
       // loss pf 15000
       ResidentialProperty asset20 = new ResidentialProperty(person);
@@ -1389,7 +1502,7 @@ void capitalGains() {
 
       asset20.saleDate = new Date(5,4,18);
       person.assets.add(asset20);
-      person.taxYear(2018).earnings.income= 20000;
+      earnings.income= 20000;
       person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 21000);
@@ -1405,7 +1518,7 @@ void capitalGains() {
 
     test('Loss allocation 2', () {
 
-      person.taxYear(2018).earnings.income= 15000;
+      earnings.income= 15000;
       person.taxYear(2018).capitalLossBroughtForward = 15000;
       
       // gain 0f 4000 res
@@ -1482,7 +1595,7 @@ void capitalGains() {
 
     test('Basic Rate allocatoin 1', () {
 
-      person.taxYear(2018).earnings.income= 0;
+      earnings.income= 0;
       person.taxYear(2018).capitalLossBroughtForward = 2300;
 
       // gain 0f 20000 res
@@ -1877,14 +1990,16 @@ void incomeAndExpenditure(){
       Person person = new Person();
       PropertyBusiness business = new PropertyBusiness(person);
       business.accounts.add(propertyAccount);
+      PersonalTaxPosition taxPosition = person.taxYear(2020);
+      PropertyIncome rentals = new PropertyIncome(business, taxPosition);
 
-      person.activities.add(business);
       person.taxYear(2020).tax;
 
       expect(propertyAccount.profit, 2250);
       expect(propertyAccount.taxCredit, 150);
-      expect(person.taxYear(2020).propertyIncome.income, 2250);
-      expect(person.taxYear(2020).propertyIncome.taxCredit, 150);
+      expect(rentals.income, 2250);
+      expect(rentals.taxCredit, 150);
+      expect(taxPosition.propertyIncome, 2250);
     });
 
 
@@ -1897,9 +2012,20 @@ void incomeAndExpenditure(){
 void corporationTax(){
 
  Company company;
+ Income other;
+ CompanyTaxPosition taxPosition;
 
   setUp(() {
     company = new Company();
+
+    Date first = new Date(1,10,19);
+    Date second = new Date(30,9,20);
+    Period period = new Period(first, second);
+
+    taxPosition = company.accountingPeriod(period);
+
+    Other activity = new Other(company);
+    other = new Income(activity, taxPosition);
 
   });
 
@@ -1907,29 +2033,23 @@ void corporationTax(){
 
     test('Accounting period', () {
 
-      Date first = new Date(1,10,19);
-      Date second = new Date(30,9,20);
-      Period period = new Period(first, second);
+      other.income = 10000;
 
-      company.accountingPeriod(period).other.income = 10000;
-
-      expect(company.accountingPeriod(period).tax, 1795.07);
+      expect(taxPosition.tax, 1795.07);
     });
 
     test('Accounting period', () {
 
-      Date first = new Date(1,4,16);
-      Date second = new Date(31,3,17);
-      Period period = new Period(first, second);
-
       ChargeableAsset asset01 = new ChargeableAsset(company);
-      asset01.saleDate = new Date(31,3,17);
+      asset01.saleDate = new Date(30,9,20);
       asset01.proceeds = 10000;
       asset01.cost = 5000;
       company.assets.add(asset01);
 
-      company.accountingPeriod(period).other.income = 10000;
-      expect(company.accountingPeriod(period).tax, 3000);
+      other.income = 10000;
+
+      expect(taxPosition.tax, 2692.60);
+      expect(taxPosition.gains, 5000);
     });
 
     test('Accounting period', () {

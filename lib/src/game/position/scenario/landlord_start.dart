@@ -8,8 +8,6 @@ import '../../../accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../../../accounts/income_and_expenditure.dart';
 import 'scenario.dart';
-import '../../../entities/person.dart';
-import 'package:taxlogic/src/utilities/tax_year.dart';
 import '../../game.dart';
 
 class LandlordStart extends Scenario{
@@ -29,8 +27,6 @@ class LandlordStart extends Scenario{
     game.position.addEntity(person);
     game.position.focussedEntity = person;
     PropertyBusiness business = new PropertyBusiness(person);
-
-    person.activities.add(business);
 
     ResidentialProperty property = new ResidentialProperty(person);
     business.properties.add(property);

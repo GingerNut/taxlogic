@@ -5,9 +5,8 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 import '../entities/entity.dart';
 import 'dart:math';
 import 'asset.dart';
-
-import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/value.dart';
+import 'disposal.dart';
+export 'disposal.dart';
 
 class ChargeableAsset extends Asset{
   num _taxableGain;
@@ -23,6 +22,7 @@ class ChargeableAsset extends Asset{
   ChargeableAsset(Entity entity) : super(entity);
 
   List<Improvement> _improvements = new List();
+  List<Disposal> disposals = new List();
 
   num get totalImprovements{
 

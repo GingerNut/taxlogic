@@ -1,58 +1,92 @@
 
-import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
-import 'package:taxlogic/src/activity/property_business.dart';
+import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
-import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
 class CompanyTaxPosition extends TaxPosition{
-  CompanyTaxPosition(this.company) : super (company){
+  CompanyTaxPosition(this.company) : super (company);
 
-    trade = new Income(company.trade, period);
-    dividend = new Income(company.investment, period);
-    propertyIncome = new PropertyIncome(company.propertyBusiness, period);
-    other = new Income(company.other, period);
-
-    income.add(trade);
-    income.add(dividend);
-    income.add(propertyIncome);
-    income.add(other);
-
-  }
+  num incomeProfits;
+  num gains = 0;
+  num _totalProfits;
+  num _tax = 0;
 
   final Company company;
 
-  Income trade;
-  Income dividend;
-  PropertyIncome propertyIncome;
-  Income other;
+  get totalProfits{
 
+    _totalProfits = 0;
 
+    income.forEach((inc){
 
-  // TODO: implement tax
-  @override
-  num get tax => null;
-
-  @override
-  refreshIncome() {
-    entity.activities.forEach((activity){
-
-      if(activity is PropertyBusiness){
-
-        IncomeAndExpenditureProperty accounts;
-
-        activity.accounts.forEach((ap) {
-
-          if(period.includes(ap.period.end)) accounts = ap;
-        });
-
-        if(accounts != null) propertyIncome.accounts = accounts;
-
-      }
-
+      _totalProfits += inc.income;
 
     });
+
+    incomeProfits = _totalProfits;
+
+    _totalProfits += capitalGains();
+
+    return _totalProfits;
   }
+
+  capitalGains(){
+
+    allocateLosses();
+
+    num gain = 0;
+
+    disposals.forEach((disposal){
+      gain += disposal.taxableGain;
+    });
+
+    gains = gain;
+
+    return gain;
+  }
+
+  void allocateLosses(){
+
+    num lossesToAllocate = totalLossUsed;
+
+    while(lossesToAllocate > 0){
+
+      disposals.forEach((asset){
+        if(lossesToAllocate < asset.taxableGain){
+          asset.lossAllocated = lossesToAllocate;
+          lossesToAllocate = 0;
+        } else {
+          asset.lossAllocated = asset.taxableGain;
+          lossesToAllocate -= asset.lossAllocated;
+        }
+
+      });
+    }
+  }
+
+
+  @override
+  num get tax{
+
+    _tax = 0;
+
+    refreshDisposals();
+
+    num profits = totalProfits;
+
+    List<RatePeriod> periods = TaxData.CompanyRatePeriods(period);
+
+    periods.forEach((part){
+      _tax += profits * part.period.duration/period.duration * part.rate;
+    });
+
+    _tax = Utilities.roundTax(_tax);
+
+    return _tax;
+
+  }
+
 }

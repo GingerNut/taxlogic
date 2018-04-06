@@ -2,25 +2,18 @@ import 'package:taxlogic/src/assets/property.dart';
 
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/value.dart';
+import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../entities/entity.dart';
 import '../assets/residential_property.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-
+import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class PropertyBusiness extends Activity{
 
   List<Property> properties = new List();
 
   PropertyBusiness(Entity entity): super(entity);
-  
-  num income (Period period){
-    num _income = 0;
-    properties.forEach((e){
-      _income += e.rent(period);
-    });
-    return _income;
-  }
   
   bool get residential{
     bool _residential = false;
@@ -70,6 +63,16 @@ class PropertyBusiness extends Activity{
     });
 
     transferee.activities.add(newbusiness);
+  }
+
+  @override
+  PropertyIncome income(TaxPosition taxPosition) {
+    PropertyIncome _income = new PropertyIncome(this, taxPosition);
+
+    properties.forEach((e){
+      _income.income += e.rent(taxPosition.period);
+    });
+    return _income;
   }
 
 

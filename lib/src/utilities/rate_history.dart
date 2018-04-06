@@ -15,6 +15,16 @@ class RateHistory{
     history.add(change);
   }
 
+  set (num amount){
+    history.add(new RateChange(new Date(1,1,1990), amount));
+
+    sort();
+  }
+
+  sort(){
+    print('need to add sort routing in RateHistory');
+  }
+
 
   num rateAt(Date date){
     num rate = history[0].rate;
