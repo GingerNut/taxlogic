@@ -17,6 +17,8 @@ class PersonalTaxPosition extends TaxPosition{
   final Person person;
   final int year;
 
+  bool valid = false;
+
   num tradeIncome;
   num earningsIncome;
   num dividendIncome;
@@ -72,7 +74,6 @@ class PersonalTaxPosition extends TaxPosition{
   num _totalIncome;
 
   num get totalIncome{
-    if(_totalIncome != null) return _totalIncome;
 
     _totalIncome = 0;
     savingsIncome = 0;
@@ -82,9 +83,12 @@ class PersonalTaxPosition extends TaxPosition{
     otherIncome = 0;
     propertyIncome = 0;
 
-    income.forEach( (inc) {
 
-      _totalIncome+= inc.income;
+    person.activities.forEach( (activity) {
+
+      Income inc = activity.getIncome(this);
+
+      _totalIncome += inc.income;
 
       if(inc.activity is Employment) earningsIncome += inc.income;
       else if(inc.activity is Trade) tradeIncome += inc.income;
@@ -92,8 +96,9 @@ class PersonalTaxPosition extends TaxPosition{
       else if (inc.activity is ShareHolding ) dividendIncome += inc.income;
       else if(inc.activity is PropertyBusiness) propertyIncome += inc.income;
       else otherIncome += inc.income;
-
     }  );
+
+    valid = true;
 
     return _totalIncome;
   }
@@ -121,7 +126,7 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
   num get tax{
-    
+
     reset();
 
     incomeTax();
@@ -146,7 +151,7 @@ class PersonalTaxPosition extends TaxPosition{
   }
 
 
-  
+
   reset(){
     _tax = 0;
     personalAllowanceUsed = 0;
@@ -183,6 +188,7 @@ class PersonalTaxPosition extends TaxPosition{
     savingsNilRateBand = TaxData.savingsStartingNilBand(
         period.end.year,
         person.scotland);
+
     if (totalIncome - savingsIncome >
         TaxData.PersonalAllowanceDefault(
             period.end.year,

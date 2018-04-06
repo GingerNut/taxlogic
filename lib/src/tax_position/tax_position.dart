@@ -20,8 +20,6 @@ abstract class TaxPosition{
   List<Income> income = new List();
   List<ChargeableAsset> disposals = new List();
 
-
-
   num annualExemption = 0;
   num netGains = 0;
   num totalGains = 0;
@@ -89,8 +87,6 @@ abstract class TaxPosition{
         capitalLossCarriedForward -= broughtForwardLossUsed;
 
       }
-
-      //capitalLossCarriedForward = capitalLossBroughtForward - broughtForwardLossUsed;
 
       totalLossUsed = currentCapitalLossUsed + broughtForwardLossUsed;
 

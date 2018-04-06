@@ -4,7 +4,7 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class TransferAsset extends Move{
-  TransferAsset(int type, Position position): super(type, position);
+  TransferAsset(int type): super(type);
 
 
 

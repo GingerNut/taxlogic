@@ -15,6 +15,13 @@ export 'property_business.dart';
 export 'other.dart';
 
 abstract class Activity extends Asset{
+  Activity(Entity entity): super(entity){
+    entity.activities.add(this);
+  }
+
+  static const EMPLOYMENT = 1;
+  static const TRADE = 2;
+
   String name;
   Date commencement;
   Date cessation;
@@ -29,22 +36,36 @@ abstract class Activity extends Asset{
 
   List<Income> incomeHistory = new List();
 
-  setIncome(num amount) => annualIncome.set(amount);
-
-  List<AccountingPeriod> accounts = new List();
-
-  Activity(Entity entity): super(entity){
-    entity.activities.add(this);
+  setIncome(num amount) {
+    if(commencement == null) annualIncome.set(amount);
+    else {
+      annualIncome.set(0);
+      annualIncome.add(new RateChange(commencement, amount));
+    }
   }
 
-  transferToEntity(Date date, Entity transferee, Value value);
+  Income getIncome(TaxPosition taxPosition){
 
-  Income income(TaxPosition taxPosition){
-    Income income = new Income(this, taxPosition);
+    if(incomeHistory.length == 0) return new Income(this, taxPosition);
 
-    income.income = annualIncome.overallAmount(taxPosition.period);
+    Income income;
+
+    incomeHistory.forEach((test){
+
+      if(test.taxPosition == taxPosition) income = test;
+
+    });
+
+    if(income == null) income = new Income(this, taxPosition);
 
     return income;
   }
+
+  List<AccountingPeriod> accounts = new List();
+
+
+
+  transferToEntity(Date date, Entity transferee, Value value);
+
 
 }

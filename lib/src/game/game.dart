@@ -6,11 +6,20 @@ import 'position/scenario/scenario.dart';
 import 'move/move.dart';
 
 class Game{
+  Game(){
+    newGame(null);
+  }
+
   Scenario scenario;
   Position position;
   List<Position> history = new List();
 
   newGame(Scenario scenario){
+
+    if(scenario == null) scenario = new Blank();
+
+    position = new Position(this, null, null);
+
     this.scenario = scenario;
     scenario.setup(this);
   }

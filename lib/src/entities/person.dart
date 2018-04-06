@@ -42,6 +42,9 @@ class Person extends Entity{
       taxYear = new PersonalTaxPosition(this, year);
       taxPeriods.add(taxYear);
     }
+
+    taxYear.tax;
+
     return taxYear;
   }
 

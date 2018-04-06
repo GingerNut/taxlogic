@@ -26,9 +26,8 @@ class TransferActivity extends Move{
       this.consideration,
       this.holdover,
       this.lossTransfer,
-      this.narrative,
-      Position position)
-      : super(Move.TRANSFER_ACTIVITY, position);
+      this.narrative)
+      : super(Move.TRANSFER_ACTIVITY);
 
 
   @override

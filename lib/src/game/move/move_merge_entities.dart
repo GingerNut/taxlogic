@@ -4,7 +4,7 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class MergeEntity extends Move{
-  MergeEntity(int type, Position position): super(type, position);
+  MergeEntity(int type): super(type);
 
 
 

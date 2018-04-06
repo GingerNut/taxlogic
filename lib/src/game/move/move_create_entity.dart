@@ -6,7 +6,7 @@ import 'package:taxlogic/src/utilities/date.dart';
 
 
 class CreateEntity extends Move{
-  CreateEntity(this.date, this.name, this.type, Position position): super(Move.CREATE_ENTITY, position);
+  CreateEntity(this.date, this.name, this.type): super(Move.CREATE_ENTITY);
 
   int type;
   Date date;
@@ -21,7 +21,7 @@ class CreateEntity extends Move{
       ..name = name
     ..birth = date;
 
-
     position.addEntity(entity);
+    if(position.focussedEntity == null) position.focussedEntity = entity;
     }
   }

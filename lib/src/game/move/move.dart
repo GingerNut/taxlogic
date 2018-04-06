@@ -12,11 +12,11 @@ abstract class Move{
   static const int RESIDENTIAL_PROPERTY_BUSINESS = 1;
   static const int CREATE_ENTITY = 2;
   static const int TRANSFER_ACTIVITY = 3;
+  static const int START_ACTIVITY = 4;
 
-  Position originalPosition;
   int type;
 
-  Move(this.type, this.originalPosition);
+  Move(this.type);
 
   doMove(Position newPosition);
 
