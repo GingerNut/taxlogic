@@ -7,7 +7,7 @@ import 'package:taxlogic/src/utilities/date.dart';
 import '../assets/value.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
-export 'employment.dart';
+export 'employment/employment.dart';
 export 'trade.dart';
 export 'savings.dart';
 export 'share_holding.dart';

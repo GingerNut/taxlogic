@@ -5,6 +5,7 @@ export 'period_collection.dart';
 export 'rate_history.dart';
 export 'period_end.dart';
 export 'tax_year.dart';
+export 'rate_table.dart';
 
 class Utilities{
 

@@ -6,6 +6,7 @@ void main() {
   dates();
   periods();
   rateChange();
+  rateTable();
   taxdata();
   incomeTaxEngland2017();
   incomeTaxEngland2018();
@@ -54,7 +55,7 @@ void game(){
       expect(taxPosition20.earningsIncome, 0);
     });
 
-    test('Landlord start ', () {
+    test('Company cars ', () {
 
     });
 
@@ -658,6 +659,34 @@ void rateChange(){
 
 }
 
+void rateTable(){
+
+  group('Rate histories ', (){
+
+    test('Test ', () {
+
+      RateTable table = new RateTable([
+        new RateThreshold(0,0),
+        new RateThreshold(50,1),
+        new RateThreshold(100,2),
+        new RateThreshold(150,3),
+      ]);
+
+      expect(table.rate(49), 0);
+      expect(table.rate(50), 1);
+      expect(table.rate(99), 1);
+      expect(table.rate(100), 2);
+      expect(table.rate(101), 2);
+      expect(table.rate(149), 2);
+      expect(table.rate(150), 3);
+      expect(table.rate(155), 3);
+    });
+
+  });
+
+
+}
+
 void taxdata(){
 
   group('Data ', (){
@@ -722,6 +751,16 @@ void taxdata(){
 
     });
 
+    test('Company car rate ', () {
+
+      expect(TaxData.CompanyCarRate(2018, 49), 9);
+      expect(TaxData.CompanyCarRate(2018, 100), 19);
+      expect(TaxData.CompanyCarRate(2018, 132), 25);
+      expect(TaxData.CompanyCarRate(2018, 175), 34);
+      expect(TaxData.CompanyCarRate(2018, 184), 35);
+      expect(TaxData.CompanyCarRate(2018, 185), 37);
+      expect(TaxData.CompanyCarRate(2018, 190), 37);
+    });
 
 
   });

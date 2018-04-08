@@ -9,6 +9,7 @@ import 'package:taxlogic/src/utilities/rate_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'interest/overdue_interest.dart';
 import 'capital_gains_tax/indexation.dart';
+import 'company_car/company_car.dart';
 
 class TaxData{
 
@@ -94,4 +95,8 @@ class TaxData{
 
   static num IndexationFactor(Date purchase, Date sale) => Indexation.indexation(purchase, sale);
 
+
+  // company car
+
+  static num CompanyCarRate(int year, num CO2) => CompanyCarRates.get(year).table.rate(CO2.toInt());
 }
