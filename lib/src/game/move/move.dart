@@ -1,13 +1,10 @@
 
 import '../position/position.dart';
-import 'package:taxlogic/src/utilities/date.dart';
-import 'move_start_employment.dart';
-export 'move_start_employment.dart';
-import 'move_create_entity.dart';
+
+export 'package:taxlogic/src/game/move/employment/move_start_employment.dart';
 export 'move_create_entity.dart';
-import 'move_transfer_activity.dart';
 export 'move_transfer_activity.dart';
-export 'move_end_employment.dart';
+export 'package:taxlogic/src/game/move/employment/move_end_employment.dart';
 
 abstract class Move{
   static const int RESIDENTIAL_PROPERTY_BUSINESS = 1;
@@ -18,5 +15,4 @@ abstract class Move{
   Move();
 
   doMove(Position newPosition);
-
 }

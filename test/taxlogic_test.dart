@@ -23,16 +23,14 @@ void game(){
 
   group('Game elements ', (){
 
-    test('Basic game ', (){
-      Game game = new Game();
-
-      Move move = new CreateEntity(new Date(6,4,17), 'Harry',Entity.INDIVIDUAL );
-
-      game.makeMove(move);
+    test('Employment started and cessated with termination payment ', (){
 
       String personId = 'Harry';
       String employmentId = 'Job';
 
+      Game game = new Game();
+
+      game.makeMove(new CreateEntity(new Date(6,4,17), personId, Entity.INDIVIDUAL ));
       game.makeMove(new StartEmployment(personId, employmentId, new Date(6,10,17), 80000));
 
       Person person = game.position.getEntityByName(personId);
@@ -44,9 +42,18 @@ void game(){
 
       expect(person.taxYear(2019).earningsIncome , 80000);
 
-      game.makeMove(new EndEmployment(employmentId, new Date(6,10,18), 0));
+      game.makeMove(new EndEmployment(employmentId, new Date(6,10,18), 10000)); // 18/19 inc ~ £50k (£40k plus £10 temination paymnet
 
-      expect(person.taxYear(2020).tax , 80000);
+      PersonalTaxPosition taxPosition19 = person.taxYear(2019);
+      expect(taxPosition19.tax, 8403.84);
+      expect(taxPosition19.earningsIncome, 50109.59);
+
+      PersonalTaxPosition taxPosition20 = person.taxYear(2020);
+      expect(taxPosition20.tax,0);
+      expect(taxPosition20.earningsIncome, 0);
+
+
+
 
     });
 
