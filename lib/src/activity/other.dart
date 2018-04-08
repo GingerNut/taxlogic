@@ -16,4 +16,6 @@ class Other extends Activity{
   }
 
 
+  @override
+  Income getNewIncome(TaxPosition taxPosition) => new Income(this, taxPosition);
 }

@@ -75,6 +75,7 @@ class PropertyBusiness extends Activity{
     return _income;
   }
 
-
+  @override
+  Income getNewIncome(TaxPosition taxPosition) => new PropertyIncome(this, taxPosition);
 
 }

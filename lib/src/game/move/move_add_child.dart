@@ -5,11 +5,7 @@ import '../../entities/entity.dart';
 
 
 class AddChild extends Move{
-  AddChild(int type): super(type);
 
-
-
-  
 
   @override
   doMove(Position newPosition) {

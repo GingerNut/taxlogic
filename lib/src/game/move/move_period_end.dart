@@ -4,9 +4,6 @@ import 'package:taxlogic/src/game/position/position.dart';
 
 
 class PeriodEnd extends Move{
-  PeriodEnd(int type): super(type);
-
-
 
   
 

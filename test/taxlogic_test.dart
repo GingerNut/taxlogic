@@ -30,11 +30,12 @@ void game(){
 
       game.makeMove(move);
 
-      move = new StartActivity(Activity.EMPLOYMENT, new Date(6,10,17), 80000);
+      String personId = 'Harry';
+      String employmentId = 'Job';
 
-      game.makeMove(move);
+      game.makeMove(new StartEmployment(personId, employmentId, new Date(6,10,17), 80000));
 
-      Person person = game.position.getEntityByName('Harry');
+      Person person = game.position.getEntityByName(personId);
 
       expect(person.taxYear(2018).tax, 5678.08);
       expect(person.activities[0].annualIncome.rateAt(new Date(6,4,17)), 0);
@@ -42,6 +43,10 @@ void game(){
       expect(person.activities[0].annualIncome.rateAt(new Date(6,10,17)), 80000);
 
       expect(person.taxYear(2019).earningsIncome , 80000);
+
+      game.makeMove(new EndEmployment(employmentId, new Date(6,10,18), 0));
+
+      expect(person.taxYear(2020).tax , 80000);
 
     });
 

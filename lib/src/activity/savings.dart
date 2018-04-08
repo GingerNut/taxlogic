@@ -15,5 +15,6 @@ class Savings extends Activity{
     // TODO: implement transferToEntity
   }
 
-
+  @override
+  Income getNewIncome(TaxPosition taxPosition) => new Income(this, taxPosition);
 }

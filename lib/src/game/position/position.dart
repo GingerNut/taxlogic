@@ -1,4 +1,5 @@
 import '../../entities/entity.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/game/move/move.dart';
 import '../game.dart';
 
@@ -33,14 +34,27 @@ class Position{
 
     }
 
-    Entity getEntityByName(String name){
+    Entity getEntityByName(String identifier){
      Entity named ;
 
      entities.forEach((e){
-       if(e.name == name) named = e;
+       if(e.name == identifier) named = e;
      });
 
      return named;
+    }
+
+    Activity getActivityByName(String identifier){
+      Activity named;
+
+     entities.forEach((ent){
+       ent.activities.forEach((e){
+         if(e.name == identifier) named = e;
+       });
+
+     });
+
+      return named;
     }
 
     printEntities(){

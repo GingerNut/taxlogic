@@ -1,8 +1,10 @@
-import '../entities/entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
-import 'package:taxlogic/src/utilities/utilities.dart';
 export 'rental_income.dart';
+export 'employment_income.dart';
+
+export 'package:taxlogic/src/accounts/payment.dart';
+
 
 class Income{
   Income(this.activity, this.taxPosition){
@@ -14,18 +16,17 @@ class Income{
   final TaxPosition taxPosition;
 
   bool manualSet = false;
-
-  num _income = 0;
+  num manualSetIncome = 0;
 
   num get income {
-    if(manualSet) return _income;
+    if(manualSet) return manualSetIncome;
 
     else return activity.annualIncome.overallAmount(taxPosition.period);
   }
 
   set income(num amount){
     manualSet = true;
-    _income = amount;
+    manualSetIncome = amount;
   }
 
   num get taxDeducted => 0;

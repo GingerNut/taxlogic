@@ -7,7 +7,10 @@ import 'package:taxlogic/src/utilities/date.dart';
 
 
 class Employment extends Activity{
-  Employment(Person entity) : super(entity);
+  Employment(this.employee) : super(employee);
+
+  Person employee;
+  Payment termination;
 
 
 
@@ -17,4 +20,8 @@ class Employment extends Activity{
   }
 
 
+
+
+  @override
+  Income getNewIncome(TaxPosition taxPosition) => new EmploymentIncome(this, taxPosition);
 }

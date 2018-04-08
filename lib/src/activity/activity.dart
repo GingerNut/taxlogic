@@ -44,9 +44,19 @@ abstract class Activity extends Asset{
     }
   }
 
+  changeIncome(Date date, num amount){
+    annualIncome.add(new RateChange(date, amount));
+  }
+
+  void endIncome(Date date) {
+    annualIncome.add(new RateChange(date, 0));
+  }
+
+  Income getNewIncome(TaxPosition taxPosition);
+
   Income getIncome(TaxPosition taxPosition){
 
-    if(incomeHistory.length == 0) return new Income(this, taxPosition);
+    if(incomeHistory.length == 0) return getNewIncome(taxPosition);
 
     Income income;
 
@@ -56,16 +66,13 @@ abstract class Activity extends Asset{
 
     });
 
-    if(income == null) income = new Income(this, taxPosition);
+    if(income == null) income = getNewIncome(taxPosition);
 
     return income;
   }
 
   List<AccountingPeriod> accounts = new List();
 
-
-
   transferToEntity(Date date, Entity transferee, Value value);
-
 
 }
