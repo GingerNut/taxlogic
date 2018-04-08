@@ -52,10 +52,6 @@ void game(){
       PersonalTaxPosition taxPosition20 = person.taxYear(2020);
       expect(taxPosition20.tax,0);
       expect(taxPosition20.earningsIncome, 0);
-
-
-
-
     });
 
     test('Landlord start ', () {
