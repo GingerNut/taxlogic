@@ -59,7 +59,12 @@ class Period{
 
   static int overlap(Period one, Period two){
 
-      Period overall = combinePeriods(one, two);
+    if(one.start == null) one.start = two.start;
+    if(one.end == null) one.end = two.end;
+    if(two.start == null) two.start = one.start;
+    if(two.end == null) two.end = one.end;
+
+    Period overall = combinePeriods(one, two);
 
     if(overall.days < one.days + two.days) return one.days + two.days - overall.days;
 

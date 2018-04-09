@@ -2,6 +2,7 @@ import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 class EmploymentIncome extends Income{
@@ -15,9 +16,16 @@ class EmploymentIncome extends Income{
     employment.companyCars.forEach((car){
 
       if(car.ceaseToBeAvailable == null || car.ceaseToBeAvailable > taxPosition.period.start && car.madeAvailable < taxPosition.period.end){
-        num thisCar = TaxData.CompanyCarRate(taxPosition.period.end.year, car.diesel, car.CO2);
+        num thisCar = TaxData.CompanyCarRate(taxPosition.period.end.year, car.diesel, car.CO2) * car.listPrice;
 
-        //print(thisCar);
+        Date from = car.madeAvailable == null ? taxPosition.period.start : car.madeAvailable;
+
+        Date to = car.ceaseToBeAvailable == null ? taxPosition.period.end : car.ceaseToBeAvailable;
+
+       num fraction = Period.overlap(taxPosition.period, new Period(from, to))/taxPosition.period.duration;
+
+       benefit += Utilities.roundIncome(thisCar);
+
       }
 
 

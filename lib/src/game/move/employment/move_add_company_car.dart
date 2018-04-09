@@ -6,13 +6,13 @@ import '../../game.dart';
 
 class EmploymentCompanyCar extends Move{
 
-  EmploymentCompanyCar(this.personId, this.employmentId, this.carId, this.date, this.firstReg, this.listPrice, this.CO2);
+  EmploymentCompanyCar(this.personId, this.employmentId, this.carId, this.madeAvailable, this.firstReg, this.listPrice, this.CO2);
 
   String personId;
   String employmentId;
   String carId;
 
-  Date date;
+  Date madeAvailable;
   Date firstReg;
   num listPrice;
   num CO2;
@@ -25,7 +25,8 @@ class EmploymentCompanyCar extends Move{
     CompanyCar car = new CompanyCar()
     ..CO2 = CO2
     ..registered = firstReg
-    ..madeAvailable = date;
+    ..madeAvailable = madeAvailable
+    ..listPrice = listPrice;
 
     employment.companyCars.add(car);
 

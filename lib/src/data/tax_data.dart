@@ -98,5 +98,5 @@ class TaxData{
 
   // company car
 
-  static num CompanyCarRate(int year, bool diesel, num CO2) => CompanyCarRates.get(year, diesel).table.rate(CO2.toInt());
+  static num CompanyCarRate(int year, bool diesel, num CO2) => CompanyCarRates.get(year, diesel).table.rate(CO2.toInt())/100;
 }

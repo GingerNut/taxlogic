@@ -4,6 +4,7 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 
 class Car{
 
+
   String manufacturer;
   String model;
   Date registered;
@@ -11,7 +12,7 @@ class Car{
   bool diesel = false;
   num CO2;
 
-
+  num cost;
 
 
 }

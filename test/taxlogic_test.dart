@@ -69,7 +69,9 @@ void game(){
 
         Person person = game.position.getEntityByName(person1id);
 
-        person.taxYear(2018).tax;
+        PersonalTaxPosition taxPosition = person.taxYear(2018);
+        taxPosition.tax;
+        expect(taxPosition.earningsIncome, 26250);
 
     });
 
@@ -767,21 +769,21 @@ void taxdata(){
 
     test('Company car rate ', () {
 
-      expect(TaxData.CompanyCarRate(2018, false, 49), 9);
-      expect(TaxData.CompanyCarRate(2018, false, 100), 19);
-      expect(TaxData.CompanyCarRate(2018, false, 132), 25);
-      expect(TaxData.CompanyCarRate(2018, false, 175), 34);
-      expect(TaxData.CompanyCarRate(2018, false, 184), 35);
-      expect(TaxData.CompanyCarRate(2018, false, 185), 37);
-      expect(TaxData.CompanyCarRate(2018, false, 190), 37);
+      expect(TaxData.CompanyCarRate(2018, false, 49), 0.09);
+      expect(TaxData.CompanyCarRate(2018, false, 100), .19);
+      expect(TaxData.CompanyCarRate(2018, false, 132), .25);
+      expect(TaxData.CompanyCarRate(2018, false, 175), .34);
+      expect(TaxData.CompanyCarRate(2018, false, 184), .35);
+      expect(TaxData.CompanyCarRate(2018, false, 185), .37);
+      expect(TaxData.CompanyCarRate(2018, false, 190), .37);
 
-      expect(TaxData.CompanyCarRate(2018, true, 49), 12);
-      expect(TaxData.CompanyCarRate(2018, true, 100), 22);
-      expect(TaxData.CompanyCarRate(2018, true, 132), 28);
-      expect(TaxData.CompanyCarRate(2018, true, 175), 37);
-      expect(TaxData.CompanyCarRate(2018, true, 184), 37);
-      expect(TaxData.CompanyCarRate(2018, true, 185), 37);
-      expect(TaxData.CompanyCarRate(2018, true, 190), 37);
+      expect(TaxData.CompanyCarRate(2018, true, 49), .12);
+      expect(TaxData.CompanyCarRate(2018, true, 100), .22);
+      expect(TaxData.CompanyCarRate(2018, true, 132), .28);
+      expect(TaxData.CompanyCarRate(2018, true, 175), .37);
+      expect(TaxData.CompanyCarRate(2018, true, 184), .37);
+      expect(TaxData.CompanyCarRate(2018, true, 185), .37);
+      expect(TaxData.CompanyCarRate(2018, true, 190), .37);
     });
 
 
