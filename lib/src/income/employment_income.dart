@@ -14,21 +14,7 @@ class EmploymentIncome extends Income{
     num benefit = 0;
 
     employment.companyCars.forEach((car){
-
-      if(car.ceaseToBeAvailable == null || car.ceaseToBeAvailable > taxPosition.period.start && car.madeAvailable < taxPosition.period.end){
-        num thisCar = TaxData.CompanyCarRate(taxPosition.period.end.year, car.diesel, car.CO2) * car.listPrice;
-
-        Date from = car.madeAvailable == null ? taxPosition.period.start : car.madeAvailable;
-
-        Date to = car.ceaseToBeAvailable == null ? taxPosition.period.end : car.ceaseToBeAvailable;
-
-       num fraction = Period.overlap(taxPosition.period, new Period(from, to))/taxPosition.period.duration;
-
-       benefit += Utilities.roundIncome(thisCar);
-
-      }
-
-
+      benefit += car.benefit(taxPosition);
     });
     return benefit;
   }
