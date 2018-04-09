@@ -8,8 +8,8 @@ class Car{
   String model;
   Date registered;
   Date purchased;
-
-
+  bool diesel = false;
+  num CO2;
 
 
 

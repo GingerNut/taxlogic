@@ -2,7 +2,9 @@
 import '../position/position.dart';
 
 export 'package:taxlogic/src/game/move/employment/move_start_employment.dart';
-export 'move_create_entity.dart';
+export 'package:taxlogic/src/game/move/employment/move_add_company_car.dart';
+export 'package:taxlogic/src/game/move/create_entity/move_create_individual.dart';
+export 'package:taxlogic/src/game/move/create_entity/move_create_company.dart';
 export 'move_transfer_activity.dart';
 export 'package:taxlogic/src/game/move/employment/move_end_employment.dart';
 export 'employment/move_payrise.dart';

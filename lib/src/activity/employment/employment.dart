@@ -19,6 +19,8 @@ class Employment extends Activity{
   List<CompanyCar> companyCars = new List();
 
 
+
+
   @override
   transferToEntity(Date date, Entity transferee, Value value) {
     // TODO: implement transferToEntity

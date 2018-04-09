@@ -27,6 +27,7 @@ class Game{
   makeMove(Move move){
 
     String test = move.checkMove(position);
+
     if(test == 'OK'){
       history.add(position);
       position = new Position(this, position, move);

@@ -1,28 +1,28 @@
 
 import 'package:taxlogic/src/game/move/move.dart';
 import 'package:taxlogic/src/game/position/position.dart';
-import '../../entities/entity.dart';
+import '../../../entities/entity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 
-class CreateEntity extends Move{
-  CreateEntity(this.date, this.name, this.type);
+class CreateIndividual extends Move{
+  CreateIndividual(this.date, this.name);
 
   int type;
   Date date;
   String name;
-  Entity entity;
+  Person person;
 
 
   @override
   doMove(Position position) {
 
-    entity = Entity.get(type)
+    person = Entity.get(Entity.INDIVIDUAL)
       ..name = name
     ..birth = date;
 
-    position.addEntity(entity);
-    if(position.focussedEntity == null) position.focussedEntity = entity;
+    position.addEntity(person);
+    if(position.focussedEntity == null) position.focussedEntity = person;
     }
 
 

@@ -3,7 +3,6 @@ import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'value.dart';
 
-export 'disposal.dart';
 export 'car.dart';
 
 abstract class Asset{

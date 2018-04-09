@@ -24,17 +24,22 @@ void game(){
 
   group('Game elements ', (){
 
+    String person1id = 'Harry';
+    Date person1birthday = new Date(21,9,62);
+    String person2id = 'Gerry';
+
+    String employment1id = 'Job';
+    Game game;
+
+    setUp(() {
+      game = new Game();
+    });
+
     test('Employment started and cessated with termination payment ', (){
+      game.makeMove(new CreateIndividual(new Date(6,4,17), person1id ));
+      game.makeMove(new StartEmployment(person1id, employment1id, new Date(6,10,17), 80000));
 
-      String personId = 'Harry';
-      String employmentId = 'Job';
-
-      Game game = new Game();
-
-      game.makeMove(new CreateEntity(new Date(6,4,17), personId, Entity.INDIVIDUAL ));
-      game.makeMove(new StartEmployment(personId, employmentId, new Date(6,10,17), 80000));
-
-      Person person = game.position.getEntityByName(personId);
+      Person person = game.position.getEntityByName(person1id);
 
       expect(person.taxYear(2018).tax, 5678.08);
       expect(person.activities[0].annualIncome.rateAt(new Date(6,4,17)), 0);
@@ -43,8 +48,8 @@ void game(){
 
       expect(person.taxYear(2019).earningsIncome , 80000);
 
-      game.makeMove(new PaychangeEmployment(employmentId, new Date(6,4,18), 90000));
-      game.makeMove(new EndEmployment(personId, employmentId, new Date(6,10,18), 10000)); // 18/19 inc ~ £55k (£45k plus £10 temination paymnet
+      game.makeMove(new PaychangeEmployment(employment1id, new Date(6,4,18), 90000));
+      game.makeMove(new EndEmployment(person1id, employment1id, new Date(6,10,18), 10000)); // 18/19 inc ~ £55k (£45k plus £10 temination paymnet
 
       PersonalTaxPosition taxPosition19 = person.taxYear(2019);
       expect(taxPosition19.tax, 10409.32);
@@ -56,6 +61,15 @@ void game(){
     });
 
     test('Company cars ', () {
+      String carId = 'VW UP';
+
+        game.makeMove(new CreateIndividual(person1birthday, person1id));
+        game.makeMove(new StartEmployment(person1id, employment1id, new Date(1,6,16), 20000));
+        game.makeMove(new EmploymentCompanyCar(person1id, employment1id, carId, new Date(1,6,16), new Date(1,6,16), 25000 , 130));
+
+        Person person = game.position.getEntityByName(person1id);
+
+        person.taxYear(2018).tax;
 
     });
 
