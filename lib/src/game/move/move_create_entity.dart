@@ -24,4 +24,6 @@ class CreateEntity extends Move{
     position.addEntity(entity);
     if(position.focussedEntity == null) position.focussedEntity = entity;
     }
+
+
   }

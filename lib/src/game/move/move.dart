@@ -15,5 +15,7 @@ abstract class Move{
 
   Move();
 
+  String checkMove(Position test) => 'OK';
+
   doMove(Position newPosition);
 }

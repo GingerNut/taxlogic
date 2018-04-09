@@ -17,4 +17,11 @@ class PaychangeEmployment extends Move{
     employment.changeIncome(date, amount);
 
   }
+
+  String checkMove(Position position) {
+    Employment employment = position.getActivityByName(identifier);
+    if(employment == null) return 'employment not found';
+
+    return 'OK';
+  }
 }

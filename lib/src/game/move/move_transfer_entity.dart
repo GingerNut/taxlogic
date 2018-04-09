@@ -14,4 +14,5 @@ class TransferEntity extends Move{
   doMove(Position newPosition) {
     // TODO: implement doMove
   }
+
 }

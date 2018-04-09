@@ -10,4 +10,10 @@ class AddAsset extends Move{
   doMove(Position newPosition) {
     // TODO: implement doMove
   }
+
+  String checkMove(Position test) {
+    // TODO: implement checkMove
+
+    return 'OK';
+  }
 }

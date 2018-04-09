@@ -25,11 +25,14 @@ class Game{
   }
 
   makeMove(Move move){
-    history.add(position);
-    position = new Position(this, position, move);
-    position.move.doMove(position);
-  }
 
+    String test = move.checkMove(position);
+    if(test == 'OK'){
+      history.add(position);
+      position = new Position(this, position, move);
+      position.move.doMove(position);
+    } else throw 'move abandoned because ' + test;
+  }
 
 
 

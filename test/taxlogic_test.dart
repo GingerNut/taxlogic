@@ -44,7 +44,7 @@ void game(){
       expect(person.taxYear(2019).earningsIncome , 80000);
 
       game.makeMove(new PaychangeEmployment(employmentId, new Date(6,4,18), 90000));
-      game.makeMove(new EndEmployment(employmentId, new Date(6,10,18), 10000)); // 18/19 inc ~ £55k (£45k plus £10 temination paymnet
+      game.makeMove(new EndEmployment(personId, employmentId, new Date(6,10,18), 10000)); // 18/19 inc ~ £55k (£45k plus £10 temination paymnet
 
       PersonalTaxPosition taxPosition19 = person.taxYear(2019);
       expect(taxPosition19.tax, 10409.32);

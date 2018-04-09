@@ -24,4 +24,12 @@ class StartEmployment extends Move{
     employment.commencement = date;
     employment.setIncome(income);
   }
+
+  String checkMove(Position position) {
+    Entity entity = position.getEntityByName(personId);
+
+    if(entity.type != Entity.INDIVIDUAL) return 'only individuals can be employees';
+
+    return 'OK';
+  }
 }

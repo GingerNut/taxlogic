@@ -35,4 +35,6 @@ class TransferActivity extends Move{
     subject.transferToEntity(date, to, value);
 
   }
+
+
 }
