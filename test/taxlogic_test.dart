@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -13,6 +14,7 @@ void main() {
   incomeTaxEnglandDividend2018();
   incomeTaxEnglandSavings2018();
   incomeTaxScotland2019();
+  BIK_2018();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
   capitalGains();
@@ -769,21 +771,21 @@ void taxdata(){
 
     test('Company car rate ', () {
 
-      expect(TaxData.CompanyCarRate(2018, false, 49), 0.09);
-      expect(TaxData.CompanyCarRate(2018, false, 100), .19);
-      expect(TaxData.CompanyCarRate(2018, false, 132), .25);
-      expect(TaxData.CompanyCarRate(2018, false, 175), .34);
-      expect(TaxData.CompanyCarRate(2018, false, 184), .35);
-      expect(TaxData.CompanyCarRate(2018, false, 185), .37);
-      expect(TaxData.CompanyCarRate(2018, false, 190), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 49), 0.09);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 100), .19);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 132), .25);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 175), .34);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 184), .35);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 185), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.PETROL, 190), .37);
 
-      expect(TaxData.CompanyCarRate(2018, true, 49), .12);
-      expect(TaxData.CompanyCarRate(2018, true, 100), .22);
-      expect(TaxData.CompanyCarRate(2018, true, 132), .28);
-      expect(TaxData.CompanyCarRate(2018, true, 175), .37);
-      expect(TaxData.CompanyCarRate(2018, true, 184), .37);
-      expect(TaxData.CompanyCarRate(2018, true, 185), .37);
-      expect(TaxData.CompanyCarRate(2018, true, 190), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 49), .12);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 100), .22);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 132), .28);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 175), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 184), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 185), .37);
+      expect(TaxData.CompanyCarRate(2018, Car.DIESEL, 190), .37);
     });
 
 
@@ -1146,6 +1148,75 @@ void incomeTaxScotland2019(){
       earnings.income= 200000;
       expect(taxPosition.tax, 78042.50);
     });
+
+
+  });
+
+}
+
+void BIK_2018(){
+
+  Person person;
+  PersonalTaxPosition taxPosition;
+  Employment employment;
+  EmploymentIncome earnings;
+  CompanyCar car;
+
+  group('Benefits in kind 2018', ()
+  {
+
+    setUp(() {
+      person = new Person();
+      person.scotland = false;
+      employment = new Employment(person);
+      car = new CompanyCar();
+      employment.annualIncome.set(20000);
+      taxPosition = person.taxYear(2018);
+      earnings = employment.getIncome(taxPosition);
+    });
+
+
+    test('Basic tax position with no BIKS', () {
+      expect(taxPosition.tax, 1700);
+    });
+
+    test('car benefit', () {
+      employment.companyCars.add(car);
+
+      car
+      ..engineType = Car.PETROL
+        ..listPrice = 20000
+        ..CO2 = 130;
+
+     expect(car.benefit(taxPosition ), 5000);
+       car.madeAvailable = new Date(1,6,17);
+       expect(car.benefit(taxPosition ), 4232);
+      expect(earnings.income , 24232);
+
+      car.ceaseToBeAvailable = new Date(1,12,17);
+      expect(car.benefit(taxPosition ), 2520);
+      expect(earnings.income , 22520);
+
+      car.engineType = Car.DIESEL;
+      expect(car.benefit(taxPosition ), 2823);
+      expect(earnings.income , 22823);
+
+      car.CO2 = 200;
+      expect(car.benefit(taxPosition ), 3730);
+      expect(earnings.income , 23730);
+
+      car.CO2 = 40;
+      expect(car.benefit(taxPosition ), 1209);
+     expect(earnings.income , 21209);
+
+      car.engineType = Car.ELECTRIC;
+      expect(car.benefit(taxPosition ), 907);
+      expect(earnings.income , 20907);
+
+    });
+
+
+
 
 
   });

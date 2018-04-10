@@ -71,11 +71,11 @@ class PersonalTaxPosition extends TaxPosition{
   num capitalGainsTaxPayable ;
  
   num _tax = 0;
-  num _totalIncome;
+  num _totalIncomeAdjstedForSavings;
 
   num get totalIncome{
 
-    _totalIncome = 0;
+    _totalIncomeAdjstedForSavings = 0;
     savingsIncome = 0;
     earningsIncome =0;
     tradeIncome = 0;
@@ -88,7 +88,7 @@ class PersonalTaxPosition extends TaxPosition{
 
       Income inc = activity.getIncome(this);
 
-      _totalIncome += inc.income;
+      _totalIncomeAdjstedForSavings += inc.income;
 
       if(inc.activity is Employment) earningsIncome += inc.income;
       else if(inc.activity is Trade) tradeIncome += inc.income;
@@ -100,7 +100,7 @@ class PersonalTaxPosition extends TaxPosition{
 
     valid = true;
 
-    return _totalIncome;
+    return _totalIncomeAdjstedForSavings;
   }
   
   num get taxCredit {
@@ -175,6 +175,8 @@ class PersonalTaxPosition extends TaxPosition{
 
   num incomeTax() {
 
+
+
     // savings
     savingsAllowance = totalIncome > TaxData.PersonalAllowanceDefault(
         period.end.year,
@@ -208,11 +210,11 @@ class PersonalTaxPosition extends TaxPosition{
         savingsIncome - savingsAllowance -
             savingsNilRateBand);
 
-    _totalIncome = totalIncome - savingsIncome +
+    _totalIncomeAdjstedForSavings = totalIncome - savingsIncome +
         taxableSavingsIncome;
 
 
-    num nonDividendIncome = totalIncome - dividendIncome;
+    num nonDividendIncome = _totalIncomeAdjstedForSavings - dividendIncome;
 
     // calculate personal allowance
 

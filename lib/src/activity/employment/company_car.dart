@@ -12,7 +12,7 @@ class CompanyCar extends Car{
   //String model;
   //Date registered;
   //Date purchased;
-  //bool diesel = false;
+
   //num CO2;
   //num cost;
 
@@ -20,9 +20,9 @@ class CompanyCar extends Car{
   Date madeAvailable;
   Date ceaseToBeAvailable;
 
-
   num benefit(TaxPosition taxPosition){
-    num benefit = TaxData.CompanyCarRate(taxPosition.period.end.year, diesel, CO2) * listPrice;
+
+    num benefit = TaxData.CompanyCarRate(taxPosition.period.end.year, engineType, CO2) * listPrice;
 
     Date from = madeAvailable == null ? taxPosition.period.start : madeAvailable;
 
@@ -32,7 +32,7 @@ class CompanyCar extends Car{
 
     benefit = benefit * fraction;
 
-    return Utilities.roundIncome(benefit);
+    return benefit.toInt();
   }
 
 
