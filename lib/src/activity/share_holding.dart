@@ -4,7 +4,6 @@ import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class ShareHolding extends Activity{
   ShareHolding(Entity entity) : super(entity);

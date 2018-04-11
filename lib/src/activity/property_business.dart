@@ -46,7 +46,6 @@ class PropertyBusiness extends Activity{
 
     properties.forEach((property){
       property.disposal.date  = date + (-1);
-      property.disposal.consideration = (value as PropertyPorfolio).getValue(property);
 
       Property newProp;
 
@@ -55,8 +54,7 @@ class PropertyBusiness extends Activity{
 
       newProp
         ..setRent(property.getRent(date), date)
-        ..setInterst(property.getInterest(date), date)
-        ..acquisition.cost = (value as PropertyPorfolio).getValue(this);
+        ..setInterst(property.getInterest(date), date);
 
       newbusiness.properties.add(newProp);
 
@@ -65,7 +63,6 @@ class PropertyBusiness extends Activity{
     transferee.activities.add(newbusiness);
   }
 
-  @override
   PropertyIncome income(TaxPosition taxPosition) {
     PropertyIncome _income = new PropertyIncome(this, taxPosition);
 

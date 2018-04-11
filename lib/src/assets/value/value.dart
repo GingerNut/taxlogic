@@ -1,26 +1,12 @@
+import 'package:taxlogic/src/assets/value/valuation.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 
 
-abstract class Value{
-  num value = 0;
+class Value{
 
+  num value;
+  Date date;
 
-
-}
-
-class NilValue extends Value{
-
-
-}
-
-
-class PropertyPorfolio extends Value{
-
-
-
-
-  num getValue(property){
-
-    print('proerty portfolio value not completed');
-  }
+  Valuation valuation;
 
 }
