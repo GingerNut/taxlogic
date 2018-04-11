@@ -1,9 +1,10 @@
 import 'disposal.dart';
 import 'package:taxlogic/src/assets/value/value.dart';
+import 'package:taxlogic/src/utilities/date.dart';
 
 
 class ConnectedPartyTransfer extends Disposal{
-    ConnectedPartyTransfer(this.value);
+    ConnectedPartyTransfer(Date date, this.value) : super(date, value.value);
 
     Value value;
 

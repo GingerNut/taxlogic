@@ -26,4 +26,8 @@ class CreateIndividual extends Move{
     }
 
 
+    @override
+  String checkMove(Position test) {
+    return 'OK';
   }
+}

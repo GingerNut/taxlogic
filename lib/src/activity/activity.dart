@@ -73,6 +73,5 @@ abstract class Activity extends Asset{
 
   List<AccountingPeriod> accounts = new List();
 
-  transferToEntity(Date date, Entity transferee, Value value);
 
 }

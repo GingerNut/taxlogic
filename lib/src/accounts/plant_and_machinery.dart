@@ -1,6 +1,7 @@
 import '../assets/asset.dart';
 import 'capital_allowances.dart';
 import '../entities/entity.dart';
+import 'package:taxlogic/src/assets/disposal/disposal.dart';
 
 
 class PlantAndMachinery extends Asset with CapitalAllowances{
@@ -9,4 +10,8 @@ class PlantAndMachinery extends Asset with CapitalAllowances{
 
 
 
+  @override
+  transferTo(Entity entity, Disposal disposal) {
+    // TODO: implement transferTo
+  }
 }

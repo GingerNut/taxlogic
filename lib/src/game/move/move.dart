@@ -5,9 +5,9 @@ export 'package:taxlogic/src/game/move/employment/move_start_employment.dart';
 export 'package:taxlogic/src/game/move/employment/move_add_company_car.dart';
 export 'package:taxlogic/src/game/move/create_entity/move_create_individual.dart';
 export 'package:taxlogic/src/game/move/create_entity/move_create_company.dart';
-export 'move_transfer_activity.dart';
 export 'package:taxlogic/src/game/move/employment/move_end_employment.dart';
 export 'employment/move_payrise.dart';
+export 'property_business/buy_property.dart';
 
 abstract class Move{
   static const int RESIDENTIAL_PROPERTY_BUSINESS = 1;
@@ -17,7 +17,7 @@ abstract class Move{
 
   Move();
 
-  String checkMove(Position test) => 'OK';
+  String checkMove(Position position); // 'OK' means checks passed
 
-  doMove(Position newPosition);
+  doMove(Position position);
 }

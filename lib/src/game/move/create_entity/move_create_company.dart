@@ -26,4 +26,9 @@ class CreateCompany extends Move{
     }
 
 
+    @override
+  String checkMove(Position test) {
+
+    return 'OK';
   }
+}

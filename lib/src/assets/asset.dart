@@ -3,6 +3,7 @@ import 'acquisition/acquisition.dart';
 import 'disposal/disposal.dart';
 
 export 'vehicle.dart';
+export 'property.dart';
 
 abstract class Asset{
   final Entity entity;
@@ -11,7 +12,11 @@ abstract class Asset{
   String name;
   String description;
 
-  Acquisition acquisition = new Purchase();
-  Disposal disposal = new Sale();
+  Acquisition acquisition = new Purchase(null, 0);
+  Disposal disposal = new Sale(null, 0);
+
+
+
+  Asset transferTo(Entity transferee, Disposal disposal);
 
 }

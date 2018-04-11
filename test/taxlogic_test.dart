@@ -76,6 +76,30 @@ void game(){
         expect(taxPosition.earningsIncome, 26250);
 
     });
+    test('Property business ', () {
+
+      var property1 = new ResidentialProperty(null)
+      .. setRent(50000)
+          ..setInterest(30000);
+
+      game.makeMove(new CreateIndividual(person1birthday, person1id));
+      Person Harry = game.position.getEntityByName(person1id);
+      expect((Harry.activities.length), 0);
+
+      game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
+
+      PropertyBusiness propertyBusiness = Harry.activities[0];
+      PersonalTaxPosition taxPosition = Harry.taxYear(2018);
+      taxPosition.tax;
+
+      expect(Harry.assets.length  , 1);
+      expect((Harry.activities.length), 1);
+      expect(taxPosition.tax, 1700);
+
+
+
+    });
+
 
 
   });
@@ -628,7 +652,7 @@ void rateChange(){
       Date date2 = new Date(1,1,18);
       num amount2 = 15000;
 
-      property.setRent(amount1, date1);
+      property.changeRent(amount1, date1);
 
       Date start = new Date(1,1,17);
       Date end = new Date(31,12,17);
@@ -649,8 +673,8 @@ void rateChange(){
       Date date2 = new Date(1,1,18);
       num amount2 = 15000;
 
-      property.setRent(amount1, date1);
-      property.setRent(amount2, date2);
+      property.changeRent(amount1, date1);
+      property.changeRent(amount2, date2);
 
       Date start = new Date(1,7,17);
       Date end = new Date(30,6,18);

@@ -5,7 +5,7 @@ export 'purchase.dart';
 abstract class Acquisition{
 
   Date date;
-  num cost = 0;
+  num cost;
 
 
 

@@ -32,8 +32,8 @@ class LandlordStart extends Scenario{
     business.properties.add(property);
     business.name = 'Property portfolio';
 
-    property.setRent(projectedIncome, start);
-    property.setInterst(projectedFinanceCost, start);
+    property.changeRent(projectedIncome, start);
+    property.changeInterest(projectedFinanceCost, start);
 
     Date enddate = new Date (5,4,start.taxYear);
     Period period = new Period(start, enddate);

@@ -22,7 +22,7 @@ class RateHistory{
   }
 
   sort(){
-    print('need to add sort routine in RateHistory');
+    // TODO sort routine for RateHistory
   }
 
 

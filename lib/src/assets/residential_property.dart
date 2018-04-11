@@ -4,6 +4,7 @@ import '../entities/entity.dart';
 
 class ResidentialProperty extends Property{
 
+  bool mainHome = false;
 
 
   List<Period> _mainResidencePeriods = new List();

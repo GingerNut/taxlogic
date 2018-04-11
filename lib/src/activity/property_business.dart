@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/src/assets/property.dart';
 
 import 'package:taxlogic/src/activity/activity.dart';
@@ -36,16 +37,16 @@ class PropertyBusiness extends Activity{
   
   // TODO: implement duplicate
   @override
-  transferToEntity(Date date, Entity transferee, Value value) {
+  transferTo(Entity transferee, Disposal disposal) {
 
-    cessation = date + (-1);
+    cessation = disposal.date + (-1);
 
     PropertyBusiness newbusiness = new PropertyBusiness(transferee)
-    ..commencement = date
+    ..commencement = disposal.date
     ..name = name;
 
     properties.forEach((property){
-      property.disposal.date  = date + (-1);
+      property.disposal.date  = disposal.date + (-1);
 
       Property newProp;
 
@@ -53,8 +54,8 @@ class PropertyBusiness extends Activity{
       else newProp = new Property(transferee);
 
       newProp
-        ..setRent(property.getRent(date), date)
-        ..setInterst(property.getInterest(date), date);
+        ..changeRent(property.getRent(disposal.date), disposal.date)
+        ..changeInterest(property.getInterest(disposal.date), disposal.date);
 
       newbusiness.properties.add(newProp);
 
@@ -69,10 +70,13 @@ class PropertyBusiness extends Activity{
     properties.forEach((e){
       _income.income += e.rent(taxPosition.period);
     });
+
+
     return _income;
   }
 
   @override
   Income getNewIncome(TaxPosition taxPosition) => new PropertyIncome(this, taxPosition);
+
 
 }
