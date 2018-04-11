@@ -1,7 +1,7 @@
 import '../entities/entity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'package:taxlogic/src/activity/activity.dart';
-import 'value.dart';
+import 'acquisition/acquisition.dart';
+import 'disposal/disposal.dart';
 
 export 'car.dart';
 
@@ -11,9 +11,8 @@ abstract class Asset{
 
   String name;
   String description;
-  num cost = 0;
-  Date purchaseDate;
-  Date saleDate;
-  num proceeds = 0;
+
+  Acquisition acquisition = new Purchase();
+  Disposal disposal = new Sale();
 
 }

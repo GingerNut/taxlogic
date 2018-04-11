@@ -40,7 +40,7 @@ class ChargeableAsset extends Asset{
 
     if(_taxableGain != null) return _taxableGain;
 
-    num gain = proceeds - cost - totalImprovements;
+    num gain = disposal.consideration - acquisition.cost - totalImprovements;
 
     gain = adjustGain(gain);
 
@@ -50,7 +50,7 @@ class ChargeableAsset extends Asset{
 
     if(entity.type == Entity.COMPANY && _taxableGain > 0){
 
-      num indexation = min(TaxData.IndexationFactor(purchaseDate, saleDate) * cost, _taxableGain);
+      num indexation = min(TaxData.IndexationFactor(acquisition.date, disposal.date) * acquisition.cost, _taxableGain);
 
       _taxableGain -= indexation ;
 

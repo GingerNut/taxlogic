@@ -5,11 +5,13 @@ import 'person.dart';
 import 'partnership.dart';
 import 'company.dart';
 import 'trust.dart';
+import 'pension.dart';
 import '../tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 export 'company.dart';
 export 'person.dart';
+export 'pension.dart';
 
 abstract class Entity{
 
@@ -17,6 +19,7 @@ abstract class Entity{
   static const COMPANY = 1;
   static const PARTNERSHIP = 2;
   static const TRUST = 3;
+  static const PENSION = 4;
 
   String code;
   String name;
@@ -61,6 +64,9 @@ abstract class Entity{
 
       case Entity.TRUST: return new Trust();
         break;
+
+      case Entity.PENSION: return new Pension();
+      break;
     }
     return null;
   }

@@ -45,8 +45,8 @@ class PropertyBusiness extends Activity{
     ..name = name;
 
     properties.forEach((property){
-      property.saleDate  = date + (-1);
-      property.proceeds = (value as PropertyPorfolio).getValue(property);
+      property.disposal.date  = date + (-1);
+      property.disposal.consideration = (value as PropertyPorfolio).getValue(property);
 
       Property newProp;
 
@@ -56,7 +56,7 @@ class PropertyBusiness extends Activity{
       newProp
         ..setRent(property.getRent(date), date)
         ..setInterst(property.getInterest(date), date)
-        ..cost = (value as PropertyPorfolio).getValue(this);
+        ..acquisition.cost = (value as PropertyPorfolio).getValue(this);
 
       newbusiness.properties.add(newProp);
 

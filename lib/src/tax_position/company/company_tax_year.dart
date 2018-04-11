@@ -28,17 +28,6 @@ class CompanyTaxYear extends TaxPosition{
   }
 
 
-
-
-
-
-
-
-  @override
-  adjustPropertyProfit(IncomeAndExpenditureProperty accounts) {
-    // TODO: implement adjustPropertyProfit
-  }
-  // TODO: implement tax
   @override
   num get tax => null;
 }

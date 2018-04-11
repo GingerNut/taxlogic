@@ -31,14 +31,14 @@ class ResidentialProperty extends Property{
   }
 
   void setAllMainResidence(){
-    addResidencePeriod(new Period(purchaseDate, saleDate));
+    addResidencePeriod(new Period(acquisition.date, disposal.date));
     refreshGain();
   }
 
   num calculateMainResidenceRelief(num gain){
     if(_mainResidencePeriods.length ==0) return gain;
 
-    Period ownership = new Period(purchaseDate, saleDate);
+    Period ownership = new Period(acquisition.date, disposal.date);
 
     // if a loss cannot be allowable
 
@@ -60,7 +60,7 @@ class ResidentialProperty extends Property{
 
     // consolidate main residence periods to find length compared to ownership
 
-     _mainResidencePeriods.add(Period.monthsTo(saleDate, 18));
+     _mainResidencePeriods.add(Period.monthsTo(disposal.date, 18));
 
     List<Period> _nonOverlappingPeriods = Period.consolidatePeriods(_mainResidencePeriods);
 
