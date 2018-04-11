@@ -89,7 +89,10 @@ void game(){
       game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
 
       PropertyBusiness propertyBusiness = Harry.activities[0];
+
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
+      //print(propertyBusiness.properties[0].rent(taxPosition.period));
+
       taxPosition.tax;
 
       expect(Harry.assets.length  , 1);

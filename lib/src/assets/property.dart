@@ -42,6 +42,8 @@ class Property extends ChargeableAsset{
 
   num interest(Period period)=>_interestsDue.overallAmount(period);
 
+  num generalExpenses(Period period) => 0;  //TODO make this more satisfying
+
   @override
   transferTo(Entity transferee, Disposal disposal) {
     Property newProp = new Property(transferee)
@@ -59,13 +61,14 @@ class Property extends ChargeableAsset{
 
     if(business == null) {
       business = new PropertyBusiness(transferee);
-      transferee.activities.add(business);
     }
 
     business.properties.add(newProp);
 
-    this.disposal = disposal;
+    if(entity != null)this.disposal = disposal;
 
     return newProp;
   }
+
+
 }

@@ -1,25 +1,41 @@
+import 'package:taxlogic/src/accounts/accounting_period.dart';
+import 'package:taxlogic/src/accounts/income_and_expenditure.dart';
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
-import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
 
 class PropertyIncome extends Income{
-  PropertyIncome(Activity activity, TaxPosition taxPosition) : super(activity, taxPosition);
+  PropertyIncome(this.business, TaxPosition taxPosition) : super(business, taxPosition);
+
+  PropertyBusiness business;
 
   IncomeAndExpenditureProperty accounts;
 
   get income{
-    if(activity.accounts.length == 0) return 0;
 
-    activity.accounts.forEach((ap){
+    business.accounts.forEach((ap){
+
       if(taxPosition.period.includes(ap.period.end)) accounts = ap;
+
     });
+
+    if(accounts == null){  // create accounts from sources
+
+      accounts = new IncomeAndExpenditureProperty(taxPosition.period, business.entity);
+
+      business.properties.forEach((property){
+        accounts.add(new IncomeAccount(accounts.period.end, 'rent', property.rent(taxPosition.period)));
+        accounts.add(new Interest(accounts.period.end, 'interest', property.interest(taxPosition.period)));
+        accounts.add(new ExpenditureAccount(accounts.period.end, 'expenses', property.generalExpenses(taxPosition.period)));
+      });
+
+    }
 
     return accounts.profit;
   }

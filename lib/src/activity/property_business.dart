@@ -64,19 +64,8 @@ class PropertyBusiness extends Activity{
     transferee.activities.add(newbusiness);
   }
 
-  PropertyIncome income(TaxPosition taxPosition) {
-    PropertyIncome _income = new PropertyIncome(this, taxPosition);
-
-    properties.forEach((e){
-      _income.income += e.rent(taxPosition.period);
-    });
-
-
-    return _income;
-  }
-
   @override
-  Income getNewIncome(TaxPosition taxPosition) => new PropertyIncome(this, taxPosition);
+  PropertyIncome getNewIncome(TaxPosition taxPosition) => new PropertyIncome(this, taxPosition);
 
 
 }
