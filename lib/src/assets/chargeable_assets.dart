@@ -15,7 +15,6 @@ class ChargeableAsset extends Asset{
   num annualExemptionAllocated = 0;
   bool entrepreneurRelief = false;
   bool rolloverReliefAsset = false;
-  bool residentialProperty = false;
   bool exempt = false;
 
   ChargeableAsset(Entity entity) : super(entity);
@@ -81,6 +80,7 @@ class ChargeableAsset extends Asset{
   @override
   ChargeableAsset transferTo(Entity transferee, Disposal disposal){
   }
+
 }
 
 class Improvement{

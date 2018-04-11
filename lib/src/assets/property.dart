@@ -44,13 +44,20 @@ class Property extends ChargeableAsset{
 
   num generalExpenses(Period period) => 0;  //TODO make this more satisfying
 
+
+
+  Property getProperty(Entity entity) => new Property(entity);
+
   @override
   transferTo(Entity transferee, Disposal disposal) {
-    Property newProp = new Property(transferee)
+    Property newProp = getProperty(transferee)
         ..acquisition.date = disposal.date
         ..acquisition.cost = disposal.consideration
-        ..setRent(getRent(disposal.date))
-        ..setInterest(getInterest(disposal.date));
+        ..name = name
+        ..setRent(0)
+        ..setInterest(0)
+        ..changeRent(getRent(disposal.date), disposal.date)
+        ..changeInterest(getInterest(disposal.date), disposal.date);
     transferee.assets.add(newProp);
 
     PropertyBusiness business;
@@ -65,9 +72,13 @@ class Property extends ChargeableAsset{
 
     business.properties.add(newProp);
 
-    if(entity != null)this.disposal = disposal;
+    if(entity != null){
+      this.disposal = disposal;
+      changeRent(0, disposal.date);
+      changeInterest(0, disposal.date);
+        }
+      return newProp;
 
-    return newProp;
   }
 
 

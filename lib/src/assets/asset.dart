@@ -16,7 +16,6 @@ abstract class Asset{
   Disposal disposal = new Sale(null, 0);
 
 
-
   Asset transferTo(Entity transferee, Disposal disposal);
 
 }

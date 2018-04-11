@@ -6,6 +6,7 @@ import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
@@ -29,10 +30,23 @@ class PropertyIncome extends Income{
 
       accounts = new IncomeAndExpenditureProperty(taxPosition.period, business.entity);
 
+
+
       business.properties.forEach((property){
-        accounts.add(new IncomeAccount(accounts.period.end, 'rent', property.rent(taxPosition.period)));
-        accounts.add(new Interest(accounts.period.end, 'interest', property.interest(taxPosition.period)));
-        accounts.add(new ExpenditureAccount(accounts.period.end, 'expenses', property.generalExpenses(taxPosition.period)));
+
+        // adjust for period of ownership fo the property
+
+        Date start = property.acquisition.date == null ? taxPosition.period.start : property.acquisition.date;
+        if(start < taxPosition.period.start) start = taxPosition.period.start;
+
+        Date end = property.disposal.date == null ? taxPosition.period.end : property.disposal.date;
+        if(end > taxPosition.period.start) end = taxPosition.period.end;
+        Period common = new Period (start, end);
+
+        accounts.add(new IncomeAccount(accounts.period.end, 'rent', property.rent(common)));
+        accounts.add(new Interest(accounts.period.end, 'interest', property.interest(common)));
+        accounts.add(new ExpenditureAccount(accounts.period.end, 'expenses', property.generalExpenses(common)));
+
       });
 
     }

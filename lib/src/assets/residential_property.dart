@@ -10,10 +10,7 @@ class ResidentialProperty extends Property{
   List<Period> _mainResidencePeriods = new List();
   num residenceRelief;
 
-  ResidentialProperty(Entity entity) : super(entity){
-    residentialProperty = true;
-  }
-
+  ResidentialProperty(Entity entity) : super(entity);
 
   @override
   num adjustGain(num gain){
@@ -76,5 +73,6 @@ class ResidentialProperty extends Property{
       return gain - residenceRelief;
   }
 
+  ResidentialProperty getProperty(Entity entity) => new ResidentialProperty(entity);
 
 }

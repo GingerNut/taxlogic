@@ -71,4 +71,17 @@ abstract class Entity{
     return null;
   }
 
+  Property getAssetById(String name) {
+
+    Property named;
+
+    assets.forEach((e){
+      if(e.name == name && e is Property) named = e;
+    });
+
+    return named;
+
+
+  }
+
 }

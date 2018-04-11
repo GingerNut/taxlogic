@@ -8,6 +8,7 @@ export 'package:taxlogic/src/game/move/create_entity/move_create_company.dart';
 export 'package:taxlogic/src/game/move/employment/move_end_employment.dart';
 export 'employment/move_payrise.dart';
 export 'property_business/buy_property.dart';
+export 'property_business/sell_property.dart';
 
 abstract class Move{
   static const int RESIDENTIAL_PROPERTY_BUSINESS = 1;

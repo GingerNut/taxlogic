@@ -17,7 +17,7 @@ class IncomeAndExpenditure extends AccountingPeriod{
 
   IncomeAndExpenditure(Period period, Entity entity): super(period, entity){
 
-    if(period.end.month != 4 && period.end.day != 5)throw new StateError('only 5 April allowed in period');
+   // if(period.end.month != 4 && period.end.day != 5)throw new StateError('only 5 April allowed in period');
 
   }
 

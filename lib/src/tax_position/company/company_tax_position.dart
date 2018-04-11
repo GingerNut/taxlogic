@@ -1,6 +1,7 @@
 
 import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
@@ -20,11 +21,14 @@ class CompanyTaxPosition extends TaxPosition{
 
     _totalProfits = 0;
 
-    income.forEach((inc){
+    entity.activities.forEach( (activity) {
+
+      Income inc = activity.getIncome(this);
 
       _totalProfits += inc.income;
 
-    });
+    }  );
+
 
     incomeProfits = _totalProfits;
 

@@ -29,6 +29,7 @@ void game(){
     String person1id = 'Harry';
     Date person1birthday = new Date(21,9,62);
     String person2id = 'Gerry';
+    String company1Id = 'Company 1';
 
     String employment1id = 'Job';
     Game game;
@@ -76,6 +77,7 @@ void game(){
         expect(taxPosition.earningsIncome, 26250);
 
     });
+
     test('Property business ', () {
 
       var property1 = new ResidentialProperty(null)
@@ -88,18 +90,51 @@ void game(){
 
       game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
 
-      PropertyBusiness propertyBusiness = Harry.activities[0];
-
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
-      //print(propertyBusiness.properties[0].rent(taxPosition.period));
 
       taxPosition.tax;
-
-      expect(Harry.assets.length  , 1);
+      expect(Harry.assets.length, 1);
       expect((Harry.activities.length), 1);
       expect(taxPosition.tax, 1700);
 
+      game.makeMove(new CreateCompany(new Date(6,4,18), company1Id));
+      game.makeMove(new BuyRentalProperty(company1Id, property1, new Date(1,10,18), 500000));
 
+      Company company = game.position.getEntityByName(company1Id);
+
+      CompanyAccountingPeriod companyTaxPosition = company.accountingPeriod(company.defaultPeriod.end(2019));
+
+      expect(companyTaxPosition.tax, 1894.80);
+
+    });
+
+    test('Sale of property businesss ', () {
+
+      String propertyId = 'property';
+
+      var property1 = new ResidentialProperty(null)
+        ..name = propertyId
+        .. setRent(50000)
+        ..setInterest(30000);
+
+      game.makeMove(new CreateIndividual(person1birthday, person1id));
+      Person Harry = game.position.getEntityByName(person1id);
+      expect((Harry.activities.length), 0);
+
+      game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
+      game.makeMove(new CreateCompany(new Date(6,4,17), company1Id));
+      game.makeMove(new SellRentalProperty(person1id, company1Id, propertyId, new Date(1,10,17), 520000)); // £20k gain
+
+      PersonalTaxPosition taxPosition = Harry.taxYear(2018);
+      taxPosition.tax;
+
+      expect(Harry.assets.length, 1);
+      expect((Harry.activities.length), 1);
+      expect(taxPosition.tax, 1566); // cgt £1,566 at 18%
+
+      Company company = game.position.getEntityByName(company1Id);
+      CompanyAccountingPeriod companyTaxPosition = company.accountingPeriod(company.defaultPeriod.end(2018));
+      expect(companyTaxPosition.tax, 1894.80);
 
     });
 

@@ -1,5 +1,6 @@
 
 import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 class PeriodEnd{
   final int month;
@@ -18,4 +19,11 @@ class PeriodEnd{
 
   }
 
-}
+
+  Period end(int year) {
+
+    Date start = new Date(day, month, year-1) + 1;
+    Date end = new Date(day, month, year);
+
+    return new Period(start, end);
+  }}

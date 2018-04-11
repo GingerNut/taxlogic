@@ -139,9 +139,9 @@ class PersonalTaxPosition extends TaxPosition{
 
     allocateLosses();
 
-    _tax += capitalGainsTax();
+    _tax -= taxCredit.clamp(0,_tax);
 
-    _tax -= taxCredit.clamp(0,taxCredit);
+    _tax += capitalGainsTax();
 
     _tax -= taxDeducted;
 
@@ -502,7 +502,7 @@ class PersonalTaxPosition extends TaxPosition{
 
    disposals.forEach((asset){
       if(asset.taxableGain > 0){
-        if(asset.residentialProperty) residential.add(asset);
+        if(asset is ResidentialProperty) residential.add(asset);
         else if (asset.entrepreneurRelief) entrepreneur.add(asset);
         else nonResidential.add(asset);
       }
@@ -601,7 +601,7 @@ class PersonalTaxPosition extends TaxPosition{
 
     disposals.forEach((asset){
 
-      if(asset.residentialProperty){
+      if(asset is ResidentialProperty){
         cgtBasicRateRes += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
           cgtHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
@@ -615,7 +615,6 @@ class PersonalTaxPosition extends TaxPosition{
         }
 
       } else {
-
         cgtBasicRateNonRes += asset.basicRateAllocated;
         if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
           cgtHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
