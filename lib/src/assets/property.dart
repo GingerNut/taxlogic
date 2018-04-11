@@ -4,7 +4,7 @@ import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import '../entities/entity.dart';
 import 'package:taxlogic/src/utilities/rate_history.dart';
-import 'value.dart';
+import 'package:taxlogic/src/assets/value/value.dart';
 
 class Property extends ChargeableAsset{
   Property(Entity entity) : super(entity);

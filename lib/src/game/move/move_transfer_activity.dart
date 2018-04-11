@@ -4,7 +4,7 @@ import 'package:taxlogic/src/game/position/position.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import '../../entities/entity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import '../../assets/value.dart';
+import 'package:taxlogic/src/assets/value/value.dart';
 
 class TransferActivity extends Move{
   Date date;

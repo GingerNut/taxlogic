@@ -1,5 +1,5 @@
 import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/value.dart';
+import 'package:taxlogic/src/assets/value/value.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/utilities/date.dart';

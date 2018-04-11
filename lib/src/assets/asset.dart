@@ -3,7 +3,7 @@ import 'package:taxlogic/src/utilities/date.dart';
 import 'acquisition/acquisition.dart';
 import 'disposal/disposal.dart';
 
-export 'car.dart';
+export 'vehicle.dart';
 
 abstract class Asset{
   final Entity entity;

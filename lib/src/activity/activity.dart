@@ -4,7 +4,7 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import '../assets/value.dart';
+import 'package:taxlogic/src/assets/value/value.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'employment/employment.dart';
