@@ -6,18 +6,18 @@ import 'package:taxlogic/src/utilities/date.dart';
 class Dividend{
   num totalShares;
   final Date date;
-  final List<ShareHolding> shareholders;
+  final List<ShareHolding> shareholdings;
   final num amount;
 
-  Dividend(this.date, this.shareholders, this.amount){
+  Dividend(this.date, this.shareholdings, this.amount){
     totalShares = 0;
-    shareholders.forEach((sh)=> totalShares += sh.shares);
+    shareholdings.forEach((sh)=> totalShares += sh.shares);
   }
 
   num dividend(Entity entity) {
     ShareHolding holding;
 
-    shareholders.forEach((hold) {
+    shareholdings.forEach((hold) {
       if(hold.entity == entity) holding = hold;
     });
 

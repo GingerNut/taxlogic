@@ -10,28 +10,18 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class Company extends Entity{
-  Company(List<ShareHolding> shareholders){
+  Company(){
     type = Entity.COMPANY;
-    shareRegister = new ShareRegister(this, shareholders);
-  }
-
-  Company.unknown(){
-    type = Entity.COMPANY;
-    List<ShareHolding> shareholders = new List();
-    shareholders.add(new ShareHolding(this, new Unknown(), 1));
-    shareRegister = new ShareRegister(this, shareholders);
-  }
-
-  Company.whollyOwned(Entity entity){
-    type = Entity.COMPANY;
-    List<ShareHolding> shareholders = new List();
-    shareholders.add(new ShareHolding(this, entity, 1));
-    shareRegister = new ShareRegister(this, shareholders);
+    shareRegister = new ShareRegister(this);
   }
 
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
   ShareRegister shareRegister;
   List<Dividend> dividends = new List();
+
+  founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
+
+  addShareholder(Date date, Entity entity, num shares)=> shareRegister.addShareholder(date, entity, shares);
 
   payDividend(Date date, num amount) => dividends.add(new Dividend(date, shareRegister.getShareholdingsAt(date), amount));
 
@@ -41,10 +31,15 @@ class Company extends Entity{
     dividends.forEach((div){
       if(period.includes(div.date)){
 
+        div.shareholdings.forEach((holding){
+          if(holding.entity == entity){
+            dividend += holding.shares / div.totalShares * div.amount;
+          }
+        });
 
       }
     });
-
+    return dividend;
   }
 
   CompanyAccountingPeriod accountingPeriod(Period period){

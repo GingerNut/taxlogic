@@ -17,7 +17,7 @@ class CreateCompany extends Move{
   @override
   doMove(Position position) {
 
-    company = new Company.unknown()
+    company = new Company()
       ..name = name
     ..birth = date;
 

@@ -20,7 +20,7 @@ void main() {
   capitalGains();
   incomeAndExpenditure();
   corporationTax();
-  companyshares();
+  companySecretarial();
 }
 
 void game(){
@@ -522,7 +522,7 @@ void periods(){
 
     test('period collection ', () {
 
-      Company company = new Company.unknown();
+      Company company = new Company();
       
       Period one = new Period(new Date(1,7,2018), new Date(31,7,2018));
       Period two = new Period(new Date(1,8,2018), new Date(31,8,2018));
@@ -777,7 +777,7 @@ void taxdata(){
 
     setUp(() {
       individual = new Person();
-      company = new Company.unknown();
+      company = new Company();
 
     });
 
@@ -957,7 +957,7 @@ void incomeTaxEnglandDividend2018(){
   PersonalTaxPosition taxPosition;
   Income earnings;
   Income dividend;
-  Company company = new Company.whollyOwned(entity);
+  Company company = new Company();
 
   group('Income tax dividned 2018', ()
   {
@@ -971,7 +971,7 @@ void incomeTaxEnglandDividend2018(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(person,1);
+      ShareHolding investment = new ShareHolding(null, null, person,1);
       dividend = new Income(investment, taxPosition);
 
 
@@ -1079,7 +1079,7 @@ void incomeTaxEnglandSavings2018(){
       Employment employment = new Employment(person);
       earnings = employment.getIncome(taxPosition);
 
-      ShareHolding investment = new ShareHolding(person,1);
+      ShareHolding investment = new ShareHolding(null, null, person,1);
       dividend = investment.getIncome(taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1185,7 +1185,7 @@ void incomeTaxScotland2019(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(person,1);
+      ShareHolding investment = new ShareHolding(null, null, person,1);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1308,7 +1308,7 @@ void nationalInsuranceEarnings() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(person,1);
+      ShareHolding investment = new ShareHolding(null, null, person,1);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1391,7 +1391,7 @@ void nationalInsuranceTrade() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(person,1);
+      ShareHolding investment = new ShareHolding(null, null,person,1);
       dividend = new Income(investment, taxPosition);
       Savings deposit = new Savings(person);
       savings = new Income(deposit, taxPosition);
@@ -1456,7 +1456,7 @@ void capitalGains() {
      Employment employment = new Employment(person);
      earnings = new Income(employment, taxPosition);
 
-     ShareHolding investment = new ShareHolding(person,1);
+     ShareHolding investment = new ShareHolding(null, null, person,1);
      dividend = new Income(investment, taxPosition);
 
      Savings deposit = new Savings(person);
@@ -1864,7 +1864,7 @@ void capitalGains() {
     });
 
     test('Indexation for company gains', () {
-      Company company = new Company.unknown();
+      Company company = new Company();
 
       Investment asset01 = new Investment(company);
       asset01.disposal.consideration = 100000;
@@ -2066,7 +2066,7 @@ void incomeAndExpenditure(){
     });
 
     test('Residential property with interest deduction 2021 company', () {
-      Company company = new Company.unknown();
+      Company company = new Company();
       Date start = new Date (6,4,17);
       Date end = new Date(5,4,18);
 
@@ -2096,7 +2096,7 @@ void incomeAndExpenditure(){
     });
 
     test('Residential property with interest deduction 2021 company', () {
-      Company company = new Company.unknown();
+      Company company = new Company();
       Date start = new Date (6,4,17);
       Date end = new Date(5,4,18);
 
@@ -2174,7 +2174,7 @@ void corporationTax(){
  CompanyTaxPosition taxPosition;
 
   setUp(() {
-    company = new Company.unknown();
+    company = new Company();
 
     Date first = new Date(1,10,19);
     Date second = new Date(30,9,20);
@@ -2234,37 +2234,47 @@ void corporationTax(){
 
 }
 
-void companyshares(){
-
-
+void companySecretarial(){
 
   setUp(() {
-
 
   });
 
   group('Company shares ', (){
 
     test('dividend payment', () {
-
+      Company company = new Company();
       Person shareholder1; // 25%
       Person shareholder2; // 75%
 
       shareholder1 = new Person();
       shareholder2 = new Person();
 
-      ShareHolding shares1 = new ShareHolding(shareholder1, 25);
-      ShareHolding shares2 = new ShareHolding(shareholder2, 75);
+      company.founder(shareholder1, 25);
+      company.founder(shareholder2, 75);
 
-      List<ShareHolding> shareholdings = [shares1, shares2];
-
-      Company company = new Company(shareholdings);
+      company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 100000);
+      company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.dividends.length, 1);
+      expect(company.dividends.length, 3);
       expect(company.dividends[0].amount, 100000);
 
+      ShareHolding shareHolding1 = shareholder1.activities[0];
+      expect(shareHolding1.shares, 25);
 
+      ShareHolding shareHolding2 = shareholder2.activities[0];
+      expect(shareHolding2.shares, 75);
+
+      PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
+      taxPosition1.tax;
+      expect(taxPosition1.dividendIncome, 25000);
+      expect(taxPosition1.tax, 637.50);
+
+      PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
+      taxPosition2.tax;
+      expect(taxPosition2.dividendIncome, 75000);
+      expect(taxPosition2.tax, 11887.50);
 
     });
 

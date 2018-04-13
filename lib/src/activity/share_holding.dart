@@ -7,10 +7,11 @@ import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 class ShareHolding extends Activity{
-  ShareHolding(this.company, Entity entity, this.shares) : super(entity);
+  ShareHolding(this.company, this.date, Entity entity, this.shares) : super(entity);
 
+  Date date;
   Company company;
-  num shares;
+  int shares;
 
 
 
