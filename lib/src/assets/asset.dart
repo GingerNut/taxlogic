@@ -4,6 +4,7 @@ import 'disposal/disposal.dart';
 
 export 'vehicle.dart';
 export 'property.dart';
+export 'chargeable_assets.dart';
 
 abstract class Asset{
   final Entity entity;

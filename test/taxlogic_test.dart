@@ -2295,7 +2295,7 @@ void companySecretarial(){
 
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
-      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 100000));
+      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 50000));
 
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
@@ -2313,7 +2313,8 @@ void companySecretarial(){
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
       expect(taxPosition1.dividendIncome, 12500);  // 25% of first div
-      expect(taxPosition1.tax, 0);
+      expect(taxPosition1.capitalGainsTax(), 4490);
+      expect(taxPosition1.tax, 4490);
 
       PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
       taxPosition2.tax;
@@ -2362,7 +2363,7 @@ void companySecretarial(){
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
       expect(taxPosition1.dividendIncome, 12500);  // 25% of first div
-      expect(taxPosition1.tax, 0);
+      expect(taxPosition1.tax, 14490); // CGT on shares sale
 
       PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
       taxPosition2.tax;

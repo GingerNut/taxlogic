@@ -4,7 +4,6 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'package:taxlogic/src/assets/value/value.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'employment/employment.dart';
@@ -14,7 +13,7 @@ export 'share_holding.dart';
 export 'property_business.dart';
 export 'other.dart';
 
-abstract class Activity extends Asset{
+abstract class Activity extends ChargeableAsset{
   Activity(Entity entity): super(entity){
     entity.activities.add(this);
   }

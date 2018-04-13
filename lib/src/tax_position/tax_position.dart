@@ -1,6 +1,7 @@
 import 'dart:math';
 import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
+import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
 
@@ -34,10 +35,19 @@ abstract class TaxPosition{
   refreshDisposals() {
 
     disposals.clear();
+
     entity.assets.forEach((asset) {
       if(asset is ChargeableAsset && asset.disposal.date != null){
         if(period.includes(asset.disposal.date)){
           disposals.add(asset);
+        }
+      }
+    });
+
+    entity.activities.forEach((activity) {
+      if(activity is ShareHolding && activity.disposal.date != null){
+        if(period.includes(activity.disposal.date)){
+          disposals.add(activity);
         }
       }
     });
