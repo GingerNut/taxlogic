@@ -10,8 +10,6 @@ class DividendIncome extends Income{
 
   num automaticIncome(Period period) => shareholding.company.getDividend(period, taxPosition.entity);
 
-
-
 }
 
 

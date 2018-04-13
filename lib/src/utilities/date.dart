@@ -132,9 +132,14 @@ class Date{
 
   }
 
+  void printDate() => print(string());
 
+  String string() {
 
-  void printDate() => print('Date $day $month $year');
+    String string = 'Date $day $month $year';
+
+    return string;
+  }
 
 
 

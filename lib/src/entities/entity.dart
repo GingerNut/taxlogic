@@ -1,11 +1,7 @@
 import '../assets/asset.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'person.dart';
-import 'partnership.dart';
-import 'package:taxlogic/src/entities/company/company.dart';
-import 'trust.dart';
-import 'pension.dart';
+
 import '../tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';

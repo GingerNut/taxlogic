@@ -15,16 +15,42 @@ class ShareHolding extends Activity{
 
 
 
-  @override
-  transferToEntity(Date date, Entity transferee, Value value) {
-    // TODO: implement transferToEntity
-  }
 
   @override
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
 
-  @override
-  transferTo(Entity entity, Disposal disposal) {
-    // TODO: implement transferTo
+
+  ShareHolding partTransfer(Entity entity, number, Disposal disposal) {
+
+    ShareHolding part = company.shareRegister.getPartHolding(number);
+
+    // TODO share splits in share register
+
+
+    this.disposal.date = disposal.date;
+    this.disposal.consideration = disposal.consideration;
+
+    ShareHolding holding = company.transferShares(disposal.date, entity, this)
+      ..acquisition.date = date
+      ..acquisition.cost = disposal.consideration;
+
+    return holding;
   }
+
+  @override
+  ShareHolding transferTo(Entity entity, Disposal disposal) {
+
+      this.disposal.date = disposal.date;
+      this.disposal.consideration = disposal.consideration;
+
+      ShareHolding holding = company.transferShares(disposal.date, entity, this)
+        ..acquisition.date = date
+        ..acquisition.cost = disposal.consideration;
+
+     return holding;
+  }
+
+  String string() => 'Shareholding for ${entity.name} of ${shares} in ${company.name}';
+
+
 }

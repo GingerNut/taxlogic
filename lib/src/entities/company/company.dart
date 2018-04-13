@@ -19,9 +19,9 @@ class Company extends Entity{
   ShareRegister shareRegister;
   List<Dividend> dividends = new List();
 
-  founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
+  ShareHolding founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
 
-  addShareholder(Date date, Entity entity, num shares)=> shareRegister.addShareholder(date, entity, shares);
+  ShareHolding addShareholder(Date date, Entity entity, num shares)=> shareRegister.addShareholder(date, entity, shares);
 
   payDividend(Date date, num amount) => dividends.add(new Dividend(date, shareRegister.getShareholdingsAt(date), amount));
 
@@ -29,15 +29,7 @@ class Company extends Entity{
     num dividend = 0;
 
     dividends.forEach((div){
-      if(period.includes(div.date)){
-
-        div.shareholdings.forEach((holding){
-          if(holding.entity == entity){
-            dividend += holding.shares / div.totalShares * div.amount;
-          }
-        });
-
-      }
+      if(period.includes(div.date)) dividend += div.dividend(entity);
     });
     return dividend;
   }
@@ -117,6 +109,8 @@ class Company extends Entity{
   CompanyTaxPosition taxYear(int taxYearEnd) {
     // TODO: implement taxYear
   }
+
+  ShareHolding transferShares(Date date, Entity entity, ShareHolding shareHolding) => shareRegister.transferShares(date, entity, shareHolding);
 }
 
 

@@ -1,4 +1,5 @@
 import 'package:taxlogic/src/assets/asset.dart';
+import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -2250,14 +2251,14 @@ void companySecretarial(){
       shareholder1 = new Person();
       shareholder2 = new Person();
 
-      company.founder(shareholder1, 25);
-      company.founder(shareholder2, 75);
+      ShareHolding holding1 = company.founder(shareholder1, 25);
+      ShareHolding holding2 = company.founder(shareholder2, 75);
 
       company.payDividend(new Date(1,6,16), 100000);
-      company.payDividend(new Date(1,6,17), 100000);
+      company.payDividend(new Date(1,6,17), 50000);
+      company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.dividends.length, 3);
       expect(company.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
@@ -2277,6 +2278,106 @@ void companySecretarial(){
       expect(taxPosition2.tax, 11887.50);
 
     });
+
+    test('dividend with a transfer', () {
+      Company company = new Company()
+      .. name = 'company';
+      Person shareholder1; // 25%
+      Person shareholder2; // 75%
+      Person shareholder3; // receives later
+
+      shareholder1 = new Person()
+      .. name = "person 1";
+      shareholder2 = new Person()
+      .. name = 'perons 2';
+      shareholder3 = new Person()
+      .. name = 'person 3';
+
+      ShareHolding holding1 = company.founder(shareholder1, 25);
+      ShareHolding holding2 = company.founder(shareholder2, 75);
+      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 100000));
+
+      company.payDividend(new Date(1,6,16), 100000);
+      company.payDividend(new Date(1,6,17), 50000);
+      company.payDividend(new Date(1,9,17), 50000);
+      company.payDividend(new Date(1,6,18), 100000);
+
+      expect(company.dividends[0].amount, 100000);
+
+      ShareHolding shareHolding1 = shareholder1.activities[0];
+      expect(shareHolding1.shares, 25);
+
+      ShareHolding shareHolding2 = shareholder2.activities[0];
+      expect(shareHolding2.shares, 75);
+
+      PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
+      taxPosition1.tax;
+      expect(taxPosition1.dividendIncome, 12500);  // 25% of first div
+      expect(taxPosition1.tax, 0);
+
+      PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
+      taxPosition2.tax;
+      expect(taxPosition2.dividendIncome, 75000); // 75% of both divs
+      expect(taxPosition2.tax, 11887.50);
+
+      PersonalTaxPosition taxPosition3 = shareholder3.taxYear(2018);
+      taxPosition3.tax;
+      expect(taxPosition3.dividendIncome, 12500);  // 25% of second div
+      expect(taxPosition3.tax, 0);
+
+
+    });
+
+    test('dividend with a part transfer', () {
+      Company company = new Company()
+        .. name = 'company';
+      Person shareholder1; // 25%
+      Person shareholder2; // 75%
+      Person shareholder3; // receives later
+
+      shareholder1 = new Person()
+        .. name = "person 1";
+      shareholder2 = new Person()
+        .. name = 'perons 2';
+      shareholder3 = new Person()
+        .. name = 'person 3';
+
+      ShareHolding holding1 = company.founder(shareholder1, 25);
+      ShareHolding holding2 = company.founder(shareholder2, 75);
+      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 100000));
+
+      company.payDividend(new Date(1,6,16), 100000);
+      company.payDividend(new Date(1,6,17), 50000);
+      company.payDividend(new Date(1,9,17), 50000);
+      company.payDividend(new Date(1,6,18), 100000);
+
+      expect(company.dividends[0].amount, 100000);
+
+      ShareHolding shareHolding1 = shareholder1.activities[0];
+      expect(shareHolding1.shares, 25);
+
+      ShareHolding shareHolding2 = shareholder2.activities[0];
+      expect(shareHolding2.shares, 75);
+
+      PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
+      taxPosition1.tax;
+      expect(taxPosition1.dividendIncome, 12500);  // 25% of first div
+      expect(taxPosition1.tax, 0);
+
+      PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
+      taxPosition2.tax;
+      expect(taxPosition2.dividendIncome, 75000); // 75% of both divs
+      expect(taxPosition2.tax, 11887.50);
+
+      PersonalTaxPosition taxPosition3 = shareholder3.taxYear(2018);
+      taxPosition3.tax;
+      expect(taxPosition3.dividendIncome, 12500);  // 25% of second div
+      expect(taxPosition3.tax, 0);
+
+
+    });
+
+
 
 
 

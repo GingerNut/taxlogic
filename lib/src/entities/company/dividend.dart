@@ -1,6 +1,6 @@
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/entities/entity.dart';
-import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 class Dividend{
@@ -15,14 +15,13 @@ class Dividend{
   }
 
   num dividend(Entity entity) {
-    ShareHolding holding;
+    num dividend = 0;
 
     shareholdings.forEach((hold) {
-      if(hold.entity == entity) holding = hold;
+      if(hold.entity == entity) dividend += amount * hold.shares / totalShares;
     });
 
-   if(holding == null) return 0;
-   else return amount * holding.shares / totalShares;
+   return Utilities.roundIncome(dividend);
   }
 
 }
