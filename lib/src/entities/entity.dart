@@ -3,15 +3,17 @@ import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'person.dart';
 import 'partnership.dart';
-import 'company.dart';
+import 'package:taxlogic/src/entities/company/company.dart';
 import 'trust.dart';
 import 'pension.dart';
 import '../tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';
-export 'company.dart';
+
+export 'package:taxlogic/src/entities/company/company.dart';
 export 'person.dart';
 export 'pension.dart';
+export 'unknown.dart';
 
 abstract class Entity{
 
@@ -20,6 +22,7 @@ abstract class Entity{
   static const PARTNERSHIP = 2;
   static const TRUST = 3;
   static const PENSION = 4;
+  static const UNKNOWN = 5;
 
   String code;
   String name;
@@ -47,28 +50,6 @@ abstract class Entity{
 
     return named;
 
-  }
-
-
-  static Entity get(int type){
-    switch(type){
-
-      case Entity.INDIVIDUAL: return new Person();
-        break;
-
-      case Entity.COMPANY: return new Company();
-        break;
-
-      case Entity.PARTNERSHIP: return new Partnership();
-        break;
-
-      case Entity.TRUST: return new Trust();
-        break;
-
-      case Entity.PENSION: return new Pension();
-      break;
-    }
-    return null;
   }
 
   Property getAssetById(String name) {

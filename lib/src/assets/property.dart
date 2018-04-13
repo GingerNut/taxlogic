@@ -45,7 +45,6 @@ class Property extends ChargeableAsset{
   num generalExpenses(Period period) => 0;  //TODO make this more satisfying
 
 
-
   Property getProperty(Entity entity) => new Property(entity);
 
   @override

@@ -1,5 +1,7 @@
-import 'entity.dart';
+import '../entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/entities/company/dividend.dart';
+import 'package:taxlogic/src/entities/company/share_register.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import 'package:taxlogic/src/utilities/period.dart';
@@ -8,25 +10,42 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 
 class Company extends Entity{
-  Company(){
+  Company(List<ShareHolding> shareholders){
     type = Entity.COMPANY;
+    shareRegister = new ShareRegister(this, shareholders);
+  }
 
-    trade = new Trade(this);
-    investment = new ShareHolding(this);
-    savings = new Savings(this);
-    propertyBusiness = new PropertyBusiness(this);
-    other = new Other(this);
+  Company.unknown(){
+    type = Entity.COMPANY;
+    List<ShareHolding> shareholders = new List();
+    shareholders.add(new ShareHolding(this, new Unknown(), 1));
+    shareRegister = new ShareRegister(this, shareholders);
+  }
 
+  Company.whollyOwned(Entity entity){
+    type = Entity.COMPANY;
+    List<ShareHolding> shareholders = new List();
+    shareholders.add(new ShareHolding(this, entity, 1));
+    shareRegister = new ShareRegister(this, shareholders);
   }
 
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
+  ShareRegister shareRegister;
+  List<Dividend> dividends = new List();
 
-  Trade trade;
-  ShareHolding investment;
-  Savings savings;
-  PropertyBusiness propertyBusiness;
-  Other other;
+  payDividend(Date date, num amount) => dividends.add(new Dividend(date, shareRegister.getShareholdingsAt(date), amount));
 
+  getDividend(Period period, Entity entity){
+    num dividend = 0;
+
+    dividends.forEach((div){
+      if(period.includes(div.date)){
+
+
+      }
+    });
+
+  }
 
   CompanyAccountingPeriod accountingPeriod(Period period){
 
@@ -94,7 +113,6 @@ class Company extends Entity{
 
 
 
-
   @override
   PeriodCollection getTaxPeriods(Period period) {
     // TODO: implement getTaxPeriods
@@ -105,3 +123,6 @@ class Company extends Entity{
     // TODO: implement taxYear
   }
 }
+
+
+

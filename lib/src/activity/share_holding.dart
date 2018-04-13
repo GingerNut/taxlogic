@@ -7,7 +7,10 @@ import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 class ShareHolding extends Activity{
-  ShareHolding(Entity entity) : super(entity);
+  ShareHolding(this.company, Entity entity, this.shares) : super(entity);
+
+  Company company;
+  num shares;
 
 
 
@@ -17,7 +20,7 @@ class ShareHolding extends Activity{
   }
 
   @override
-  Income getNewIncome(TaxPosition taxPosition) => new Income(this, taxPosition);
+  DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
 
   @override
   transferTo(Entity entity, Disposal disposal) {

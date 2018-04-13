@@ -17,7 +17,7 @@ class CreateIndividual extends Move{
   @override
   doMove(Position position) {
 
-    person = Entity.get(Entity.INDIVIDUAL)
+    person = new Person()
       ..name = name
     ..birth = date;
 

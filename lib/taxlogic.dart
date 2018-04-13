@@ -18,7 +18,7 @@ export 'src/assets/residential_property.dart';
 export 'package:taxlogic/src/utilities/tax_year.dart';
 export 'src/accounts/income_and_expenditure.dart';
 export 'src/accounts/rental_income_and_expenditure.dart';
-export 'src/entities/company.dart';
+export 'package:taxlogic/src/entities/company/company.dart';
 export 'src/data/tax_data.dart';
 export 'package:taxlogic/src/utilities/rate_history.dart';
 export 'src/game/game.dart';

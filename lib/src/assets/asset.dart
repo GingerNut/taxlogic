@@ -18,4 +18,6 @@ abstract class Asset{
 
   Asset transferTo(Entity transferee, Disposal disposal);
 
+
+
 }

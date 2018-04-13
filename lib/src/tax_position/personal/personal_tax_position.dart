@@ -83,7 +83,6 @@ class PersonalTaxPosition extends TaxPosition{
     otherIncome = 0;
     propertyIncome = 0;
 
-
     person.activities.forEach( (activity) {
 
       Income inc = activity.getIncome(this);
@@ -170,7 +169,6 @@ class PersonalTaxPosition extends TaxPosition{
     basicRateDividend = 0;
     higherRateDividend = 0;
     additionalRateDividend = 0;
-
   }
 
   num incomeTax() {

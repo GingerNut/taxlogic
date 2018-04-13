@@ -17,7 +17,7 @@ class CreateCompany extends Move{
   @override
   doMove(Position position) {
 
-    company = Entity.get(Entity.COMPANY)
+    company = new Company.unknown()
       ..name = name
     ..birth = date;
 

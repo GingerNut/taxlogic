@@ -20,12 +20,11 @@ class EmploymentIncome extends Income{
   }
 
 
-  num get income {
-    if(manualSet) return manualSetIncome;
+  num automaticIncome(Period period) {
 
-    num income = activity.annualIncome.overallAmount(taxPosition.period);
+    num income = activity.annualIncome.overallAmount(period);
 
-    if (employment.termination != null && taxPosition.period.includes(employment.termination.date)) {
+    if (employment.termination != null && period.includes(employment.termination.date)) {
       income += employment.termination.amount;
     }
 

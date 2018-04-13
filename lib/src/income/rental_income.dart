@@ -18,29 +18,27 @@ class PropertyIncome extends Income{
 
   IncomeAndExpenditureProperty accounts;
 
-  get income{
+  num automaticIncome (Period period){
 
     business.accounts.forEach((ap){
 
-      if(taxPosition.period.includes(ap.period.end)) accounts = ap;
+      if(period.includes(ap.period.end)) accounts = ap;
 
     });
 
     if(accounts == null){  // create accounts from sources
 
-      accounts = new IncomeAndExpenditureProperty(taxPosition.period, business.entity);
-
-
+      accounts = new IncomeAndExpenditureProperty(period, business.entity);
 
       business.properties.forEach((property){
 
         // adjust for period of ownership fo the property
 
-        Date start = property.acquisition.date == null ? taxPosition.period.start : property.acquisition.date;
-        if(start < taxPosition.period.start) start = taxPosition.period.start;
+        Date start = property.acquisition.date == null ? period.start : property.acquisition.date;
+        if(start < period.start) start = period.start;
 
-        Date end = property.disposal.date == null ? taxPosition.period.end : property.disposal.date;
-        if(end > taxPosition.period.start) end = taxPosition.period.end;
+        Date end = property.disposal.date == null ? period.end : property.disposal.date;
+        if(end > period.start) end = period.end;
         Period common = new Period (start, end);
 
         accounts.add(new IncomeAccount(accounts.period.end, 'rent', property.rent(common)));
