@@ -3,61 +3,48 @@ import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
-
 class ShareRegister{
   final Company company;
 
   ShareRegister(this.company);
 
-  List<ShareHolding> shares = new List();
-  List<ShareHolderChange> changes = new List();
+  List<Entity> shareholders = new List();
 
+  ShareHolding shareholding(Entity entity){
 
-  List<ShareHolding> getShareholdingsAt(Date date){
-    List<ShareHolding> holdingsAt = new List();
+    ShareHolding shareHolding;
 
-    shares.forEach((sh) {
-      if(sh.date == null || sh.date < date || sh.date == date)
-        holdingsAt.add(sh);
+    entity.activities.forEach((activity){
+      if(activity is ShareHolding){
+        if(activity.company == company) shareHolding = activity;
+      }
     });
 
-    changes.forEach((change){
+    if(shareHolding == null) {
+      shareHolding = new ShareHolding(company, null, entity); //this.company, this.date, Entity entity, this.shares
+      shareholders.add(entity);
+    }
 
-      if(change.date == null || change.date < date || change.date == date)
+      return shareHolding;
 
-        if(change.type == ShareHolderChange.SHARE_TRANSFER){
-
-          ShareHolding remove;
-
-          while(remove == null){
-
-            holdingsAt.forEach((holding){
-
-              if(holding.entity == change.oldEntity){
-                remove = holding;
-              }
-
-            });
-
-            if(remove != null) holdingsAt.remove(remove);
-          }
-
-        }
-    });
-
-    return holdingsAt;
   }
 
+  List<ShareHolderChange> changes = new List();
+
   ShareHolding founder(Entity entity, int number) {
-    ShareHolding holding = new ShareHolding(company, null, entity, number);
-    shares.add(holding);
+    ShareHolding holding = shareholding(entity);
+
+    holding.set(number);
+
     return holding;
   }
 
 
   ShareHolding addShareholder(Date date, Entity entity, int number){
-    ShareHolding holding = new ShareHolding(company, date, entity, number);
-    shares.add(holding);
+    ShareHolding holding = shareholding(entity)
+    ..date = date;
+
+    holding.addShares(number, date);
 
       changes.add(
         new ShareHolderChange(ShareHolderChange.SHARE_ISSUE, date)
@@ -70,14 +57,14 @@ class ShareRegister{
   }
 
   ShareHolding transferShares(Date date, Entity entity, ShareHolding shareHolding) {
-    ShareHolding holding = new ShareHolding(company, date, entity, shareHolding.shares);
-    shares.add(holding);
+    ShareHolding holding = shareholding(entity)
+     ..date = date;
+
 
     changes.add(
         new ShareHolderChange(ShareHolderChange.SHARE_TRANSFER, date)
           ..newEntity = entity
           ..oldEntity = shareHolding.entity
-          ..shares = shareHolding.shares
 
     );
 
@@ -86,13 +73,12 @@ class ShareRegister{
   }
 
   printRegister(Date date){
-    List<ShareHolding> holdings = getShareholdingsAt(date);
 
     String string = 'Shareregister at ' + date.string() +  '\n';
 
-    holdings.forEach((holding){
+    shareholders.forEach((holder){
 
-      string += '${holding.entity.name}  ${holding.shares} \n' ;
+      string += '${holder.name}  ${shareholding(holder).sharesAt(date)} \n' ;
 
     });
 

@@ -972,7 +972,7 @@ void incomeTaxEnglandDividend2018(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person,1);
+      ShareHolding investment = new ShareHolding(null, null, person);
       dividend = new Income(investment, taxPosition);
 
 
@@ -1080,7 +1080,7 @@ void incomeTaxEnglandSavings2018(){
       Employment employment = new Employment(person);
       earnings = employment.getIncome(taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person,1);
+      ShareHolding investment = new ShareHolding(null, null, person);
       dividend = investment.getIncome(taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1186,7 +1186,7 @@ void incomeTaxScotland2019(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person,1);
+      ShareHolding investment = new ShareHolding(null, null, person);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1309,7 +1309,7 @@ void nationalInsuranceEarnings() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person,1);
+      ShareHolding investment = new ShareHolding(null, null, person);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1392,7 +1392,7 @@ void nationalInsuranceTrade() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null,person,1);
+      ShareHolding investment = new ShareHolding(null, null,person);
       dividend = new Income(investment, taxPosition);
       Savings deposit = new Savings(person);
       savings = new Income(deposit, taxPosition);
@@ -1457,7 +1457,7 @@ void capitalGains() {
      Employment employment = new Employment(person);
      earnings = new Income(employment, taxPosition);
 
-     ShareHolding investment = new ShareHolding(null, null, person,1);
+     ShareHolding investment = new ShareHolding(null, null, person);
      dividend = new Income(investment, taxPosition);
 
      Savings deposit = new Savings(person);
@@ -2262,7 +2262,7 @@ void companySecretarial(){
       expect(company.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
-      expect(shareHolding1.shares, 25);
+      expect(shareHolding1.sharesAt(null), 25);
 
       ShareHolding shareHolding2 = shareholder2.activities[0];
       expect(shareHolding2.shares, 75);

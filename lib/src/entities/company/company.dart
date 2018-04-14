@@ -1,6 +1,7 @@
 import '../entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/entities/company/dividend.dart';
+import 'package:taxlogic/src/entities/company/share_capital.dart';
 import 'package:taxlogic/src/entities/company/share_register.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
@@ -13,22 +14,26 @@ class Company extends Entity{
   Company(){
     type = Entity.COMPANY;
     shareRegister = new ShareRegister(this);
+    ordinaryShares = new OrdinaryShares(this);
+    shareCapital.add(ordinaryShares);
   }
+
+  OrdinaryShares ordinaryShares;
+  List<ShareCapital> shareCapital = new List();
 
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
   ShareRegister shareRegister;
-  List<Dividend> dividends = new List();
 
   ShareHolding founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
 
   ShareHolding addShareholder(Date date, Entity entity, num shares)=> shareRegister.addShareholder(date, entity, shares);
 
-  payDividend(Date date, num amount) => dividends.add(new Dividend(date, shareRegister.getShareholdingsAt(date), amount));
+  payDividend(Date date, num amount) => ordinaryShares.dividend(date, amount);
 
   getDividend(Period period, Entity entity){
     num dividend = 0;
 
-    dividends.forEach((div){
+    ordinaryShares.dividends.forEach((div){
       if(period.includes(div.date)) dividend += div.dividend(entity);
     });
     return dividend;

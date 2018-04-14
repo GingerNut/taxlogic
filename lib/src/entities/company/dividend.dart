@@ -1,25 +1,27 @@
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/entities/company/share_capital.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
-
+import 'share_capital.dart';
 
 class Dividend{
   num totalShares;
+  ShareCapital shareCapital;
+
   final Date date;
-  final List<ShareHolding> shareholdings;
   final num amount;
 
-  Dividend(this.date, this.shareholdings, this.amount){
+  Dividend(this.shareCapital, this.date,this.amount){
     totalShares = 0;
-    shareholdings.forEach((sh)=> totalShares += sh.shares);
+    shareCapital.shareholders.forEach((sh)=> totalShares += shareCapital.company.shareRegister.shareholding(sh).sharesAt(date));
   }
 
   num dividend(Entity entity) {
     num dividend = 0;
 
-    shareholdings.forEach((hold) {
-      if(hold.entity == entity) dividend += amount * hold.shares / totalShares;
-    });
+    int holding = shareCapital.company.shareRegister.shareholding(entity).sharesAt(date);
+
+    dividend += amount * holding / totalShares;
 
    return Utilities.roundIncome(dividend);
   }

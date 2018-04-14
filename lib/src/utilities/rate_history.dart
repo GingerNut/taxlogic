@@ -1,8 +1,11 @@
+import 'package:taxlogic/src/utilities/history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
-class RateHistory{
+
+
+class RateHistory extends History{
   RateHistory(this.history);
 
   RateHistory.empty(){
@@ -131,7 +134,7 @@ class RateHistory{
 
 }
 
-class RateChange{
+class RateChange extends Change{
   final Date date;
   final num rate;
 

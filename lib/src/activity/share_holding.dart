@@ -1,20 +1,24 @@
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
-import 'package:taxlogic/src/assets/value/value.dart';
+import 'package:taxlogic/src/entities/company/share_history.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 class ShareHolding extends Activity{
-  ShareHolding(this.company, this.date, Entity entity, this.shares) : super(entity);
+  ShareHolding(this.company, this.date, Entity entity) : super(entity);
 
   Date date;
   Company company;
-  int shares;
 
+  ShareHistory _shareHistory = new ShareHistory();
 
+  int sharesAt(Date date) => _shareHistory.rateAt(date);
 
+  void set(int number) => _shareHistory.set(number);
+
+  addShares(int number, Date date) => _shareHistory.add(new ShareChange(date, number));
 
   @override
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
@@ -50,7 +54,9 @@ class ShareHolding extends Activity{
      return holding;
   }
 
-  String string() => 'Shareholding for ${entity.name} of ${shares} in ${company.name}';
+  String string(Date date) => 'Shareholding for ${entity.name} of ${sharesAt(date)} in ${company.name}';
+
+
 
 
 }
