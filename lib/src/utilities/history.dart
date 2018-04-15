@@ -36,7 +36,7 @@ abstract class History<T>{
 
     int i = 1;
 
-    while(i < history.length && !(history[i].threshold > threshold)){
+    while(i < history.length && !(history[i].date > threshold)){
 
       rate = get(i).amount;
 
@@ -47,13 +47,13 @@ abstract class History<T>{
 
   Date lastChange(Date threshold){
 
-    Date lastDate = history[0].threshold;
+    Date lastDate = history[0].date;
 
     int i = 1;
 
-    while(i < history.length && history[i].threshold < threshold){
+    while(i < history.length && history[i].date < threshold){
 
-      lastDate = history[i].threshold;
+      lastDate = history[i].date;
 
       i++;
     }
@@ -66,11 +66,11 @@ abstract class History<T>{
 
     int i = 0;
 
-    while(i < history.length && !(history[i].threshold > date)) {
+    while(i < history.length && !(history[i].date > date)) {
       i++;
     }
 
-    if(i < history.length) return history[i].threshold;
+    if(i < history.length) return history[i].date;
 
     return null;
   }
@@ -79,9 +79,9 @@ abstract class History<T>{
 }
 
 abstract class Change<T>{
-  Change(this.threshold, this.amount);
+  Change(this.date, this.amount);
 
-    final Date threshold;
+    final Date date;
     final T  amount;
 
 }

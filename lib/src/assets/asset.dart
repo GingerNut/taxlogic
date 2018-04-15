@@ -13,7 +13,7 @@ abstract class Asset{
   String name;
   String description;
 
-  Acquisition acquisition = new Purchase(null, 0);
+  Acquisition acquisition;
   Disposal disposal = new Sale(null, 0);
 
 

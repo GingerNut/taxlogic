@@ -3,24 +3,21 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
-class ShareHistory extends RateHistory{
-
-
+class ShareHistory extends History<int>{
 
 
 
   @override
-  Date getZero() => new Date(31,3,82);
+  Date getZero() => new Date(1,1,1900);
 
   @override
-  ShareChange newChange(Date date, dynamic number) {
-    return new ShareChange(date, number);
-  }
+  ShareChange newChange(Date date, int number) => new ShareChange(date, number);
+
+  @override
+  setNil()=> set(0);
 }
 
 
-class ShareChange extends Change{
-  ShareChange(Date date, num number) : super(date, number);
-
-
+class ShareChange extends Change<int>{
+  ShareChange(Date date, int number) : super(date, number);
 }

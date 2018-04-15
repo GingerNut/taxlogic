@@ -1,4 +1,5 @@
 import '../data/tax_data.dart';
+import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
@@ -17,7 +18,10 @@ class ChargeableAsset extends Asset{
   bool rolloverReliefAsset = false;
   bool exempt = false;
 
-  ChargeableAsset(Entity entity) : super(entity);
+  ChargeableAsset(Entity entity) : super(entity){
+    acquisition = new Purchase(this, null, 0);
+    disposal = new Sale(null, 0);
+  }
 
   List<Improvement> _improvements = new List();
   List<ChargeableAsset> disposals = new List();
