@@ -24,7 +24,7 @@ abstract class History<T>{
 
   Change newChange(Date threshold, T  amount);
 
-  Date getZero();
+  Date getZero() => new Date(1,1,1900);
 
   sort(){
     // TODO sort routine for RateHistory

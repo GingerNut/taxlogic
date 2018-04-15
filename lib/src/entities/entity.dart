@@ -1,5 +1,6 @@
 import '../assets/asset.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/residence/residence_history.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 import '../tax_position/tax_position.dart';
@@ -32,6 +33,8 @@ abstract class Entity{
   List<Entity> children = new List();
   List<Asset> assets = new List();
   List<Activity> activities = new List();
+
+  ResidenceHistory residence = new ResidenceHistory();
 
   TaxPosition taxYear(int taxYearEnd);
 
