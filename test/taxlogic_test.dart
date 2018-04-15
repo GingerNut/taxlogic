@@ -2404,6 +2404,58 @@ void companySecretarial(){
 
     });
 
+    test('dividend with a partial transfer', () {
+      Company company = new Company()
+        .. name = 'company';
+      Person shareholder1; // 50%
+      Person shareholder2; // 50%
+      Person shareholder3; // receives later
+
+      shareholder1 = new Person()
+        .. name = "person 1";
+      shareholder2 = new Person()
+        .. name = 'perons 2';
+      shareholder3 = new Person()
+        .. name = 'person 3';
+      
+      String ords = company.ordinaryShares.name.valueAt(null);
+
+      Date before = new Date(1,5,17);
+      Date after = new Date(1,10,17);
+
+      ShareHolding holding1 = company.founder(shareholder1, 50);
+      ShareHolding holding2 = company.founder(shareholder2, 50);
+
+      ShareHolding holding3 = holding1.partDisposalTo(shareholder3, 25, new Sale(new Date(1,8,17), 0));
+
+      expect(holding1.sharesAt(ords, before), 50);
+      expect(holding2.sharesAt(ords, before), 50);
+
+      expect(holding1.sharesAt(ords, after), 25);
+      expect(holding2.sharesAt(ords, after), 50);
+      expect(holding3.sharesAt(ords, after), 25);
+      
+      company.payDividend(new Date(1,6,17), 100000);
+      company.payDividend(new Date(1,9,17), 100000);
+
+      expect(company.ordinaryShares.dividends[0].amount, 100000);
+
+      PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
+      taxPosition1.tax;
+      expect(taxPosition1.dividendIncome, 75000);  //50% of £100k plus 25% of £100k
+      expect(taxPosition1.tax, 11887.50);
+
+      PersonalTaxPosition taxPosition2 = shareholder2.taxYear(2018);
+      taxPosition2.tax;
+      expect(taxPosition2.dividendIncome, 100000); //50% of £100k plus 50% of £100k
+      expect(taxPosition2.tax, 20012.50);
+
+      PersonalTaxPosition taxPosition3 = shareholder3.taxYear(2018);
+      taxPosition3.tax;
+      expect(taxPosition3.dividendIncome, 25000);  //25% of £100k
+      expect(taxPosition3.tax, 637.50);
+
+    });
 
 
 

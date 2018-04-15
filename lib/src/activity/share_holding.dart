@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/src/entities/company/share_history.dart';
@@ -30,7 +32,29 @@ class ShareHolding extends Activity{
   @override
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
 
+  partDisposalTo(Entity newEntity, int amountSold, Disposal disposal){
 
+    num originalHolding = sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date);
+    amountSold = amountSold.clamp(0, originalHolding);
+
+    ShareHolding holding = company.addShareholder(disposal.date,
+        newEntity,
+        shareCapital,
+        amountSold)
+      ..acquisition.date = disposal.date
+      ..acquisition.cost = disposal.consideration;
+
+    this.disposal.date = disposal.date;
+    this.disposal.consideration = disposal.consideration;
+    this.addShares(
+        originalHolding - amountSold,
+        disposal.date);
+
+
+
+    return holding;
+
+  }
 
   @override
   ShareHolding transferTo(Entity newEntity, Disposal disposal) {
@@ -45,15 +69,8 @@ class ShareHolding extends Activity{
       return holding;
   }
 
-  String string(Date date) {
+  String string(Date date) => 'Shareholding for ${entity.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
 
-
-      return 'Shareholding for ${entity.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
-
-
-
-
-  }
 
 
 
