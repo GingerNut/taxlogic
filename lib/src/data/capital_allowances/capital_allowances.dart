@@ -4,7 +4,7 @@ import 'package:taxlogic/src/utilities/rate_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 
 class CapitalAllowances{
-  static RateHistory individual_AIA = new RateHistory([
+  static RateHistory individual_AIA = new RateHistory.fromList([
     new RateChange(new Date(6,4,08),50000),
     new RateChange(new Date(6,4,10),100000),
     new RateChange(new Date(6,4,12),25000),
@@ -13,7 +13,7 @@ class CapitalAllowances{
     new RateChange(new Date(1,1,16),200000),
   ]);
 
-  static RateHistory company_AIA = new RateHistory([
+  static RateHistory company_AIA = new RateHistory.fromList([
     new RateChange(new Date(1,4,08),50000),
     new RateChange(new Date(1,4,10),100000),
     new RateChange(new Date(1,4,12),25000),

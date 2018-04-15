@@ -561,7 +561,7 @@ void periods(){
 
 void rateChange(){
 
-  RateHistory history = new RateHistory([
+  RateHistory history = new RateHistory.fromList([
     new RateChange(new Date(6,4,08),50000),
     new RateChange(new Date(6,4,10),100000),
     new RateChange(new Date(6,4,12),25000),
@@ -727,7 +727,7 @@ void rateChange(){
 
     test('Test default amount  ', () {
 
-      RateHistory history = new RateHistory.empty();
+      RateHistory history = new RateHistory();
       history.set(5000);
 
       Date test = new Date(21,9,62);
@@ -2259,13 +2259,13 @@ void companySecretarial(){
       company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.dividends[0].amount, 100000);
+      expect(company.ordinaryShares.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
       expect(shareHolding1.sharesAt(null), 25);
 
       ShareHolding shareHolding2 = shareholder2.activities[0];
-      expect(shareHolding2.shares, 75);
+      expect(shareHolding2.sharesAt(null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
@@ -2302,13 +2302,20 @@ void companySecretarial(){
       company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.dividends[0].amount, 100000);
+      expect(company.ordinaryShares.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
-      expect(shareHolding1.shares, 25);
-
       ShareHolding shareHolding2 = shareholder2.activities[0];
-      expect(shareHolding2.shares, 75);
+      ShareHolding shareHolding3 = shareholder3.activities[0];
+      expect(shareHolding1.sharesAt(null), 25);
+      expect(shareHolding2.sharesAt(null), 75);
+      expect(shareHolding3.sharesAt(null), 0);
+
+      expect(shareHolding1.sharesAt(new Date(1,9,17)), 0);
+      expect(shareHolding2.sharesAt(new Date(1,9,17)), 75);
+      expect(shareHolding3.sharesAt(new Date(1,9,17)), 25);
+
+      expect(shareHolding2.sharesAt(null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
@@ -2352,13 +2359,13 @@ void companySecretarial(){
       company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.dividends[0].amount, 100000);
+      expect(company.ordinaryShares.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
-      expect(shareHolding1.shares, 25);
+      expect(shareHolding1.sharesAt(null), 25);
 
       ShareHolding shareHolding2 = shareholder2.activities[0];
-      expect(shareHolding2.shares, 75);
+      expect(shareHolding2.sharesAt(null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;

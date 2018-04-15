@@ -1,4 +1,3 @@
-import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/entities/company/share_capital.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
@@ -12,11 +11,15 @@ class Dividend{
   final num amount;
 
   Dividend(this.shareCapital, this.date,this.amount){
+    if(shareCapital.shareholders.length == 0) throw 'unable to pay dividend as the company as no shareholders';
+
     totalShares = 0;
     shareCapital.shareholders.forEach((sh)=> totalShares += shareCapital.company.shareRegister.shareholding(sh).sharesAt(date));
+
   }
 
   num dividend(Entity entity) {
+
     num dividend = 0;
 
     int holding = shareCapital.company.shareRegister.shareholding(entity).sharesAt(date);

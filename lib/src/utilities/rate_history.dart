@@ -1,78 +1,15 @@
 import 'package:taxlogic/src/utilities/history.dart';
+import 'package:taxlogic/src/utilities/history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
-class RateHistory extends History{
-  RateHistory(this.history);
+class RateHistory extends History<Date>{
+  RateHistory() : super();
 
-  RateHistory.empty(){
-    this.history = new List<RateChange>();
-  }
-
-  List<RateChange> history;
-
-  add(RateChange change){
-    history.add(change);
-  }
-
-  set (num amount){
-    history.add(new RateChange(new Date(1,1,1990), amount));
-
-    sort();
-  }
-
-  sort(){
-    // TODO sort routine for RateHistory
-  }
-
-
-  num rateAt(Date date){
-    num rate = history[0].rate;
-
-    int i = 1;
-
-    while(i < history.length && !(history[i].date > date)){
-
-        rate = history[i].rate;
-
-      i++;
-      }
-    return rate;
-  }
-
-  Date lastChange(Date date){
-
-    Date lastDate = history[0].date;
-
-    int i = 1;
-
-    while(i < history.length && history[i].date < date){
-
-        lastDate = history[i].date;
-
-      i++;
-    }
-    return lastDate;
-
-
-  }
-
-  Date nextChange(Date date){
-
-    int i = 0;
-
-    while(i < history.length && !(history[i].date > date)) {
-      i++;
-    }
-
-    if(i < history.length) return history[i].date;
-
-    return null;
-  }
-
+  RateHistory.fromList(List<RateChange> history) : super.fromList(history);
 
   List<RatePeriod> getRatePeriods(Period period){
     List<RatePeriod> periods = new List();
@@ -99,7 +36,6 @@ class RateHistory extends History{
 
     return periods;
   }
-
 
   num overallAmount(Period period){
     if(history.length ==0) return 0;
@@ -132,13 +68,14 @@ class RateHistory extends History{
   }
 
 
+  Date getZero() => new Date(1,1,90);
+
+  Change newChange(Date date, num amount) => new RateChange(date, amount);
 }
 
-class RateChange extends Change{
-  final Date date;
-  final num rate;
+class RateChange extends Change<Date>{
 
-  RateChange(this.date, this.rate);
+  RateChange(Date date, num rate) : super(date, rate);
 
 }
 

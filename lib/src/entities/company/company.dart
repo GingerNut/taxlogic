@@ -14,7 +14,7 @@ class Company extends Entity{
   Company(){
     type = Entity.COMPANY;
     shareRegister = new ShareRegister(this);
-    ordinaryShares = new OrdinaryShares(this);
+    ordinaryShares = new OrdinaryShares(this, 'Ordinary');
     shareCapital.add(ordinaryShares);
   }
 

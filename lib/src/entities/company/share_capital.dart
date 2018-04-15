@@ -6,15 +6,14 @@ export 'ordinary_share.dart';
 
 
 abstract class ShareCapital{
-  ShareCapital(this.company);
+  ShareCapital(this.company, this.name);
 
   final Company company;
-
   String name;
   num par;
   int totalIssued;
 
-  List<Entity> shareholders;
+  List<Entity> shareholders = new List();
   List<Dividend> dividends = new List();
 
   Dividend dividend(Date date, num amount){

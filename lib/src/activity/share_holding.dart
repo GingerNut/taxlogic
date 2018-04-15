@@ -14,7 +14,11 @@ class ShareHolding extends Activity{
 
   ShareHistory _shareHistory = new ShareHistory();
 
-  int sharesAt(Date date) => _shareHistory.rateAt(date);
+  int sharesAt(Date date) {
+
+    if(date == null ) date = new Date(31,3,82);
+   return _shareHistory.rateAt(date);
+  }
 
   void set(int number) => _shareHistory.set(number);
 
@@ -24,39 +28,45 @@ class ShareHolding extends Activity{
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
 
 
-  ShareHolding partTransfer(Entity entity, number, Disposal disposal) {
-
-    ShareHolding part = company.shareRegister.getPartHolding(number);
-
-    // TODO share splits in share register
-
-
-    this.disposal.date = disposal.date;
-    this.disposal.consideration = disposal.consideration;
-
-    ShareHolding holding = company.transferShares(disposal.date, entity, this)
-      ..acquisition.date = date
-      ..acquisition.cost = disposal.consideration;
-
-    return holding;
-  }
 
   @override
-  ShareHolding transferTo(Entity entity, Disposal disposal) {
+  ShareHolding transferTo(Entity newEntity, Disposal disposal) {
+      ShareHolding holding = company.addShareholder(disposal.date, newEntity, sharesAt(disposal.date + 1))
+        ..acquisition.date = disposal.date
+        ..acquisition.cost = disposal.consideration;
 
       this.disposal.date = disposal.date;
       this.disposal.consideration = disposal.consideration;
+      this.addShares(0, disposal.date);
 
-      ShareHolding holding = company.transferShares(disposal.date, entity, this)
-        ..acquisition.date = date
-        ..acquisition.cost = disposal.consideration;
-
-     return holding;
+      return holding;
   }
 
-  String string(Date date) => 'Shareholding for ${entity.name} of ${sharesAt(date)} in ${company.name}';
+  String string(Date date) {
+
+
+      'Shareholding for ${entity.name} of ${sharesAt(date)} ${name} shares in ${company.name}';
 
 
 
+
+  }
+
+
+
+
+}
+
+class ShareHistoryByType{
+
+  String name;
+
+  ShareHistory _shareHistory = new ShareHistory();
+
+  int sharesAt(Date date) => _shareHistory.rateAt(date);
+
+  void set(int number) => _shareHistory.set(number);
+
+  addShares(int number, Date date) => _shareHistory.add(new ShareChange(date, number));
 
 }

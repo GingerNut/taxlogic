@@ -31,7 +31,7 @@ abstract class Activity extends ChargeableAsset{
   num taxableIncome = 0;
   num lossAvailable = 0;
 
-  RateHistory annualIncome = new RateHistory.empty();
+  RateHistory annualIncome = new RateHistory();
 
   List<Income> incomeHistory = new List();
 

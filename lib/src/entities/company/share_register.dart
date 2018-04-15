@@ -36,6 +36,8 @@ class ShareRegister{
 
     holding.set(number);
 
+    company.ordinaryShares.shareholders.add(entity);
+
     return holding;
   }
 
@@ -45,6 +47,9 @@ class ShareRegister{
     ..date = date;
 
     holding.addShares(number, date);
+
+    company.ordinaryShares.shareholders.add(entity);
+
 
       changes.add(
         new ShareHolderChange(ShareHolderChange.SHARE_ISSUE, date)

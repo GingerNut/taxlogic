@@ -12,8 +12,8 @@ class Property extends ChargeableAsset{
   Property(Entity entity) : super(entity);
   List<Accounts> accounts = new List();
 
-  RateHistory _rentsDue = new RateHistory.empty();
-  RateHistory _interestsDue = new RateHistory.empty();
+  RateHistory _rentsDue = new RateHistory();
+  RateHistory _interestsDue = new RateHistory();
 
   void changeRent(num amount, Date date){
     _rentsDue.add(new RateChange(date, amount));

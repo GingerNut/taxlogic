@@ -3,7 +3,7 @@ import 'share_capital.dart';
 
 
 class OrdinaryShares extends ShareCapital{
-  OrdinaryShares(Company company) : super(company);
+  OrdinaryShares(Company company, String name) : super(company, name);
 
 
 
