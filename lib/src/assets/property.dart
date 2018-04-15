@@ -31,11 +31,11 @@ class Property extends ChargeableAsset{
   }
 
   num getRent(Date date){
-    return _rentsDue.rateAt(date);
+    return _rentsDue.valueAt(date);
   }
 
   num getInterest(Date date){
-    return _interestsDue.rateAt(date);
+    return _interestsDue.valueAt(date);
   }
 
   num rent(Period period)=>_rentsDue.overallAmount(period);

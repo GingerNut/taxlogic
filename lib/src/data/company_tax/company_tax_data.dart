@@ -11,7 +11,7 @@ abstract class CompanyTaxData{
   ]);
 
 
-  static num getMainRate(Date date)=> companyMainRate.rateAt(date);
+  static num getMainRate(Date date)=> companyMainRate.valueAt(date);
 
   static List<RatePeriod> getRatePeriods(Period period)=> companyMainRate.getRatePeriods(period);
 

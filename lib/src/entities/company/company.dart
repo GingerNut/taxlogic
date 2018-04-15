@@ -10,6 +10,8 @@ import 'package:taxlogic/src/utilities/period_end.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 
+export'share_capital.dart';
+
 class Company extends Entity{
   Company(){
     type = Entity.COMPANY;
@@ -26,7 +28,7 @@ class Company extends Entity{
 
   ShareHolding founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
 
-  ShareHolding addShareholder(Date date, Entity entity, num shares)=> shareRegister.addShareholder(date, entity, shares);
+  ShareHolding addShareholder(Date date, Entity entity, ShareCapital shareCapital, num shares)=> shareRegister.addShareholder(date, entity, shareCapital, shares);
 
   payDividend(Date date, num amount) => ordinaryShares.dividend(date, amount);
 

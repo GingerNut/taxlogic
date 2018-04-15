@@ -7,7 +7,7 @@ void main() {
   game();
   dates();
   periods();
-  rateChange();
+  histories();
   rateTable();
   taxdata();
   incomeTaxEngland2017();
@@ -47,9 +47,9 @@ void game(){
       Person person = game.position.getEntityByName(person1id);
 
       expect(person.taxYear(2018).tax, 5678.08);
-      expect(person.activities[0].annualIncome.rateAt(new Date(6,4,17)), 0);
-      expect(person.activities[0].annualIncome.rateAt(new Date(5,10,17)), 0);
-      expect(person.activities[0].annualIncome.rateAt(new Date(6,10,17)), 80000);
+      expect(person.activities[0].annualIncome.valueAt(new Date(6,4,17)), 0);
+      expect(person.activities[0].annualIncome.valueAt(new Date(5,10,17)), 0);
+      expect(person.activities[0].annualIncome.valueAt(new Date(6,10,17)), 80000);
 
       expect(person.taxYear(2019).earningsIncome , 80000);
 
@@ -559,7 +559,7 @@ void periods(){
 
 }
 
-void rateChange(){
+void histories(){
 
   RateHistory history = new RateHistory.fromList([
     new RateChange(new Date(6,4,08),50000),
@@ -606,7 +606,7 @@ void rateChange(){
 
     test('Rate at date ', () {
 
-      expect(history.rateAt(new Date(1,1,14)), 250000);
+      expect(history.valueAt(new Date(1,1,14)), 250000);
 
 
     });
@@ -732,7 +732,21 @@ void rateChange(){
 
       Date test = new Date(21,9,62);
 
-      expect(history.rateAt(test), 5000);
+      expect(history.valueAt(test), 5000);
+
+    });
+
+    test('name change  ', () {
+
+      NameHistory history = new NameHistory();
+      history.set('hello');
+      history.add(new NameChange(new Date(1,1,17), 'goodbye'));
+
+      Date test = new Date(21,9,62);
+      Date test2 = new Date(2,1,17);
+
+      expect(history.valueAt(test), 'hello');
+      expect(history.valueAt(test2), 'goodbye');
 
     });
 
@@ -972,7 +986,7 @@ void incomeTaxEnglandDividend2018(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person);
+      ShareHolding investment = new ShareHolding(null, null, null, person);
       dividend = new Income(investment, taxPosition);
 
 
@@ -1080,7 +1094,7 @@ void incomeTaxEnglandSavings2018(){
       Employment employment = new Employment(person);
       earnings = employment.getIncome(taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person);
+      ShareHolding investment = new ShareHolding(null, null, null, person);
       dividend = investment.getIncome(taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1186,7 +1200,7 @@ void incomeTaxScotland2019(){
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person);
+      ShareHolding investment = new ShareHolding(null, null, null, person);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1309,7 +1323,7 @@ void nationalInsuranceEarnings() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null, person);
+      ShareHolding investment = new ShareHolding(null, null, null, person);
       dividend = new Income(investment, taxPosition);
 
       Savings deposit = new Savings(person);
@@ -1392,7 +1406,7 @@ void nationalInsuranceTrade() {
       Employment employment = new Employment(person);
       earnings = new Income(employment, taxPosition);
 
-      ShareHolding investment = new ShareHolding(null, null,person);
+      ShareHolding investment = new ShareHolding(null, null, null,person);
       dividend = new Income(investment, taxPosition);
       Savings deposit = new Savings(person);
       savings = new Income(deposit, taxPosition);
@@ -1457,7 +1471,7 @@ void capitalGains() {
      Employment employment = new Employment(person);
      earnings = new Income(employment, taxPosition);
 
-     ShareHolding investment = new ShareHolding(null, null, person);
+     ShareHolding investment = new ShareHolding(null, null, null, person);
      dividend = new Income(investment, taxPosition);
 
      Savings deposit = new Savings(person);
@@ -2248,6 +2262,8 @@ void companySecretarial(){
       Person shareholder1; // 25%
       Person shareholder2; // 75%
 
+      String name = company.ordinaryShares.name.valueAt(null);
+
       shareholder1 = new Person();
       shareholder2 = new Person();
 
@@ -2262,10 +2278,10 @@ void companySecretarial(){
       expect(company.ordinaryShares.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
-      expect(shareHolding1.sharesAt(null), 25);
+      expect(shareHolding1.sharesAt(name, null), 25);
 
       ShareHolding shareHolding2 = shareholder2.activities[0];
-      expect(shareHolding2.sharesAt(null), 75);
+      expect(shareHolding2.sharesAt(name, null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
@@ -2296,6 +2312,7 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
       holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 50000));
+      String name = company.ordinaryShares.name.valueAt(null);
 
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
@@ -2307,15 +2324,15 @@ void companySecretarial(){
       ShareHolding shareHolding1 = shareholder1.activities[0];
       ShareHolding shareHolding2 = shareholder2.activities[0];
       ShareHolding shareHolding3 = shareholder3.activities[0];
-      expect(shareHolding1.sharesAt(null), 25);
-      expect(shareHolding2.sharesAt(null), 75);
-      expect(shareHolding3.sharesAt(null), 0);
+      expect(shareHolding1.sharesAt(name, null), 25);
+      expect(shareHolding2.sharesAt(name, null), 75);
+      expect(shareHolding3.sharesAt(name, null), 0);
 
-      expect(shareHolding1.sharesAt(new Date(1,9,17)), 0);
-      expect(shareHolding2.sharesAt(new Date(1,9,17)), 75);
-      expect(shareHolding3.sharesAt(new Date(1,9,17)), 25);
+      expect(shareHolding1.sharesAt(name, new Date(1,9,17)), 0);
+      expect(shareHolding2.sharesAt(name, new Date(1,9,17)), 75);
+      expect(shareHolding3.sharesAt(name, new Date(1,9,17)), 25);
 
-      expect(shareHolding2.sharesAt(null), 75);
+      expect(shareHolding2.sharesAt(name, null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;
@@ -2354,6 +2371,8 @@ void companySecretarial(){
       ShareHolding holding2 = company.founder(shareholder2, 75);
       holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 100000));
 
+      String name = company.ordinaryShares.name.valueAt(null);
+
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
       company.payDividend(new Date(1,9,17), 50000);
@@ -2362,10 +2381,10 @@ void companySecretarial(){
       expect(company.ordinaryShares.dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
-      expect(shareHolding1.sharesAt(null), 25);
+      expect(shareHolding1.sharesAt(name, null), 25);
 
       ShareHolding shareHolding2 = shareholder2.activities[0];
-      expect(shareHolding2.sharesAt(null), 75);
+      expect(shareHolding2.sharesAt(name, null), 75);
 
       PersonalTaxPosition taxPosition1 = shareholder1.taxYear(2018);
       taxPosition1.tax;

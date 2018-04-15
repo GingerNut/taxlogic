@@ -13,7 +13,7 @@ class ShareHistory extends History<Date>{
   Date getZero() => new Date(31,3,82);
 
   @override
-  ShareChange newChange(Date date, num number) {
+  ShareChange newChange(Date date, dynamic number) {
     return new ShareChange(date, number);
   }
 }

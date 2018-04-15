@@ -10,7 +10,7 @@ class ShareRegister{
 
   List<Entity> shareholders = new List();
 
-  ShareHolding shareholding(Entity entity){
+  ShareHolding shareholding(Entity entity, ShareCapital shareCapital){
 
     ShareHolding shareHolding;
 
@@ -21,7 +21,7 @@ class ShareRegister{
     });
 
     if(shareHolding == null) {
-      shareHolding = new ShareHolding(company, null, entity); //this.company, this.date, Entity entity, this.shares
+      shareHolding = new ShareHolding(company, shareCapital, null, entity); //this.company, this.date, Entity entity, this.shares
       shareholders.add(entity);
     }
 
@@ -32,7 +32,7 @@ class ShareRegister{
   List<ShareHolderChange> changes = new List();
 
   ShareHolding founder(Entity entity, int number) {
-    ShareHolding holding = shareholding(entity);
+    ShareHolding holding = shareholding(entity, company.ordinaryShares);
 
     holding.set(number);
 
@@ -42,8 +42,8 @@ class ShareRegister{
   }
 
 
-  ShareHolding addShareholder(Date date, Entity entity, int number){
-    ShareHolding holding = shareholding(entity)
+  ShareHolding addShareholder(Date date, Entity entity, ShareCapital shareCapital, int number){
+    ShareHolding holding = shareholding(entity, shareCapital)
     ..date = date;
 
     holding.addShares(number, date);
@@ -62,7 +62,7 @@ class ShareRegister{
   }
 
   ShareHolding transferShares(Date date, Entity entity, ShareHolding shareHolding) {
-    ShareHolding holding = shareholding(entity)
+    ShareHolding holding = shareholding(entity, shareHolding.shareCapital)
      ..date = date;
 
 
@@ -83,7 +83,7 @@ class ShareRegister{
 
     shareholders.forEach((holder){
 
-      string += '${holder.name}  ${shareholding(holder).sharesAt(date)} \n' ;
+      //string += '${holder.name}  ${shareholding(holder).sharesAt(date)} \n' ;
 
     });
 

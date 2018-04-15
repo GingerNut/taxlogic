@@ -13,13 +13,13 @@ abstract class History<T>{
     history.add(change);
   }
 
-  set (num amount){
+  set (dynamic amount){
     history.add(newChange(getZero(), amount));
 
     sort();
   }
 
-  Change newChange(T threshold, num amount);
+  Change newChange(T threshold, dynamic amount);
 
   T getZero();
 
@@ -27,9 +27,9 @@ abstract class History<T>{
     // TODO sort routine for RateHistory
   }
 
-  num rateAt(T threshold){
+  dynamic valueAt(T threshold){
 
-    num rate = get(0).amount;
+    dynamic rate = get(0).amount;
 
     int i = 1;
 
@@ -79,7 +79,7 @@ abstract class Change<T>{
   Change(this.threshold, this.amount);
 
     final T threshold;
-    final num amount;
-
+    final dynamic amount;
 
 }
+

@@ -25,11 +25,11 @@ class CapitalAllowances{
   static num getAIA(Date date, Entity entity){
     if(entity.type == Entity.COMPANY){
 
-      return company_AIA.rateAt(date);
+      return company_AIA.valueAt(date);
 
     } else {
 
-      return individual_AIA.rateAt(date);
+      return individual_AIA.valueAt(date);
 
     }
 

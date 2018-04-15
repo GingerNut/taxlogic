@@ -7,17 +7,20 @@ import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 class ShareHolding extends Activity{
-  ShareHolding(this.company, this.date, Entity entity) : super(entity);
+  ShareHolding(this.company, this.shareCapital, this.date, Entity entity) : super(entity);
 
   Date date;
   Company company;
+  ShareCapital shareCapital;
 
   ShareHistory _shareHistory = new ShareHistory();
 
-  int sharesAt(Date date) {
+  int sharesAt(String name, Date date) {
+
+    if(shareCapital.name.valueAt(date) != name) return 0;
 
     if(date == null ) date = new Date(31,3,82);
-   return _shareHistory.rateAt(date);
+   return _shareHistory.valueAt(date);
   }
 
   void set(int number) => _shareHistory.set(number);
@@ -31,7 +34,7 @@ class ShareHolding extends Activity{
 
   @override
   ShareHolding transferTo(Entity newEntity, Disposal disposal) {
-      ShareHolding holding = company.addShareholder(disposal.date, newEntity, sharesAt(disposal.date + 1))
+      ShareHolding holding = company.addShareholder(disposal.date, newEntity, shareCapital, sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date + 1))
         ..acquisition.date = disposal.date
         ..acquisition.cost = disposal.consideration;
 
@@ -45,7 +48,7 @@ class ShareHolding extends Activity{
   String string(Date date) {
 
 
-      'Shareholding for ${entity.name} of ${sharesAt(date)} ${name} shares in ${company.name}';
+      return 'Shareholding for ${entity.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
 
 
 
@@ -63,7 +66,7 @@ class ShareHistoryByType{
 
   ShareHistory _shareHistory = new ShareHistory();
 
-  int sharesAt(Date date) => _shareHistory.rateAt(date);
+  int sharesAt(Date date) => _shareHistory.valueAt(date);
 
   void set(int number) => _shareHistory.set(number);
 

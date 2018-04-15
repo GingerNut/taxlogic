@@ -14,7 +14,7 @@ class Dividend{
     if(shareCapital.shareholders.length == 0) throw 'unable to pay dividend as the company as no shareholders';
 
     totalShares = 0;
-    shareCapital.shareholders.forEach((sh)=> totalShares += shareCapital.company.shareRegister.shareholding(sh).sharesAt(date));
+    shareCapital.shareholders.forEach((sh)=> totalShares += shareCapital.company.shareRegister.shareholding(sh, shareCapital).sharesAt(shareCapital.name.valueAt(date), date));
 
   }
 
@@ -22,7 +22,7 @@ class Dividend{
 
     num dividend = 0;
 
-    int holding = shareCapital.company.shareRegister.shareholding(entity).sharesAt(date);
+    int holding = shareCapital.company.shareRegister.shareholding(entity, shareCapital).sharesAt(shareCapital.name.valueAt(date), date);
 
     dividend += amount * holding / totalShares;
 

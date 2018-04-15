@@ -6,10 +6,12 @@ export 'ordinary_share.dart';
 
 
 abstract class ShareCapital{
-  ShareCapital(this.company, this.name);
+  ShareCapital(this.company, String shareName){
+    name.set(shareName);
+  }
 
   final Company company;
-  String name;
+  NameHistory name = new NameHistory();
   num par;
   int totalIssued;
 
