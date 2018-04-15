@@ -3,7 +3,7 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
-class ShareHistory extends History<Date>{
+class ShareHistory extends RateHistory{
 
 
 

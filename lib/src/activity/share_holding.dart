@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/src/entities/company/share_history.dart';
+import 'package:taxlogic/src/entities/company/share_pool,dart.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
@@ -14,6 +15,8 @@ class ShareHolding extends Activity{
   Date date;
   Company company;
   ShareCapital shareCapital;
+
+  SharePool sharePool;
 
   ShareHistory _shareHistory = new ShareHistory();
 

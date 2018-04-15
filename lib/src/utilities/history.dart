@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 abstract class History<T>{
@@ -9,27 +10,29 @@ abstract class History<T>{
   Change get(int index) => history[index];
 
   add(Change change){
-    if(history.length == 0) set(0);
+    if(history.length == 0) setNil();
     history.add(change);
   }
 
-  set (dynamic amount){
+  set (T  amount){
     history.add(newChange(getZero(), amount));
 
     sort();
   }
 
-  Change newChange(T threshold, dynamic amount);
+  setNil();
 
-  T getZero();
+  Change newChange(Date threshold, T  amount);
+
+  Date getZero();
 
   sort(){
     // TODO sort routine for RateHistory
   }
 
-  dynamic valueAt(T threshold){
+  T valueAt(Date threshold){
 
-    dynamic rate = get(0).amount;
+    T  rate = get(0).amount;
 
     int i = 1;
 
@@ -42,9 +45,9 @@ abstract class History<T>{
     return rate;
   }
 
-  T lastChange(T threshold){
+  Date lastChange(Date threshold){
 
-    T lastDate = history[0].threshold;
+    Date lastDate = history[0].threshold;
 
     int i = 1;
 
@@ -59,7 +62,7 @@ abstract class History<T>{
 
   }
 
-  T nextChange(T date){
+  Date nextChange(Date date){
 
     int i = 0;
 
@@ -78,8 +81,8 @@ abstract class History<T>{
 abstract class Change<T>{
   Change(this.threshold, this.amount);
 
-    final T threshold;
-    final dynamic amount;
+    final Date threshold;
+    final T  amount;
 
 }
 
