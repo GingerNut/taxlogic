@@ -1,5 +1,6 @@
 import 'package:taxlogic/src/assets/asset.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -2311,7 +2312,16 @@ void companySecretarial(){
 
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
-      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 50000));
+
+      ShareTransaction transaction = new ShareTransaction()
+      ..numberOfShares = 25
+        .. date = new Date(1,8,17)
+        ..seller = holding1.entity
+        ..buyer = shareholder3
+        ..consideration = 50000;
+
+
+      holding1.transfer(transaction);
       String name = company.ordinaryShares.name.valueAt(null);
 
       company.payDividend(new Date(1,6,16), 100000);
@@ -2369,7 +2379,16 @@ void companySecretarial(){
 
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
-      holding1.transferTo(shareholder3, new Sale(new Date(1,8,17), 100000));
+
+      ShareTransaction transaction = new ShareTransaction()
+      ..numberOfShares = 25
+      .. date = new Date(1,8,17)
+      ..seller = holding1.entity
+      ..buyer = shareholder3
+      ..consideration = 100000;
+
+
+      holding1.transfer(transaction);
 
       String name = company.ordinaryShares.name.valueAt(null);
 
@@ -2426,7 +2445,15 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 50);
       ShareHolding holding2 = company.founder(shareholder2, 50);
 
-      ShareHolding holding3 = holding1.partDisposalTo(shareholder3, 25, new Sale(new Date(1,8,17), 0));
+      ShareTransaction partdisposal = new ShareTransaction()
+      ..numberOfShares = 25
+        .. date = new Date(1,8,17)
+        ..seller = holding1.entity
+        ..buyer = shareholder3
+        ..consideration = 0;
+
+
+      ShareHolding holding3 = holding1.transfer(partdisposal);
 
       expect(holding1.sharesAt(ords, before), 50);
       expect(holding2.sharesAt(ords, before), 50);

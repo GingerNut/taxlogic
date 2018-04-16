@@ -1,6 +1,6 @@
 import '../data/tax_data.dart';
-import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/acquisition/acquisition.dart';
+import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 import '../entities/entity.dart';
@@ -81,9 +81,7 @@ class ChargeableAsset extends Asset{
 
 
 
-  @override
-  ChargeableAsset transferTo(Entity transferee, Disposal disposal){
-  }
+
 
 }
 

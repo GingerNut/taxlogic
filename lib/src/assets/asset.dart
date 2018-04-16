@@ -1,6 +1,7 @@
 import '../entities/entity.dart';
-import 'acquisition/acquisition.dart';
-import 'disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/acquisition/acquisition.dart';
+import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/residence/country.dart';
 
 export 'vehicle.dart';
@@ -18,9 +19,24 @@ abstract class Asset{
   Acquisition acquisition;
   Disposal disposal = new Sale(null, 0);
 
+//Asset transfer(Entity transferee, Disposal disposal);
 
-  Asset transferTo(Entity transferee, Disposal disposal);
+  Asset transfer(Transaction transaction){
+
+    if(transaction.seller == entity){
 
 
+
+    } else {
+
+
+
+
+    }
+
+    onTransaction();
+  }
+
+  onTransaction(){}
 
 }

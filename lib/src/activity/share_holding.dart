@@ -1,5 +1,6 @@
 import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/company/share_history.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
@@ -30,39 +31,57 @@ class ShareHolding extends Activity{
   @override
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
 
-  partDisposalTo(Entity newEntity, int amountSold, Disposal disposal){
+  partDisposalTo(Transaction transaction , num number){
 
     num originalHolding = sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date);
-    amountSold = amountSold.clamp(0, originalHolding);
+    number = number.clamp(0, originalHolding);
 
-    ShareHolding holding = company.addShareholder(disposal.date,
-        newEntity,
+    ShareHolding holding = company.addShareholder(transaction.date,
+        transaction.buyer,
         shareCapital,
-        amountSold)
-      ..acquisition.date = disposal.date
-      ..acquisition.cost = disposal.consideration;
+        number)
+      ..acquisition.date = transaction.date
+      ..acquisition.cost = transaction.consideration;
 
-    this.disposal.date = disposal.date;
-    this.disposal.consideration = disposal.consideration;
+    this.disposal.date = transaction.date;
+    this.disposal.consideration = transaction.consideration;
     this.addShares(
-        originalHolding - amountSold,
-        disposal.date);
+        originalHolding - number,
+        transaction.date);
 
     return holding;
 
   }
 
   @override
-  ShareHolding transferTo(Entity newEntity, Disposal disposal) {
-      ShareHolding holding = company.addShareholder(disposal.date, newEntity, shareCapital, sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date + 1))
-        ..acquisition.date = disposal.date
-        ..acquisition.cost = disposal.consideration;
+  ShareHolding transfer(Transaction transaction) {
 
-      this.disposal.date = disposal.date;
-      this.disposal.consideration = disposal.consideration;
-      this.addShares(0, disposal.date);
+    num number = (transaction as ShareTransaction).numberOfShares;
+    num shareholding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
+
+    if(number < shareholding){
+
+      return partDisposalTo(transaction, number);
+
+
+
+
+    } else {
+
+      ShareHolding holding = company.addShareholder(transaction.date, transaction.buyer, shareCapital, sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date + 1))
+        ..acquisition.date = transaction.date
+        ..acquisition.cost = transaction.consideration;
+
+      this.disposal.date = transaction.date;
+      this.disposal.consideration = transaction.consideration;
+      this.addShares(0, transaction.date);
 
       return holding;
+    }
+
+
+
+
   }
 
   String string(Date date) => 'Shareholding for ${entity.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';

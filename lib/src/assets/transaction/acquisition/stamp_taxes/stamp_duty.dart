@@ -1,5 +1,6 @@
-import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
-import 'package:taxlogic/src/assets/acquisition/stamp_taxes/stamp_taxes.dart';
+import 'package:taxlogic/src/assets/transaction/acquisition/acquisition.dart';
+import 'package:taxlogic/src/assets/transaction/acquisition/stamp_taxes/stamp_taxes.dart';
+
 
 
 

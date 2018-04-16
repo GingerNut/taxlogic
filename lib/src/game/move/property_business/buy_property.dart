@@ -1,8 +1,6 @@
 import '../move.dart';
-import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
 import 'package:taxlogic/src/assets/asset.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/game/position/position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
@@ -21,7 +19,13 @@ class BuyRentalProperty extends Move{
   doMove(Position position) {
     entity = position.getEntityByName(entityId);
 
-    property.transferTo(entity, new Sale(date, consideration));
+    Transaction purchase = new Transaction()
+    ..buyer = entity
+      ..seller = new Unknown()
+    ..date = date
+    ..consideration = consideration;
+
+    property.transfer(purchase);
 
   }
 

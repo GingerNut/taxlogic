@@ -25,7 +25,7 @@ export 'src/game/game.dart';
 export 'src/game/position/scenario/scenario.dart';
 export 'src/game/move/move.dart';
 export 'src/game/position/scenario/landlord_start.dart';
-export 'package:taxlogic/src/assets/value/value.dart';
+export 'package:taxlogic/src/assets/transaction/value/value.dart';
 export 'package:taxlogic/src/utilities/period_end.dart';
 export 'package:taxlogic/src/utilities/period_collection.dart';
 export 'src/income/income.dart';

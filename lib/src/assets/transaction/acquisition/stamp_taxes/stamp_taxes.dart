@@ -1,4 +1,5 @@
-import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
+
+import 'package:taxlogic/src/assets/transaction/acquisition/acquisition.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'stamp_duty_land_tax.dart';

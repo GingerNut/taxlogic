@@ -1,8 +1,6 @@
 import '../move.dart';
-import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/acquisition/acquisition.dart';
 import 'package:taxlogic/src/assets/asset.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/game/position/position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
@@ -26,7 +24,15 @@ class SellRentalProperty extends Move{
     entityTo = position.getEntityByName(entityToId);
 
     property = entityFrom.getAssetById(propertyId);
-    property.transferTo(entityTo, new Sale(date, consideration));
+
+    Transaction sale = new Transaction()
+      ..seller = entityFrom
+      ..buyer = entityTo
+      ..date = date
+      ..consideration = consideration;
+
+
+    property.transfer(sale);
 
   }
 

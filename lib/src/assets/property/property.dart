@@ -3,7 +3,7 @@
 import 'package:taxlogic/src/accounts/accounts.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/asset.dart';
-import 'package:taxlogic/src/assets/disposal/disposal.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/history/num_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
@@ -51,33 +51,33 @@ class Property extends ChargeableAsset{
   Property getProperty(Entity entity) => new Property(entity);
 
   @override
-  transferTo(Entity transferee, Disposal disposal) {
-    Property newProp = getProperty(transferee)
-        ..acquisition.date = disposal.date
-        ..acquisition.cost = disposal.consideration
+  transfer(Transaction transaction) {
+    Property newProp = getProperty(transaction.seller)
+        ..acquisition.date = transaction.date
+        ..acquisition.cost = transaction.consideration
         ..name = name
         ..setRent(0)
         ..setInterest(0)
-        ..changeRent(getRent(disposal.date), disposal.date)
-        ..changeInterest(getInterest(disposal.date), disposal.date);
-    transferee.assets.add(newProp);
+        ..changeRent(getRent(disposal.date), transaction.date)
+        ..changeInterest(getInterest(disposal.date), transaction.date);
+    transaction.seller.assets.add(newProp);
 
     PropertyBusiness business;
 
-    transferee.activities.forEach((activity){
+    transaction.buyer.activities.forEach((activity){
       if(activity is PropertyBusiness) business = activity;
     });
 
     if(business == null) {
-      business = new PropertyBusiness(transferee);
+      business = new PropertyBusiness(transaction.seller);
     }
 
     business.properties.add(newProp);
 
     if(entity != null){
       this.disposal = disposal;
-      changeRent(0, disposal.date);
-      changeInterest(0, disposal.date);
+      changeRent(0, transaction.date);
+      changeInterest(0, transaction.date);
         }
       return newProp;
 
