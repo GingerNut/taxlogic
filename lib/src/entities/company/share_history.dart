@@ -20,4 +20,6 @@ class ShareHistory extends History<int>{
 
 class ShareChange extends Change<int>{
   ShareChange(Date date, int number) : super(date, number);
+
+  num cost;
 }

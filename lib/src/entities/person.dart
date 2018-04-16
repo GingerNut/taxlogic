@@ -1,4 +1,5 @@
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/residence/domicile_history.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
@@ -15,6 +16,7 @@ class Person extends Entity{
   static const String jsonTagSurname = "surname";
   static const String jsonTagAddress = "address";
 
+  DomicileHistory domicile;
   bool scotland = false;
   Person spouse;
 

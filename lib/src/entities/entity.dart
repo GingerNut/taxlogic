@@ -51,12 +51,12 @@ abstract class Entity{
 
   }
 
-  Property getAssetById(String name) {
+  Asset getAssetById(String name) {
 
-    Property named;
+    Asset named;
 
     assets.forEach((e){
-      if(e.name == name && e is Property) named = e;
+      if(e.name == name) named = e;
     });
 
     return named;
