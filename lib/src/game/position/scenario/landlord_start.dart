@@ -3,7 +3,7 @@ import '../position.dart';
 import '../../../entities/person.dart';
 import 'package:taxlogic/src/activity/property_business.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import '../../../assets/residential_property.dart';
+import 'package:taxlogic/src/assets/property/residential_property.dart';
 import '../../../accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../../../accounts/income_and_expenditure.dart';

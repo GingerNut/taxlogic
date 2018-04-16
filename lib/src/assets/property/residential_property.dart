@@ -1,6 +1,7 @@
+import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/period.dart';
-import 'property.dart';
-import '../entities/entity.dart';
+import 'package:taxlogic/src/assets/property/property.dart';
+
 
 class ResidentialProperty extends Property{
 

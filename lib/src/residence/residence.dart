@@ -1,9 +1,10 @@
+import 'package:taxlogic/src/residence/country.dart';
 
 
 
 abstract class Residence{
 
-  String resident;
+  int resident = Country.GBR;
 
 
 

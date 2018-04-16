@@ -1,12 +1,12 @@
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
-import 'package:taxlogic/src/assets/property.dart';
+import 'package:taxlogic/src/assets/property/property.dart';
 
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/value/value.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../entities/entity.dart';
-import '../assets/residential_property.dart';
+import 'package:taxlogic/src/assets/property/residential_property.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 

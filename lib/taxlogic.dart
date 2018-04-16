@@ -14,7 +14,7 @@ export 'package:taxlogic/src/utilities/date.dart';
 export 'src/assets/chargeable_assets.dart';
 export 'package:taxlogic/src/activity/activity.dart';
 export 'package:taxlogic/src/activity/property_business.dart';
-export 'src/assets/residential_property.dart';
+export 'package:taxlogic/src/assets/property/residential_property.dart';
 export 'package:taxlogic/src/utilities/tax_year.dart';
 export 'src/accounts/income_and_expenditure.dart';
 export 'src/accounts/rental_income_and_expenditure.dart';
