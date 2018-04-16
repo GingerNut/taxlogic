@@ -5,7 +5,7 @@ import 'company_tax/company_tax_data.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import '../entities/entity.dart';
 import 'capital_allowances/capital_allowances.dart';
-import 'package:taxlogic/src/utilities/rate_history.dart';
+import 'package:taxlogic/src/utilities/history/num_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'interest/overdue_interest.dart';
 import 'capital_gains_tax/indexation.dart';
@@ -85,10 +85,10 @@ class TaxData{
   //coproariton tax
 
   static num CompanyMainRate(Date date) => CompanyTaxData.getMainRate(date);
-  static List<RatePeriod> CompanyRatePeriods(Period period) => CompanyTaxData.getRatePeriods(period);
+  static List<NumPeriod> CompanyRatePeriods(Period period) => CompanyTaxData.getRatePeriods(period);
 
   static num AnnualInvestmentAllowance(Date date, Entity entity) => CapitalAllowances.getAIA(date, entity);
-  static List<RatePeriod> AnnualInvestmentAllowancePeriods(Period period, Entity entity) => CapitalAllowances.getAIAPeriods(period, entity);
+  static List<NumPeriod> AnnualInvestmentAllowancePeriods(Period period, Entity entity) => CapitalAllowances.getAIAPeriods(period, entity);
   static num AnnualInvestmentOverallRate(Period period, Entity entity) => CapitalAllowances.getOverallAIA(period, entity);
 
   static num OverdueInterestTotal(Period period) => OverdueInterest.overdueInterest.overallAmount(period);

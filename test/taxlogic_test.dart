@@ -561,13 +561,13 @@ void periods(){
 
 void histories(){
 
-  RateHistory history = new RateHistory.fromList([
-    new RateChange(new Date(6,4,08),50000),
-    new RateChange(new Date(6,4,10),100000),
-    new RateChange(new Date(6,4,12),25000),
-    new RateChange(new Date(1,1,13),250000),
-    new RateChange(new Date(6,4,14),500000),
-    new RateChange(new Date(1,1,16),200000),
+  NumHistory history = new NumHistory.fromList([
+    new NumChange(new Date(6,4,08),50000),
+    new NumChange(new Date(6,4,10),100000),
+    new NumChange(new Date(6,4,12),25000),
+    new NumChange(new Date(1,1,13),250000),
+    new NumChange(new Date(6,4,14),500000),
+    new NumChange(new Date(1,1,16),200000),
   ]);
 
   group('Rate histories ', (){
@@ -618,7 +618,7 @@ void histories(){
 
       Period period = new Period(start, end);
 
-      List<RatePeriod> ratePeriods = history.getRatePeriods(period);
+      List<NumPeriod> ratePeriods = history.getRatePeriods(period);
      
       expect(ratePeriods[0].rate, 250000);
       expect(ratePeriods[0].period.start.day, 1);
@@ -727,7 +727,7 @@ void histories(){
 
     test('Test default amount  ', () {
 
-      RateHistory history = new RateHistory();
+      NumHistory history = new NumHistory();
       history.set(5000);
 
       Date test = new Date(21,9,62);

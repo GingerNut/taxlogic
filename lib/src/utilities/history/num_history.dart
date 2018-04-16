@@ -1,17 +1,17 @@
-import 'package:taxlogic/src/utilities/history.dart';
+import 'package:taxlogic/src/utilities/history/history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
-class RateHistory extends History<num> {
-  RateHistory() : super();
+class NumHistory extends History<num> {
+  NumHistory() : super();
 
-  RateHistory.fromList(List<RateChange> history) : super.fromList(history);
+  NumHistory.fromList(List<NumChange> history) : super.fromList(history);
 
-  List<RatePeriod> getRatePeriods(Period period) {
-    List<RatePeriod> periods = new List();
+  List<NumPeriod> getRatePeriods(Period period) {
+    List<NumPeriod> periods = new List();
 
     Date lastDate = period.start;
     num lastRate = valueAt(lastDate);
@@ -19,7 +19,7 @@ class RateHistory extends History<num> {
     Date nextDate = nextChange(lastDate);
 
     while (nextDate != null && !(nextDate > period.end)) {
-      RatePeriod ratePeriod = new RatePeriod(
+      NumPeriod ratePeriod = new NumPeriod(
           new Period(lastDate, nextDate + (-1)), lastRate);
       periods.add(ratePeriod);
 
@@ -29,7 +29,7 @@ class RateHistory extends History<num> {
     }
 
     if (lastDate < period.end) {
-      periods.add(new RatePeriod(
+      periods.add(new NumPeriod(
           new Period(lastDate, period.end), valueAt(period.end)));
     }
 
@@ -39,7 +39,7 @@ class RateHistory extends History<num> {
   num overallAmount(Period period) {
     if (history.length == 0) return 0;
 
-    List<RatePeriod> periods = getRatePeriods(period);
+    List<NumPeriod> periods = getRatePeriods(period);
 
     num overallRate = 0;
 
@@ -53,7 +53,7 @@ class RateHistory extends History<num> {
   }
 
   num averageRate(Period period) {
-    List<RatePeriod> periods = getRatePeriods(period);
+    List<NumPeriod> periods = getRatePeriods(period);
 
     num average = 0;
 
@@ -67,26 +67,26 @@ class RateHistory extends History<num> {
 
   Date getZero() => new Date(1, 1, 90);
 
-  Change newChange(Date date, dynamic amount) => new RateChange(date, amount);
+  Change newChange(Date date, dynamic amount) => new NumChange(date, amount);
 
   @override
   setNil() => set(0);
 
 }
 
-class RateChange extends Change<num>{
+class NumChange extends Change<num>{
 
-  RateChange(Date date, num rate) : super(date, rate);
+  NumChange(Date date, num rate) : super(date, rate);
 
 }
 
 
 
-class RatePeriod{
+class NumPeriod{
   final Period period;
   final num rate;
 
-  RatePeriod(this.period, this.rate);
+  NumPeriod(this.period, this.rate);
 
 
 

@@ -3,6 +3,7 @@ import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/history/num_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
@@ -81,7 +82,7 @@ class CompanyTaxPosition extends TaxPosition{
 
     num profits = totalProfits;
 
-    List<RatePeriod> periods = TaxData.CompanyRatePeriods(period);
+    List<NumPeriod> periods = TaxData.CompanyRatePeriods(period);
 
     periods.forEach((part){
       _tax += profits * part.period.duration/period.duration * part.rate;

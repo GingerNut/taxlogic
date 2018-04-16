@@ -5,24 +5,24 @@ import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/disposal/disposal.dart';
 import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/utilities/history/num_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
-import 'package:taxlogic/src/utilities/rate_history.dart';
 
 
 class Property extends ChargeableAsset{
   Property(Entity entity) : super(entity);
   List<Accounts> accounts = new List();
 
-  RateHistory _rentsDue = new RateHistory();
-  RateHistory _interestsDue = new RateHistory();
+  NumHistory _rentsDue = new NumHistory();
+  NumHistory _interestsDue = new NumHistory();
 
   void changeRent(num amount, Date date){
-    _rentsDue.add(new RateChange(date, amount));
+    _rentsDue.add(new NumChange(date, amount));
   }
   void changeInterest(num amount, Date date){
-    _interestsDue.add(new RateChange(date, amount));
+    _interestsDue.add(new NumChange(date, amount));
   }
 
   void setRent(num amount){

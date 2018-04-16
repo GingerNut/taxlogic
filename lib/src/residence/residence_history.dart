@@ -1,6 +1,6 @@
 import 'package:taxlogic/src/residence/residence.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'package:taxlogic/src/utilities/history.dart';
+import 'package:taxlogic/src/utilities/history/history.dart';
 
 
 

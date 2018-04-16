@@ -5,5 +5,6 @@ class Payment{
 
   Date date;
   num amount;
+  num tax;
 
 }

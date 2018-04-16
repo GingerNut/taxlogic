@@ -4,6 +4,7 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/income/income.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
 import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/history/num_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'employment/employment.dart';
@@ -31,7 +32,7 @@ abstract class Activity extends ChargeableAsset{
   num taxableIncome = 0;
   num lossAvailable = 0;
 
-  RateHistory annualIncome = new RateHistory();
+  NumHistory annualIncome = new NumHistory();
 
   List<Income> incomeHistory = new List();
 
@@ -39,16 +40,16 @@ abstract class Activity extends ChargeableAsset{
     if(commencement == null) annualIncome.set(amount);
     else {
       annualIncome.set(0);
-      annualIncome.add(new RateChange(commencement, amount));
+      annualIncome.add(new NumChange(commencement, amount));
     }
   }
 
   changeIncome(Date date, num amount){
-    annualIncome.add(new RateChange(date, amount));
+    annualIncome.add(new NumChange(date, amount));
   }
 
   void endIncome(Date date) {
-    annualIncome.add(new RateChange(date, 0));
+    annualIncome.add(new NumChange(date, 0));
   }
 
   Income getNewIncome(TaxPosition taxPosition);

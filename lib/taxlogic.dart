@@ -20,7 +20,7 @@ export 'src/accounts/income_and_expenditure.dart';
 export 'src/accounts/rental_income_and_expenditure.dart';
 export 'package:taxlogic/src/entities/company/company.dart';
 export 'src/data/tax_data.dart';
-export 'package:taxlogic/src/utilities/rate_history.dart';
+export 'package:taxlogic/src/utilities/history/num_history.dart';
 export 'src/game/game.dart';
 export 'src/game/position/scenario/scenario.dart';
 export 'src/game/move/move.dart';

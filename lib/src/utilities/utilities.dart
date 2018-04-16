@@ -2,11 +2,11 @@ import 'dart:math';
 export 'date.dart';
 export 'period.dart';
 export 'period_collection.dart';
-export 'rate_history.dart';
+export 'package:taxlogic/src/utilities/history/num_history.dart';
 export 'period_end.dart';
 export 'tax_year.dart';
-export 'rate_table.dart';
-export 'name_history.dart';
+export 'package:taxlogic/src/utilities/history/rate_table.dart';
+export 'package:taxlogic/src/utilities/history/name_history.dart';
 
 class Utilities{
 
