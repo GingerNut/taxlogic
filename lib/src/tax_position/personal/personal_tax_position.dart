@@ -2,6 +2,7 @@
 import '../tax_position.dart';
 import 'dart:math';
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
+import 'package:taxlogic/src/activity/lending/lending_activity.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import '../../data/tax_data.dart';
 import 'package:taxlogic/src/income/income.dart';
@@ -92,6 +93,7 @@ class PersonalTaxPosition extends TaxPosition{
       if(inc.activity is Employment) earningsIncome += inc.income;
       else if(inc.activity is Trade) tradeIncome += inc.income;
       else if(inc.activity is Savings) savingsIncome += inc.income;
+      else if(inc.activity is LendingActivity) savingsIncome += inc.income;
       else if (inc.activity is ShareHolding ) dividendIncome += inc.income;
       else if(inc.activity is PropertyBusiness) propertyIncome += inc.income;
       else otherIncome += inc.income;

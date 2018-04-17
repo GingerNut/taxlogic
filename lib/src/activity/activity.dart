@@ -10,7 +10,7 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 export 'employment/employment.dart';
 export 'trade.dart';
 export 'savings.dart';
-export 'share_holding.dart';
+export 'package:taxlogic/src/activity/share_holding/share_holding.dart';
 export 'property_business.dart';
 export 'other.dart';
 
@@ -31,6 +31,8 @@ abstract class Activity extends ChargeableAsset{
 
   num taxableIncome = 0;
   num lossAvailable = 0;
+
+  bool taxDeductedAtSource = false;
 
   NumHistory annualIncome = new NumHistory();
 

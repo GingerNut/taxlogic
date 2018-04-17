@@ -1,3 +1,4 @@
+import 'package:taxlogic/src/activity/lending/loan.dart';
 import 'package:taxlogic/src/assets/asset.dart';
 
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
@@ -17,6 +18,7 @@ void main() {
   incomeTaxEnglandSavings2018();
   incomeTaxScotland2019();
   BIK_2018();
+  lending();
   nationalInsuranceEarnings();
   nationalInsuranceTrade();
   capitalGains();
@@ -1296,6 +1298,38 @@ void BIK_2018(){
     });
 
 
+
+
+
+  });
+
+}
+
+void lending(){
+
+
+  group('Income tax Scotland 2019', ()
+  {
+
+    Person person;
+
+    setUp(() {
+      person = new Person();
+    });
+
+
+    test('loan', () {
+      Loan loan = new Loan(person)
+          ..interest.set(0.05)
+          ..principle.set(100000)
+      ..taxDeductedAtSource = true;
+
+      PersonalTaxPosition taxPosition = person.taxYear(2018);
+      taxPosition.tax;
+      expect(taxPosition.savingsIncome, 100000 * 0.05);
+      expect(taxPosition.taxDeducted, 100000 * 0.05 * .2);
+
+    });
 
 
 
