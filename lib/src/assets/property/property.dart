@@ -3,6 +3,7 @@
 import 'package:taxlogic/src/accounts/accounts.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/asset.dart';
+import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/history/num_history.dart';
@@ -52,15 +53,15 @@ class Property extends ChargeableAsset{
 
   @override
   transfer(Transaction transaction) {
-    Property newProp = getProperty(transaction.seller)
+    Property newProp = getProperty(transaction.buyer)
         ..acquisition.date = transaction.date
         ..acquisition.cost = transaction.consideration
         ..name = name
         ..setRent(0)
         ..setInterest(0)
-        ..changeRent(getRent(disposal.date), transaction.date)
-        ..changeInterest(getInterest(disposal.date), transaction.date);
-    transaction.seller.assets.add(newProp);
+        ..changeRent(getRent(transaction.date), transaction.date)
+        ..changeInterest(getInterest(transaction.date), transaction.date);
+    transaction.buyer.assets.add(newProp);
 
     PropertyBusiness business;
 
@@ -69,16 +70,18 @@ class Property extends ChargeableAsset{
     });
 
     if(business == null) {
-      business = new PropertyBusiness(transaction.seller);
+      business = new PropertyBusiness(transaction.buyer);
     }
 
     business.properties.add(newProp);
 
-    if(entity != null){
-      this.disposal = disposal;
+    if(transaction.seller != null){
+      this.disposal = new Sale(transaction.date, transaction.consideration);
+
       changeRent(0, transaction.date);
       changeInterest(0, transaction.date);
         }
+
       return newProp;
 
   }

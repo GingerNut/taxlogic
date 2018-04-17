@@ -21,7 +21,6 @@ class BuyRentalProperty extends Move{
 
     Transaction purchase = new Transaction()
     ..buyer = entity
-      ..seller = new Unknown()
     ..date = date
     ..consideration = consideration;
 

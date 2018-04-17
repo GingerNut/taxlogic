@@ -17,7 +17,7 @@ abstract class Asset{
   int locus = Country.GBR;
 
   Acquisition acquisition;
-  Disposal disposal = new Sale(null, 0);
+  Disposal disposal;
 
 //Asset transfer(Entity transferee, Disposal disposal);
 

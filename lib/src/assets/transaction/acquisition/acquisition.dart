@@ -3,6 +3,7 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/transaction/acquisition/stamp_taxes/stamp_taxes.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 export 'purchase.dart';
+export 'property_purchase.dart';
 
 
 abstract class Acquisition{
