@@ -33,7 +33,7 @@ class Income{
 
     bool scotland = false;
 
-    if(activity.entity is Person) scotland = (activity.entity as Person).scotland;
+    if(activity.owner is Person) scotland = (activity.owner as Person).scotland;
 
     if(activity.taxDeductedAtSource) _taxDeducted = TaxData.BasicRate(taxPosition.period.end.year, scotland) * income;
 

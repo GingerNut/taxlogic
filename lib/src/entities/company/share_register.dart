@@ -69,7 +69,7 @@ class ShareRegister{
     changes.add(
         new ShareHolderChange(ShareHolderChange.SHARE_TRANSFER, date)
           ..newEntity = entity
-          ..oldEntity = shareHolding.entity
+          ..oldEntity = shareHolding.owner
 
     );
 

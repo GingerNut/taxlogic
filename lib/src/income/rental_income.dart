@@ -28,7 +28,7 @@ class PropertyIncome extends Income{
 
     if(accounts == null){  // create accounts from sources
 
-      accounts = new IncomeAndExpenditureProperty(period, business.entity);
+      accounts = new IncomeAndExpenditureProperty(period, business.owner);
 
       business.properties.forEach((property){
 
@@ -61,7 +61,7 @@ class PropertyIncome extends Income{
 
     } else {
       bool scotland = false;
-      if(activity.entity is Person) scotland = (activity.entity as Person).scotland;
+      if(activity.owner is Person) scotland = (activity.owner as Person).scotland;
 
       return accounts.interestRestriction * TaxData.BasicRate(taxPosition.period.end.year, scotland);
     }

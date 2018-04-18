@@ -1,12 +1,11 @@
-import 'package:taxlogic/src/activity/activity.dart';
+
 import 'package:taxlogic/src/residence/domicile_history.dart';
-import 'package:taxlogic/src/utilities/date.dart';
+
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/personal/personal_tax_position.dart';
-import 'package:taxlogic/src/tax_position/tax_position.dart';
-import '../assets/chargeable_assets.dart';
-import 'entity.dart';
+
+import '../entity.dart';
 
 class Person extends Entity{
 

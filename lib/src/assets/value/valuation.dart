@@ -3,10 +3,9 @@ import 'package:taxlogic/src/utilities/date.dart';
 
 
 
-class Valuation{
+class Valuation {
   Asset entity;
   num amount;
-  Date date;
   String valuerName;
-
+  Date date;
 }

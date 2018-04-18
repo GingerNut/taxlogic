@@ -80,7 +80,7 @@ class ShareHolding extends Activity{
 
   }
 
-  String string(Date date) => 'Shareholding for ${entity.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
+  String string(Date date) => 'Shareholding for ${owner.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
 
 
 

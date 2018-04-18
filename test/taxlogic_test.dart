@@ -2351,7 +2351,7 @@ void companySecretarial(){
       new ShareTransaction(holding1)
       ..numberOfShares = 25
         .. date = new Date(1,8,17)
-        ..seller = holding1.entity
+        ..seller = holding1.owner
         ..buyer = shareholder3
         ..consideration = 50000
       ..go();
@@ -2418,7 +2418,7 @@ void companySecretarial(){
       new ShareTransaction(holding1)
       ..numberOfShares = 25
       .. date = new Date(1,8,17)
-      ..seller = holding1.entity
+      ..seller = holding1.owner
       ..buyer = shareholder3
       ..consideration = 100000
       ..go();
@@ -2482,7 +2482,7 @@ void companySecretarial(){
       new ShareTransaction(holding1)
       ..numberOfShares = 25
         .. date = new Date(1,8,17)
-        ..seller = holding1.entity
+        ..seller = holding1.owner
         ..buyer = shareholder3
         ..consideration = 0
       ..go();

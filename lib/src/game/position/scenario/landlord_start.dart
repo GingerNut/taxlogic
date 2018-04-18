@@ -1,6 +1,6 @@
 import 'package:taxlogic/src/game/game.dart';
 import '../position.dart';
-import '../../../entities/person.dart';
+import 'package:taxlogic/src/entities/individual/person.dart';
 import 'package:taxlogic/src/activity/property_business.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/assets/property/residential_property.dart';

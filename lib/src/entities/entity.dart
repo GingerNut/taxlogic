@@ -8,9 +8,10 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 
 export 'package:taxlogic/src/entities/company/company.dart';
-export 'person.dart';
+export 'package:taxlogic/src/entities/individual/person.dart';
 export 'pension.dart';
 export 'unknown.dart';
+export 'joint_owners.dart';
 
 abstract class Entity{
 

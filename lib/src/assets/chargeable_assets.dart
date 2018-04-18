@@ -51,7 +51,7 @@ class ChargeableAsset extends Asset{
 
     _taxableGain = gain;
 
-    if(entity.type == Entity.COMPANY && _taxableGain > 0){
+    if(owner.type == Entity.COMPANY && _taxableGain > 0){
 
       num indexation = min(TaxData.IndexationFactor(acquisition.date, disposal.date) * acquisition.cost, _taxableGain);
 

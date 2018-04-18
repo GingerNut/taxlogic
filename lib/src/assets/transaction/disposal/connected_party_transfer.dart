@@ -1,5 +1,5 @@
 import 'disposal.dart';
-import 'package:taxlogic/src/assets/transaction/value/value.dart';
+import 'package:taxlogic/src/assets/value/value.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 
