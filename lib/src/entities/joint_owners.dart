@@ -8,8 +8,9 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 
 class JointOwners extends Entity{
 
+    bool jointTenants = true;
 
-
+    List<Entity> owners = new List();
 
 
 
@@ -24,3 +25,10 @@ class JointOwners extends Entity{
   }
 }
 
+class JointShare{
+
+  JointShare(this.entity, this.share);
+
+  Entity entity;
+  num share;
+}

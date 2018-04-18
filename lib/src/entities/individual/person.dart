@@ -17,7 +17,7 @@ class Person extends Entity{
 
   DomicileHistory domicile;
   bool scotland = false;
-  Person spouse;
+  SpouseHistory spouse;
 
   String firstName;
   String surname;
@@ -27,8 +27,6 @@ class Person extends Entity{
 
   Person(){
     type = Entity.INDIVIDUAL;
-
-
   }
 
   PersonalTaxPosition taxYear(int year){
