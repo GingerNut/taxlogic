@@ -19,24 +19,7 @@ abstract class Asset{
   Acquisition acquisition;
   Disposal disposal;
 
-//Asset transfer(Entity transferee, Disposal disposal);
 
-  Asset transfer(Transaction transaction){
-
-    if(transaction.seller == entity){
-
-
-
-    } else {
-
-
-
-
-    }
-
-    onTransaction();
-  }
-
-  onTransaction(){}
+  onTransaction(Transaction transaction){}
 
 }

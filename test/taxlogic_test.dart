@@ -1328,6 +1328,7 @@ void lending(){
       taxPosition.tax;
       expect(taxPosition.savingsIncome, 100000 * 0.05);
       expect(taxPosition.taxDeducted, 100000 * 0.05 * .2);
+      expect(taxPosition.tax, 0 - 100000 * 0.05 * .2);
 
     });
 
@@ -2347,15 +2348,15 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
 
-      ShareTransaction transaction = new ShareTransaction()
+      new ShareTransaction(holding1)
       ..numberOfShares = 25
         .. date = new Date(1,8,17)
         ..seller = holding1.entity
         ..buyer = shareholder3
-        ..consideration = 50000;
+        ..consideration = 50000
+      ..go();
 
 
-      holding1.transfer(transaction);
       String name = company.ordinaryShares.name.valueAt(null);
 
       company.payDividend(new Date(1,6,16), 100000);
@@ -2414,15 +2415,14 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
 
-      ShareTransaction transaction = new ShareTransaction()
+      new ShareTransaction(holding1)
       ..numberOfShares = 25
       .. date = new Date(1,8,17)
       ..seller = holding1.entity
       ..buyer = shareholder3
-      ..consideration = 100000;
+      ..consideration = 100000
+      ..go();
 
-
-      holding1.transfer(transaction);
 
       String name = company.ordinaryShares.name.valueAt(null);
 
@@ -2479,15 +2479,16 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 50);
       ShareHolding holding2 = company.founder(shareholder2, 50);
 
-      ShareTransaction partdisposal = new ShareTransaction()
+      new ShareTransaction(holding1)
       ..numberOfShares = 25
         .. date = new Date(1,8,17)
         ..seller = holding1.entity
         ..buyer = shareholder3
-        ..consideration = 0;
+        ..consideration = 0
+      ..go();
 
 
-      ShareHolding holding3 = holding1.transfer(partdisposal);
+      ShareHolding holding3 = shareholder3.activities[0];
 
       expect(holding1.sharesAt(ords, before), 50);
       expect(holding2.sharesAt(ords, before), 50);

@@ -52,7 +52,8 @@ class Property extends ChargeableAsset{
   Property getProperty(Entity entity) => new Property(entity);
 
   @override
-  transfer(Transaction transaction) {
+  onTransaction(Transaction transaction) {
+
     Property newProp = getProperty(transaction.buyer)
         ..acquisition.date = transaction.date
         ..acquisition.cost = transaction.consideration

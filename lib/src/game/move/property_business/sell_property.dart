@@ -25,14 +25,14 @@ class SellRentalProperty extends Move{
 
     property = entityFrom.getAssetById(propertyId);
 
-    Transaction sale = new Transaction()
+    new Transaction(property)
       ..seller = entityFrom
       ..buyer = entityTo
       ..date = date
-      ..consideration = consideration;
+      ..consideration = consideration
+    ..go();
 
 
-    property.transfer(sale);
 
   }
 

@@ -54,7 +54,7 @@ class ShareHolding extends Activity{
   }
 
   @override
-  ShareHolding transfer(Transaction transaction) {
+  onTransaction(Transaction transaction) {
 
     num number = (transaction as ShareTransaction).numberOfShares;
     num shareholding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
@@ -62,8 +62,6 @@ class ShareHolding extends Activity{
     if(number < shareholding){
 
       return partDisposalTo(transaction, number);
-
-
 
 
     } else {
@@ -78,8 +76,6 @@ class ShareHolding extends Activity{
 
       return holding;
     }
-
-
 
 
   }

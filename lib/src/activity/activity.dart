@@ -22,7 +22,6 @@ abstract class Activity extends ChargeableAsset{
   static const EMPLOYMENT = 1;
   static const TRADE = 2;
 
-  String name;
   Date commencement;
   Date cessation;
 

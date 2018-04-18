@@ -19,12 +19,12 @@ class BuyRentalProperty extends Move{
   doMove(Position position) {
     entity = position.getEntityByName(entityId);
 
-    Transaction purchase = new Transaction()
+    new Transaction(property)
     ..buyer = entity
     ..date = date
-    ..consideration = consideration;
+    ..consideration = consideration
+    ..go();
 
-    property.transfer(purchase);
 
   }
 
