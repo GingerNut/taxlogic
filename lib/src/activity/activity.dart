@@ -19,17 +19,11 @@ abstract class Activity extends ChargeableAsset{
     entity.activities.add(this);
   }
 
-  static const EMPLOYMENT = 1;
-  static const TRADE = 2;
-
   Date commencement;
   Date cessation;
 
-  num lossBroughtForward = 0;
-  num lossCarriedForward = 0;
 
-  num taxableIncome = 0;
-  num lossAvailable = 0;
+
 
   bool taxDeductedAtSource = false;
 

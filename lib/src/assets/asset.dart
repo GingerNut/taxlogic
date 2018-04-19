@@ -10,19 +10,41 @@ export 'package:taxlogic/src/assets/property/property.dart';
 export 'chargeable_assets.dart';
 
 abstract class Asset{
-  final Entity owner;
+  Entity owner;
   Asset(this.owner);
+
+  addOwner(Entity entity, num share){
+
+    JointOwners owners;
+
+    if(owner is JointOwners){
+      owners = owner;
+      owners.addOwner(this, entity, share);
+
+    } else {
+      JointOwners jointOwners = new JointOwners();
+
+      jointOwners.addOwner(this, entity , share);
+
+    }
+
+  }
+
+  removeOwner(Entity entity){
+
+  }
+
 
   String name;
   String description;
   int locus = Country.GBR;
+
+  JointShare jointShare = null;
 
   Acquisition acquisition;
   Disposal disposal;
 
   ValueHistory value;
 
-
   onTransaction(Transaction transaction){}
-
 }

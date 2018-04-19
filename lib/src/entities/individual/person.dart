@@ -1,6 +1,7 @@
 
 import 'package:taxlogic/src/residence/domicile_history.dart';
 
+import 'package:taxlogic/src/utilities/history/spouse_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/personal/personal_tax_position.dart';
