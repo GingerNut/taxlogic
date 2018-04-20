@@ -10,14 +10,12 @@ abstract class LookupTable<T>{
   TableEntry get(int index) => history[index];
 
   add(TableEntry change){
-    if(history.length == 0) setNil();
-    history.add(change);
+    if(history.length == 0) {
+
+    }
+      history.add(change);
+
   }
-
-
-  setNil();
-
-  getZero();
 
 
   sort(){
@@ -31,7 +29,7 @@ abstract class LookupTable<T>{
     TableEntry entry = history[0];
     int i = 1;
 
-    while(i < history.length && !(history[i].threshold > threshold)){
+    while(i < history.length && (threshold == null || !(history[i].threshold > threshold))){
 
       entry = get(i);
 

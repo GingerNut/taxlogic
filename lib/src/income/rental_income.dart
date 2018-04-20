@@ -28,16 +28,16 @@ class PropertyIncome extends Income{
 
     if(accounts == null){  // create accounts from sources
 
-      accounts = new IncomeAndExpenditureProperty(period, business.owner);
+      accounts = new IncomeAndExpenditureProperty(period, business.owner(period.end));
 
       business.properties.forEach((property){
 
         // adjust for period of ownership fo the property
 
-        Date start = property.acquisition.date == null ? period.start : property.acquisition.date;
+        Date start = property.acquisitionDate(taxPosition.entity) == null ? period.start : property.acquisitionDate(taxPosition.entity);
         if(start < period.start) start = period.start;
 
-        Date end = property.disposal.date == null ? period.end : property.disposal.date;
+        Date end = property.disposalDate(taxPosition.entity) == null ? period.end : property.disposalDate(taxPosition.entity);
         if(end > period.start) end = period.end;
         Period common = new Period (start, end);
 

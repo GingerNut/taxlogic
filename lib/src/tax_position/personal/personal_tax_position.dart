@@ -501,7 +501,7 @@ class PersonalTaxPosition extends TaxPosition{
     List<ChargeableAsset> entrepreneur = new List();
 
    disposals.forEach((asset){
-      if(asset.taxableGain > 0){
+      if(asset.taxableGain(entity) > 0){
         if(asset is ResidentialProperty) residential.add(asset);
         else if (asset.entrepreneurRelief) entrepreneur.add(asset);
         else nonResidential.add(asset);
@@ -518,11 +518,11 @@ class PersonalTaxPosition extends TaxPosition{
     while(lossesToAllocate > 0 && priority != null){
 
       priority.forEach((asset){
-        if(lossesToAllocate < asset.taxableGain){
+        if(lossesToAllocate < asset.taxableGain(entity)){
           asset.lossAllocated = lossesToAllocate;
           lossesToAllocate = 0;
         } else {
-          asset.lossAllocated = asset.taxableGain;
+          asset.lossAllocated = asset.taxableGain(entity);
           lossesToAllocate -= asset.lossAllocated;
         }
 
@@ -544,11 +544,11 @@ class PersonalTaxPosition extends TaxPosition{
     while(annualExemptionToAllocate > 0 && priority != null){
 
       priority.forEach((asset){
-        if(annualExemptionToAllocate < asset.taxableGain - asset.lossAllocated){
+        if(annualExemptionToAllocate < asset.taxableGain(entity) - asset.lossAllocated){
           asset.annualExemptionAllocated = annualExemptionToAllocate;
           annualExemptionToAllocate = 0;
         } else {
-          asset.annualExemptionAllocated = asset.taxableGain - asset.lossAllocated;
+          asset.annualExemptionAllocated = asset.taxableGain(entity) - asset.lossAllocated;
           annualExemptionToAllocate -= asset.annualExemptionAllocated;
         }
 
@@ -573,11 +573,11 @@ class PersonalTaxPosition extends TaxPosition{
     while(basicRateToAllocate > 0 && priority != null){
 
       priority.forEach((asset){
-        if(basicRateToAllocate < asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated){
+        if(basicRateToAllocate < asset.taxableGain(entity) - asset.lossAllocated - asset.annualExemptionAllocated){
           asset.basicRateAllocated = basicRateToAllocate;
           basicRateToAllocate = 0;
         } else {
-          asset.basicRateAllocated = asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated;
+          asset.basicRateAllocated = asset.taxableGain(entity) - asset.lossAllocated - asset.annualExemptionAllocated;
           basicRateToAllocate -= asset.basicRateAllocated;
         }
 
@@ -603,21 +603,21 @@ class PersonalTaxPosition extends TaxPosition{
 
       if(asset is ResidentialProperty){
         cgtBasicRateRes += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          cgtHigherRateRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
+          cgtHigherRateRes += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
 
       } else if (asset.entrepreneurRelief){
 
         cgtBasicRateEnt += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
-          cgtHigherRateEnt += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
+          cgtHigherRateEnt += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
 
       } else {
         cgtBasicRateNonRes += asset.basicRateAllocated;
-        if(asset.taxableGain - asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          cgtHigherRateNonRes += asset.taxableGain - asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
+          cgtHigherRateNonRes += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
         }
       }
     });

@@ -33,6 +33,8 @@ class ShareHolding extends Activity{
 
   partDisposalTo(Transaction transaction , num number){
 
+    /*
+
     num originalHolding = sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date);
     number = number.clamp(0, originalHolding);
 
@@ -50,12 +52,12 @@ class ShareHolding extends Activity{
         transaction.date);
 
     return holding;
-
+*/
   }
 
   @override
   onTransaction(Transaction transaction) {
-
+/*
     num number = (transaction as ShareTransaction).numberOfShares;
     num shareholding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
 
@@ -75,12 +77,13 @@ class ShareHolding extends Activity{
       this.addShares(0, transaction.date);
 
       return holding;
-    }
 
+    }
+  */
 
   }
 
-  String string(Date date) => 'Shareholding for ${owner.name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
+  String string(Date date) => 'Shareholding for ${owner(date).name} of ${sharesAt(shareCapital.name.valueAt(date), date)} ${name} shares in ${company.name}';
 
 
 

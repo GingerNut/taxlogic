@@ -65,8 +65,6 @@ class NumHistory extends History<num> {
   }
 
 
-  Date getZero() => new Date(1, 1, 90);
-
   Change newChange(Date date, dynamic amount) => new NumChange(date, amount);
 
   @override

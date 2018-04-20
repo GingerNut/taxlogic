@@ -13,21 +13,16 @@ abstract class History<T> extends LookupTable<Date>{
 
 
   set (T  amount){
-    history.add(newChange(getZero(), amount));
+
+    history.add(newChange(new Date(1,1,1900), amount));
 
     sort();
   }
 
-
-
   Change newChange(Date threshold, T  amount);
-
-  Date getZero() => new Date(1,1,1900);
-
 
 
   T valueAt(Date threshold) => (getEntry(threshold) as Change).amount;
-
 
 
 }

@@ -18,10 +18,7 @@ class ChargeableAsset extends Asset{
   bool rolloverReliefAsset = false;
   bool exempt = false;
 
-  ChargeableAsset(Entity entity) : super(entity){
-    acquisition = new Purchase(this, null, 0);
-    disposal = new Sale(null, 0);
-  }
+  ChargeableAsset(Entity entity) : super(entity);
 
   List<Improvement> _improvements = new List();
   List<ChargeableAsset> disposals = new List();
@@ -39,21 +36,21 @@ class ChargeableAsset extends Asset{
     return _totalImprovements;
 }
 
-  num get taxableGain{
+  num taxableGain(Entity entity){
 
     if(_taxableGain != null) return _taxableGain;
 
-    num gain = disposal.consideration - acquisition.cost - totalImprovements;
+    num gain = disposalConsideration(entity) - acquisitionConsideration(entity) - totalImprovements;
 
-    gain = adjustGain(gain);
+    gain = adjustGain(entity, gain);
 
     gain  = Utilities.roundIncome(gain);
 
     _taxableGain = gain;
 
-    if(owner.type == Entity.COMPANY && _taxableGain > 0){
+    if(owner(disposalDate(entity)+ -1).type == Entity.COMPANY && _taxableGain > 0){
 
-      num indexation = min(TaxData.IndexationFactor(acquisition.date, disposal.date) * acquisition.cost, _taxableGain);
+      num indexation = min(TaxData.IndexationFactor(acquisitionDate(entity), disposalDate(entity)) * acquisitionConsideration(entity), _taxableGain);
 
       _taxableGain -= indexation ;
 
@@ -63,10 +60,7 @@ class ChargeableAsset extends Asset{
   }
 
 
-  num adjustGain(num gain){
-
-    return gain;
-  }
+  num adjustGain(Entity entity, num gain)=> gain;
 
 
   addImprovement(Improvement improvement){

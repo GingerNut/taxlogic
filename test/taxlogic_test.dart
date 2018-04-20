@@ -2,6 +2,7 @@ import 'package:taxlogic/src/activity/lending/loan.dart';
 import 'package:taxlogic/src/assets/asset.dart';
 
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -1499,7 +1500,8 @@ void capitalGains() {
     person;
 
     setUp(()  {
-     person = new Person();
+     person = new Person()
+     ..name = 'Harry';
      person.scotland = false;
 
      taxPosition = person.taxYear(2018);
@@ -1522,21 +1524,20 @@ void capitalGains() {
     test('gain proceeds 10000 cost 5000 improvement 1500', () {
 
       ChargeableAsset asset = new ChargeableAsset(person);
-      asset.acquisition.cost = 5000;
-      asset.disposal.consideration = 10000;
+      asset.setAcquisitionConsideration(person,  5000);
+      asset.sell(person, new Date(5,4,18), 10000);
       asset.addImprovement(new Improvement(1000));
       asset.addImprovement(new Improvement(500));
 
-      expect(asset.taxableGain, 3500);
+      expect(asset.taxableGain(person), 3500);
 
     });
 
     test('One asset with gain of 5000', () {
 
       ChargeableAsset asset = new ChargeableAsset(person);
-      asset.acquisition.cost = 5000;
-      asset.disposal.consideration = 10000;
-      asset.disposal.date = new Date(5,4,18);
+      asset.setAcquisitionConsideration(person,  5000);
+      asset.sell(person,  new Date(5,4,18) ,10000);
       person.assets.add(asset);
       taxPosition.tax;
 
@@ -1548,26 +1549,23 @@ void capitalGains() {
 
       // gain 0f 13000
       ChargeableAsset asset01 = new ChargeableAsset(person);
-      asset01.acquisition.cost = 2000;
-      asset01.disposal.consideration = 15000;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  2000);
+      asset01.sell(person,  new Date(5,4,18), 15000);
       person.assets.add(asset01);
 
 
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
-      asset02.acquisition.cost = 4000;
+      asset02.setAcquisitionConsideration(person,  4000);
       asset02.addImprovement(new Improvement(1000));
-      asset02.disposal.consideration = 1000;
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.sell(person,  new Date(5,4,18) , 1000);
       person.assets.add(asset02);
 
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
-      asset03.acquisition.cost = 5000;
-      asset03.disposal.consideration = 10000;
-      asset03.disposal.date = new Date(6,4,18);
+      asset03.setAcquisitionConsideration(person, 5000);
+      asset03.sell(person, new Date(6,4,18), 10000);
       person.assets.add(asset03);
       person.taxYear(2018).tax;
 
@@ -1582,25 +1580,22 @@ void capitalGains() {
 
       // gain 0f 13000
       ChargeableAsset asset01 = new ChargeableAsset(person);
-      asset01.acquisition.cost = 2000;
-      asset01.disposal.consideration = 15000;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  2000);
+      asset01.sell(person, new Date(5,4,18),15000);
       person.assets.add(asset01);
 
 
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
-      asset02.acquisition.cost = 5000;
-      asset02.disposal.consideration = 1000;
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.setAcquisitionConsideration(person,  5000);
+      asset02.sell(person,  new Date(5,4,18) , 1000);
       person.assets.add(asset02);
 
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
-      asset03.acquisition.cost = 5000;
-      asset03.disposal.consideration = 10000;
-      asset03.disposal.date = new Date(6,4,18);
+      asset03.setAcquisitionConsideration(person,  5000);
+      asset03.sell(person,  new Date(6,4,18), 10000);
       person.assets.add(asset03);
     person.taxYear(2018).tax;
 
@@ -1616,25 +1611,22 @@ void capitalGains() {
 
       // gain 0f 15500
       ChargeableAsset asset01 = new ChargeableAsset(person);
-      asset01.acquisition.cost = 2000;
-      asset01.disposal.consideration = 17500;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  2000);
+      asset01.sell(person,  new Date(5,4,18), 17500);
       person.assets.add(asset01);
 
 
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
-      asset02.acquisition.cost = 5000;
-      asset02.disposal.consideration = 1000;
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.setAcquisitionConsideration(person,  5000);
+      asset02.sell(person,  new Date(5,4,18), 1000);
       person.assets.add(asset02);
 
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
-      asset03.acquisition.cost = 5000;
-      asset03.disposal.consideration = 10000;
-      asset03.disposal.date = new Date(6,4,18);
+      asset03.setAcquisitionConsideration(person,  5000);
+      asset03.sell(person,  new Date(6,4,18), 10000);
       person.assets.add(asset03);
 
       person.taxYear(2018).tax;
@@ -1650,9 +1642,8 @@ void capitalGains() {
 
       // gain 0f 15500
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.acquisition.cost = 2000;
-      asset01.disposal.consideration = 17500;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  2000);
+      asset01.sell(person,  new Date(5,4,18), 17500);
       person.assets.add(asset01);
 
       person.taxYear(2018).tax;
@@ -1668,9 +1659,8 @@ void capitalGains() {
 
       // gain 0f 15500
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.acquisition.cost = 2000;
-      asset01.disposal.consideration = 17500;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  2000);
+      asset01.sell(person,  new Date(5,4,18), 17500);
       person.assets.add(asset01);
       earnings.income= 20000;
 
@@ -1688,28 +1678,23 @@ void capitalGains() {
       earnings.income= 20000;
       // gain 0f 10000 res
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 10000;
-      asset01.acquisition.cost = 0;
-
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  0);
+      asset01.sell(person,  new Date(5,4,18), 10000);
       person.assets.add(asset01);
 
 
       // gain 0f 11000 non res
       ChargeableAsset asset02 = new Investment(person);
-      asset02.disposal.consideration = 11000;
-      asset02.acquisition.cost = 0;
-
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.setAcquisitionConsideration(person,  0);
+      asset02.sell(person,  new Date(5,4,18), 11000);
       person.assets.add(asset02);
       earnings.income= 20000;
 
       // loss pf 15000
       ResidentialProperty asset20 = new ResidentialProperty(person);
-      asset20.disposal.consideration = 0;
-      asset20.acquisition.cost = 15000;
 
-      asset20.disposal.date = new Date(5,4,18);
+      asset20.setAcquisitionConsideration(person,  15000);
+      asset20.sell(person,  new Date(5,4,18), 0);
       person.assets.add(asset20);
       earnings.income= 20000;
       person.taxYear(2018).tax;
@@ -1732,62 +1717,50 @@ void capitalGains() {
       
       // gain 0f 4000 res
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 4000;
-      asset01.acquisition.cost = 0;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  0);
+      asset01.sell(person,  new Date(5,4,18), 4000);
       person.assets.add(asset01);
       
 
       // gain 0f 5000  res
       ResidentialProperty asset02 = new ResidentialProperty(person);
-      asset02.disposal.consideration = 5000;
-      asset02.acquisition.cost = 0;
+      asset02.setAcquisitionConsideration(person,  0);
 
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.sell(person,  new Date(5,4,18), 5000);
       person.assets.add(asset02);
 
       // gain 0f 6000 non res
       ChargeableAsset asset03 = new Investment(person);
-      asset03.disposal.consideration = 6000;
-      asset03.acquisition.cost = 0;
-
-      asset03.disposal.date = new Date(5,4,18);
+      asset03.setAcquisitionConsideration(person,  0);
+      asset03.sell(person,  new Date(5,4,18),6000);
       person.assets.add(asset03);
 
       // gain 0f 8000 ent
       ChargeableAsset asset04 = new Investment(person);
-      asset04.disposal.consideration = 8000;
-      asset04.acquisition.cost = 0;
-
-      asset04.disposal.date = new Date(5,4,18);
+      asset04.setAcquisitionConsideration(person,  0);
+      asset04.sell(person,  new Date(5,4,18), 8000);
       asset04.entrepreneurRelief = true;
 
       person.assets.add(asset04);
 
       // gain 0f 12000 ent
       ChargeableAsset asset05 = new Investment(person);
-      asset05.disposal.consideration = 12000;
-      asset05.acquisition.cost = 0;
-
-      asset05.disposal.date = new Date(5,4,18);
+      asset05.setAcquisitionConsideration(person,  0);
+      asset05.sell(person,  new Date(5,4,18), 12000);
       asset04.entrepreneurRelief = true;
       person.assets.add(asset05);
 
 
       // loss pf 8000
       ResidentialProperty asset20 = new ResidentialProperty(person);
-      asset20.disposal.consideration = 0;
-      asset20.acquisition.cost = 8000;
-
-      asset20.disposal.date = new Date(5,4,18);
+      asset20.setAcquisitionConsideration(person,  8000);
+      asset20.sell(person,  new Date(5,4,18), 0);
       person.assets.add(asset20);
 
       // loss pf 4000
       ResidentialProperty asset21 = new ResidentialProperty(person);
-      asset21.disposal.consideration = 0;
-      asset21.acquisition.cost = 4000;
-
-      asset21.disposal.date = new Date(5,4,18);
+      asset21.setAcquisitionConsideration(person,  4000);
+      asset21.sell(person,  new Date(5,4,18), 0);
       person.assets.add(asset21);
       person.taxYear(2018).tax;
 
@@ -1809,26 +1782,22 @@ void capitalGains() {
 
       // gain 0f 20000 res
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 20000;
-      asset01.acquisition.cost = 0;
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  0);
+      asset01.sell(person,  new Date(5,4,18), 20000);
       person.assets.add(asset01);
 
 
       // gain 0f 50000 non res
       ChargeableAsset asset02 = new ChargeableAsset(person);
-      asset02.disposal.consideration = 50000;
-      asset02.acquisition.cost = 0;
-
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.setAcquisitionConsideration(person,  0);
+      asset02.sell(person,  new Date(5,4,18), 50000);
       person.assets.add(asset02);
 
       // gain 0f 8000 ent
       ChargeableAsset asset03 = new ChargeableAsset(person);
-      asset03.disposal.consideration = 8000;
-      asset03.disposal.date = new Date(5,4,18);
+      asset03.sell(person,  new Date(5,4,18), 8000);
       asset03.entrepreneurRelief = true;
-      asset03.acquisition.cost = 0;
+      asset03.setAcquisitionConsideration(person,  0);
       person.assets.add(asset03);
 
       person.taxYear(2018).tax;
@@ -1846,18 +1815,16 @@ void capitalGains() {
 
       // loss on main residence
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 0;
-      asset01.acquisition.cost = 20000;
+      asset01.setAcquisitionConsideration(person,  20000);
       asset01.addResidencePeriod(new Period(new Date(31,1,17), new Date(5,4,18)));
-      asset01.acquisition.date = new Date(1,1,17);
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionDate(person, new Date(1,1,17));
+      asset01.sell(person,  new Date(5,4,18), 0);
       person.assets.add(asset01);
 
       ResidentialProperty asset02 = new ResidentialProperty(person);
-      asset02.disposal.consideration = 20000;
-      asset02.acquisition.cost = 0;
-      asset01.acquisition.date = new Date(1,1,17);
-      asset02.disposal.date = new Date(5,4,18);
+      asset02.setAcquisitionConsideration(person,  0);
+      asset01.setAcquisitionDate(person, new Date(1,1,17));
+      asset02.sell(person,  new Date(5,4,18), 20000);
       person.assets.add(asset02);
 
       person.taxYear(2018).tax;
@@ -1874,18 +1841,16 @@ void capitalGains() {
     test('Main residence relief - last 18 months', () {
 
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 30000;
-      asset01.acquisition.cost = 0;
-      asset01.acquisition.date = new Date(13,1,15);
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  0);
+      asset01.setAcquisitionDate(person,  new Date(13,1,15));
+      asset01.sell(person,  new Date(5,4,18), 30000);
       asset01.addResidencePeriod(new Period(new Date(13,1,15), new Date(5,4,18)));
       person.assets.add(asset01);
 
       ResidentialProperty asset02 = new ResidentialProperty(person);
-      asset02.disposal.consideration = 20000;
-      asset02.acquisition.cost = 0;
-      asset02.acquisition.date = new Date(1,7,16);
-      asset02.disposal.date = new Date(31,12,17);
+      asset02.setAcquisitionConsideration(person,  0);
+      asset02.setAcquisitionDate(person,  new Date(1,7,16));
+      asset02.sell(person,  new Date(31,12,17), 20000);
       asset02.addResidencePeriod(new Period(new Date(1,1,18), new Date(5,4,18)));
       person.assets.add(asset02);
 
@@ -1903,14 +1868,13 @@ void capitalGains() {
     test('Main residence relief - periods', () {
 
       ResidentialProperty asset01 = new ResidentialProperty(person);
-      asset01.disposal.consideration = 100000;
-      asset01.acquisition.cost = 0;
-      asset01.acquisition.date = new Date(13,1,15);
-      asset01.disposal.date = new Date(5,4,18);
+      asset01.setAcquisitionConsideration(person,  0);
+      asset01.setAcquisitionDate(person,  new Date(13,1,15));
+      asset01.sell(person,  new Date(5,4,18), 100000);
       asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
       person.assets.add(asset01);
 
-      expect(asset01.taxableGain, 30985);
+      expect(asset01.taxableGain(person), 30985);
 
     });
 
@@ -1918,12 +1882,11 @@ void capitalGains() {
       Company company = new Company();
 
       Investment asset01 = new Investment(company);
-      asset01.disposal.consideration = 100000;
-      asset01.acquisition.cost = 20000;
-      asset01.acquisition.date = new Date(1,12,90);
-      asset01.disposal.date = new Date(1,3,16);
+      asset01.setAcquisitionConsideration(company,  20000);
+      asset01.setAcquisitionDate(company, new Date(1,12,90));
+      asset01.sell(company,  new Date(1,3,16), 100000);
 
-      expect(asset01.taxableGain, 59800);
+      expect(asset01.taxableGain(company), 59800);
     });
 
 
@@ -2250,9 +2213,8 @@ void corporationTax(){
     test('Accounting period', () {
 
       ChargeableAsset asset01 = new ChargeableAsset(company);
-      asset01.disposal.date = new Date(30,9,20);
-      asset01.disposal.consideration = 10000;
-      asset01.acquisition.cost = 5000;
+      asset01.sell(company, new Date(30,9,20), 10000);
+      asset01.setAcquisitionConsideration(company, 5000);
       company.assets.add(asset01);
 
       other.income = 10000;
@@ -2348,10 +2310,12 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
 
+      Date date = new Date(1,8,17);
+
       new ShareTransaction(holding1)
       ..numberOfShares = 25
-        .. date = new Date(1,8,17)
-        ..seller = holding1.owner
+        .. date = date
+        ..seller = holding1.owner(date)
         ..buyer = shareholder3
         ..consideration = 50000
       ..go();
@@ -2415,10 +2379,12 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
 
+      Date date = new Date(1,8,17);
+
       new ShareTransaction(holding1)
       ..numberOfShares = 25
-      .. date = new Date(1,8,17)
-      ..seller = holding1.owner
+      .. date = date
+      ..seller = holding1.owner(date)
       ..buyer = shareholder3
       ..consideration = 100000
       ..go();
@@ -2479,10 +2445,11 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 50);
       ShareHolding holding2 = company.founder(shareholder2, 50);
 
+      Date date = new Date(1,8,17);
       new ShareTransaction(holding1)
       ..numberOfShares = 25
-        .. date = new Date(1,8,17)
-        ..seller = holding1.owner
+        .. date = date
+        ..seller = holding1.owner(date)
         ..buyer = shareholder3
         ..consideration = 0
       ..go();

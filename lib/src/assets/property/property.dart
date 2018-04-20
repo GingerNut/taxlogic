@@ -51,6 +51,7 @@ class Property extends ChargeableAsset{
 
   Property getProperty(Entity entity) => new Property(entity);
 
+  /*
   @override
   onTransaction(Transaction transaction) {
 
@@ -87,5 +88,5 @@ class Property extends ChargeableAsset{
 
   }
 
-
+*/
 }

@@ -37,16 +37,16 @@ abstract class TaxPosition{
     disposals.clear();
 
     entity.assets.forEach((asset) {
-      if(asset is ChargeableAsset && asset.disposal.date != null){
-        if(period.includes(asset.disposal.date)){
+      if(asset is ChargeableAsset && asset.disposalDate(entity) != null){
+        if(period.includes(asset.disposalDate(entity))){
           disposals.add(asset);
         }
       }
     });
 
     entity.activities.forEach((activity) {
-      if(activity is ShareHolding && activity.disposal.date != null){
-        if(period.includes(activity.disposal.date)){
+      if(activity is ShareHolding && activity.disposalDate(entity) != null){
+        if(period.includes(activity.disposalDate(entity))){
           disposals.add(activity);
         }
       }
@@ -66,10 +66,10 @@ abstract class TaxPosition{
 
     disposals.forEach((asset){
 
-      if(asset.taxableGain > 0){
-        totalGains += asset.taxableGain;
+      if(asset.taxableGain(entity) > 0){
+        totalGains += asset.taxableGain(entity);
       } else{
-        capitalLosses -= asset.taxableGain;
+        capitalLosses -= asset.taxableGain(entity);
 
       }
 

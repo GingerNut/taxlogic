@@ -1,4 +1,5 @@
 import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/assets/property/property.dart';
 
@@ -14,9 +15,9 @@ class ResidentialProperty extends Property{
   ResidentialProperty(Entity entity) : super(entity);
 
   @override
-  num adjustGain(num gain){
+  num adjustGain(Entity entity, num gain){
 
-    gain = calculateMainResidenceRelief(gain);
+    gain = calculateMainResidenceRelief(entity, gain);
 
     return gain;
   }
@@ -29,15 +30,23 @@ class ResidentialProperty extends Property{
 
   }
 
-  void setAllMainResidence(){
-    addResidencePeriod(new Period(acquisition.date, disposal.date));
+  void setAllMainResidence(Entity entity){
+    addResidencePeriod(new Period(acquisitionDate(entity), disposalDate(entity)));
     refreshGain();
   }
 
-  num calculateMainResidenceRelief(num gain){
+  num calculateMainResidenceRelief(Entity entity, num gain){
     if(_mainResidencePeriods.length ==0) return gain;
 
-    Period ownership = new Period(acquisition.date, disposal.date);
+    //print('printing from calc main resi');
+
+   // (transactions.history[0] as TransactionChange).amount.printTransaction();
+   // (transactions.history[1] as TransactionChange).amount.printTransaction();
+
+   // print(disposalDate(entity));
+   // print(acquisitionDate(entity));
+
+    Period ownership = new Period(acquisitionDate(entity), disposalDate(entity));
 
     // if a loss cannot be allowable
 
@@ -59,7 +68,7 @@ class ResidentialProperty extends Property{
 
     // consolidate main residence periods to find length compared to ownership
 
-     _mainResidencePeriods.add(Period.monthsTo(disposal.date, 18));
+     _mainResidencePeriods.add(Period.monthsTo(disposalDate(entity), 18));
 
     List<Period> _nonOverlappingPeriods = Period.consolidatePeriods(_mainResidencePeriods);
 

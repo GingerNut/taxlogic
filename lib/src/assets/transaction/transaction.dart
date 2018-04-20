@@ -17,6 +17,27 @@ class Transaction{
   num consideration;
   Date date;
 
+  disposal(Entity entity){
+    if(entity == seller) return date;
+    else return null;
+  }
+
+  acquisition(Entity entity){
+    if(entity == buyer) return date;
+    else return null;
+  }
+
+  printTransaction(){
+
+    print('Transaction details ');
+    print('Asset type $asset');
+    print('Asset name ${asset.name}');
+    date.printDate();
+    print('Seller is $seller');
+    print('buyer is $buyer');
+
+  }
+
   go(){
 
     asset.onTransaction(this);

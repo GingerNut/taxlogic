@@ -10,7 +10,8 @@ class Period{
   int get days => end.dateTime.difference(start.dateTime).inDays + 1;
 
   Period(Date one, Date two){
-    if(one < two){
+
+     if(one < two){
       this.start = one;
       this.end = two;
     } else {
