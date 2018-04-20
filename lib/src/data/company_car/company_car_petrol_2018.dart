@@ -3,7 +3,7 @@ import 'company_car.dart';
 
 class CompanyCarPetrol2018 extends CompanyCarRates{
 
-  RateTable table = new RateTable([
+  RateTable table = new RateTable.fromList([
     new RateThreshold(0,9),
     new RateThreshold(51,13),
     new RateThreshold(76,17),

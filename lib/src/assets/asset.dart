@@ -10,6 +10,11 @@ export 'package:taxlogic/src/assets/property/property.dart';
 export 'chargeable_assets.dart';
 
 abstract class Asset{
+  String name;
+  String description;
+  int locus = Country.GBR;
+  JointShare jointShare = null;
+  ValueHistory value;
 
   Asset(Entity entity){
 
@@ -31,9 +36,7 @@ abstract class Asset{
 
   }
 
-  owner(Date date) {
-    return transactions.valueAt(date).buyer;
-  }
+  owner(Date date) => transactions.valueAt(date).buyer;
 
   TransactionHistory transactions = new TransactionHistory();
 
@@ -50,17 +53,6 @@ abstract class Asset{
   setAcquisitionConsideration(Entity entity, num consideration) => transactions.setAcquisitionConsideration(entity, consideration);
 
   sell(Entity entity, Date date, amount)=> transactions.sell(this, entity, date, amount);
-
-
-
-  String name;
-  String description;
-  int locus = Country.GBR;
-
-  JointShare jointShare = null;
-
-
-  ValueHistory value;
 
   onTransaction(Transaction transaction){}
 }

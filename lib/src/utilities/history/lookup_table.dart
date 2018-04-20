@@ -5,18 +5,12 @@ abstract class LookupTable<T>{
   List<TableEntry> history = new List();
 
   LookupTable();
+
   LookupTable.fromList(this.history);
 
   TableEntry get(int index) => history[index];
 
-  add(TableEntry change){
-    if(history.length == 0) {
-
-    }
-      history.add(change);
-
-  }
-
+  add(TableEntry change)=> history.add(change);
 
   sort(){
     // TODO sort routine for RateHistory

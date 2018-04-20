@@ -765,21 +765,21 @@ void rateTable(){
 
     test('Test ', () {
 
-      RateTable table = new RateTable([
+      RateTable table = new RateTable.fromList([
         new RateThreshold(0,0),
         new RateThreshold(50,1),
         new RateThreshold(100,2),
         new RateThreshold(150,3),
       ]);
 
-      expect(table.rate(49), 0);
-      expect(table.rate(50), 1);
-      expect(table.rate(99), 1);
-      expect(table.rate(100), 2);
-      expect(table.rate(101), 2);
-      expect(table.rate(149), 2);
-      expect(table.rate(150), 3);
-      expect(table.rate(155), 3);
+      expect(table.valueAt(49), 0);
+      expect(table.valueAt(50), 1);
+      expect(table.valueAt(99), 1);
+      expect(table.valueAt(100), 2);
+      expect(table.valueAt(101), 2);
+      expect(table.valueAt(149), 2);
+      expect(table.valueAt(150), 3);
+      expect(table.valueAt(155), 3);
     });
 
   });

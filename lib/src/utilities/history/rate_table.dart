@@ -1,36 +1,19 @@
+import 'package:taxlogic/src/utilities/history/lookup_table.dart';
 
 
 
 
-class RateTable{
-  RateTable(this.table);
+class RateTable extends LookupTable<num>{
+  RateTable.fromList(List<RateThreshold> table) : super.fromList(table);
 
-  final List<RateThreshold> table;
-
-  num rate(num crtierion){
-
-    if(table.length == 0) return null;
-
-    int index = 1;
-
-    while(index < table.length ){
-
-      if(crtierion >= table[index].threshold) index ++;
-      else break;
-    }
-
-    return table[index - 1].rate;
-  }
-
-
+  num valueAt(num crtierion)=> (getEntry(crtierion) as RateThreshold).rate;
 
 }
 
 
-class RateThreshold{
-  RateThreshold(this.threshold, this.rate);
+class RateThreshold extends TableEntry<num>{
+  RateThreshold(this.threshold, this.rate) : super(threshold);
 
   final num threshold;
   final num rate;
-
 }
