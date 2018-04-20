@@ -1,18 +1,16 @@
+import 'package:taxlogic/src/utilities/history/lookup_table.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 
-abstract class History<T>{
-  History();
-  History.fromList(this.history);
+abstract class History<T> extends LookupTable<Date>{
+  History() : super();
 
-  List<Change> history = new List();
+  History.fromList(List<TableEntry> history) : super.fromList(history);
+
+
 
   Change get(int index) => history[index];
 
-  add(Change change){
-    if(history.length == 0) setNil();
-    history.add(change);
-  }
 
   set (T  amount){
     history.add(newChange(getZero(), amount));
@@ -20,66 +18,22 @@ abstract class History<T>{
     sort();
   }
 
-  setNil();
+
 
   Change newChange(Date threshold, T  amount);
 
   Date getZero() => new Date(1,1,1900);
 
-  sort(){
-    // TODO sort routine for RateHistory
-  }
-
-  T valueAt(Date threshold){
-
-    T  rate = get(0).amount;
-
-    int i = 1;
-
-    while(i < history.length && !(history[i].date > threshold)){
-
-      rate = get(i).amount;
-
-      i++;
-    }
-    return rate;
-  }
-
-  Date lastChange(Date threshold){
-
-    Date lastDate = history[0].date;
-
-    int i = 1;
-
-    while(i < history.length && history[i].date < threshold){
-
-      lastDate = history[i].date;
-
-      i++;
-    }
-    return lastDate;
 
 
-  }
+  T valueAt(Date threshold) => (getEntry(threshold) as Change).amount;
 
-  Date nextChange(Date date){
-
-    int i = 0;
-
-    while(i < history.length && !(history[i].date > date)) {
-      i++;
-    }
-
-    if(i < history.length) return history[i].date;
-
-    return null;
-  }
 
 
 }
 
-abstract class Change<T>{
-  Change(this.date, this.amount);
+abstract class Change<T> extends TableEntry<Date>{
+  Change(this.date, this.amount) : super(date);
 
     final Date date;
     final T  amount;
