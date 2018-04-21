@@ -11,14 +11,14 @@ class PaychangeEmployment extends Move{
   Date date;
   num amount;
 
-  doMove(Position position) {
+  go(Position position) {
 
     Employment employment = position.getActivityByName(identifier);
     employment.changeIncome(date, amount);
 
   }
 
-  String checkMove(Position position) {
+  String check(Position position) {
     Employment employment = position.getActivityByName(identifier);
     if(employment == null) return 'employment not found';
 

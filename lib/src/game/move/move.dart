@@ -1,5 +1,6 @@
 
 import '../position/position.dart';
+import 'package:taxlogic/src/narrative/advice.dart';
 
 export 'package:taxlogic/src/game/move/employment/move_start_employment.dart';
 export 'package:taxlogic/src/game/move/employment/move_add_company_car.dart';
@@ -18,7 +19,9 @@ abstract class Move{
 
   Move();
 
-  String checkMove(Position position); // 'OK' means checks passed
+  Advice advice(Position position) => null;
 
-  doMove(Position position);
+  String check(Position position); // //OK means move is good
+
+  go(Position position);
 }

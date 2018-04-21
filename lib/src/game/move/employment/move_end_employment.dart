@@ -15,7 +15,7 @@ class EndEmployment extends Move{
   Date cessationDate;
   num termination;
 
-  doMove(Position position) {
+  go(Position position) {
 
     Person person = position.getEntityByName(personId);
 
@@ -29,7 +29,7 @@ class EndEmployment extends Move{
 
   }
 
-  String checkMove(Position position) {
+  String check(Position position) {
     Person person = position.getEntityByName(personId);
     if(person == null) return 'person not found';
 

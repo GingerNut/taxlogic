@@ -16,7 +16,7 @@ class BuyRentalProperty extends Move{
   Date date;
 
   @override
-  doMove(Position position) {
+  go(Position position) {
     entity = position.getEntityByName(entityId);
 
     new Transaction(property)
@@ -29,7 +29,7 @@ class BuyRentalProperty extends Move{
   }
 
   @override
-  String checkMove(Position position) {
+  String check(Position position) {
     entity = position.getEntityByName(entityId);
     if(entity == null) return 'entity not found';
 

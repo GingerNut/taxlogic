@@ -15,7 +15,7 @@ class CreateIndividual extends Move{
 
 
   @override
-  doMove(Position position) {
+  go(Position position) {
 
     person = new Person()
       ..name = name
@@ -27,7 +27,7 @@ class CreateIndividual extends Move{
 
 
     @override
-  String checkMove(Position test) {
+  String check(Position test) {
     return 'OK';
   }
 }

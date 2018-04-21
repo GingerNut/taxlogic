@@ -19,7 +19,7 @@ class SellRentalProperty extends Move{
   Date date;
 
   @override
-  doMove(Position position) {
+  go(Position position) {
     entityFrom = position.getEntityByName(entityFromId);
     entityTo = position.getEntityByName(entityToId);
 
@@ -37,7 +37,7 @@ class SellRentalProperty extends Move{
   }
 
   @override
-  String checkMove(Position position) {
+  String check(Position position) {
     entityFrom = position.getEntityByName(entityFromId);
     if(entityFrom == null) return 'selling entity not found';
 

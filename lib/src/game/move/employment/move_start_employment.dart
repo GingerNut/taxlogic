@@ -16,7 +16,7 @@ class StartEmployment extends Move{
   num income;
 
   @override
-  doMove(Position position) {
+  go(Position position) {
 
     Person person = position.getEntityByName(personId);
     Employment employment = new Employment(person);
@@ -25,7 +25,7 @@ class StartEmployment extends Move{
     employment.setIncome(income);
   }
 
-  String checkMove(Position position) {
+  String check(Position position) {
     Entity entity = position.getEntityByName(personId);
 
     if(entity.type != Entity.INDIVIDUAL) return 'only individuals can be employees';

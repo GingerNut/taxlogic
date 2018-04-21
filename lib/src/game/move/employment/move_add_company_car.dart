@@ -17,7 +17,7 @@ class EmploymentCompanyCar extends Move{
   num listPrice;
   num CO2;
 
-  doMove(Position position) {
+  go(Position position) {
 
     Person person = position.getEntityByName(personId);
     Employment employment = person.getActivityByName(employmentId);
@@ -32,7 +32,7 @@ class EmploymentCompanyCar extends Move{
 
   }
 
-  String checkMove(Position position) {
+  String check(Position position) {
     Person person = position.getEntityByName(personId);
     if(person == null) return 'person not found';
     if(person.type != Entity.INDIVIDUAL) return 'only individuals can have company cars';

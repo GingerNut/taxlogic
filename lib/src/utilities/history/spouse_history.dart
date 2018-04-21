@@ -6,24 +6,12 @@ import 'package:taxlogic/src/utilities/history/history.dart';
 
 class SpouseHistory extends History<Spouse>{
 
-
-
-
-
-
-
-
-  @override
   SpouseChange newChange(Date date, Spouse spouse)=> new SpouseChange(date, spouse);
-
-
 
 }
 
 class SpouseChange extends Change<Spouse>{
   SpouseChange(Date date, Spouse spouse) : super(date, spouse);
-
-
 
 }
 

@@ -2,6 +2,7 @@
 import 'package:taxlogic/src/game/move/move.dart';
 import 'package:taxlogic/src/game/position/position.dart';
 import '../../../entities/entity.dart';
+import 'package:taxlogic/src/narrative/advice.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 
@@ -15,7 +16,7 @@ class CreateCompany extends Move{
 
 
   @override
-  doMove(Position position) {
+  go(Position position) {
 
     company = new Company()
       ..name = name
@@ -27,8 +28,9 @@ class CreateCompany extends Move{
 
 
     @override
-  String checkMove(Position test) {
+  String check(Position test) {
 
     return 'OK';
   }
+
 }
