@@ -27,6 +27,10 @@ class Transaction{
     else return null;
   }
 
+  num gain() => 0;
+
+  num duty() => 0;
+
   printTransaction(){
 
     print('Transaction details ');
@@ -38,10 +42,7 @@ class Transaction{
 
   }
 
-  go(){
-
-    asset.onTransaction(this);
-  }
+  go() => asset.onTransaction(this);
 
 
 }

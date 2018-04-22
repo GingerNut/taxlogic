@@ -3,7 +3,7 @@
 import 'package:taxlogic/src/accounts/accounts.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/asset.dart';
-import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
+
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/history/num_history.dart';

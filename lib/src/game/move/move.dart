@@ -1,6 +1,6 @@
 
 import '../position/position.dart';
-import 'package:taxlogic/src/narrative/advice.dart';
+import 'package:taxlogic/src/advice/advice.dart';
 
 export 'package:taxlogic/src/game/move/employment/move_start_employment.dart';
 export 'package:taxlogic/src/game/move/employment/move_add_company_car.dart';

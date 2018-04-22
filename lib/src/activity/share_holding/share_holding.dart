@@ -1,5 +1,5 @@
 import 'package:taxlogic/src/activity/activity.dart';
-import 'package:taxlogic/src/assets/transaction/disposal/disposal.dart';
+
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/company/share_history.dart';
 import 'package:taxlogic/src/entities/entity.dart';

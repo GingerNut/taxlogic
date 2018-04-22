@@ -2,7 +2,7 @@
 import 'package:taxlogic/src/game/move/move.dart';
 import 'package:taxlogic/src/game/position/position.dart';
 import '../../../entities/entity.dart';
-import 'package:taxlogic/src/narrative/advice.dart';
+import 'package:taxlogic/src/advice/advice.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 

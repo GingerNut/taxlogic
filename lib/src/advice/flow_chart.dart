@@ -1,5 +1,6 @@
-import 'package:taxlogic/src/narrative/advice.dart';
-import 'package:taxlogic/src/narrative/graphic.dart';
+import 'package:taxlogic/src/advice/graphic.dart';
+import 'package:taxlogic/src/advice/advice.dart';
+
 
 
 
