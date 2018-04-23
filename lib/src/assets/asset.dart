@@ -18,6 +18,8 @@ abstract class Asset{
 
   Asset(Entity entity){
 
+    if(entity != null)entity.assets.add(this);
+
     Transaction transaction = new Transaction(this)
         ..buyer = entity
     ..consideration = 0;
@@ -54,5 +56,11 @@ abstract class Asset{
 
   sell(Entity entity, Date date, amount)=> transactions.sell(this, entity, date, amount);
 
-  onTransaction(Transaction transaction){}
+  onTransaction(Transaction transaction){
+
+  }
+
+  printTransactions(){
+    transactions.printTransactions();
+  }
 }

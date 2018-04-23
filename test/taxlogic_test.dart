@@ -2,6 +2,7 @@ import 'package:taxlogic/src/activity/lending/loan.dart';
 import 'package:taxlogic/src/assets/asset.dart';
 
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
+import 'package:taxlogic/src/game/move/property_business/transfer_property.dart';
 import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
@@ -9,6 +10,7 @@ import 'package:test/test.dart';
 void main() {
   game();
   dates();
+  transactions();
   periods();
   histories();
   rateTable();
@@ -92,9 +94,10 @@ void game(){
 
       game.makeMove(new CreateIndividual(person1birthday, person1id));
       Person Harry = game.position.getEntityByName(person1id);
+      expect(Harry.assets.length, 0);
       expect((Harry.activities.length), 0);
 
-      game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
+      game.makeMove(new TransferRentalProperty(null, person1id, property1, new Date(6,4,17), 500000));
 
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
 
@@ -104,12 +107,15 @@ void game(){
       expect(taxPosition.tax, 1700);
 
       game.makeMove(new CreateCompany(new Date(6,4,18), company1Id));
-      game.makeMove(new BuyRentalProperty(company1Id, property1, new Date(1,10,18), 500000));
+      game.makeMove(new TransferRentalProperty(person1id, company1Id, property1, new Date(1,10,18), 500000));
 
       Company company = game.position.getEntityByName(company1Id);
 
       CompanyAccountingPeriod companyTaxPosition = company.accountingPeriod(company.defaultPeriod.end(2019));
 
+      // TODO why is rental income not registering compnay transfer date of 1 / 10 1 2018
+
+      expect(company.assets.length, 1);
       expect(companyTaxPosition.tax, 1894.80);
 
     });
@@ -127,15 +133,16 @@ void game(){
       Person Harry = game.position.getEntityByName(person1id);
       expect((Harry.activities.length), 0);
 
-      game.makeMove(new BuyRentalProperty(person1id, property1, new Date(6,4,17), 500000));
+      game.makeMove(new TransferRentalProperty(null, person1id, property1, new Date(6,4,17), 500000));
       game.makeMove(new CreateCompany(new Date(6,4,17), company1Id));
-      game.makeMove(new SellRentalProperty(person1id, company1Id, propertyId, new Date(1,10,17), 520000)); // £20k gain
+      game.makeMove(new TransferRentalProperty(person1id, company1Id, property1, new Date(1,10,17), 520000)); // £20k gain
 
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
       taxPosition.tax;
 
       expect(Harry.assets.length, 1);
       expect((Harry.activities.length), 1);
+      expect(property1.taxableGain(Harry), 20000);
       expect(taxPosition.tax, 1566); // cgt £1,566 = 20000 at 18%
 
       Company company = game.position.getEntityByName(company1Id);
@@ -299,6 +306,56 @@ void dates(){
       expect(periodEnd.next(test).day, 5);
 
     });
+
+  });
+
+
+}
+
+void transactions(){
+
+  group('Transactions ', (){
+
+    test('simple transfer of asset from one person to another', () {
+
+      Date buy = new Date (6,4,17); //  for 100000
+      Date transfer = new Date(1,6,18);  // for 150000
+      Date sell = new Date(1,10,18); // for 200000
+
+      Person person1 = new Person();
+      Person person2 = new Person();
+      Property property = new Property(person1)
+      ..setAcquisitionDate(person1, buy)
+      ..setAcquisitionConsideration(person1, 100000);
+
+      new Transaction(property)
+      ..seller = person1
+      ..buyer = person2
+        ..consideration = 150000
+      ..date = transfer
+      ..go();
+
+      new Transaction(property)
+      ..seller = person2
+        ..consideration = 200000
+      ..date = sell
+      ..go();
+
+
+      expect(person1.assets.length, 1);
+      expect(property.acquisitionDate(person1), buy);
+      expect(property.acquisitionConsideration(person1), 100000);
+      expect(property.disposalDate(person1), transfer);
+      expect(property.disposalConsideration(person1), 150000);
+
+      expect(property.acquisitionDate(person2), transfer);
+      expect(property.acquisitionConsideration(person2), 150000);
+      expect(property.disposalDate(person2), sell);
+      expect(property.disposalConsideration(person2), 200000);
+
+      expect(property.transactions.history.length, 3);
+    });
+
 
   });
 
@@ -1538,7 +1595,7 @@ void capitalGains() {
       ChargeableAsset asset = new ChargeableAsset(person);
       asset.setAcquisitionConsideration(person,  5000);
       asset.sell(person,  new Date(5,4,18) ,10000);
-      person.assets.add(asset);
+
       taxPosition.tax;
 
       expect(person.taxYear(2018).totalGains, 5000);
@@ -1551,7 +1608,7 @@ void capitalGains() {
       ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.setAcquisitionConsideration(person,  2000);
       asset01.sell(person,  new Date(5,4,18), 15000);
-      person.assets.add(asset01);
+
 
 
       // loss of 4000
@@ -1559,14 +1616,12 @@ void capitalGains() {
       asset02.setAcquisitionConsideration(person,  4000);
       asset02.addImprovement(new Improvement(1000));
       asset02.sell(person,  new Date(5,4,18) , 1000);
-      person.assets.add(asset02);
-
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.setAcquisitionConsideration(person, 5000);
       asset03.sell(person, new Date(6,4,18), 10000);
-      person.assets.add(asset03);
+
       person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 13000);
@@ -1582,21 +1637,21 @@ void capitalGains() {
       ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.setAcquisitionConsideration(person,  2000);
       asset01.sell(person, new Date(5,4,18),15000);
-      person.assets.add(asset01);
+
 
 
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.setAcquisitionConsideration(person,  5000);
       asset02.sell(person,  new Date(5,4,18) , 1000);
-      person.assets.add(asset02);
+
 
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.setAcquisitionConsideration(person,  5000);
       asset03.sell(person,  new Date(6,4,18), 10000);
-      person.assets.add(asset03);
+
     person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 13000);
@@ -1613,21 +1668,21 @@ void capitalGains() {
       ChargeableAsset asset01 = new ChargeableAsset(person);
       asset01.setAcquisitionConsideration(person,  2000);
       asset01.sell(person,  new Date(5,4,18), 17500);
-      person.assets.add(asset01);
+
 
 
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.setAcquisitionConsideration(person,  5000);
       asset02.sell(person,  new Date(5,4,18), 1000);
-      person.assets.add(asset02);
+
 
 
       // outside the tax year
       ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.setAcquisitionConsideration(person,  5000);
       asset03.sell(person,  new Date(6,4,18), 10000);
-      person.assets.add(asset03);
+
 
       person.taxYear(2018).tax;
 
@@ -1644,7 +1699,7 @@ void capitalGains() {
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  2000);
       asset01.sell(person,  new Date(5,4,18), 17500);
-      person.assets.add(asset01);
+
 
       person.taxYear(2018).tax;
 
@@ -1661,7 +1716,7 @@ void capitalGains() {
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  2000);
       asset01.sell(person,  new Date(5,4,18), 17500);
-      person.assets.add(asset01);
+
       earnings.income= 20000;
 
       person.taxYear(2018).tax;
@@ -1680,14 +1735,14 @@ void capitalGains() {
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  0);
       asset01.sell(person,  new Date(5,4,18), 10000);
-      person.assets.add(asset01);
+
 
 
       // gain 0f 11000 non res
       ChargeableAsset asset02 = new Investment(person);
       asset02.setAcquisitionConsideration(person,  0);
       asset02.sell(person,  new Date(5,4,18), 11000);
-      person.assets.add(asset02);
+
       earnings.income= 20000;
 
       // loss pf 15000
@@ -1695,7 +1750,7 @@ void capitalGains() {
 
       asset20.setAcquisitionConsideration(person,  15000);
       asset20.sell(person,  new Date(5,4,18), 0);
-      person.assets.add(asset20);
+
       earnings.income= 20000;
       person.taxYear(2018).tax;
 
@@ -1719,7 +1774,7 @@ void capitalGains() {
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  0);
       asset01.sell(person,  new Date(5,4,18), 4000);
-      person.assets.add(asset01);
+
       
 
       // gain 0f 5000  res
@@ -1727,13 +1782,13 @@ void capitalGains() {
       asset02.setAcquisitionConsideration(person,  0);
 
       asset02.sell(person,  new Date(5,4,18), 5000);
-      person.assets.add(asset02);
+
 
       // gain 0f 6000 non res
       ChargeableAsset asset03 = new Investment(person);
       asset03.setAcquisitionConsideration(person,  0);
       asset03.sell(person,  new Date(5,4,18),6000);
-      person.assets.add(asset03);
+
 
       // gain 0f 8000 ent
       ChargeableAsset asset04 = new Investment(person);
@@ -1741,27 +1796,27 @@ void capitalGains() {
       asset04.sell(person,  new Date(5,4,18), 8000);
       asset04.entrepreneurRelief = true;
 
-      person.assets.add(asset04);
+
 
       // gain 0f 12000 ent
       ChargeableAsset asset05 = new Investment(person);
       asset05.setAcquisitionConsideration(person,  0);
       asset05.sell(person,  new Date(5,4,18), 12000);
       asset04.entrepreneurRelief = true;
-      person.assets.add(asset05);
+
 
 
       // loss pf 8000
       ResidentialProperty asset20 = new ResidentialProperty(person);
       asset20.setAcquisitionConsideration(person,  8000);
       asset20.sell(person,  new Date(5,4,18), 0);
-      person.assets.add(asset20);
+
 
       // loss pf 4000
       ResidentialProperty asset21 = new ResidentialProperty(person);
       asset21.setAcquisitionConsideration(person,  4000);
       asset21.sell(person,  new Date(5,4,18), 0);
-      person.assets.add(asset21);
+
       person.taxYear(2018).tax;
 
       expect(person.taxYear(2018).totalGains, 35000);
@@ -1784,21 +1839,21 @@ void capitalGains() {
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  0);
       asset01.sell(person,  new Date(5,4,18), 20000);
-      person.assets.add(asset01);
+
 
 
       // gain 0f 50000 non res
       ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.setAcquisitionConsideration(person,  0);
       asset02.sell(person,  new Date(5,4,18), 50000);
-      person.assets.add(asset02);
+
 
       // gain 0f 8000 ent
       ChargeableAsset asset03 = new ChargeableAsset(person);
       asset03.sell(person,  new Date(5,4,18), 8000);
       asset03.entrepreneurRelief = true;
       asset03.setAcquisitionConsideration(person,  0);
-      person.assets.add(asset03);
+
 
       person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 78000);
@@ -1819,13 +1874,13 @@ void capitalGains() {
       asset01.addResidencePeriod(new Period(new Date(31,1,17), new Date(5,4,18)));
       asset01.setAcquisitionDate(person, new Date(1,1,17));
       asset01.sell(person,  new Date(5,4,18), 0);
-      person.assets.add(asset01);
+
 
       ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.setAcquisitionConsideration(person,  0);
       asset01.setAcquisitionDate(person, new Date(1,1,17));
       asset02.sell(person,  new Date(5,4,18), 20000);
-      person.assets.add(asset02);
+
 
       person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 20000);
@@ -1845,14 +1900,14 @@ void capitalGains() {
       asset01.setAcquisitionDate(person,  new Date(13,1,15));
       asset01.sell(person,  new Date(5,4,18), 30000);
       asset01.addResidencePeriod(new Period(new Date(13,1,15), new Date(5,4,18)));
-      person.assets.add(asset01);
+
 
       ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.setAcquisitionConsideration(person,  0);
       asset02.setAcquisitionDate(person,  new Date(1,7,16));
       asset02.sell(person,  new Date(31,12,17), 20000);
       asset02.addResidencePeriod(new Period(new Date(1,1,18), new Date(5,4,18)));
-      person.assets.add(asset02);
+
 
       person.taxYear(2018).tax;
       expect(person.taxYear(2018).totalGains, 0);
@@ -1872,7 +1927,7 @@ void capitalGains() {
       asset01.setAcquisitionDate(person,  new Date(13,1,15));
       asset01.sell(person,  new Date(5,4,18), 100000);
       asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
-      person.assets.add(asset01);
+
 
       expect(asset01.taxableGain(person), 30985);
 
@@ -2215,7 +2270,7 @@ void corporationTax(){
       ChargeableAsset asset01 = new ChargeableAsset(company);
       asset01.sell(company, new Date(30,9,20), 10000);
       asset01.setAcquisitionConsideration(company, 5000);
-      company.assets.add(asset01);
+
 
       other.income = 10000;
 

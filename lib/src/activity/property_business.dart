@@ -38,23 +38,21 @@ class PropertyBusiness extends Activity{
   @override
   transfer(Transaction transaction) {
 
-    cessation = disposal.date + (-1);
+    cessation = transaction.date + (-1);
 
     PropertyBusiness newbusiness = new PropertyBusiness(transaction.seller)
-    ..commencement = disposal.date
+    ..commencement = transaction.date
     ..name = name;
 
     properties.forEach((property){
-      property.disposal.date  = disposal.date + (-1);
+      property.sell(property.owner(transaction.date), transaction.date, 0);
 
       Property newProp;
 
-      if(property is ResidentialProperty) newProp = new ResidentialProperty(transaction.seller);
-      else newProp = new Property(transaction.seller);
-
-      newProp
-        ..changeRent(property.getRent(disposal.date), disposal.date)
-        ..changeInterest(property.getInterest(disposal.date), disposal.date);
+      if(property is ResidentialProperty) newProp = new ResidentialProperty(transaction.buyer);
+      else newProp = new Property(transaction.buyer)
+      ..changeRent(property.getRent(transaction.date), transaction.date)
+        ..changeInterest(property.getInterest(transaction.date), transaction.date);
 
       newbusiness.properties.add(newProp);
 

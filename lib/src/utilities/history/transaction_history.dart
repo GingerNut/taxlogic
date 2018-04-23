@@ -22,7 +22,7 @@ class TransactionHistory extends History<Transaction>{
       if(test.amount.seller == entity) change = test;
     });
 
-    if(change != null) return change.date;
+    if(change != null) return change.amount.date;
     else return null;
   }
 
@@ -37,8 +37,9 @@ class TransactionHistory extends History<Transaction>{
     });
 
     if(change != null)  {
-
+      //change.amount.printTransaction();
       return change.amount.date;
+
 
     }
     else return null;
@@ -139,6 +140,12 @@ class TransactionHistory extends History<Transaction>{
         .. seller = entity;
 
     history.add(new TransactionChange(transaction));
+  }
+
+  void printTransactions() {
+    history.forEach((change){
+      (change as TransactionChange).amount.printTransaction();
+    });
   }
 }
 

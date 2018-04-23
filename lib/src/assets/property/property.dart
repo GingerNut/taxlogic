@@ -51,23 +51,13 @@ class Property extends ChargeableAsset{
 
   Property getProperty(Entity entity) => new Property(entity);
 
-  /*
+
   @override
   onTransaction(Transaction transaction) {
 
-    Property newProp = getProperty(transaction.buyer)
-        ..acquisition.date = transaction.date
-        ..acquisition.cost = transaction.consideration
-        ..name = name
-        ..setRent(0)
-        ..setInterest(0)
-        ..changeRent(getRent(transaction.date), transaction.date)
-        ..changeInterest(getInterest(transaction.date), transaction.date);
-    transaction.buyer.assets.add(newProp);
-
     PropertyBusiness business;
 
-    transaction.buyer.activities.forEach((activity){
+    if(transaction.buyer != null) transaction.buyer.activities.forEach((activity){
       if(activity is PropertyBusiness) business = activity;
     });
 
@@ -75,18 +65,8 @@ class Property extends ChargeableAsset{
       business = new PropertyBusiness(transaction.buyer);
     }
 
-    business.properties.add(newProp);
-
-    if(transaction.seller != null){
-      this.disposal = new Sale(transaction.date, transaction.consideration);
-
-      changeRent(0, transaction.date);
-      changeInterest(0, transaction.date);
-        }
-
-      return newProp;
-
+    business.properties.add(this);
   }
 
-*/
+
 }

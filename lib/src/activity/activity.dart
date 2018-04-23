@@ -16,7 +16,7 @@ export 'other.dart';
 
 abstract class Activity extends ChargeableAsset{
   Activity(Entity entity): super(entity){
-    entity.activities.add(this);
+    if(entity != null) entity.activities.add(this);
   }
 
   Date commencement;

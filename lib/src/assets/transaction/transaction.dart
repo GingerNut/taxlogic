@@ -1,5 +1,6 @@
 import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'share_transaction.dart';
@@ -42,7 +43,11 @@ class Transaction{
 
   }
 
-  go() => asset.onTransaction(this);
+  go() {
+    asset.transactions.add(new TransactionChange(this));
+
+    asset.onTransaction(this);
+  }
 
 
 }
