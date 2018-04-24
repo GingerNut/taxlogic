@@ -7,14 +7,10 @@ class ShareHistory extends History<int>{
 
 
 
-  @override
-  Date getZero() => new Date(1,1,1900);
 
   @override
   ShareChange newChange(Date date, int number) => new ShareChange(date, number);
 
-  @override
-  setNil()=> set(0);
 }
 
 

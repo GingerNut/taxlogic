@@ -29,7 +29,6 @@ class ShareRegister{
 
   }
 
-  List<ShareHolderChange> changes = new List();
 
   ShareHolding founder(Entity entity, int number) {
     ShareHolding holding = shareholding(entity, company.ordinaryShares);
@@ -51,12 +50,6 @@ class ShareRegister{
     company.ordinaryShares.shareholders.add(entity);
 
 
-      changes.add(
-        new ShareHolderChange(ShareHolderChange.SHARE_ISSUE, date)
-            ..newEntity = entity
-            ..shares = number
-
-        );
 
       return holding;
   }
@@ -66,12 +59,6 @@ class ShareRegister{
      ..date = date;
 
 
-    changes.add(
-        new ShareHolderChange(ShareHolderChange.SHARE_TRANSFER, date)
-          ..newEntity = entity
-          ..oldEntity = shareHolding.owner(date)
-
-    );
 
     return holding;
 
@@ -91,24 +78,6 @@ class ShareRegister{
 
   }
 
-  ShareHolding getPartHolding(int number) {
 
-
-  }
-
-}
-
-class ShareHolderChange{
-  static const int SHARE_ISSUE = 1;
-  static const int SHARE_TRANSFER = 2;
-  static const int SPLIT_HOLDING = 3;
-
-  Date date;
-  Entity oldEntity;
-  Entity newEntity;
-  int type;
-  int shares;
-
-  ShareHolderChange(this.type, this.date);
 
 }

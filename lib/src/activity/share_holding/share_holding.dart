@@ -33,53 +33,53 @@ class ShareHolding extends Activity{
 
   partDisposalTo(Transaction transaction , num number){
 
-    /*
-
-    num originalHolding = sharesAt(shareCapital.name.valueAt(disposal.date), disposal.date);
+    num originalHolding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
     number = number.clamp(0, originalHolding);
 
     ShareHolding holding = company.addShareholder(transaction.date,
         transaction.buyer,
         shareCapital,
         number)
-      ..acquisition.date = transaction.date
-      ..acquisition.cost = transaction.consideration;
+      ..setAcquisitionDate(transaction.buyer, transaction.date)
+      ..setAcquisitionConsideration(transaction.buyer, transaction.consideration);
 
-    this.disposal.date = transaction.date;
-    this.disposal.consideration = transaction.consideration;
     this.addShares(
         originalHolding - number,
         transaction.date);
 
     return holding;
-*/
+
   }
 
   @override
   onTransaction(Transaction transaction) {
-/*
-    num number = (transaction as ShareTransaction).numberOfShares;
-    num shareholding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
 
-    if(number < shareholding){
+    if(transaction is ShareTransaction) {
 
-      return partDisposalTo(transaction, number);
+      num number = (transaction as ShareTransaction).numberOfShares;
+      num shareholding = sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date);
+
+      if(number < shareholding){
+
+        return partDisposalTo(transaction, number);
 
 
-    } else {
+      } else {
 
-      ShareHolding holding = company.addShareholder(transaction.date, transaction.buyer, shareCapital, sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date + 1))
-        ..acquisition.date = transaction.date
-        ..acquisition.cost = transaction.consideration;
+        ShareHolding holding = company.addShareholder(transaction.date, transaction.buyer, shareCapital, sharesAt(shareCapital.name.valueAt(transaction.date), transaction.date + 1))
+          ..setAcquisitionDate(transaction.buyer, transaction.date)
+          ..setAcquisitionConsideration(transaction.buyer, transaction.consideration);
 
-      this.disposal.date = transaction.date;
-      this.disposal.consideration = transaction.consideration;
-      this.addShares(0, transaction.date);
+        this.addShares(0, transaction.date);
 
-      return holding;
+      }
 
     }
-  */
+
+
+
+
+
 
   }
 

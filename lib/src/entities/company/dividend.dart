@@ -11,7 +11,7 @@ class Dividend{
   final num amount;
 
   Dividend(this.shareCapital, this.date,this.amount){
-    if(shareCapital.shareholders.length == 0) throw 'unable to pay dividend as the company as no shareholders';
+    if(shareCapital.shareholders.length == 0) throw 'unable to pay dividend as the company has no shareholders';
 
     totalShares = 0;
     shareCapital.shareholders.forEach((sh)=> totalShares += shareCapital.company.shareRegister.shareholding(sh, shareCapital).sharesAt(shareCapital.name.valueAt(date), date));

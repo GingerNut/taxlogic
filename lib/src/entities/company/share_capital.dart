@@ -2,7 +2,7 @@ import 'package:taxlogic/src/entities/company/dividend.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
-export 'ordinary_share.dart';
+
 
 
 abstract class ShareCapital{

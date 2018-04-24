@@ -2367,12 +2367,14 @@ void companySecretarial(){
       ShareHolding holding1 = company.founder(shareholder1, 25);
       ShareHolding holding2 = company.founder(shareholder2, 75);
 
-      Date date = new Date(1,8,17);
+      Date before = new Date(1,7,17);
+
+      Date transfer = new Date(1,8,17);
 
       new ShareTransaction(holding1)
       ..numberOfShares = 25
-        .. date = date
-        ..seller = holding1.owner(date)
+        .. date = transfer
+        ..seller = shareholder1
         ..buyer = shareholder3
         ..consideration = 50000
       ..go();
@@ -2390,9 +2392,9 @@ void companySecretarial(){
       ShareHolding shareHolding1 = shareholder1.activities[0];
       ShareHolding shareHolding2 = shareholder2.activities[0];
       ShareHolding shareHolding3 = shareholder3.activities[0];
-      expect(shareHolding1.sharesAt(name, null), 25);
-      expect(shareHolding2.sharesAt(name, null), 75);
-      expect(shareHolding3.sharesAt(name, null), 0);
+      expect(shareHolding1.sharesAt(name, before), 25);
+      expect(shareHolding2.sharesAt(name, before), 75);
+      expect(shareHolding3.sharesAt(name, before), 0);
 
       expect(shareHolding1.sharesAt(name, new Date(1,9,17)), 0);
       expect(shareHolding2.sharesAt(name, new Date(1,9,17)), 75);

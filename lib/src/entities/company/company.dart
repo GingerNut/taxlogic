@@ -1,5 +1,6 @@
 import '../entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/entities/company/ordinary_share.dart';
 import 'package:taxlogic/src/entities/company/share_capital.dart';
 import 'package:taxlogic/src/entities/company/share_register.dart';
 import 'package:taxlogic/src/utilities/date.dart';
