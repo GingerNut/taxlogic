@@ -104,7 +104,6 @@ void game(){
       taxPosition.tax;
       expect(Harry.assets.length, 2);
       expect((Harry.activities.length), 1);
-      expect(taxPosition.capitalGainsTax(), 1566);
       expect(taxPosition.tax, 1700);
 
       game.makeMove(new CreateCompany(new Date(6,4,18), company1Id));
@@ -114,7 +113,7 @@ void game(){
 
       CompanyAccountingPeriod companyTaxPosition = company.accountingPeriod(company.defaultPeriod.end(2019));
 
-      // TODO why is rental income not registering compnay transfer date of 1 / 10 1 2018
+
 
       expect(company.assets.length, 2);
       expect(companyTaxPosition.tax, 1894.80);

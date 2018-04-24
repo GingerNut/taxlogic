@@ -37,6 +37,7 @@ abstract class TaxPosition{
     disposals.clear();
 
     entity.assets.forEach((asset) {
+
       if(asset is ChargeableAsset && asset.disposalDate(entity) != null){
 
         if(period.includes(asset.disposalDate(entity))){
