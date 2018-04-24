@@ -18,6 +18,7 @@ class Transaction{
   num consideration;
   Date date;
 
+
   disposal(Entity entity){
     if(entity == seller) return date;
     else return null;
@@ -37,7 +38,7 @@ class Transaction{
     print('Transaction details ');
     print('Asset type $asset');
     print('Asset name ${asset.name}');
-    date.printDate();
+    if(date != null) date.printDate();
     print('Seller is $seller');
     print('buyer is $buyer');
 
@@ -45,6 +46,8 @@ class Transaction{
 
   go() {
     asset.transactions.add(new TransactionChange(this));
+
+    if(buyer != null) buyer.assets.add(asset);
 
     asset.onTransaction(this);
   }

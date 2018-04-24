@@ -37,8 +37,12 @@ class PropertyIncome extends Income{
         Date start = property.acquisitionDate(taxPosition.entity) == null ? period.start : property.acquisitionDate(taxPosition.entity);
         if(start < period.start) start = period.start;
 
-        Date end = property.disposalDate(taxPosition.entity) == null ? period.end : property.disposalDate(taxPosition.entity);
-        if(end > period.start) end = period.end;
+        Date end = period.end;
+
+        Date disposal = property.disposalDate(taxPosition.entity);
+
+        if(disposal != null && disposal > start && disposal < end) end = disposal;
+
         Period common = new Period (start, end);
 
         accounts.add(new IncomeAccount(accounts.period.end, 'rent', property.rent(common)));

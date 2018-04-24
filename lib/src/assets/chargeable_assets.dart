@@ -37,25 +37,22 @@ class ChargeableAsset extends Asset{
 
   num taxableGain(Entity entity){
 
-    if(_taxableGain != null) return _taxableGain;
-
     num gain = disposalConsideration(entity) - acquisitionConsideration(entity) - totalImprovements;
 
     gain = adjustGain(entity, gain);
 
     gain  = Utilities.roundIncome(gain);
 
-    _taxableGain = gain;
 
-    if(owner(disposalDate(entity)+ -1).type == Entity.COMPANY && _taxableGain > 0){
+    if(owner(disposalDate(entity)+ -1).type == Entity.COMPANY && gain > 0){
 
-      num indexation = min(TaxData.IndexationFactor(acquisitionDate(entity), disposalDate(entity)) * acquisitionConsideration(entity), _taxableGain);
+      num indexation = min(TaxData.IndexationFactor(acquisitionDate(entity), disposalDate(entity)) * acquisitionConsideration(entity), gain);
 
-      _taxableGain -= indexation ;
+      gain -= indexation ;
 
     }
 
-    return _taxableGain;
+    return gain;
   }
 
 

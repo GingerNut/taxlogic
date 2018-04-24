@@ -102,8 +102,9 @@ void game(){
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
 
       taxPosition.tax;
-      expect(Harry.assets.length, 1);
+      expect(Harry.assets.length, 2);
       expect((Harry.activities.length), 1);
+      expect(taxPosition.capitalGainsTax(), 1566);
       expect(taxPosition.tax, 1700);
 
       game.makeMove(new CreateCompany(new Date(6,4,18), company1Id));
@@ -115,7 +116,7 @@ void game(){
 
       // TODO why is rental income not registering compnay transfer date of 1 / 10 1 2018
 
-      expect(company.assets.length, 1);
+      expect(company.assets.length, 2);
       expect(companyTaxPosition.tax, 1894.80);
 
     });
@@ -140,9 +141,10 @@ void game(){
       PersonalTaxPosition taxPosition = Harry.taxYear(2018);
       taxPosition.tax;
 
-      expect(Harry.assets.length, 1);
+      expect(Harry.assets.length, 2);
       expect((Harry.activities.length), 1);
       expect(property1.taxableGain(Harry), 20000);
+
       expect(taxPosition.tax, 1566); // cgt £1,566 = 20000 at 18%
 
       Company company = game.position.getEntityByName(company1Id);
@@ -150,7 +152,6 @@ void game(){
       expect(companyTaxPosition.tax, 1894.80);
 
     });
-
 
 
   });
@@ -331,7 +332,7 @@ void transactions(){
       new Transaction(property)
       ..seller = person1
       ..buyer = person2
-        ..consideration = 150000
+        ..consideration = 140000
       ..date = transfer
       ..go();
 
@@ -341,17 +342,19 @@ void transactions(){
       ..date = sell
       ..go();
 
-
-      expect(person1.assets.length, 1);
+      expect(person1.assets.length, 2); //property itself and proerty business
       expect(property.acquisitionDate(person1), buy);
       expect(property.acquisitionConsideration(person1), 100000);
       expect(property.disposalDate(person1), transfer);
-      expect(property.disposalConsideration(person1), 150000);
+      expect(property.disposalConsideration(person1), 140000);
+      expect(property.taxableGain(person1), 40000);
 
+      expect(person2.assets.length, 2); //property itself and proerty business
       expect(property.acquisitionDate(person2), transfer);
-      expect(property.acquisitionConsideration(person2), 150000);
+      expect(property.acquisitionConsideration(person2), 140000);
       expect(property.disposalDate(person2), sell);
       expect(property.disposalConsideration(person2), 200000);
+      expect(property.taxableGain(person2), 60000);
 
       expect(property.transactions.history.length, 3);
     });
