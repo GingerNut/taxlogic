@@ -366,7 +366,8 @@ void transactions(){
 
       var person1 = new Person()
         ..name = "harry";
-      var person2 = new Person();
+      var person2 = new Person()
+      ..name = 'Steve';
 
       var joint = new JointOwners.jointTenants(person1, person2);
 
@@ -388,8 +389,13 @@ void transactions(){
       expect(property.acquisitionConsideration(person1), 50000);
       expect(property.acquisitionConsideration(person2), 50000);
 
+      expect(property.disposalDate(person1), sell);
+      expect(property.disposalDate(person2), sell);
+      expect(property.disposalConsideration(person1), 100000);
+      expect(property.disposalConsideration(person2), 100000);
 
-
+      expect(property.taxableGain(person1), 50000);
+      expect(property.taxableGain(person2), 50000);
 
     });
 

@@ -14,7 +14,6 @@ class Transaction{
 
   Entity seller;
   Entity buyer;
-  JointOwners jointOwners;
 
   num consideration;
   Date date;
@@ -66,7 +65,40 @@ class Transaction{
   }
 
   go() {
-    asset.transactions.add(new TransactionChange(this));
+
+    if(seller is JointOwners){
+
+      List<JointShare> _owners = (seller as JointOwners).getOwners();
+
+      _owners.forEach((owner){
+
+        Transaction transaction = new Transaction(asset)
+            ..seller = owner.entity
+          ..consideration = consideration * owner.proportion
+            ..buyer = buyer
+            ..date = date;
+
+        asset.transactions.add(new TransactionChange(transaction));
+
+      });
+
+    } else if(buyer is JointOwners){
+
+      List<JointShare> _owners = (buyer as JointOwners).getOwners();
+
+      _owners.forEach((owner){
+
+        Transaction transaction = new Transaction(asset)
+          ..buyer = owner.entity
+          ..consideration = consideration * owner.proportion
+          ..seller = seller
+          ..date = date;
+
+        asset.transactions.add(new TransactionChange(transaction));
+
+      });
+
+    } else asset.transactions.add(new TransactionChange(this));
 
     if(buyer != null) buyer.addAsset(asset);
 

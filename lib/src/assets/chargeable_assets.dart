@@ -44,7 +44,7 @@ class ChargeableAsset extends Asset{
     gain  = Utilities.roundIncome(gain);
 
 
-    if(owner(disposalDate(entity)+ -1).type == Entity.COMPANY && gain > 0){
+    if(entity.type == Entity.COMPANY && gain > 0){
 
       num indexation = min(TaxData.IndexationFactor(acquisitionDate(entity), disposalDate(entity)) * acquisitionConsideration(entity), gain);
 
