@@ -20,10 +20,8 @@ abstract class Asset{
 
     if(entity != null) {
       entity.addAsset(this);
-      if(transactions.history.length == 0) entity.addTransaction(this);
+      if(transactions.history.length == 0) entity.addCreationTransaction(this);
     }
-
-
   }
 
   Asset.buy(Entity entity, Date date, amount){

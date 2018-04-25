@@ -39,7 +39,7 @@ abstract class Entity{
 
   void addAsset(Asset asset)=> assets.add(asset);
 
-  void addTransaction(Asset asset) {
+  void addCreationTransaction(Asset asset) {
     Transaction transaction = new Transaction(asset)
       ..buyer = this
       ..consideration = 0;

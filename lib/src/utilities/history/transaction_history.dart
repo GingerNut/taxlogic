@@ -99,6 +99,8 @@ class TransactionHistory extends History<Transaction>{
         history.forEach((t){
           TransactionChange test = t as TransactionChange;
 
+          //test.amount.printTransaction();
+
           if(test.amount.buyer == jointOnwer.entity) change = test;
         });
 
