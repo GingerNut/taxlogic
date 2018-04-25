@@ -81,27 +81,6 @@ class JointOwners extends Entity{
 
   }
 
-  void addAsset(Asset asset) {
-    _owners.forEach((owner){
-      owner.entity.assets.add(asset);
-
-    });
-  }
-
-    void addCreationTransaction(Asset asset) {
-      _owners.forEach((owner){
-
-        Transaction transaction = new Transaction(asset)
-          ..buyer = owner.entity
-          ..consideration = 0;
-
-        asset.onTransaction(transaction);
-
-        asset.transactions.add(new TransactionChange(transaction));
-      });
-
-
-    }
 }
 
 

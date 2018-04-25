@@ -382,8 +382,10 @@ void transactions(){
         ..date = sell
         ..go();
 
-      expect(person1.assets.length, 2); //property itself and property business
-      expect(person2.assets.length, 2); //property itself and property business
+      expect(joint.assets.length, 2); //property itself and property business
+      expect(person1.assets.length, 0); //property itself and property business
+      expect(person2.assets.length, 0); //property itself and property business
+
       expect(property.acquisitionDate(person1), buy);
       expect(property.acquisitionDate(person2), buy);
       expect(property.acquisitionConsideration(person1), 50000);
