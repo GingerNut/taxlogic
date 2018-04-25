@@ -1,6 +1,8 @@
 import 'package:taxlogic/src/assets/asset.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 
@@ -9,19 +11,27 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 
 class JointOwners extends Entity{
 
-    bool jointTenants = true;
+    bool tenantsInCommon = false;
 
     List<JointShare> _owners = new List();
     num totalShares = 0;
 
-   addOwner(Asset asset, Entity entity, num share){
-     JointShare jointShare = new JointShare(asset, entity, share);
+  JointOwners.jointTenants(Entity entity1, Entity entity2){
+    tenantsInCommon = false;
+
+    addOwner(entity1, 1);
+    addOwner(entity2, 1);
+
+  }
+
+  List<JointShare> getOwners() => _owners;
+
+
+   addOwner(Entity entity, num share){
+     JointShare jointShare = new JointShare(this, entity, share);
      _owners.add(jointShare);
 
-     totalShares += share;
-
      updateShares();
-
    }
 
    removeOwner(Entity entity){
@@ -50,15 +60,10 @@ class JointOwners extends Entity{
       return owner;
     }
 
-  @override
-  PeriodCollection getTaxPeriods(Period period) {
-    // TODO: implement getTaxPeriods
-  }
 
-  @override
-  TaxPosition taxYear(int taxYearEnd) {
-    // TODO: implement taxYear
-  }
+  PeriodCollection getTaxPeriods(Period period)=> null;
+
+  TaxPosition taxYear(int taxYearEnd) => null;
 
   void updateOwners() {
      _owners.forEach((share){
@@ -75,19 +80,42 @@ class JointOwners extends Entity{
 
 
   }
+
+  void addAsset(Asset asset) {
+    _owners.forEach((owner){
+      owner.entity.assets.add(asset);
+
+    });
+  }
+
+    void addTransaction(Asset asset) {
+      _owners.forEach((owner){
+
+        Transaction transaction = new Transaction(asset)
+          ..buyer = this
+          ..consideration = 0;
+
+        asset.onTransaction(transaction);
+
+        asset.transactions.add(new TransactionChange(transaction));
+      });
+
+
+    }
 }
+
+
 
 class JointShare{
 
-  JointShare(this.asset, this.entity, this._share);
+  JointShare(this.jointOwners, this.entity, this._share);
 
-  Asset asset;
   JointOwners jointOwners;
   Entity entity;
   num _share;
   num _proportion;
 
-  get share=> _share;
+  get share => _share;
 
   set share(num newshare){
     _share = newshare;

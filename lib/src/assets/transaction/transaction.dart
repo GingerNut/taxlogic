@@ -14,6 +14,7 @@ class Transaction{
 
   Entity seller;
   Entity buyer;
+  JointOwners jointOwners;
 
   num consideration;
   Date date;
@@ -33,21 +34,41 @@ class Transaction{
 
   num duty() => 0;
 
-  printTransaction(){
+  printTransaction() => print(string());
 
-    print('Transaction details ');
-    print('Asset type $asset');
-    print('Asset name ${asset.name}');
-    if(date != null) date.printDate();
-    print('Seller is $seller');
-    print('buyer is $buyer');
+  String string(){
 
+    String string = '';
+
+    string += 'Transaction details \n';
+    string += 'Asset type $asset';
+    if(asset.name !=  null) string += ' known as ' + asset.name;
+    string += '\n';
+
+    if(date != null) string += date.string();
+    string += '\n';
+
+    string += 'consideration is £' + consideration.toString();
+    string += '\n';
+
+    string += 'Seller is $seller';
+    if(seller != null && seller.name !=  null) string += ' named ' + seller.name;
+    string += '\n';
+
+    string += 'Buyer is $buyer';
+    if(buyer != null && buyer.name !=  null) string += ' named ' + buyer.name;
+    string += '\n';
+
+    string += '---------------- \n\n';
+
+
+    return string;
   }
 
   go() {
     asset.transactions.add(new TransactionChange(this));
 
-    if(buyer != null) buyer.assets.add(asset);
+    if(buyer != null) buyer.addAsset(asset);
 
     asset.onTransaction(this);
   }

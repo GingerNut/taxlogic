@@ -87,8 +87,26 @@ class TransactionHistory extends History<Transaction>{
       if(test.amount.buyer == entity) change = test;
     });
 
+
     if(change != null) {
       change.amount.date = date;
+    }
+
+    if(entity is JointOwners){
+
+      entity.getOwners().forEach((jointOnwer){
+
+        history.forEach((t){
+          TransactionChange test = t as TransactionChange;
+
+          if(test.amount.buyer == jointOnwer.entity) change = test;
+        });
+
+        if(change != null) change.amount.date = date;
+
+
+      });
+
     }
 
   }
@@ -103,6 +121,24 @@ class TransactionHistory extends History<Transaction>{
     });
 
     if(change != null) change.amount.consideration = consideration;
+
+
+    if(entity is JointOwners){
+
+      entity.getOwners().forEach((jointOnwer){
+        history.forEach((t){
+          TransactionChange test = t as TransactionChange;
+
+          if(test.amount.buyer == jointOnwer.entity) change = test;
+        });
+
+        if(change != null) change.amount.consideration = consideration * jointOnwer.proportion;
+
+
+      });
+
+    }
+
 
   }
 

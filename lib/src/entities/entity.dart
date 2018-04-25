@@ -1,9 +1,11 @@
 import '../assets/asset.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/residence/residence_history.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 import '../tax_position/tax_position.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 
@@ -35,6 +37,18 @@ abstract class Entity{
   List<Asset> assets = new List();
   List<Activity> activities = new List();
 
+  void addAsset(Asset asset)=> assets.add(asset);
+
+  void addTransaction(Asset asset) {
+    Transaction transaction = new Transaction(asset)
+      ..buyer = this
+      ..consideration = 0;
+
+    asset.onTransaction(transaction);
+
+    asset.transactions.add(new TransactionChange(transaction));
+  }
+
   ResidenceHistory residence = new ResidenceHistory();
 
   TaxPosition taxYear(int taxYearEnd);
@@ -64,5 +78,7 @@ abstract class Entity{
 
 
   }
+
+
 
 }

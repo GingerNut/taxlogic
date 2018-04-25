@@ -325,6 +325,7 @@ void transactions(){
       Person person1 = new Person();
       Person person2 = new Person();
       Property property = new Property(person1)
+      ..name = 'The Glades '
       ..setAcquisitionDate(person1, buy)
       ..setAcquisitionConsideration(person1, 100000);
 
@@ -357,6 +358,96 @@ void transactions(){
 
       expect(property.transactions.history.length, 3);
     });
+
+    test('purchase and sale by joint owners ', () {
+
+      Date buy = new Date (6,4,17); //  for 100000
+      Date sell = new Date(1,10,18); // for 200000
+
+      var person1 = new Person()
+        ..name = "harry";
+      var person2 = new Person();
+
+      var joint = new JointOwners.jointTenants(person1, person2);
+
+      var property = new Property(joint)
+        ..name = 'the glades'
+        ..setAcquisitionDate(joint, buy)
+        ..setAcquisitionConsideration(joint, 100000);
+
+     new Transaction(property)
+        ..seller = joint
+        ..consideration = 200000
+        ..date = sell
+        ..go();
+
+      expect(person1.assets.length, 2); //property itself and property business
+      expect(person2.assets.length, 2); //property itself and property business
+      expect(property.acquisitionDate(person1), buy);
+      expect(property.acquisitionDate(person2), buy);
+      expect(property.acquisitionConsideration(person1), 50000);
+      expect(property.acquisitionConsideration(person2), 50000);
+
+
+
+
+    });
+
+    test('simple transfer of asset from one person joint ownership between two other people', () {
+
+      Date buy = new Date (6,4,17); //  for 100000
+      Date transfer = new Date(1,6,18);  // for 150000
+      Date sell = new Date(1,10,18); // for 200000
+
+      var person1 = new Person()
+      ..name = "harry";
+      var person2 = new Person();
+      var person3 = new Person();
+
+      var joint = new JointOwners.jointTenants(person2, person3);
+
+      var property = new Property(person1)
+      ..name = 'the glades'
+        ..setAcquisitionDate(person1, buy)
+        ..setAcquisitionConsideration(person1, 100000);
+
+      new Transaction(property)
+        ..seller = person1
+        ..buyer = joint
+        ..consideration = 140000
+        ..date = transfer
+        ..go();
+
+      new Transaction(property)
+        ..seller = joint
+        ..consideration = 200000
+        ..date = sell
+        ..go();
+
+      expect(person1.assets.length, 2); //property itself and property business
+      expect(property.acquisitionDate(person1), buy);
+      expect(property.acquisitionConsideration(person1), 100000);
+      expect(property.disposalDate(person1), transfer);
+      expect(property.disposalConsideration(person1), 140000);
+      expect(property.taxableGain(person1), 40000);
+
+      expect(property.transactions.history.length, 3);
+      expect(joint.assets.length, 2); //property itself and property business
+      expect(person2.assets.length, 2); //property itself and property business
+      expect(person3.assets.length, 2); //property itself and property business
+      expect(property.acquisitionDate(joint), transfer);
+      expect(property.acquisitionConsideration(person2), 70000);
+      expect(property.acquisitionConsideration(person3), 70000);
+      expect(property.disposalDate(joint), sell);
+      expect(property.disposalConsideration(person2), 100000);
+      expect(property.disposalConsideration(person3), 100000);
+      expect(property.taxableGain(person2), 30000);
+      expect(property.taxableGain(person3), 30000);
+
+      expect(property.transactions.history.length, 3);
+
+    });
+
 
 
   });
