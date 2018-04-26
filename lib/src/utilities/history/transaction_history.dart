@@ -57,7 +57,7 @@ class TransactionHistory extends History<Transaction>{
     });
 
     if(change != null)  {
-      //change.amount.printTransaction();
+
       return change.amount.date;
 
 
@@ -74,7 +74,7 @@ class TransactionHistory extends History<Transaction>{
       TransactionChange test = t as TransactionChange;
 
       if(test.amount.seller == entity) change = test;
-      else if (test.amount.seller is JointOwners){
+      else if (test.amount.seller is JointOwners ){
         JointOwners owners = test.amount.seller as JointOwners;
 
         owners.getOwners().forEach((owner){
@@ -99,8 +99,10 @@ class TransactionHistory extends History<Transaction>{
     history.forEach((t){
       TransactionChange test = t as TransactionChange;
 
-      if(test.amount.buyer == entity) change = test;
-      else if (test.amount.buyer is JointOwners){
+      if(test.amount.buyer == entity) {
+        change = test;
+
+      } else if (test.amount.buyer is JointOwners && ((test.amount.buyer as JointOwners).isOwner(entity))){
         JointOwners owners = test.amount.buyer as JointOwners;
 
         owners.getOwners().forEach((owner){
@@ -114,7 +116,11 @@ class TransactionHistory extends History<Transaction>{
       }
     });
 
-    if(change != null) return change.amount.consideration * proportion;
+    change.amount.printTransaction();
+
+    if(change != null) {
+      return change.amount.consideration * proportion;
+    }
     else return 0;
   }
 
@@ -137,7 +143,7 @@ class TransactionHistory extends History<Transaction>{
       change.amount.date = date;
     }
 
-    if(entity is JointOwners){
+    if(entity is JointOwners  ){
 
       entity.getOwners().forEach((jointOnwer){
 

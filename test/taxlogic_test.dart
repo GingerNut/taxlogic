@@ -434,6 +434,7 @@ void transactions(){
 
       expect(person1.assets.length, 2); //property itself and property business
       expect(property.acquisitionDate(person1), buy);
+
       expect(property.acquisitionConsideration(person1), 100000);
       expect(property.disposalDate(person1), transfer);
       expect(property.disposalConsideration(person1), 140000);

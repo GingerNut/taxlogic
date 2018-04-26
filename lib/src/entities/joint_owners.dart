@@ -24,6 +24,16 @@ class JointOwners extends Entity{
 
   }
 
+  bool isOwner(Entity entity){
+    bool owner = false;
+
+    _owners.forEach((o){
+      if(o.entity == entity) owner = true;
+    });
+
+    return owner;
+  }
+
   List<JointShare> getOwners() => _owners;
 
 
