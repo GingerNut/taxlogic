@@ -24,7 +24,7 @@ class JointOwners extends Entity{
 
   }
 
-  bool isOwner(Entity entity){
+    bool includes(Entity entity){
     bool owner = false;
 
     _owners.forEach((o){
@@ -90,6 +90,8 @@ class JointOwners extends Entity{
 
 
   }
+
+
 
 }
 

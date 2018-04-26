@@ -18,6 +18,13 @@ class Transaction{
   num consideration;
   Date date;
 
+  // capital gains stuff =>
+  num taxableGain;
+  num totalImprovements;
+  num lossAllocated = 0;
+  num basicRateAllocated = 0;
+  num annualExemptionAllocated = 0;
+
 
   disposal(Entity entity){
     if(entity == seller) return date;
@@ -71,6 +78,9 @@ class Transaction{
     if(buyer != null) buyer.addAsset(asset);
 
     asset.onTransaction(this);
+
+    if(seller != null && asset is ChargeableAsset) taxableGain = (asset as ChargeableAsset).taxableGain(seller);
+
   }
 
 

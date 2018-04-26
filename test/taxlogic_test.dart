@@ -401,6 +401,7 @@ void transactions(){
 
     });
 
+
     test('simple transfer of asset from one person joint ownership between two other people', () {
 
       Date buy = new Date (6,4,17); //  for 100000
@@ -442,8 +443,8 @@ void transactions(){
 
       expect(property.transactions.history.length, 3);
       expect(joint.assets.length, 2); //property itself and property business
-      expect(person2.assets.length, 2); //property itself and property business
-      expect(person3.assets.length, 2); //property itself and property business
+      expect(person2.assets.length, 0);
+      expect(person3.assets.length, 0);
       expect(property.acquisitionDate(joint), transfer);
       expect(property.acquisitionConsideration(person2), 70000);
       expect(property.acquisitionConsideration(person3), 70000);
@@ -456,6 +457,8 @@ void transactions(){
       expect(property.transactions.history.length, 3);
 
     });
+
+
 
 
 

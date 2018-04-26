@@ -1,6 +1,8 @@
 import '../data/tax_data.dart';
 
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/utilities/date.dart';
+import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 import '../entities/entity.dart';
 import 'dart:math';
@@ -8,8 +10,6 @@ import 'asset.dart';
 
 
 class ChargeableAsset extends Asset{
-  num _taxableGain;
-  num _totalImprovements;
   num lossAllocated = 0;
   num basicRateAllocated = 0;
   num annualExemptionAllocated = 0;
@@ -22,22 +22,29 @@ class ChargeableAsset extends Asset{
   List<Improvement> _improvements = new List();
   List<ChargeableAsset> disposals = new List();
 
-  num get totalImprovements{
+  num totalImprovements(Period period){
 
-    if(_totalImprovements != null) return _totalImprovements;
-
-    _totalImprovements = 0;
+    num improvements = 0;
 
     _improvements.forEach((improvement){
-      _totalImprovements += improvement.cost;
+      if(period == null) improvements += improvement.cost;
+      else if(period.includes(improvement.date))improvements += improvement.cost;
     });
 
-    return _totalImprovements;
+    return improvements;
 }
+
 
   num taxableGain(Entity entity){
 
-    num gain = disposalConsideration(entity) - acquisitionConsideration(entity) - totalImprovements;
+    Date acquisition = acquisitionDate(entity);
+    Date disposal = disposalDate(entity);
+
+    Period ownership;
+
+    if(acquisition != null && disposal != null) ownership = new Period(acquisitionDate(entity), acquisitionDate(entity));
+
+    num gain = disposalConsideration(entity) - acquisitionConsideration(entity) - totalImprovements(ownership);
 
     gain = adjustGain(entity, gain);
 
@@ -61,12 +68,11 @@ class ChargeableAsset extends Asset{
 
   addImprovement(Improvement improvement){
     _improvements.add(improvement);
-    _totalImprovements = null;
     refreshGain();
   }
 
   void refreshGain(){
-    _taxableGain = null;
+
   }
 
 
