@@ -34,7 +34,6 @@ class ChargeableAsset extends Asset{
     return improvements;
 }
 
-
   num taxableGain(Entity entity){
 
     Date acquisition = acquisitionDate(entity);

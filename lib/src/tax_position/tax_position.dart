@@ -61,7 +61,15 @@ abstract class TaxPosition{
         */
       }
     });
+    
+    // refresh the gains
+    
+    disposals.forEach((disposal){
 
+      if(!disposal.gainValid)disposal.calculateGain(entity);
+      disposal.gainValid = true;
+
+    });
   }
 
   void analyseDisposals(){

@@ -45,7 +45,7 @@ class JointOwners extends Entity{
    }
 
    removeOwner(Entity entity){
-     _owners.remove(getShare(entity));
+     _owners.remove(share(entity));
 
      updateShares();
    }
@@ -60,7 +60,7 @@ class JointOwners extends Entity{
     }
 
 
-    JointShare getShare(Entity entity){
+    JointShare share(Entity entity){
       JointShare owner;
 
       _owners.forEach( (test){if(
@@ -90,6 +90,8 @@ class JointOwners extends Entity{
 
 
   }
+
+
 
 
 

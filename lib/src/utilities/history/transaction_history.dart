@@ -36,6 +36,32 @@ class TransactionHistory extends History<Transaction>{
 
   }
 
+  List<Transaction> disposal(Entity entity) {
+
+    List<Transaction> disposals = new List();
+
+    history.forEach((t){
+      TransactionChange test = t as TransactionChange;
+
+      if(test.amount.seller == entity) {
+        if(!disposals.contains(test.amount))disposals.add(test.amount);
+      }
+      else if (test.amount.seller is JointOwners && ((test.amount.seller as JointOwners).includes(entity))){
+        JointOwners owners = test.amount.seller as JointOwners;
+
+        owners.getOwners().forEach((owner){
+
+          if(owner.entity == entity) {
+            if(!disposals.contains(test.amount))disposals.add(test.amount);
+          }
+        });
+      }
+    });
+
+    return disposals;
+
+  }
+
   Date disposalDate(Entity entity){
 
     TransactionChange change;
@@ -236,6 +262,8 @@ class TransactionHistory extends History<Transaction>{
       (change as TransactionChange).amount.printTransaction();
     });
   }
+
+
 }
 
 class TransactionChange extends Change<Transaction>{

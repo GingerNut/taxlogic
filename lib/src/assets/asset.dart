@@ -40,6 +40,8 @@ abstract class Asset{
 
   List<Transaction> disposalsInPeriod(Period period, Entity entity) => transactions.disposalsInPeriod(period, entity);
 
+  List<Transaction> disposal(Entity entity) => transactions.disposal(entity);
+
   Date acquisitionDate(Entity entity) => transactions.acquisitionDate(entity);
 
   Date disposalDate(Entity entity) => transactions.disposalDate(entity);

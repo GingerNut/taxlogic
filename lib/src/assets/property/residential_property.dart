@@ -17,6 +17,8 @@ class ResidentialProperty extends Property{
   @override
   num adjustGain(Entity entity, num gain){
 
+
+
     gain = calculateMainResidenceRelief(entity, gain);
 
     return gain;
@@ -37,14 +39,6 @@ class ResidentialProperty extends Property{
 
   num calculateMainResidenceRelief(Entity entity, num gain){
     if(_mainResidencePeriods.length ==0) return gain;
-
-    //print('printing from calc main resi');
-
-   // (transactions.history[0] as TransactionChange).amount.printTransaction();
-   // (transactions.history[1] as TransactionChange).amount.printTransaction();
-
-   // print(disposalDate(entity));
-   // print(acquisitionDate(entity));
 
     Period ownership = new Period(acquisitionDate(entity), disposalDate(entity));
 

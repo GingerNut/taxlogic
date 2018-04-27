@@ -45,7 +45,7 @@ class CompanyTaxPosition extends TaxPosition{
     num gain = 0;
 
     disposals.forEach((disposal){
-      gain += disposal.taxableGain(entity);
+      gain += disposal.taxableGain;
     });
 
     gains = gain;
@@ -60,11 +60,11 @@ class CompanyTaxPosition extends TaxPosition{
     while(lossesToAllocate > 0){
 
       disposals.forEach((asset){
-        if(lossesToAllocate < asset.taxableGain(entity)){
+        if(lossesToAllocate < asset.taxableGain){
           asset.lossAllocated = lossesToAllocate;
           lossesToAllocate = 0;
         } else {
-          asset.lossAllocated = asset.taxableGain(entity);
+          asset.lossAllocated = asset.taxableGain;
           lossesToAllocate -= asset.lossAllocated;
         }
 

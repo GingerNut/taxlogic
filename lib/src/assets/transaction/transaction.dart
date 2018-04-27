@@ -21,6 +21,7 @@ class Transaction{
   Date date;
 
   // capital gains stuff =>
+  bool gainValid = false;
   num taxableGain = 0;
   num totalImprovements;
   num lossAllocated = 0;
@@ -80,20 +81,19 @@ class Transaction{
 
     asset.onTransaction(this);
 
-    if(seller != null) taxableGain = gain(seller);
+    if(seller != null) taxableGain = calculateGain(seller);
   }
 
-  num gain(Entity entity){
-
+  num calculateGain(Entity entity){
 
     if(asset is !ChargeableAsset) return 0;
-
-
 
     ChargeableAsset chargeableAsset = asset as ChargeableAsset;
 
     Date acquisition = asset.acquisitionDate(seller);
+
     Date disposal = date;
+
     num acquisitionConsideration = chargeableAsset.acquisitionConsideration(entity);
 
     Period ownership;
