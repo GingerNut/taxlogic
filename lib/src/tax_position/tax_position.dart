@@ -2,6 +2,7 @@ import 'dart:math';
 import '../entities/entity.dart';
 import '../assets/chargeable_assets.dart';
 import 'package:taxlogic/src/activity/activity.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import '../data/tax_data.dart';
 
@@ -19,7 +20,7 @@ abstract class TaxPosition{
   TaxPosition previousTaxPosition;
 
   List<Income> income = new List();
-  List<ChargeableAsset> disposals = new List();
+  List<Transaction> disposals = new List();
 
   num annualExemption = 0;
   num netGains = 0;
@@ -40,17 +41,24 @@ abstract class TaxPosition{
 
       if(asset is ChargeableAsset && asset.disposalDate(entity) != null){
 
+       disposals.addAll(asset.disposalsInPeriod(period, entity));
+
+/*
         if(period.includes(asset.disposalDate(entity))){
           disposals.add(asset);
         }
+        */
       }
     });
 
     entity.activities.forEach((activity) {
       if(activity is ShareHolding && activity.disposalDate(entity) != null){
-        if(period.includes(activity.disposalDate(entity))){
+
+        disposals.addAll(activity.disposalsInPeriod(period, entity));
+        /*if(period.includes(activity.disposalDate(entity))){
           disposals.add(activity);
         }
+        */
       }
     });
 
@@ -66,12 +74,12 @@ abstract class TaxPosition{
     totalGains = 0;
     capitalLosses = 0;
 
-    disposals.forEach((asset){
+    disposals.forEach((disposal){
 
-      if(asset.taxableGain(entity) > 0){
-        totalGains += asset.taxableGain(entity);
+      if(disposal.taxableGain > 0){
+        totalGains += disposal.taxableGain;
       } else{
-        capitalLosses -= asset.taxableGain(entity);
+        capitalLosses -= disposal.taxableGain;
 
       }
 

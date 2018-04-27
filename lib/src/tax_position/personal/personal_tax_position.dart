@@ -3,6 +3,7 @@ import '../tax_position.dart';
 import 'dart:math';
 import 'package:taxlogic/src/accounts/rental_income_and_expenditure.dart';
 import 'package:taxlogic/src/activity/lending/lending_activity.dart';
+import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import '../../data/tax_data.dart';
 import 'package:taxlogic/src/income/income.dart';
@@ -496,20 +497,20 @@ class PersonalTaxPosition extends TaxPosition{
 
     //sort disposals into loss priority - residential first, non residential next then entrepreneur
 
-    List<ChargeableAsset> residential = new List();
-    List<ChargeableAsset> nonResidential = new List();
-    List<ChargeableAsset> entrepreneur = new List();
+    List<Transaction> residential = new List();
+    List<Transaction> nonResidential = new List();
+    List<Transaction> entrepreneur = new List();
 
-   disposals.forEach((asset){
-      if(asset.taxableGain(entity) > 0){
-        if(asset is ResidentialProperty) residential.add(asset);
-        else if (asset.entrepreneurRelief) entrepreneur.add(asset);
-        else nonResidential.add(asset);
+   disposals.forEach((disposal){
+      if(disposal.taxableGain > 0){
+        if(disposal.asset is ResidentialProperty) residential.add(disposal);
+        else if ((disposal.asset as ChargeableAsset).entrepreneurRelief) entrepreneur.add(disposal);
+        else nonResidential.add(disposal);
       }
 
     });
 
-    List<ChargeableAsset> priority;
+    List<Transaction> priority;
 
     if(residential.length > 0) priority = residential;
     else if (nonResidential.length > 0) priority = nonResidential;
@@ -517,13 +518,13 @@ class PersonalTaxPosition extends TaxPosition{
 
     while(lossesToAllocate > 0 && priority != null){
 
-      priority.forEach((asset){
-        if(lossesToAllocate < asset.taxableGain(entity)){
-          asset.lossAllocated = lossesToAllocate;
+      priority.forEach((disposal){
+        if(lossesToAllocate < disposal.taxableGain){
+          disposal.lossAllocated = lossesToAllocate;
           lossesToAllocate = 0;
         } else {
-          asset.lossAllocated = asset.taxableGain(entity);
-          lossesToAllocate -= asset.lossAllocated;
+          disposal.lossAllocated = disposal.taxableGain;
+          lossesToAllocate -= disposal.lossAllocated;
         }
 
       });
@@ -543,13 +544,13 @@ class PersonalTaxPosition extends TaxPosition{
 
     while(annualExemptionToAllocate > 0 && priority != null){
 
-      priority.forEach((asset){
-        if(annualExemptionToAllocate < asset.taxableGain(entity) - asset.lossAllocated){
-          asset.annualExemptionAllocated = annualExemptionToAllocate;
+      priority.forEach((disposal){
+        if(annualExemptionToAllocate < disposal.taxableGain - disposal.lossAllocated){
+          disposal.annualExemptionAllocated = annualExemptionToAllocate;
           annualExemptionToAllocate = 0;
         } else {
-          asset.annualExemptionAllocated = asset.taxableGain(entity) - asset.lossAllocated;
-          annualExemptionToAllocate -= asset.annualExemptionAllocated;
+          disposal.annualExemptionAllocated = disposal.taxableGain - disposal.lossAllocated;
+          annualExemptionToAllocate -= disposal.annualExemptionAllocated;
         }
 
       });
@@ -572,13 +573,13 @@ class PersonalTaxPosition extends TaxPosition{
 
     while(basicRateToAllocate > 0 && priority != null){
 
-      priority.forEach((asset){
-        if(basicRateToAllocate < asset.taxableGain(entity) - asset.lossAllocated - asset.annualExemptionAllocated){
-          asset.basicRateAllocated = basicRateToAllocate;
+      priority.forEach((disposal){
+        if(basicRateToAllocate < disposal.taxableGain - disposal.lossAllocated - disposal.annualExemptionAllocated){
+          disposal.basicRateAllocated = basicRateToAllocate;
           basicRateToAllocate = 0;
         } else {
-          asset.basicRateAllocated = asset.taxableGain(entity) - asset.lossAllocated - asset.annualExemptionAllocated;
-          basicRateToAllocate -= asset.basicRateAllocated;
+          disposal.basicRateAllocated = disposal.taxableGain - disposal.lossAllocated - disposal.annualExemptionAllocated;
+          basicRateToAllocate -= disposal.basicRateAllocated;
         }
 
       });
@@ -599,25 +600,25 @@ class PersonalTaxPosition extends TaxPosition{
     cgtHigherRateNonRes = 0;
     cgtHigherRateEnt = 0;
 
-    disposals.forEach((asset){
+    disposals.forEach((disposal){
 
-      if(asset is ResidentialProperty){
-        cgtBasicRateRes += asset.basicRateAllocated;
-        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          cgtHigherRateRes += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+      if(disposal.asset is ResidentialProperty){
+        cgtBasicRateRes += disposal.basicRateAllocated;
+        if(disposal.taxableGain- disposal.lossAllocated - disposal.annualExemptionAllocated > disposal.basicRateAllocated){
+          cgtHigherRateRes += disposal.taxableGain- disposal.lossAllocated - disposal.basicRateAllocated - disposal.annualExemptionAllocated;
         }
 
-      } else if (asset.entrepreneurRelief){
+      } else if ((disposal.asset as ChargeableAsset).entrepreneurRelief){
 
-        cgtBasicRateEnt += asset.basicRateAllocated;
-        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated> asset.basicRateAllocated){
-          cgtHigherRateEnt += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+        cgtBasicRateEnt += disposal.basicRateAllocated;
+        if(disposal.taxableGain- disposal.lossAllocated - disposal.annualExemptionAllocated> disposal.basicRateAllocated){
+          cgtHigherRateEnt += disposal.taxableGain- disposal.lossAllocated - disposal.basicRateAllocated - disposal.annualExemptionAllocated;
         }
 
       } else {
-        cgtBasicRateNonRes += asset.basicRateAllocated;
-        if(asset.taxableGain(entity)- asset.lossAllocated - asset.annualExemptionAllocated > asset.basicRateAllocated){
-          cgtHigherRateNonRes += asset.taxableGain(entity)- asset.lossAllocated - asset.basicRateAllocated - asset.annualExemptionAllocated;
+        cgtBasicRateNonRes += disposal.basicRateAllocated;
+        if(disposal.taxableGain- disposal.lossAllocated - disposal.annualExemptionAllocated > disposal.basicRateAllocated){
+          cgtHigherRateNonRes += disposal.taxableGain- disposal.lossAllocated - disposal.basicRateAllocated - disposal.annualExemptionAllocated;
         }
       }
     });

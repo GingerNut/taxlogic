@@ -64,6 +64,9 @@ class Transaction{
     if(buyer != null && buyer.name !=  null) string += ' named ' + buyer.name;
     string += '\n';
 
+    string += 'taxable gain is $taxableGain';
+    string += '\n';
+
     string += '---------------- \n\n';
 
     return string;
@@ -82,7 +85,10 @@ class Transaction{
 
   num gain(Entity entity){
 
+
     if(asset is !ChargeableAsset) return 0;
+
+
 
     ChargeableAsset chargeableAsset = asset as ChargeableAsset;
 

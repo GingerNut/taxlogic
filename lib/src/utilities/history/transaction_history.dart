@@ -11,15 +11,14 @@ class TransactionHistory extends History<Transaction>{
     sort();
   }
 
-  Transaction disposalsInPeriod(Period period, Entity entity){  // not tested
+  List<Transaction> disposalsInPeriod(Period period, Entity entity){  // not tested
     List<Transaction> disposals = new List();
-    Transaction disposal;
 
     history.forEach((t){
       TransactionChange test = t as TransactionChange;
 
       if(test.amount.seller == entity) {
-        if(period.includes(test.date)) disposal = test.amount;
+        if(period.includes(test.date)) if(!disposals.contains(test.amount))disposals.add(test.amount);
       }
       else if (test.amount.seller is JointOwners && ((test.amount.seller as JointOwners).includes(entity))){
         JointOwners owners = test.amount.seller as JointOwners;
@@ -27,13 +26,13 @@ class TransactionHistory extends History<Transaction>{
         owners.getOwners().forEach((owner){
 
           if(owner.entity == entity) {
-            if(period.includes(test.date)) disposal = test.amount;
+            if(period.includes(test.date)) if(!disposals.contains(test.amount))disposals.add(test.amount);
           }
         });
       }
     });
 
-    return disposal;
+    return disposals;
 
   }
 
@@ -226,7 +225,8 @@ class TransactionHistory extends History<Transaction>{
     Transaction transaction = new Transaction(asset)
         ..date = date
         ..consideration = amount
-        .. seller = entity;
+        .. seller = entity
+        ..go();
 
     history.add(new TransactionChange(transaction));
   }

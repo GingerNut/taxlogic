@@ -38,7 +38,7 @@ abstract class Asset{
 
   TransactionHistory transactions = new TransactionHistory();
 
-  Transaction disposalsInPeriod(Period period, Entity entity) => transactions.disposalsInPeriod(Period period, Entity entity);
+  List<Transaction> disposalsInPeriod(Period period, Entity entity) => transactions.disposalsInPeriod(period, entity);
 
   Date acquisitionDate(Entity entity) => transactions.acquisitionDate(entity);
 
