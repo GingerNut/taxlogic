@@ -10,8 +10,4 @@ class PlantAndMachinery extends Asset with CapitalAllowances{
 
 
 
-  @override
-  transfer(Transaction transaction) {
-    // TODO: implement transferTo
-  }
 }

@@ -342,14 +342,15 @@ void transactions(){
       ..date = sell
       ..go();
 
-      expect(person1.assets.length, 2); //property itself and proerty business
+      expect(person1.assets.length, 2); //property itself and property business
       expect(property.acquisitionDate(person1), buy);
       expect(property.acquisitionConsideration(person1), 100000);
+
       expect(property.disposalDate(person1), transfer);
       expect(property.disposalConsideration(person1), 140000);
       expect(property.taxableGain(person1), 40000);
 
-      expect(person2.assets.length, 2); //property itself and proerty business
+      expect(person2.assets.length, 2); //property itself and property business
       expect(property.acquisitionDate(person2), transfer);
       expect(property.acquisitionConsideration(person2), 140000);
       expect(property.disposalDate(person2), sell);
@@ -2395,8 +2396,6 @@ void corporationTax(){
       period = new Period(first, second);
       company.accountingPeriod(period);
 
-      //expect(company.lastAccountingPeriod().period.end.year, 2018);
-      //expect(company.taxPeriods.length, 2);
 
     });
 

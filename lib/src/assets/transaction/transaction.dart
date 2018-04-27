@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'package:taxlogic/src/assets/asset.dart';
+import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
@@ -19,12 +21,11 @@ class Transaction{
   Date date;
 
   // capital gains stuff =>
-  num taxableGain;
+  num taxableGain = 0;
   num totalImprovements;
   num lossAllocated = 0;
   num basicRateAllocated = 0;
   num annualExemptionAllocated = 0;
-
 
   disposal(Entity entity){
     if(entity == seller) return date;
@@ -35,8 +36,6 @@ class Transaction{
     if(entity == buyer) return date;
     else return null;
   }
-
-  num gain() => 0;
 
   num duty() => 0;
 
@@ -67,7 +66,6 @@ class Transaction{
 
     string += '---------------- \n\n';
 
-
     return string;
   }
 
@@ -79,8 +77,39 @@ class Transaction{
 
     asset.onTransaction(this);
 
-    if(seller != null && asset is ChargeableAsset) taxableGain = (asset as ChargeableAsset).taxableGain(seller);
+    if(seller != null) taxableGain = gain(seller);
+  }
 
+  num gain(Entity entity){
+
+    if(asset is !ChargeableAsset) return 0;
+
+    ChargeableAsset chargeableAsset = asset as ChargeableAsset;
+
+    Date acquisition = asset.acquisitionDate(seller);
+    Date disposal = date;
+    num acquisitionConsideration = chargeableAsset.acquisitionConsideration(entity);
+
+    Period ownership;
+
+    if(acquisition != null && disposal != null) ownership = new Period(acquisition, disposal);
+
+    num gain = consideration - acquisitionConsideration - chargeableAsset.totalImprovements(ownership);
+
+    gain = chargeableAsset.adjustGain(entity, gain);
+
+    gain  = Utilities.roundIncome(gain);
+
+
+    if(entity.type == Entity.COMPANY && gain > 0){
+
+      num indexation = min(TaxData.IndexationFactor(acquisition, disposal) * acquisitionConsideration, gain);
+
+      gain -= indexation ;
+
+    }
+
+    return gain;
   }
 
 

@@ -34,10 +34,11 @@ abstract class Asset{
 
   }
 
-
   owner(Date date) => transactions.valueAt(date).buyer;
 
   TransactionHistory transactions = new TransactionHistory();
+
+  Transaction disposalsInPeriod(Period period, Entity entity) => transactions.disposalsInPeriod(Period period, Entity entity);
 
   Date acquisitionDate(Entity entity) => transactions.acquisitionDate(entity);
 
@@ -53,9 +54,7 @@ abstract class Asset{
 
   sell(Entity entity, Date date, amount)=> transactions.sell(this, entity, date, amount);
 
-  onTransaction(Transaction transaction){
-
-  }
+  onTransaction(Transaction transaction){}
 
   printTransactions()=> transactions.printTransactions();
 }
