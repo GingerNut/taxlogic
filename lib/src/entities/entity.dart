@@ -40,13 +40,10 @@ abstract class Entity{
   void addAsset(Asset asset)=> assets.add(asset);
 
   void addCreationTransaction(Asset asset) {
-    Transaction transaction = new Transaction(asset)
+    new Transaction(asset)
       ..buyer = this
-      ..consideration = 0;
-
-    asset.onTransaction(transaction);
-
-    asset.transactions.add(new TransactionChange(transaction));
+      ..consideration = 0
+    ..go();
   }
 
   ResidenceHistory residence = new ResidenceHistory();

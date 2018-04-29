@@ -24,6 +24,23 @@ class JointOwners extends Entity{
 
   }
 
+    void addAsset(Asset asset){
+      _owners.forEach((owner){
+       owner.entity.assets.add(asset);
+      });
+
+  }
+
+    void addCreationTransaction(Asset asset) {
+
+    _owners.forEach((owner){
+      new Transaction(asset)
+        ..buyer = owner.entity
+        ..consideration = 0
+      ..go();
+      });
+    }
+
     bool includes(Entity entity){
     bool owner = false;
 

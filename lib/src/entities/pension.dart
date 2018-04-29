@@ -8,7 +8,7 @@ import 'package:taxlogic/src/utilities/period_collection.dart';
 
 
 class Pension extends Entity{
-  List<Asset> assets = new List();
+
 
 
 

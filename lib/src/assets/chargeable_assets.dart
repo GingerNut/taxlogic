@@ -10,6 +10,7 @@ import 'asset.dart';
 
 
 class ChargeableAsset extends Asset{
+  bool gainValid = false;
   num lossAllocated = 0;
   num basicRateAllocated = 0;
   num annualExemptionAllocated = 0;
@@ -36,29 +37,14 @@ class ChargeableAsset extends Asset{
 
   num taxableGain(Entity entity){
 
-    Date acquisition = acquisitionDate(entity);
-    Date disposal = disposalDate(entity);
+    List<Transaction> sales = transactions.disposal(entity);
 
-    Period ownership;
+    num gain = 0;
 
-    if(acquisition != null && disposal != null) ownership = new Period(acquisitionDate(entity), acquisitionDate(entity));
+    sales.forEach((sale) => gain += sale.calculateGain(entity));
 
-    num gain = disposalConsideration(entity) - acquisitionConsideration(entity) - totalImprovements(ownership);
+   return gain;
 
-    gain = adjustGain(entity, gain);
-
-    gain  = Utilities.roundIncome(gain);
-
-
-    if(entity.type == Entity.COMPANY && gain > 0){
-
-      num indexation = min(TaxData.IndexationFactor(acquisitionDate(entity), disposalDate(entity)) * acquisitionConsideration(entity), gain);
-
-      gain -= indexation ;
-
-    }
-
-    return gain;
   }
 
 
@@ -71,7 +57,7 @@ class ChargeableAsset extends Asset{
   }
 
   void refreshGain(){
-
+      gainValid = false;
   }
 
 

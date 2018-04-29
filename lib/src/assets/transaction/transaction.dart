@@ -21,7 +21,7 @@ class Transaction{
   Date date;
 
   // capital gains stuff =>
-  bool gainValid = false;
+
   num taxableGain = 0;
   num totalImprovements;
   num lossAllocated = 0;
@@ -75,13 +75,48 @@ class Transaction{
 
   go() {
 
-    asset.transactions.add(new TransactionChange(this));
+    if(!(seller is JointOwners) && !(buyer is JointOwners)) {
+      asset.transactions.add(new TransactionChange(this));
 
-    if(buyer != null) buyer.addAsset(asset);
+      if(buyer != null) buyer.addAsset(asset);
 
-    asset.onTransaction(this);
+      asset.onTransaction(this);
 
-    if(seller != null) taxableGain = calculateGain(seller);
+      if(seller != null) taxableGain = calculateGain(seller);
+
+
+    } else {
+
+      if(seller is JointOwners){
+        List<JointShare> shares = (seller as JointOwners).getOwners();
+        shares.forEach((share){
+          new Transaction(asset)
+              ..buyer = buyer
+            ..seller = share.entity
+              ..date = date
+              ..consideration = consideration * share.proportion
+          ..go();
+        });
+
+      }
+
+      if(buyer is JointOwners){
+        List<JointShare> shares = (buyer as JointOwners).getOwners();
+        shares.forEach((share){
+          new Transaction(asset)
+           ..buyer = share.entity
+            ..seller = seller
+            ..date = date
+            ..consideration = consideration * share.proportion
+            ..go();
+        });
+
+      }
+
+
+    }
+
+
   }
 
   num calculateGain(Entity entity){
@@ -96,11 +131,24 @@ class Transaction{
 
     num acquisitionConsideration = chargeableAsset.acquisitionConsideration(entity);
 
+    // get total consideration
+
+    List<Transaction> sales = asset.transactions.disposal(entity);
+
+    num totalConsideration = 0;
+
+    sales.forEach((sale) => totalConsideration += sale.consideration);;
+
+    // pro rata purchase cost
+
+    if(totalConsideration != consideration) acquisitionConsideration = acquisitionConsideration * consideration / totalConsideration;
+
     Period ownership;
 
     if(acquisition != null && disposal != null) ownership = new Period(acquisition, disposal);
 
     num gain = consideration - acquisitionConsideration - chargeableAsset.totalImprovements(ownership);
+
 
     gain = chargeableAsset.adjustGain(entity, gain);
 
@@ -114,6 +162,10 @@ class Transaction{
       gain -= indexation ;
 
     }
+
+    chargeableAsset.gainValid = true;
+
+    taxableGain = gain;
 
     return gain;
   }

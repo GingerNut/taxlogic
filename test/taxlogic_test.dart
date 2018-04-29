@@ -384,9 +384,9 @@ void transactions(){
         ..date = sell
         ..go();
 
-      expect(joint.assets.length, 2); //property itself and property business
-      expect(person1.assets.length, 0); //property itself and property business
-      expect(person2.assets.length, 0); //property itself and property business
+      expect(joint.assets.length, 0); //property itself and property business
+      expect(person1.assets.length, 2); //property itself and property business
+      expect(person2.assets.length, 2); //property itself and property business
 
       expect(property.acquisitionDate(person1), buy);
       expect(property.acquisitionDate(person2), buy);
@@ -443,20 +443,20 @@ void transactions(){
       expect(property.disposalConsideration(person1), 140000);
       expect(property.taxableGain(person1), 40000);
 
-      expect(property.transactions.history.length, 3);
-      expect(joint.assets.length, 2); //property itself and property business
-      expect(person2.assets.length, 0);
-      expect(person3.assets.length, 0);
-      expect(property.acquisitionDate(joint), transfer);
+      expect(property.transactions.history.length, 5);
+      expect(joint.assets.length, 0); //property itself and property business
+      expect(person2.assets.length, 2);
+      expect(person3.assets.length, 2);
+      expect(property.acquisitionDate(person2), transfer);
       expect(property.acquisitionConsideration(person2), 70000);
       expect(property.acquisitionConsideration(person3), 70000);
-      expect(property.disposalDate(joint), sell);
+      expect(property.disposalDate(person2), sell);
       expect(property.disposalConsideration(person2), 100000);
       expect(property.disposalConsideration(person3), 100000);
       expect(property.taxableGain(person2), 30000);
       expect(property.taxableGain(person3), 30000);
 
-      expect(property.transactions.history.length, 3);
+      expect(property.transactions.history.length, 5);
 
     });
 
@@ -1693,7 +1693,10 @@ void capitalGains() {
       asset.addImprovement(new Improvement(1000));
       asset.addImprovement(new Improvement(500));
 
+      taxPosition.tax;
+
       expect(asset.taxableGain(person), 3500);
+      expect(person.taxYear(2018).totalGains, 3500);
 
     });
 

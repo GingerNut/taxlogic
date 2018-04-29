@@ -20,16 +20,7 @@ class TransactionHistory extends History<Transaction>{
       if(test.amount.seller == entity) {
         if(period.includes(test.date)) if(!disposals.contains(test.amount))disposals.add(test.amount);
       }
-      else if (test.amount.seller is JointOwners && ((test.amount.seller as JointOwners).includes(entity))){
-        JointOwners owners = test.amount.seller as JointOwners;
 
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity) {
-            if(period.includes(test.date)) if(!disposals.contains(test.amount))disposals.add(test.amount);
-          }
-        });
-      }
     });
 
     return disposals;
@@ -46,16 +37,7 @@ class TransactionHistory extends History<Transaction>{
       if(test.amount.seller == entity) {
         if(!disposals.contains(test.amount))disposals.add(test.amount);
       }
-      else if (test.amount.seller is JointOwners && ((test.amount.seller as JointOwners).includes(entity))){
-        JointOwners owners = test.amount.seller as JointOwners;
 
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity) {
-            if(!disposals.contains(test.amount))disposals.add(test.amount);
-          }
-        });
-      }
     });
 
     return disposals;
@@ -70,16 +52,7 @@ class TransactionHistory extends History<Transaction>{
       TransactionChange test = t as TransactionChange;
 
       if(test.amount.seller == entity) change = test;
-      else if (test.amount.seller is JointOwners && ((test.amount.seller as JointOwners).includes(entity))){
-        JointOwners owners = test.amount.seller as JointOwners;
 
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity) change = test;
-
-        });
-
-      }
     });
 
     if(change != null) return change.amount.date;
@@ -94,16 +67,7 @@ class TransactionHistory extends History<Transaction>{
       TransactionChange test = t as TransactionChange;
 
       if(test.amount.buyer == entity) change = test;
-      else if (test.amount.buyer is JointOwners && ((test.amount.buyer as JointOwners).includes(entity))){
-        JointOwners owners = test.amount.buyer as JointOwners;
 
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity) change = test;
-
-        });
-
-      }
     });
 
     if(change != null)  {
@@ -116,58 +80,34 @@ class TransactionHistory extends History<Transaction>{
 
   num disposalConsideration(Entity entity){
 
-    TransactionChange change;
-    num proportion = 1;
+    List<TransactionChange> changes = new List();
 
     history.forEach((t){
       TransactionChange test = t as TransactionChange;
 
-      if(test.amount.seller == entity) change = test;
-      else if (test.amount.seller is JointOwners  && ((test.amount.seller as JointOwners).includes(entity))){
-        JointOwners owners = test.amount.seller as JointOwners;
+      if(test.amount.seller == entity) changes.add(test);
 
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity) change = test;
-          proportion = owner.proportion;
-
-        });
-
-      }
     });
 
-    if(change != null) return change.amount.consideration * proportion;
-    else return null;
+    num consideration = 0;
+    changes.forEach((change)=>consideration += change.amount.consideration);
+    return consideration;
   }
 
   num acquisitionConsideration(Entity entity){
 
-    TransactionChange change;
-    num proportion = 1;
+    List<TransactionChange> changes = new List();
 
     history.forEach((t){
       TransactionChange test = t as TransactionChange;
 
-      if(test.amount.buyer == entity) {
-        change = test;
+      if(test.amount.buyer == entity) changes.add(test);
 
-      } else if (test.amount.buyer is JointOwners && ((test.amount.buyer as JointOwners).includes(entity)) ){
-        JointOwners owners = test.amount.buyer as JointOwners;
-
-        owners.getOwners().forEach((owner){
-
-          if(owner.entity == entity ) change = test;
-          proportion = owner.proportion;
-
-        });
-
-      }
     });
 
-    if(change != null) {
-      return change.amount.consideration * proportion;
-    }
-    else return 0;
+    num consideration = 0;
+    changes.forEach((change)=>consideration += change.amount.consideration);
+    return consideration;
   }
 
 
@@ -177,17 +117,6 @@ class TransactionHistory extends History<Transaction>{
 
   setAcquisitionDate(Entity entity, Date date) {
     TransactionChange change;
-
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
-
-      if(test.amount.buyer == entity) change = test;
-    });
-
-
-    if(change != null) {
-      change.amount.date = date;
-    }
 
     if(entity is JointOwners  ){
 
@@ -203,20 +132,46 @@ class TransactionHistory extends History<Transaction>{
 
       });
 
+    } else {
+
+      history.forEach((t){
+        TransactionChange test = t as TransactionChange;
+
+        if(test.amount.buyer == entity) change = test;
+      });
+
+      if(change != null) {
+        change.amount.date = date;
+      }
+
     }
 
   }
 
   setAcquisitionConsideration(Entity entity, num consideration) {
-    TransactionChange change;
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    setConsideration(Entity entity, num consideration){
+      TransactionChange change;
 
-      if(test.amount.buyer == entity) change = test;
-    });
+      history.forEach((t){
+        TransactionChange test = t as TransactionChange;
 
-    if(change != null) change.amount.consideration = consideration;
+        if(test.amount.buyer == entity) change = test;
+
+      });
+
+      if(change != null) change.amount.consideration = consideration;
+    }
+
+    if(entity is JointOwners){
+
+        List<JointShare> ownerShares = entity.getOwners();
+
+        ownerShares.forEach((share){
+          setConsideration(share.entity, consideration * share.proportion);
+        });
+
+    } else setConsideration(entity, consideration);
 
   }
 
