@@ -3,7 +3,6 @@ import 'package:taxlogic/src/assets/asset.dart';
 
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/game/move/property_business/transfer_property.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -1690,8 +1689,8 @@ void capitalGains() {
       ChargeableAsset asset = new ChargeableAsset(person);
       asset.setAcquisitionConsideration(person,  5000);
       asset.sell(person, new Date(5,4,18), 10000);
-      asset.addImprovement(new Improvement(1000));
-      asset.addImprovement(new Improvement(500));
+      asset.addImprovement(person, new Improvement(person, 1000));
+      asset.addImprovement(person, new Improvement(person, 500));
 
       taxPosition.tax;
 
@@ -1724,7 +1723,7 @@ void capitalGains() {
       // loss of 4000
       ChargeableAsset asset02 = new ChargeableAsset(person);
       asset02.setAcquisitionConsideration(person,  4000);
-      asset02.addImprovement(new Improvement(1000));
+      asset02.addImprovement(person, new Improvement(person, 1000));
       asset02.sell(person,  new Date(5,4,18) , 1000);
 
       // outside the tax year
@@ -1981,7 +1980,7 @@ void capitalGains() {
       // loss on main residence
       ResidentialProperty asset01 = new ResidentialProperty(person);
       asset01.setAcquisitionConsideration(person,  20000);
-      asset01.addResidencePeriod(new Period(new Date(31,1,17), new Date(5,4,18)));
+      asset01.addResidencePeriod(person, new Period(new Date(31,1,17), new Date(5,4,18)));
       asset01.setAcquisitionDate(person, new Date(1,1,17));
       asset01.sell(person,  new Date(5,4,18), 0);
 
@@ -2009,14 +2008,14 @@ void capitalGains() {
       asset01.setAcquisitionConsideration(person,  0);
       asset01.setAcquisitionDate(person,  new Date(13,1,15));
       asset01.sell(person,  new Date(5,4,18), 30000);
-      asset01.addResidencePeriod(new Period(new Date(13,1,15), new Date(5,4,18)));
+      asset01.addResidencePeriod(person, new Period(new Date(13,1,15), new Date(5,4,18)));
 
 
       ResidentialProperty asset02 = new ResidentialProperty(person);
       asset02.setAcquisitionConsideration(person,  0);
       asset02.setAcquisitionDate(person,  new Date(1,7,16));
       asset02.sell(person,  new Date(31,12,17), 20000);
-      asset02.addResidencePeriod(new Period(new Date(1,1,18), new Date(5,4,18)));
+      asset02.addResidencePeriod(person, new Period(new Date(1,1,18), new Date(5,4,18)));
 
 
       person.taxYear(2018).tax;
@@ -2036,7 +2035,7 @@ void capitalGains() {
       asset01.setAcquisitionConsideration(person,  0);
       asset01.setAcquisitionDate(person,  new Date(13,1,15));
       asset01.sell(person,  new Date(5,4,18), 100000);
-      asset01.addResidencePeriod(new Period(new Date(13,1,16), new Date(5,4,18)));
+      asset01.addResidencePeriod(person, new Period(new Date(13,1,16), new Date(5,4,18)));
 
 
       expect(asset01.taxableGain(person), 30985);

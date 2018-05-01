@@ -1,7 +1,8 @@
 import '../entities/entity.dart';
+import 'package:taxlogic/src/assets/gain_valid.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
+import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/residence/country.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/history/value_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
@@ -15,6 +16,7 @@ abstract class Asset{
   int locus = Country.GBR;
   JointShare jointShare = null;
   ValueHistory value;
+
 
   Asset(Entity entity){
 

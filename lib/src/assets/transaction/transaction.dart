@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:taxlogic/src/assets/asset.dart';
+import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'share_transaction.dart';
@@ -163,7 +163,7 @@ class Transaction{
 
     }
 
-    chargeableAsset.gainValid = true;
+    chargeableAsset.setGainValid(entity);
 
     taxableGain = gain;
 

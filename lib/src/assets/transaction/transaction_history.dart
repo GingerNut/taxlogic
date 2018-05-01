@@ -221,6 +221,8 @@ class TransactionHistory extends History<Transaction>{
 
 }
 
+
+
 class TransactionChange extends Change<Transaction>{
 
   TransactionChange(Transaction transaction) : super(transaction.date, transaction);

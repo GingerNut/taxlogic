@@ -2,7 +2,7 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
+import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 

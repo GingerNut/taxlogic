@@ -1,5 +1,5 @@
 import 'package:taxlogic/src/entities/entity.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
+
 import 'package:taxlogic/src/utilities/period.dart';
 import 'package:taxlogic/src/assets/property/property.dart';
 
@@ -24,17 +24,17 @@ class ResidentialProperty extends Property{
     return gain;
   }
 
-  void addResidencePeriod(Period period){
+  void addResidencePeriod(Entity entity, Period period){
 
     _mainResidencePeriods.add(period);
 
-    refreshGain();
+    setGainInvalid(entity);
 
   }
 
   void setAllMainResidence(Entity entity){
-    addResidencePeriod(new Period(acquisitionDate(entity), disposalDate(entity)));
-    refreshGain();
+    addResidencePeriod(entity, new Period(acquisitionDate(entity), disposalDate(entity)));
+    setGainInvalid(entity);
   }
 
   num calculateMainResidenceRelief(Entity entity, num gain){

@@ -5,7 +5,6 @@ import 'package:taxlogic/src/residence/residence_history.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
 import '../tax_position/tax_position.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/utilities/period.dart';
 

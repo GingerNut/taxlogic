@@ -1,8 +1,9 @@
 import '../data/tax_data.dart';
 
+import 'package:taxlogic/src/assets/gain_valid.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/utilities/date.dart';
-import 'package:taxlogic/src/utilities/history/transaction_history.dart';
+import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 import '../entities/entity.dart';
 import 'dart:math';
@@ -10,7 +11,7 @@ import 'asset.dart';
 
 
 class ChargeableAsset extends Asset{
-  bool gainValid = false;
+  List<GainValid> _gainValid = new List();
   num lossAllocated = 0;
   num basicRateAllocated = 0;
   num annualExemptionAllocated = 0;
@@ -22,6 +23,22 @@ class ChargeableAsset extends Asset{
 
   List<Improvement> _improvements = new List();
   List<ChargeableAsset> disposals = new List();
+
+  setGainValid(Entity entity) => _getGainValid(entity).valid = true;
+
+  setGainInvalid(Entity entity)=> _getGainValid(entity).valid = false;
+
+  bool isGainValid(Entity entity)=> _getGainValid(entity).valid;
+
+  _getGainValid(Entity entity){
+    GainValid valid;
+
+    _gainValid.forEach((v) {if(v.entity == entity) valid = v;});
+
+    if(valid == null) valid = new GainValid(entity);
+
+    return valid;
+  }
 
   num totalImprovements(Period period){
 
@@ -51,28 +68,21 @@ class ChargeableAsset extends Asset{
   num adjustGain(Entity entity, num gain)=> gain;
 
 
-  addImprovement(Improvement improvement){
+  addImprovement(Entity entity, Improvement improvement){
     _improvements.add(improvement);
-    refreshGain();
+    setGainInvalid(entity);
   }
-
-  void refreshGain(){
-      gainValid = false;
-  }
-
-
-
 
 
 }
 
 class Improvement{
-
+  Entity entity;
   String description;
   num cost;
   Date date;
 
-  Improvement(this.cost, {this.date, this.description});
+  Improvement(this.entity, this.cost, {this.date, this.description});
 
 }
 

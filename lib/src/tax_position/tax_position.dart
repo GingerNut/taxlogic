@@ -68,9 +68,8 @@ abstract class TaxPosition{
 
       ChargeableAsset asset = disposal.asset;
 
-      if(!asset.gainValid)disposal.calculateGain(entity);
-      asset.gainValid = true;
-
+      if(!asset.isGainValid(entity))disposal.calculateGain(entity);
+      asset.setGainValid(entity);
     });
   }
 
