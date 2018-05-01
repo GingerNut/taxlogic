@@ -11,8 +11,6 @@ class PropertyTransaction extends Transaction{
 
   }
 
-  StampDutyLandTax stampDuty;
-
   num get duty=> stampDuty.calculateDuty();
 
 }

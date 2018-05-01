@@ -3,6 +3,7 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/data/tax_data.dart';
 import 'package:taxlogic/src/entities/entity.dart';
+import 'package:taxlogic/src/tax_position/stamp_taxes/stamp_taxes.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
 export 'share_transaction.dart';
@@ -27,6 +28,8 @@ class Transaction{
   num lossAllocated = 0;
   num basicRateAllocated = 0;
   num annualExemptionAllocated = 0;
+
+  StampTaxes stampDuty;
 
   disposal(Entity entity){
     if(entity == seller) return date;

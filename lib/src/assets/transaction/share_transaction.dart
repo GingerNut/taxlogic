@@ -11,8 +11,6 @@ class ShareTransaction extends Transaction{
     stampDuty = new StampDuty(this);
   }
 
-  StampDuty stampDuty;
-
   num get duty=> stampDuty.calculateDuty();
 
 }
