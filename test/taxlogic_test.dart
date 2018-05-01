@@ -1,8 +1,10 @@
 import 'package:taxlogic/src/activity/lending/loan.dart';
 import 'package:taxlogic/src/assets/asset.dart';
 
+import 'package:taxlogic/src/assets/transaction/property_transaction.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/game/move/property_business/transfer_property.dart';
+import 'package:taxlogic/src/tax_position/stamp_taxes/stamp_duty_land_tax.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -27,6 +29,7 @@ void main() {
   incomeAndExpenditure();
   corporationTax();
   companySecretarial();
+  stampDuty();
 }
 
 void game(){
@@ -928,11 +931,11 @@ void rateTable(){
 
     test('Test ', () {
 
-      RateTable table = new RateTable.fromList([
-        new RateThreshold(0,0),
-        new RateThreshold(50,1),
-        new RateThreshold(100,2),
-        new RateThreshold(150,3),
+      NumTable table = new NumTable.fromList([
+        new NumThreshold(0,0),
+        new NumThreshold(50,1),
+        new NumThreshold(100,2),
+        new NumThreshold(150,3),
       ]);
 
       expect(table.valueAt(49), 0);
@@ -2653,6 +2656,102 @@ void companySecretarial(){
 
 
 
+
+  });
+
+
+}
+
+void stampDuty(){
+
+  group('Stamp Duty ', (){
+
+    test('SDLT residential', () {
+
+      PropertyTransaction transaction = new PropertyTransaction(new ResidentialProperty(new Person()))
+            ..consideration = 100000
+            ..go();
+
+        expect(transaction.duty, 0);
+
+        transaction.consideration = 200000;
+        expect(transaction.duty, 1500);
+
+      transaction.consideration = 300000;
+      expect(transaction.duty, 5000);
+
+      transaction.consideration = 400000;
+      expect(transaction.duty, 10000);
+
+      transaction.consideration = 700000;
+      expect(transaction.duty, 25000);
+
+      transaction.consideration = 1000000;
+      expect(transaction.duty, 43750);
+
+      transaction.consideration = 2000000;
+      expect(transaction.duty, 153750);
+
+      transaction.consideration = 10000000;
+      expect(transaction.duty, 1113750);
+
+    });
+
+    test('SDLT non residential', () {
+
+      PropertyTransaction transaction = new PropertyTransaction(new Property(new Person()))
+        ..consideration = 100000
+        ..go();
+
+      expect(transaction.duty, 0);
+
+      transaction.consideration = 200000;
+      expect(transaction.duty, 1000);
+
+      transaction.consideration = 300000;
+      expect(transaction.duty, 4500);
+
+      transaction.consideration = 400000;
+      expect(transaction.duty, 9500);
+
+      transaction.consideration = 700000;
+      expect(transaction.duty, 24500);
+
+      transaction.consideration = 1000000;
+      expect(transaction.duty, 39500);
+
+      transaction.consideration = 2000000;
+      expect(transaction.duty, 89500);
+
+      transaction.consideration = 10000000;
+      expect(transaction.duty, 489500);
+
+    });
+
+    test('SDLT shares', () {
+
+      ShareTransaction transaction = new ShareTransaction(new ChargeableAsset(new Person()))
+        ..consideration = 900
+        ..go();
+
+      expect(transaction.duty, 0);
+
+      transaction.consideration = 2000;
+      expect(transaction.duty, 10);
+
+      transaction.consideration = 300000;
+      expect(transaction.duty, 1500);
+
+     transaction.consideration = 1000000;
+      expect(transaction.duty, 5000);
+
+      transaction.consideration = 2000000;
+      expect(transaction.duty, 10000);
+
+      transaction.consideration = 10000000;
+      expect(transaction.duty, 50000);
+
+    });
 
   });
 

@@ -38,7 +38,7 @@ class Transaction{
     else return null;
   }
 
-  num duty() => 0;
+  num get duty => 0;
 
   printTransaction() => print(string());
 

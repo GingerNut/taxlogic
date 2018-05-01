@@ -11,5 +11,8 @@ class StampDuty extends StampTaxes{
 
 
   @override
-  num calculateDuty() => transaction.consideration * 0.5 / 100;
+  num calculateDuty() {
+    if(transaction.consideration < 1000) return 0;
+    else return transaction.consideration * 0.5 / 100;
+  }
 }

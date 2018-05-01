@@ -6,7 +6,7 @@ import 'package:taxlogic/src/data/company_car/company_car_electric_2018.dart';
 
 class CompanyCarRates{
 
-  RateTable table;
+  NumTable table;
 
   static CompanyCarRates get(int year, int engineType){
 
