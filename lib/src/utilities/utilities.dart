@@ -7,6 +7,7 @@ export 'period_end.dart';
 export 'tax_year.dart';
 export 'package:taxlogic/src/utilities/history/num_table.dart';
 export 'package:taxlogic/src/utilities/history/name_history.dart';
+export 'package:taxlogic/src/utilities/history/diary.dart';
 
 class Utilities{
 

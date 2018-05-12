@@ -361,7 +361,7 @@ void transactions(){
       expect(property.disposalConsideration(person2), 200000);
       expect(property.taxableGain(person2), 60000);
 
-      expect(property.transactions.history.length, 3);
+      expect(property.transactions.events.length, 3);
     });
 
     test('purchase and sale by joint owners ', () {
@@ -449,7 +449,7 @@ void transactions(){
       expect(property.disposalConsideration(person1), 140000);
       expect(property.taxableGain(person1), 40000);
 
-      expect(property.transactions.history.length, 5);
+      expect(property.transactions.events.length, 5);
       expect(joint.assets.length, 0); //property itself and property business
       expect(person2.assets.length, 2);
       expect(person3.assets.length, 2);
@@ -462,7 +462,7 @@ void transactions(){
       expect(property.taxableGain(person2), 30000);
       expect(property.taxableGain(person3), 30000);
 
-      expect(property.transactions.history.length, 5);
+      expect(property.transactions.events.length, 5);
 
     });
 
@@ -919,8 +919,8 @@ void histories(){
       Date test = new Date(21,9,62);
       Date test2 = new Date(2,1,17);
 
-      expect(history.valueAt(test), 'hello');
-      expect(history.valueAt(test2), 'goodbye');
+      expect((history.valueAt(test) as NameChange).name, 'hello');
+      expect((history.valueAt(test2) as NameChange).name, 'goodbye');
 
     });
 

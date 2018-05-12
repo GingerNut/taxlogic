@@ -8,7 +8,7 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 
 
 
-class ShareCapital extends History<ShareTransaction>{
+class ShareCapital extends Diary{
   ShareCapital(this._originalName);
 
   String _originalName;
@@ -16,11 +16,11 @@ class ShareCapital extends History<ShareTransaction>{
   name(Date date){
     String name = _originalName;
 
-    history.forEach((entry){
+    events.forEach((entry){
 
       ShareNameChange nameChange;
 
-      if (entry is ShareNameChange) nameChange = (entry as TransactionChange).amount;
+      if (entry is ShareNameChange) nameChange = entry;
 
       if(nameChange != null && (nameChange. date == null || nameChange.date < date)){
         name = nameChange.name;
@@ -30,9 +30,6 @@ class ShareCapital extends History<ShareTransaction>{
     return name;
   }
 
-
-  @override
-  ShareChange newChange(Date date, ShareTransaction transaction) => new ShareChange(transaction);
 
   void issue(Entity entity, int shares, Date date) {
       new IssueShares(this, entity, shares, date)

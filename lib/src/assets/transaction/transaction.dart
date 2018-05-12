@@ -9,7 +9,7 @@ import 'package:taxlogic/src/utilities/utilities.dart';
 export 'package:taxlogic/src/entities/company/share_transaction/share_transaction.dart';
 
 
-class Transaction{
+class Transaction extends Event{
 
   Asset asset;
 
@@ -17,7 +17,6 @@ class Transaction{
   Entity buyer;
 
   num consideration;
-  Date date;
 
   // capital gains stuff =>
 
@@ -79,7 +78,7 @@ class Transaction{
     if(!(seller is JointOwners) && !(buyer is JointOwners)) {
 
       if(asset != null) {
-        asset.transactions.add(new TransactionChange(this));
+        asset.transactions.add(this);
 
         if(buyer != null) buyer.addAsset(asset);
 
@@ -89,12 +88,12 @@ class Transaction{
       }
 
       if(buyer != null){
-        buyer.transactions.add(new TransactionChange(this));
+        buyer.transactions.add(this);
 
       }
 
       if(seller != null){
-        seller.transactions.add(new TransactionChange(this));
+        seller.transactions.add(this);
 
       }
 

@@ -22,7 +22,7 @@ abstract class Asset{
 
     if(entity != null) {
 
-      if(transactions.history.length == 0) entity.addCreationTransaction(this);
+      if(transactions.events.length == 0) entity.addCreationTransaction(this);
     }
   }
 
@@ -36,7 +36,7 @@ abstract class Asset{
 
   }
 
-  owner(Date date) => transactions.valueAt(date).buyer;
+  owner(Date date) => (transactions.valueAt(date) as Transaction).buyer;
 
   TransactionHistory transactions = new TransactionHistory();
 

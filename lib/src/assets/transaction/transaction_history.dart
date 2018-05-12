@@ -1,10 +1,10 @@
 import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/entities/entity.dart';
-import 'package:taxlogic/src/utilities/history/history.dart';
+
 import 'package:taxlogic/src/utilities/utilities.dart';
 
-class TransactionHistory extends History<Transaction>{
+class TransactionHistory extends Diary{
 
   set (Transaction  amount){
 
@@ -14,11 +14,11 @@ class TransactionHistory extends History<Transaction>{
   List<Transaction> disposalsInPeriod(Period period, Entity entity){  // not tested
     List<Transaction> disposals = new List();
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) {
-        if(period.includes(test.date)) if(!disposals.contains(test.amount))disposals.add(test.amount);
+      if(test.seller == entity) {
+        if(period.includes(test.date)) if(!disposals.contains(test))disposals.add(test);
       }
 
     });
@@ -31,11 +31,11 @@ class TransactionHistory extends History<Transaction>{
 
     List<Transaction> disposals = new List();
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) {
-        if(!disposals.contains(test.amount))disposals.add(test.amount);
+      if(test.seller == entity) {
+        if(!disposals.contains(test))disposals.add(test);
       }
 
     });
@@ -46,33 +46,33 @@ class TransactionHistory extends History<Transaction>{
 
   Date disposalDate(Entity entity){
 
-    TransactionChange change;
+    Transaction change;
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) change = test;
+      if(test.seller == entity) change = test;
 
     });
 
-    if(change != null) return change.amount.date;
+    if(change != null) return change.date;
     else return null;
   }
 
   Date acquisitionDate(Entity entity){
 
-    TransactionChange change;
+    Transaction change;
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.buyer == entity) change = test;
+      if(test.buyer == entity) change = test;
 
     });
 
     if(change != null)  {
 
-      return change.amount.date;
+      return change.date;
 
     }
     else return null;
@@ -80,68 +80,63 @@ class TransactionHistory extends History<Transaction>{
 
   num disposalConsideration(Entity entity){
 
-    List<TransactionChange> changes = new List();
+    List<Transaction> changes = new List();
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) changes.add(test);
+      if(test.seller == entity) changes.add(test);
 
     });
 
     num consideration = 0;
-    changes.forEach((change)=>consideration += change.amount.consideration);
+    changes.forEach((change)=>consideration += change.consideration);
     return consideration;
   }
 
   num acquisitionConsideration(Entity entity){
 
-    List<TransactionChange> changes = new List();
+    List<Transaction> changes = new List();
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.buyer == entity) changes.add(test);
+      if(test.buyer == entity) changes.add(test);
 
     });
 
     num consideration = 0;
-    changes.forEach((change)=>consideration += change.amount.consideration);
+    changes.forEach((change)=>consideration += change.consideration);
     return consideration;
   }
 
-
-  @override
-  TransactionChange newChange(Date date, Transaction transaction) => new TransactionChange(transaction);
-
-
   setAcquisitionDate(Entity entity, Date date) {
-    TransactionChange change;
+    Transaction change;
 
     if(entity is JointOwners  ){
 
       entity.getOwners().forEach((jointOnwer){
 
-        history.forEach((t){
-          TransactionChange test = t as TransactionChange;
+        events.forEach((t){
+          Transaction test = t as Transaction;
 
-          if(test.amount.buyer == jointOnwer.entity) change = test;
+          if(test.buyer == jointOnwer.entity) change = test;
         });
 
-        if(change != null) change.amount.date = date;
+        if(change != null) change.date = date;
 
       });
 
     } else {
 
-      history.forEach((t){
-        TransactionChange test = t as TransactionChange;
+      events.forEach((t){
+        Transaction test = t as Transaction;
 
-        if(test.amount.buyer == entity) change = test;
+        if(test.buyer == entity) change = test;
       });
 
       if(change != null) {
-        change.amount.date = date;
+        change.date = date;
       }
 
     }
@@ -151,16 +146,16 @@ class TransactionHistory extends History<Transaction>{
   setAcquisitionConsideration(Entity entity, num consideration) {
 
     setConsideration(Entity entity, num consideration){
-      TransactionChange change;
+      Transaction change;
 
-      history.forEach((t){
-        TransactionChange test = t as TransactionChange;
+      events.forEach((t){
+        Transaction test = t as Transaction;
 
-        if(test.amount.buyer == entity) change = test;
+        if(test.buyer == entity) change = test;
 
       });
 
-      if(change != null) change.amount.consideration = consideration;
+      if(change != null) change.consideration = consideration;
     }
 
     if(entity is JointOwners){
@@ -176,28 +171,28 @@ class TransactionHistory extends History<Transaction>{
   }
 
   setDisposalDate(Entity entity, Date date) {
-    TransactionChange change;
+    Transaction change;
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) change = test;
+      if(test.seller == entity) change = test;
     });
 
-    if(change != null) change.amount.date = date;
+    if(change != null) change.date = date;
 
   }
 
   setDisposalConsideration(Entity entity, num consideration) {
-    TransactionChange change;
+    Transaction change;
 
-    history.forEach((t){
-      TransactionChange test = t as TransactionChange;
+    events.forEach((t){
+      Transaction test = t as Transaction;
 
-      if(test.amount.seller == entity) change = test;
+      if(test.seller == entity) change = test;
     });
 
-    if(change != null) change.amount.consideration = consideration;
+    if(change != null) change.consideration = consideration;
 
 
   }
@@ -210,12 +205,12 @@ class TransactionHistory extends History<Transaction>{
         .. seller = entity
         ..go();
 
-    history.add(new TransactionChange(transaction));
+    events.add(transaction);
   }
 
   void printTransactions() {
-    history.forEach((change){
-      (change as TransactionChange).amount.printTransaction();
+    events.forEach((change){
+      (change as Transaction).printTransaction();
     });
   }
 
@@ -223,9 +218,3 @@ class TransactionHistory extends History<Transaction>{
 }
 
 
-
-class TransactionChange extends Change<Transaction>{
-
-  TransactionChange(Transaction transaction) : super(transaction.date, transaction);
-
-}

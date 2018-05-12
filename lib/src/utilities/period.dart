@@ -24,6 +24,8 @@ class Period{
 
   bool includes(Date day){
 
+    if(day == null ) return true;
+
     if(day < start) return false;
     if(day > end) return false;
     return true;
