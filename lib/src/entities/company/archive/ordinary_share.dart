@@ -1,4 +1,4 @@
-import 'package:taxlogic/src/entities/company/company.dart';
+import 'package:taxlogic/src/entities/company/archive/company.dart';
 import 'share_capital.dart';
 
 

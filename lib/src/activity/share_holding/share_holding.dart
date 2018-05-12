@@ -26,7 +26,7 @@ class ShareHolding extends Activity{
 
   void set(int number) => _shareHistory.set(number);
 
-  addShares(int number, Date date) => _shareHistory.add(new ShareChange(date, number));
+  addShares(int number, Date date) => _shareHistory.add(new ShareTransaction(date, number));
 
   @override
   DividendIncome getNewIncome(TaxPosition taxPosition) => new DividendIncome(this, taxPosition);
@@ -95,12 +95,12 @@ class ShareHistoryByType{
 
   String name;
 
-  ShareHistory _shareHistory = new ShareHistory();
+  ShareChange _shareHistory = new ShareChange();
 
   int sharesAt(Date date) => _shareHistory.valueAt(date);
 
   void set(int number) => _shareHistory.set(number);
 
-  addShares(int number, Date date) => _shareHistory.add(new ShareChange(date, number));
+  addShares(int number, Date date) => _shareHistory.add(new ShareTransaction(date, number));
 
 }

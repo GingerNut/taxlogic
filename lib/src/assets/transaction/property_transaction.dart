@@ -5,12 +5,18 @@ import 'package:taxlogic/src/tax_position/stamp_taxes/stamp_duty_land_tax.dart';
 
 
 class PropertyTransaction extends Transaction{
-  PropertyTransaction(Asset asset) : super(asset){
+  PropertyTransaction(){
 
-    stampDuty = new StampDutyLandTax(this);
+
 
   }
 
   num get duty=> stampDuty.calculateDuty();
+
+
+  go(){
+    super.go();
+    stampDuty = new StampDutyLandTax(this);
+  }
 
 }

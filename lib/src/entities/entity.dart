@@ -1,6 +1,7 @@
 import '../assets/asset.dart';
 import 'package:taxlogic/src/activity/activity.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
+import 'package:taxlogic/src/assets/transaction/transaction_history.dart';
 import 'package:taxlogic/src/residence/residence_history.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 
@@ -35,11 +36,13 @@ abstract class Entity{
   List<Entity> children = new List();
   List<Asset> assets = new List();
   List<Activity> activities = new List();
+  TransactionHistory transactions = new TransactionHistory();
 
   void addAsset(Asset asset)=> assets.add(asset);
 
   void addCreationTransaction(Asset asset) {
-    new Transaction(asset)
+    new Transaction()
+    ..asset = asset
       ..buyer = this
       ..consideration = 0
     ..go();

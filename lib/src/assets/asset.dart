@@ -27,7 +27,8 @@ abstract class Asset{
   }
 
   Asset.buy(Entity entity, Date date, amount){
-    new Transaction(this)
+    new Transaction()
+    ..asset = this
       ..buyer = entity
       ..consideration = amount
     ..date = date

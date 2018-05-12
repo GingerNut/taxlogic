@@ -4,7 +4,6 @@ import 'package:taxlogic/src/assets/asset.dart';
 import 'package:taxlogic/src/assets/transaction/property_transaction.dart';
 import 'package:taxlogic/src/assets/transaction/transaction.dart';
 import 'package:taxlogic/src/game/move/property_business/transfer_property.dart';
-import 'package:taxlogic/src/tax_position/stamp_taxes/stamp_duty_land_tax.dart';
 import 'package:taxlogic/taxlogic.dart';
 import 'package:test/test.dart';
 
@@ -331,14 +330,16 @@ void transactions(){
       ..setAcquisitionDate(person1, buy)
       ..setAcquisitionConsideration(person1, 100000);
 
-      new Transaction(property)
+      new Transaction()
+      ..asset = property
       ..seller = person1
       ..buyer = person2
         ..consideration = 140000
       ..date = transfer
       ..go();
 
-      new Transaction(property)
+      new Transaction()
+      ..asset = property
       ..seller = person2
         ..consideration = 200000
       ..date = sell
@@ -380,7 +381,8 @@ void transactions(){
         ..setAcquisitionDate(joint, buy)
         ..setAcquisitionConsideration(joint, 100000);
 
-     new Transaction(property)
+     new Transaction()
+     ..asset = property
         ..seller = joint
         ..consideration = 200000
         ..date = sell
@@ -424,14 +426,16 @@ void transactions(){
         ..setAcquisitionDate(person1, buy)
         ..setAcquisitionConsideration(person1, 100000);
 
-      new Transaction(property)
+      new Transaction()
+      ..asset = property
         ..seller = person1
         ..buyer = joint
         ..consideration = 140000
         ..date = transfer
         ..go();
 
-      new Transaction(property)
+      new Transaction()
+        ..asset = property
         ..seller = joint
         ..consideration = 200000
         ..date = sell
@@ -2425,20 +2429,20 @@ void companySecretarial(){
       Person shareholder1; // 25%
       Person shareholder2; // 75%
 
-      String name = company.ordinaryShares.name.valueAt(null);
+      String name = 'ordinary';
 
       shareholder1 = new Person();
       shareholder2 = new Person();
 
-      ShareHolding holding1 = company.founder(shareholder1, 25);
-      ShareHolding holding2 = company.founder(shareholder2, 75);
+      company.founder(shareholder1, 25, null);
+      company.founder(shareholder2, 75, null);
 
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
       company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.ordinaryShares.dividends[0].amount, 100000);
+      expect(company.shareCapital(name, null).dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
       expect(shareHolding1.sharesAt(name, null), 25);
@@ -2472,14 +2476,15 @@ void companySecretarial(){
       shareholder3 = new Person()
       .. name = 'person 3';
 
-      ShareHolding holding1 = company.founder(shareholder1, 25);
-      ShareHolding holding2 = company.founder(shareholder2, 75);
+      ShareHolding holding1 = company.founder(shareholder1, 25, null);
+      ShareHolding holding2 = company.founder(shareholder2, 75,null);
 
       Date before = new Date(1,7,17);
 
       Date transfer = new Date(1,8,17);
 
-      new ShareTransaction(holding1)
+      new ShareTransaction()
+      ..asset = holding1
       ..numberOfShares = 25
         .. date = transfer
         ..seller = shareholder1
@@ -2488,14 +2493,14 @@ void companySecretarial(){
       ..go();
 
 
-      String name = company.ordinaryShares.name.valueAt(null);
+      String name = 'ordinary';
 
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
       company.payDividend(new Date(1,9,17), 50000);
       company.payDividend(new Date(1,6,18), 100000);
 
-      expect(company.ordinaryShares.dividends[0].amount, 100000);
+      expect(company.shareCapital('ordinary', null).dividends[0].amount, 100000);
 
       ShareHolding shareHolding1 = shareholder1.activities[0];
       ShareHolding shareHolding2 = shareholder2.activities[0];
@@ -2543,12 +2548,13 @@ void companySecretarial(){
       shareholder3 = new Person()
         .. name = 'person 3';
 
-      ShareHolding holding1 = company.founder(shareholder1, 25);
-      ShareHolding holding2 = company.founder(shareholder2, 75);
+      ShareHolding holding1 = company.founder(shareholder1, 25, null);
+      ShareHolding holding2 = company.founder(shareholder2, 75, null);
 
       Date date = new Date(1,8,17);
 
-      new ShareTransaction(holding1)
+      new ShareTransaction()
+      ..asset = holding1
       ..numberOfShares = 25
       .. date = date
       ..seller = holding1.owner(date)
@@ -2557,7 +2563,7 @@ void companySecretarial(){
       ..go();
 
 
-      String name = company.ordinaryShares.name.valueAt(null);
+      String name = 'ordinary';
 
       company.payDividend(new Date(1,6,16), 100000);
       company.payDividend(new Date(1,6,17), 50000);
@@ -2668,9 +2674,10 @@ void stampDuty(){
 
     test('SDLT residential', () {
 
-      PropertyTransaction transaction = new PropertyTransaction(new ResidentialProperty(new Person()))
-            ..consideration = 100000
-            ..go();
+      PropertyTransaction transaction = new PropertyTransaction()
+      ..asset = new ResidentialProperty(new Person())
+        ..consideration = 100000
+        ..go();
 
         expect(transaction.duty, 0);
 
@@ -2699,7 +2706,8 @@ void stampDuty(){
 
     test('SDLT non residential', () {
 
-      PropertyTransaction transaction = new PropertyTransaction(new Property(new Person()))
+      PropertyTransaction transaction = new PropertyTransaction()
+      ..asset = new Property(new Person())
         ..consideration = 100000
         ..go();
 
@@ -2730,7 +2738,8 @@ void stampDuty(){
 
     test('SDLT shares', () {
 
-      ShareTransaction transaction = new ShareTransaction(new ChargeableAsset(new Person()))
+      ShareTransaction transaction = new ShareTransaction()
+      ..asset = new ChargeableAsset(new Person())
         ..consideration = 900
         ..go();
 

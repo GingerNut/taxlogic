@@ -6,12 +6,10 @@ import 'package:taxlogic/src/entities/entity.dart';
 import 'package:taxlogic/src/tax_position/stamp_taxes/stamp_taxes.dart';
 import 'package:taxlogic/src/utilities/utilities.dart';
 
-export 'share_transaction.dart';
+export 'package:taxlogic/src/entities/company/share_transaction/share_transaction.dart';
 
 
 class Transaction{
-
-  Transaction(this.asset);
 
   Asset asset;
 
@@ -79,13 +77,27 @@ class Transaction{
   go() {
 
     if(!(seller is JointOwners) && !(buyer is JointOwners)) {
-      asset.transactions.add(new TransactionChange(this));
 
-      if(buyer != null) buyer.addAsset(asset);
+      if(asset != null) {
+        asset.transactions.add(new TransactionChange(this));
 
-      asset.onTransaction(this);
+        if(buyer != null) buyer.addAsset(asset);
 
-      if(seller != null) taxableGain = calculateGain(seller);
+        asset.onTransaction(this);
+
+        if(seller != null) taxableGain = calculateGain(seller);
+      }
+
+      if(buyer != null){
+        buyer.transactions.add(new TransactionChange(this));
+
+      }
+
+      if(seller != null){
+        seller.transactions.add(new TransactionChange(this));
+
+      }
+
 
 
     } else {
@@ -93,7 +105,8 @@ class Transaction{
       if(seller is JointOwners){
         List<JointShare> shares = (seller as JointOwners).getOwners();
         shares.forEach((share){
-          new Transaction(asset)
+          new Transaction()
+          ..asset = asset
               ..buyer = buyer
             ..seller = share.entity
               ..date = date
@@ -106,7 +119,8 @@ class Transaction{
       if(buyer is JointOwners){
         List<JointShare> shares = (buyer as JointOwners).getOwners();
         shares.forEach((share){
-          new Transaction(asset)
+          new Transaction()
+          ..asset = asset
            ..buyer = share.entity
             ..seller = seller
             ..date = date

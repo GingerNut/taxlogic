@@ -34,7 +34,8 @@ class JointOwners extends Entity{
     void addCreationTransaction(Asset asset) {
 
     _owners.forEach((owner){
-      new Transaction(asset)
+      new Transaction()
+      ..asset = asset
         ..buyer = owner.entity
         ..consideration = 0
       ..go();

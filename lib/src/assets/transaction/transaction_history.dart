@@ -203,7 +203,8 @@ class TransactionHistory extends History<Transaction>{
   }
 
   sell(Asset asset, Entity entity, Date date, amount) {
-    Transaction transaction = new Transaction(asset)
+    Transaction transaction = new Transaction()
+    ..asset = asset
         ..date = date
         ..consideration = amount
         .. seller = entity

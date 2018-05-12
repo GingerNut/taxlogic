@@ -1,42 +1,44 @@
 import '../entity.dart';
 import 'package:taxlogic/src/activity/activity.dart';
-
+import 'package:taxlogic/src/entities/company/archive/ordinary_share.dart';
 import 'package:taxlogic/src/entities/company/share_capital.dart';
-
+import 'package:taxlogic/src/entities/company/share_register.dart';
 import 'package:taxlogic/src/utilities/date.dart';
 import 'package:taxlogic/src/tax_position/company/company_tax_position.dart';
 import 'package:taxlogic/src/utilities/period.dart';
-
+import 'package:taxlogic/src/utilities/period_end.dart';
 import 'package:taxlogic/src/utilities/period_collection.dart';
 import 'package:taxlogic/src/tax_position/tax_position.dart';
-import 'package:taxlogic/src/utilities/utilities.dart';
 
 export'share_capital.dart';
 
 class Company extends Entity{
   Company(){
     type = Entity.COMPANY;
-    ShareCapital ordinary = new ShareCapital('ordinary');
-    capital.add(ordinary);
+    shareRegister = new ShareRegister(this);
+    ordinaryShares = new OrdinaryShares(this, 'Ordinary');
+    shareCapital.add(ordinaryShares);
   }
+
+  OrdinaryShares ordinaryShares;
+  List<ShareCapital> shareCapital = new List();
 
   PeriodEnd defaultPeriod = new PeriodEnd(31,3);
-  List<ShareCapital> capital = new List();
+  ShareRegister shareRegister;
 
-  ShareCapital shareCapital(String name, Date date){
-    ShareCapital thisShareCap;
+  ShareHolding founder(Entity entity, num shares)=> shareRegister.founder(entity, shares);
 
-    capital.forEach((cap){
-      if(cap.name(date) == name) thisShareCap = cap;
+  ShareHolding addShareholder(Date date, Entity entity, ShareCapital shareCapital, num shares)=> shareRegister.addShareholder(date, entity, shareCapital, shares);
+
+  payDividend(Date date, num amount) => ordinaryShares.dividend(date, amount);
+
+  getDividend(Period period, Entity entity){
+    num dividend = 0;
+
+    ordinaryShares.dividends.forEach((div){
+      if(period.includes(div.date)) dividend += div.dividend(entity);
     });
-
-    return thisShareCap;
-  }
-
-  founder(Entity entity, int shares, Date date) {
-    ShareCapital ordinary = shareCapital('ordinary', null);
-
-    ordinary.issue(entity, shares, date);
+    return dividend;
   }
 
   CompanyAccountingPeriod accountingPeriod(Period period){
@@ -101,6 +103,10 @@ class Company extends Entity{
   }
 
 
+
+
+
+
   @override
   PeriodCollection getTaxPeriods(Period period) {
     // TODO: implement getTaxPeriods
@@ -112,8 +118,6 @@ class Company extends Entity{
   }
 
   ShareHolding transferShares(Date date, Entity entity, ShareHolding shareHolding) => shareRegister.transferShares(date, entity, shareHolding);
-
-
 }
 
 

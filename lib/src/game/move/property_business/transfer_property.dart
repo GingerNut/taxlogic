@@ -24,7 +24,8 @@ class TransferRentalProperty extends Move{
     if(buyerId != null) buyer = position.getEntityByName(buyerId);
 
 
-    new Transaction(property)
+    new Transaction()
+    ..asset = property
     ..seller = seller
     ..buyer = buyer
     ..date = date

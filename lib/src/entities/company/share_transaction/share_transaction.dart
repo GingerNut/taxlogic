@@ -7,7 +7,7 @@ class ShareTransaction extends Transaction{
 
   num numberOfShares;
 
-  ShareTransaction(Asset asset) : super(asset){
+  ShareTransaction(){
     stampDuty = new StampDuty(this);
   }
 
